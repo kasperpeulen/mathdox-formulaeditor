@@ -81,6 +81,12 @@
       <fileset dir='build/javascript'/>
       <fileset dir='website'/>
     </copy>
+    <copy todir='build/website'>
+      <fileset
+        dir='build/javascript/org/mathdox/formulaeditor'
+        includes='main.js'
+      />
+    </copy>
   </target>
   
   <!--

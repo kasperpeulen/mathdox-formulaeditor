@@ -1,0 +1,149 @@
+<!--
+  The Mathdox Formula Editor build file.
+  2007-04-26
+  Mark Spanbroek, TU/e
+-->
+<project basedir='.' default='default'>
+
+  <!--
+    Load properties from the build.properties file.
+  -->
+  <property file='build.properties'/>
+
+  <!--
+    Create a directory that contains all javascript and supporting files.
+  -->
+  <target name='javascript'>
+  
+    <mkdir dir='build/javascript'/>
+    
+    <!-- copy javascript source -->
+    <copy todir='build/javascript'>
+      <fileset dir='source'/>
+    </copy>
+
+    <!-- unzip jsmath fonts -->
+    <unzip dest='build/temporary/jsmath'>
+      <fileset dir='libraries' includes='jsMath-fonts-sprite-*.zip'/>
+    </unzip>
+
+    <!-- unzip xmljs -->
+    <untar dest='build/temporary/xmljs' compression='gzip'>
+      <fileset dir='libraries' includes='xml_for_script-*.tar.gz'/>
+    </untar>
+
+    <!-- unzip explorer canvas -->
+    <unzip dest='build/javascript/com/google/code/excanvas'>
+      <fileset dir='libraries' includes='excanvas*.zip'/>
+      <patternset>
+        <include name='excanvas.js'/>
+      </patternset>
+    </unzip>
+
+    <!-- copy jsmath fonts next to the javascript files -->
+    <copy todir='build/javascript/org/mathdox/formulaeditor'>
+      <fileset dir='build/temporary/jsmath'/>
+      <mapper type='regexp'
+        from='fonts-sprite/(.*)/alpha/(.*)\.png'
+        to='fonts/\1/\2\.png'
+      />
+    </copy>
+
+    <!-- copy xmljs files next to the javascript files -->
+    <copy todir='build/javascript/net/sf/xmljs'>
+      <fileset dir='build/temporary/xmljs'/>
+      <mapper type='regexp'
+        from='xml_for_script-.*/jsXMLParser/(xml.*\.js)'
+        to='\1'
+      />
+    </copy>
+
+    <!-- copy documentation -->
+    <copy todir='build/javascript'>
+      <fileset dir='documentation'/>
+    </copy>
+
+    <delete dir='build/temporary'/>
+    
+  </target>
+  
+  <!--
+    Run unit tests.
+  -->
+  <target name='test' depends='javascript'>
+
+    <!--
+      Unzip JsUnit distribution zip file.
+    -->
+    <unzip src='libraries/jsunit2_1.zip' dest='build/tests'/>
+
+    <!--
+      Copy source files and the tests to the build directory.
+    -->
+    <copy todir='build/tests/jsunit'>
+      <fileset dir='build/javascript'/>
+      <fileset dir='tests'/>
+    </copy>
+
+    <!--
+      Set the class path for running the JsUnit tests.
+    -->
+    <path id='jsunit.classpath'>
+      <fileset dir='build/tests/jsunit/java/lib'>
+        <include name='*.jar'/>
+      </fileset>
+      <fileset dir='build/tests/jsunit/java/bin'>
+        <include name='jsunit.jar'/>
+      </fileset>
+    </path>
+
+    <!--
+      Construct the url and its parameters that will run the tests upon loading
+      in a browser.
+    -->
+    <property name='testrunner' location='build/tests/jsunit/testRunner.html'/>
+    <property name='testsuite'  location='build/tests/jsunit/test.html'/>
+    <property name='logdir'     location='build/tests/jsunit/logs'/>
+    <property name='acceptor' value='localhost:${jsunit.port}/jsunit/acceptor'/>
+    <property name='url'      value='file://${testrunner}'/>
+    <property name='param.0'  value='?testPage=${testsuite}'/>
+    <property name='param.1'  value='&amp;autoRun=true'/>
+    <property name='param.2'  value='&amp;submitresults=${acceptor}'/>
+
+    <!--
+      Execute the JsUnit tests.
+    -->
+    <junit showoutput='true'>
+      <test name='net.jsunit.StandaloneTest'/>
+      <classpath refid='jsunit.classpath'/>
+      <sysproperty key='browserFileNames' value='${jsunit.browserFileNames}'/>
+      <sysproperty key='url' value='${url}${param.0}${param.1}${param.2}'/>
+      <sysproperty key='port' value='${jsunit.port}'/>
+      <sysproperty key='logsDirectory' value='${logdir}'/>
+    </junit>
+
+    <!--
+      Create a report from the generated log files.
+    -->
+    <mkdir dir='build/tests/report'/>
+    <junitreport todir='build/tests/report'>
+      <fileset dir='build/tests/jsunit/logs'>
+        <include name='*.xml'/>
+      </fileset>
+      <report format='noframes' todir="build/tests/report"/>
+    </junitreport>
+
+  </target>
+
+  <!--
+    Delete the build directory.
+  -->
+  <target name='clean'>
+    <delete dir='build'/>
+  </target>
+
+
+  <target name='default' depends='javascript'/>  
+  <target name='all' depends='javascript,test'/>
+
+</project>

@@ -1,0 +1,66 @@
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>FormulaEditor tests</title>
+    <script type='text/javascript' src='../../../app/jsUnitCore.js'></script>
+  </head>
+  <body>
+
+    <!--
+      Load code that will be tested.
+    -->
+    <script
+      type='text/javascript'
+      src='../../../org/mathdox/javascript/core.js'
+    ></script>
+    <script
+      type='text/javascript'
+      src='../../../org/mathdox/formulaeditor/FormulaEditor.js'
+    ></script>
+
+    <!--
+      Textareas that should c.q. shouldn't be replaced by a formula editor.
+    -->
+    <textarea id='math' class='mathdoxformula'></textarea>
+    <textarea id='nonmath'></textarea>
+
+    <!--
+      The test functions.
+    -->
+    <script type='text/javascript'>
+
+      var testFormulaEditorPresence = function() {
+        assertNotUndefined(org.mathdox.formulaeditor.FormulaEditor)
+      }
+
+      var testTextAreaReplacement = function() {
+
+        var mathtextarea = document.getElementById("math");
+        assertEquals("none",   mathtextarea.style.display)
+        assertEquals("CANVAS", mathtextarea.previousSibling.tagName)
+
+        var nonmathtextarea = document.getElementById("nonmath");
+        assertNotEquals("none",  nonmathtextarea.style.display)
+        assertNotEquals("CANVAS", nonmathtextarea.previousSibling.tagName)
+
+      }
+
+      var exposeTestFunctionNames = function() {
+        return [
+          "testFormulaEditorPresence",
+          "testTextAreaReplacement"
+        ];
+      }
+
+      var setUpPage = function() {
+        if ($package("org.mathdox.formulaeditor").FormulaEditor) {
+          setUpPageStatus = "complete";
+        }
+        else {
+          window.setTimeout(arguments.callee, 100);
+        }
+      }
+
+    </script>
+
+  </body>
+</html>

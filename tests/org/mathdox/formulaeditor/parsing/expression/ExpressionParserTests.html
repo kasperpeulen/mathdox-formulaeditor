@@ -1,0 +1,140 @@
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>Expression parser tests</title>
+    <script type='text/javascript' src='../../../../../app/jsUnitCore.js'></script>
+  </head>
+  <body>
+
+    <!--
+      Load code that will be tested.
+    -->
+    <script
+      type='text/javascript'
+      src='../../../../../org/mathdox/javascript/core.js'
+    ></script>
+    <script
+      type='text/javascript'
+      src='../../../../../org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js'
+    ></script>
+
+    <!--
+      The test functions.
+    -->
+    <script type='text/javascript'>
+
+      var testPresence = function() {
+        assertNotUndefined(org.mathdox.formulaeditor.parsing.expression.ExpressionParser);
+      };
+
+      var testIntegerParsing = function() {
+        with (org.mathdox.formulaeditor.parsing.expression) {
+          with (org.mathdox.formulaeditor.semantics) {
+
+            var parser = new ExpressionParser();
+
+            var string = "123foo456";
+
+            var result;
+
+            // test forward parsing
+            result = parser.parse(string).value
+            assert(
+              "result of parsing an integer is not an Integer object",
+              result instanceof Integer
+            );
+            assert(result.value == 123);
+
+            // test backward parsing
+            result = parser.parse(string, string.length, true).value
+            assert(
+              "result of parsing an integer is not an Integer object",
+              result instanceof Integer
+            );
+            assert(result.value == 456);
+
+          }
+        }
+      };
+
+      var testVariableParsing = function() {
+        with (org.mathdox.formulaeditor.parsing.expression) {
+          with (org.mathdox.formulaeditor.semantics) {
+
+            var parser = new ExpressionParser();
+
+            var string = "foo123bar";
+
+            var result;
+
+            // test forward parsing
+            result = parser.parse(string).value
+            assert(
+              "result of parsing a variable is not a Variable object",
+              result instanceof Variable
+            );
+            assert(result.name == "foo");
+
+            // test backward parsing
+            result = parser.parse(string, string.length, true).value
+            assert(
+              "result of parsing a variable is not a Variable object",
+              result instanceof Variable
+            );
+            assert(result.name == "bar");
+
+          }
+        }
+      };
+
+      var testBracesParsing = function() {
+        with (org.mathdox.formulaeditor.parsing.expression) {
+          with (org.mathdox.formulaeditor.semantics) {
+
+            var parser = new ExpressionParser();
+
+            var string = "((foo))baz((bar))";
+
+            var result;
+
+            // test forward parsing
+            result = parser.parse(string).value
+            assert(
+              "result of parsing a variable is not a Variable object",
+              result instanceof Variable
+            );
+            assert(result.name == "foo");
+
+            // test backward parsing
+            result = parser.parse(string, string.length, true).value
+            assert(
+              "result of parsing a variable is not a Variable object",
+              result instanceof Variable
+            );
+            assert(result.name == "bar");
+
+          }
+        }
+      };
+
+      var exposeTestFunctionNames = function() {
+        return [
+          "testPresence",
+          "testIntegerParsing",
+          "testVariableParsing",
+          "testBracesParsing"
+        ];
+      }
+
+      var setUpPage = function() {
+        if ($package("org.mathdox.formulaeditor.parsing.expression").ExpressionParser) {
+          setUpPageStatus = "complete";
+        }
+        else {
+          window.setTimeout(arguments.callee, 100);
+        }
+      }
+
+    </script>
+
+  </body>
+</html>

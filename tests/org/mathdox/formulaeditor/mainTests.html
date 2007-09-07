@@ -1,0 +1,60 @@
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>Formulaeditor main.js tests</title>
+    <script type='text/javascript' src='../../../app/jsUnitCore.js'></script>
+  </head>
+  <body>
+
+    <!--
+      Load code that will be tested.
+    -->
+    <script
+      type='text/javascript'
+      src='../../../org/mathdox/formulaeditor/main.js'
+    ></script>
+
+    <!--
+      The test functions.
+    -->
+    <script type='text/javascript'>
+
+      var testScriptTag = function() {
+        var found = false
+        var scripts = document.getElementsByTagName("script");
+        for (var i=0; i<scripts.length; i++) {
+          if (scripts[i].src.match(/org\/mathdox\/javascript\/core.js/)) {
+            found = true;
+            break;
+          }
+        }
+      }
+
+      var testCorePresence = function() {
+        assertNotUndefined($package)
+      }
+
+      var testFormulaEditorPresence = function() {
+        assertNotUndefined(org.mathdox.formulaeditor.FormulaEditor)
+      }
+
+      var exposeTestFunctionNames = function() {
+        return [
+          "testScriptTag",
+          "testCorePresence",
+          "testFormulaEditorPresence"
+        ];
+      }
+
+      var setUpPage = function() {
+        if (org && org.mathdox && org.mathdox.formulaeditor && org.mathdox.formulaeditor.FormulaEditor) {
+          setUpPageStatus = "complete";
+        }
+        else {
+          window.setTimeout(arguments.callee, 100);
+        }
+      }
+
+    </script>
+
+  </body>
+</html>

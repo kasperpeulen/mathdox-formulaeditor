@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   sodipodi:modified="true">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="338.59737"
+     inkscape:cy="654.89853"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1400"
+     inkscape:window-height="967"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
+       id="rect2160"
+       width="285.71429"
+       height="37.499996"
+       x="179.28571"
+       y="289.86218" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="272.5"
+       y="312.36215"
+       id="text2162"><tspan
+         sodipodi:role="line"
+         id="tspan2164"
+         x="272.5"
+         y="312.36215">formula editor</tspan></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
+       id="rect2166"
+       width="124.64284"
+       height="23.214205"
+       x="218.21429"
+       y="330.93362" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="223.92856"
+       y="346.64789"
+       id="text2168"><tspan
+         sodipodi:role="line"
+         id="tspan2170"
+         x="223.92856"
+         y="346.64789">context free parser</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
+       d="M 178.9375,330.94196 L 178.9375,377.375 L 343.21875,377.71429 L 343.21875,357.375 L 213.58036,357.375 L 213.58036,330.94196 L 178.9375,330.94196 z "
+       id="rect2172"
+       sodipodi:nodetypes="ccccccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="223.21429"
+       y="371.29074"
+       id="text2174"><tspan
+         sodipodi:role="line"
+         id="tspan2176"
+         x="223.21429"
+         y="371.29074">helper code</tspan></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
+       id="rect2178"
+       width="57.857178"
+       height="46.785732"
+       x="347.49997"
+       y="330.93359" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="359.28571"
+       y="349.86221"
+       id="text2180"><tspan
+         sodipodi:role="line"
+         id="tspan2182"
+         x="359.28571"
+         y="349.86221">XML</tspan><tspan
+         sodipodi:role="line"
+         x="359.28571"
+         y="364.86221"
+         id="tspan2194">parser</tspan></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
+       id="rect2184"
+       width="56.78574"
+       height="47.143002"
+       x="408.57144"
+       y="330.93362" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="418.57144"
+       y="343.43362"
+       id="text2186"><tspan
+         sodipodi:role="line"
+         id="tspan2188"
+         x="418.57144"
+         y="343.43362">jsMath</tspan><tspan
+         sodipodi:role="line"
+         x="418.57144"
+         y="358.43362"
+         id="tspan2190">sprite</tspan><tspan
+         sodipodi:role="line"
+         x="418.57144"
+         y="373.43362"
+         id="tspan2192">fonts</tspan></text>
+  </g>
+</svg>

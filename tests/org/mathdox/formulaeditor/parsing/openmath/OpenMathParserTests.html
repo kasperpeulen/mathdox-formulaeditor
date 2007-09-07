@@ -1,0 +1,106 @@
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>OpenMathParser tests</title>
+    <script type='text/javascript' src='../../../../../app/jsUnitCore.js'></script>
+  </head>
+  <body>
+
+    <!--
+      Load code that will be tested.
+    -->
+    <script
+      type='text/javascript'
+      src='../../../../../org/mathdox/javascript/core.js'
+    ></script>
+    <script
+      type='text/javascript'
+      src='../../../../../org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js'
+    ></script>
+
+    <!--
+      The test functions.
+    -->
+    <script type='text/javascript'>
+
+      var testOpenMathParserPresence = function() {
+        assertNotUndefined(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser)
+      }
+
+      var testOMI = function() {
+        with(org.mathdox.formulaeditor.parsing.openmath) {
+          var parser = new OpenMathParser();
+          with(org.mathdox.formulaeditor.semantics) {
+            var parsed = parser.parse("<OMI>42</OMI>");
+            assert(
+              "parsing OMI doesn't return an Integer",
+              parsed instanceof Integer
+            );
+            assert(
+              "OMI value is not parsed correctly",
+              42 == parsed.value
+            );
+          }
+        }
+      }
+
+      var testOMV = function() {
+        with(org.mathdox.formulaeditor.parsing.openmath) {
+          var parser = new OpenMathParser();
+          with(org.mathdox.formulaeditor.semantics) {
+            var parsed = parser.parse("<OMV name='foo'/>");
+            assert(
+              "parsing OMV doesn't return a Variable",
+              parsed instanceof Variable
+            );
+            assert(
+              "OMV/@name is not parsed correctly",
+              "foo" == parsed.name
+            );
+          }
+        }
+      }
+
+      var testOMOBJ = function() {
+        with(org.mathdox.formulaeditor.parsing.openmath) {
+          var parser = new OpenMathParser();
+          with(org.mathdox.formulaeditor.semantics) {
+            var parsed = parser.parse("<OMOBJ/>");
+            assertNull(
+              "parsing an empty OMOBJ doesn't return null",
+              parsed
+            );
+            parsed = parser.parse("<OMOBJ><OMI>42</OMI></OMOBJ>");
+            assert(
+              "parsing OMOBJ/OMI doesn't return an Integer",
+              parsed instanceof Integer
+            );
+            assert(
+              "OMOBJ/OMI value is not parsed correctly",
+              42 == parsed.value
+            );
+          }
+        }
+      }
+
+      var exposeTestFunctionNames = function() {
+        return [
+          "testOpenMathParserPresence",
+          "testOMI",
+          "testOMV",
+          "testOMOBJ"
+        ];
+      }
+
+      var setUpPage = function() {
+        if ($package("org.mathdox.formulaeditor.parsing.openmath").OpenMathParser) {
+          setUpPageStatus = "complete";
+        }
+        else {
+          window.setTimeout(arguments.callee, 100);
+        }
+      }
+
+    </script>
+
+  </body>
+</html>

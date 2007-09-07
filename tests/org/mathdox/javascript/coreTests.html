@@ -1,0 +1,94 @@
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>Loader test</title>
+    <script type='text/javascript' src='../../../app/jsUnitCore.js'></script>
+  </head>
+  <body>
+
+    <!--
+      Load code that will be tested.
+    -->
+    <script
+      type='text/javascript'
+      src='../../../org/mathdox/javascript/core.js'
+    ></script>
+
+    <!--
+      The test functions.
+    -->
+    <script type='text/javascript'>
+
+      // Test presence of the core functions.
+      var testPresence = function() {
+        assertEquals("function", typeof($package));
+        assertEquals("function", typeof($require));
+        assertEquals("function", typeof($main));
+        assertEquals("function", typeof($extend));
+        assertEquals("string",   typeof($baseurl));
+      }
+
+      // Test whether $baseurl is correct.
+      var testBaseurl = function() {
+        assertNotUndefined($baseurl);
+        assertNotNull($baseurl);
+        assertNotEquals("", $baseurl);
+      }
+
+      // Test whether $package works.
+      var testPackage = function() {
+        $package("a.b.c.d");
+        assertNotUndefined(a.b.c.d);
+        $package("a.b.c.e");
+        assertNotUndefined(a.b.c.e);
+      }
+
+      // Test whether $require and $main work.
+      var testRequireMain = function() {
+
+        // see also setUpPage()
+
+        assert("invocation of $require method failed", $require.requireTest1);
+        assert("recursive invocation of $require method failed", $require.requireTest2);
+        assertEquals("$require failed to load file strictly once", $require.requireTest3, 1);
+        assert("$require load order is not correct", $require.requireTest4);
+
+      }
+
+      // Test whether $extend works.
+      var testExtend = function() {
+        var Foo = $extend(Object, {
+          test : function() { return 1; }
+        })
+        var Bar = $extend(Foo, {
+          test : function() { return 2; }
+        })
+        assertUndefined(new Object().test);
+        assertEquals("level 1 inheritance doesn't work", new Foo().test(), 1);
+        assertEquals("level 2 inheritance doesn't work", new Bar().test(), 2);
+      }
+
+      var exposeTestFunctionNames = function() {
+        return [
+          "testPresence",
+          "testBaseurl",
+          "testPackage",
+          "testRequireMain",
+          "testExtend"
+        ];
+      }
+
+      var setUpPage = function() {
+
+        // start asynchronously loading stuff that we need for testRequireMain
+        $require.requireTest3 = 0;
+        $require("org/mathdox/javascript/coreRequireTest1.js");
+        $main(function(){
+          setUpPageStatus = "complete";
+        });
+
+      }
+
+    </script>
+
+  </body>
+</html>

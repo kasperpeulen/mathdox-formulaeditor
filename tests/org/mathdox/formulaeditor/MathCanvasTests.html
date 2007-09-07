@@ -1,0 +1,49 @@
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>MathCanvas tests</title>
+    <script type='text/javascript' src='../../../app/jsUnitCore.js'></script>
+  </head>
+  <body>
+
+    <!--
+      Load code that will be tested.
+    -->
+    <script
+      type='text/javascript'
+      src='../../../org/mathdox/javascript/core.js'
+    ></script>
+    <script
+      type='text/javascript'
+      src='../../../org/mathdox/formulaeditor/MathCanvas.js'
+    ></script>
+
+    <!--
+      The test functions.
+    -->
+    <script type='text/javascript'>
+
+      var testMathCanvasPresence = function() {
+        assertNotUndefined(org.mathdox.formulaeditor.MathCanvas)
+      }
+
+      var exposeTestFunctionNames = function() {
+        return [
+          "testMathCanvasPresence"
+        ];
+      }
+
+      var setUpPage = function() {
+
+        if ($package("org.mathdox.formulaeditor").MathCanvas) {
+          setUpPageStatus = "complete";
+        }
+        else {
+          window.setTimeout(arguments.callee, 100);
+        }
+
+      }
+
+    </script>
+
+  </body>
+</html>

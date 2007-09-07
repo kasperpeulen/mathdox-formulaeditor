@@ -1,0 +1,205 @@
+<html>
+
+  <head>
+
+    <title>MathDox formula editor</title>
+
+    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+    </script>
+
+    <style type='text/css'>
+
+      #main {
+        background-color:#FFF;
+        width:50em;
+        font-family:sans-serif;
+      }
+
+      .code {
+        padding-left:2em;
+        font-family:monospace;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id='main'>
+
+      <h3>MathDox formula editor</h3>
+
+      <p>
+        The MathDox formula editor is a web-based editor for mathematical
+        formulas. It is currently being developed at the Technische Universiteit
+        Eindhoven as a means for students to enter formulas in an e-learning
+        environment. Its main features are listed below.
+      </p>
+
+      <ul>
+        <li>
+          It has a <em>two-dimensional WYSIWYG</em> interface.
+        </li>
+        <li>
+          It can produce a <em>semantic</em> representation of the formula.
+        </li>
+        <li>
+          <em>No plugins</em> need to be installed in the browser to use the
+          editor.
+        </li>
+        <li>
+          It can be easily <em>integrated into existing HTML</em> pages.
+        </li>
+        <li>
+          It is available under an <em>open source</em> license.
+        </li>
+      </ul>
+
+      <p>
+        The editor is written in Javascript and uses the HTML5 canvas element in
+        combination with jsMath sprite fonts to render mathematics.
+      </p>
+
+      <p>
+        Any questions or comments about the editor are welcome and can be
+        directed at <a href='mailto:info@mathdox.org'>info@mathdox.org</a>.
+      </p>
+
+      <h4>Demo</h4>
+
+      <p>
+        The following formula can be edited using your keyboard. Feel free to
+        experiment, but beware that currently only integers, variables,
+        multiplication (*), division (/), addition (+), subtraction (-) and
+        exponents (^) are supported.
+      </p>
+
+      <textarea id='formula' class='mathdoxformula'>
+
+        &lt;OMOBJ>
+          &lt;OMA>
+            &lt;OMS cd='arith1' name='divide'/>
+            &lt;OMA>
+              &lt;OMS cd='arith1' name='minus'/>
+              &lt;OMA>
+                &lt;OMS cd='arith1' name='power'/>
+                &lt;OMV name='q'/>
+                &lt;OMI>2&lt;/OMI>
+              &lt;/OMA>
+              &lt;OMI>1&lt;/OMI>
+            &lt;/OMA>
+            &lt;OMA>
+              &lt;OMS cd='arith1' name='minus'/>
+              &lt;OMV name='q'/>
+              &lt;OMI>1&lt;/OMI>
+            &lt;/OMA>
+          &lt;/OMA>
+        &lt;/OMOBJ>
+
+      </textarea>
+
+      <p>
+        To see an OpenMath representation of the formula above
+        <a href='javascript:alert(document.getElementById("formula").value)'>
+        click here</a>. This demonstrates that a semantic tree of the formula
+        is stored, and not just a presentation tree.
+      </p>
+
+      <h4>Usage</h4>
+
+      <p>
+        There are two ways to use the formula editor in a webpage. The first
+        method is by including a reference to the main javascript file at the
+        mathdox.org server:
+      </p>
+
+      <p class='code'>
+        &lt;script type='text/javascript'
+        src='http://mathdox.org/formulaeditor/main.js'>&lt;/script>
+      </p>
+
+      <p>
+        The second (alternative) method is by copying the formulaeditor
+        javascript sources to the same location as the webpage, and reference
+        the main javascript file from there:
+      </p>
+
+      <p class='code'>
+        &lt;script type='text/javascript'
+        src='org/mathdox/formulaeditor/main.js'>&lt;/script>
+      </p>
+
+      <p>
+        In addition you also need to add a textarea of class 'mathdoxformula' at
+        the place where you want the formula editing field to appear:
+      </p>
+
+      <p class='code'>
+        &lt;textarea class='mathdoxformula'/>
+      </p>
+
+      <h4>Download</h4>
+      <p>
+        Webpage authors that want to deploy the formula editor javascript
+        sources to their own website can download the following package:
+      </p>
+
+      <p>
+        <a href='http://mathdox.org/download/formulaeditor-0.2.zip'
+        >formulaeditor-0.2.zip</a>
+      </p>
+
+      <p>
+        Developers that are interested in changing the formulaeditor itself, can
+        checkout the source from the
+        <a href='http://subversion.tigris.org/'>subversion</a> repository at:
+      </p>
+
+      <p>
+        <a href='https://mathdox.org/svn/repos/public/formulaeditor'
+        >https://mathdox.org/svn/repos/public/formulaeditor</a>
+      </p>
+
+      <h4>Known limitations</h4>
+
+      <p>
+        Currently this editor has only been tested in Mozilla Firefox and
+        Microsoft Internet Explorer (v7). Support for the other main browsers
+        (Safari, Opera, Konqueror) will be added later.
+      </p>
+
+      <p>
+        Currently only one editor per page is allowed. Support for multiple
+        editors per page will be added later.
+      </p>
+
+      <p>
+        Only a very limited set of mathematical operations is supported right
+        now.
+      </p>
+
+      <h4>Copyright information</h4>
+
+      <p>
+        Copyright (C) 2007 Technische Universiteit Eindhoven
+      </p>
+      <p>
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License <a href='http://www.gnu.org/licenses/lgpl.html'>as
+        published by the Free Software Foundation</a>; either
+        version 2.1 of the License, or (at your option) any later version.
+      </p>
+      <p>
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
+      </p>
+
+    </div>
+
+  </body>
+
+</html>

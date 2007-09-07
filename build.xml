@@ -58,13 +58,29 @@
       />
     </copy>
 
-    <!-- copy documentation -->
-    <copy todir='build/javascript'>
-      <fileset dir='documentation'/>
-    </copy>
-
     <delete dir='build/temporary'/>
     
+  </target>
+  
+  <!--
+    Create a zip file of all javascript and supporting files.
+  -->
+  <target name='zip' depends='javascript'>
+    <mkdir dir='build/zip'/>
+    <zip destfile='build/zip/formulaeditor.zip'>
+      <fileset dir='build/javascript'/>
+    </zip>
+  </target>
+
+  <!--
+    Copy all files for the website.
+  -->
+  <target name='website' depends='javascript'>
+    <mkdir dir='build/website'/>
+    <copy todir='build/website'>
+      <fileset dir='build/javascript'/>
+      <fileset dir='website'/>
+    </copy>
   </target>
   
   <!--
@@ -144,6 +160,6 @@
 
 
   <target name='default' depends='javascript'/>  
-  <target name='all' depends='javascript,test'/>
+  <target name='all' depends='javascript,zip,website,test'/>
 
 </project>

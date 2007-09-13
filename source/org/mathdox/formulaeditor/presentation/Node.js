@@ -20,7 +20,7 @@ $main(function(){
     /**
      * The child nodes of this node.
      */
-    children : null,
+    children : [],
 
     /**
      * The position and dimensions of the node when it was last rendered to a
@@ -35,13 +35,6 @@ $main(function(){
 
       this.children = Array.prototype.slice.call(arguments);
       this.updateChildren();
-
-      var savedDrawFunction = this.draw;
-      this.draw = function(context, x, y, invisible) {
-        var result = savedDrawFunction.call(this, context, x, y, invisible);
-        this.dimensions = result;
-        return result;
-      }
 
     },
 
@@ -63,7 +56,40 @@ $main(function(){
      *   of the node.
      */
     draw : function(context, x, y, invisible) {
+
       throw new Error("abstract method called")
+
+    },
+
+    /**
+     * Flattens the tree, meaning that all rows inside rows will be moved into
+     * one row.
+     */
+    flatten : function() {
+
+      // flatten the child nodes
+      for (var i=0; i<this.children.length; i++) {
+        this.children[i].flatten();
+      }
+
+    },
+
+    /**
+     * Re-calculates each child's index value, and sets each child's parent
+     * value. This method should be called after a change in the tree. When the
+     * 'begin' argument is specified, only the children at index >= begin will
+     * be updated.
+     */
+    updateChildren : function(begin) {
+
+      if (begin == null) {
+        begin = 0;
+      }
+      for (var i=begin; i<this.children.length; i++) {
+        this.children[i].parent = this;
+        this.children[i].index = i;
+      }
+
     },
 
     /**
@@ -71,9 +97,11 @@ $main(function(){
      * onchange method by default.
      */
     onchange : function(node) {
+
       if (this.parent != null) {
         this.parent.onchange(this);
       }
+
     },
 
     /**
@@ -82,7 +110,9 @@ $main(function(){
      * something usefull.
      */
     onkeypress : function(index, event) {
+
       // skip
+
     },
 
     getFollowingCursorPosition : function(index) {
@@ -133,16 +163,6 @@ $main(function(){
         return null;
       }
 
-    },
-
-    updateChildren : function(index) {
-      if (index == null) {
-        index = 0;
-      }
-      for (var i=index; i<this.children.length; i++) {
-        this.children[i].parent = this;
-        this.children[i].index = i;
-      }
     }
 
   })

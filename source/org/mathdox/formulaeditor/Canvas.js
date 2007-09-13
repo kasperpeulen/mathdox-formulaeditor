@@ -1,18 +1,18 @@
 /**
- * Load Google's Explorer Canvas, which adds support for the <canvas/> tag in
- * Internet Explorer.
+ * Loads Google's Explorer Canvas library, when there is no native support for
+ * the <canvas/> tag.
  */
 var G_vmlCanvasManager;
-$require(
-  "com/google/code/excanvas/excanvas.js",
-  function() { return window.CanvasRenderingContext2D }
-);
+if (!window.CanvasRenderingContext2D) {
 
-$main(function(){
+  $require(
+    "com/google/code/excanvas/excanvas.js",
+    function() { return window.CanvasRenderingContext2D }
+  );
 
-  if (G_vmlCanvasManager) {
+  $main(function(){
 
-    /*
+    /**
      * Workaround for bug in Google's Explorer Canvas. The standard fixElement
      * method will remove all siblings following the canvas tag.
      */
@@ -28,6 +28,13 @@ $main(function(){
       G_vmlCanvasManager.init_(document);
     }
 
-  }
+  });
 
-});
+}
+else {
+
+  $main(function(){
+    // skip
+  });
+
+}

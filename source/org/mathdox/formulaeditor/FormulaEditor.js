@@ -14,8 +14,8 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 $main(function(){
 
   /**
-  * A formula editor that can be used to replace a textarea.
-  */
+   * A formula editor that can be used to replace a textarea.
+   */
   org.mathdox.formulaeditor.FormulaEditor = $extend(Object, {
 
     /**
@@ -44,53 +44,43 @@ $main(function(){
      */
     initialize : function(textarea) {
 
-      // create an HTML canvas of the same width and height as the textarea
-      var htmlcanvas = document.createElement("canvas");
+      var Cursor    = org.mathdox.formulaeditor.Cursor;
+      var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
+      var Parser    = org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
+      var Row       = org.mathdox.formulaeditor.presentation.Row;
 
-      // set border of the canvas
-      htmlcanvas.style.border  = "1px solid #99F"
+      // create an HTML canvas
+      var htmlcanvas;
+      htmlcanvas = document.createElement("canvas");
+      htmlcanvas.style.border  = "1px solid #99F";
       htmlcanvas.style.verticalAlign = "middle";
       
-      // insert the canvas into the document just before the textarea
-      textarea.parentNode.insertBefore(htmlcanvas, textarea)
+      // insert canvas into the document before the textarea and hide the latter
+      textarea.parentNode.insertBefore(htmlcanvas, textarea);
+      textarea.style.display = "none";
 
-      // Initialize the canvases. This is only needed in Internet Explorer,
+      // Initialize the canvas. This is only needed in Internet Explorer,
       // where Google's Explorer Canvas library handles canvases.
       if (G_vmlCanvasManager) {
         htmlcanvas = G_vmlCanvasManager.initElement(htmlcanvas);
       }
 
-      // hide the textarea
-      textarea.style.display = "none"
-
       // register the textarea and a new mathcanvas
       this.textarea = textarea;
-      this.canvas = new org.mathdox.formulaeditor.MathCanvas(htmlcanvas);
+      this.canvas   = new MathCanvas(htmlcanvas);
 
       // read any OpenMath code that may be present in the textarea
-      var parser;
-      parser = new org.mathdox.formulaeditor.parsing.openmath.OpenMathParser();
       try {
-        var parsed = parser.parse(textarea.value);
+        var parsed = new Parser().parse(textarea.value);
+        this.presentation = new Row(parsed.getPresentation());
+        this.presentation.flatten();
       }
       catch(exception) {
-        // TODO
-      }
-      if (parsed != null) {
-        this.presentation = new org.mathdox.formulaeditor.presentation.Row(
-          parsed.getPresentation()
-        );
-      }
-      else {
-        this.presentation = new org.mathdox.formulaeditor.presentation.Row();
+        this.presentation = new Row();
       }
 
-      // initialize the cursor
-      this.cursor = new org.mathdox.formulaeditor.Cursor(
-        this.presentation.getFollowingCursorPosition()
-      );
-
-      // draw the presentation tree and the cursor
+      // initialize the cursor, and draw the presentation tree
+      this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
       this.draw();
 
       // TODO move key handling code to the presentation tree nodes

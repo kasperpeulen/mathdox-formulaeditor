@@ -5,8 +5,7 @@ $require("org/mathdox/formulaeditor/presentation/Node.js");
 $main(function(){
 
   /**
-   * Represents a superscripted expression.
-   * TODO: generalize
+   * Represents a superscript expression.
    */
   org.mathdox.formulaeditor.presentation.Superscript =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
@@ -40,14 +39,15 @@ $main(function(){
         var right  = dim1.left + dim1.width;
         var bottom = Math.max(dim0.top  + dim0.height, dim1.top  + dim1.height);
 
-        return {
+        this.dimensions = {
           left   : left,
           top    : top,
           width  : right - left,
           height : bottom - top
         };
 
-        //return dim1;
+        return this.dimensions;
+
       },
 
       getFollowingCursorPosition : function(index) {
@@ -77,23 +77,6 @@ $main(function(){
           }
         }
       },
-
-      // TODO: getLowerCursorPosition & getHigherCursorPosition (not sure whether this is nice)
-  /*
-      getLowerCursorPosition : function(index, x) {
-        if (index == null) {
-          return this.children[0].getLowerCursorPosition();
-        }
-        else {
-          if (this.parent != null) {
-            return { row: this.parent, index: this.index };
-          }
-          else {
-            return null;
-          }
-        }
-      },
-  */
 
       getSemantics : function() {
         return {

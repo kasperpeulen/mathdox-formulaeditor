@@ -21,8 +21,9 @@ $main(function(){
        * string representation of a symbol.
        */
       initialize : function(value) {
-        arguments.callee.parent.initialize.call(this);
+
         this.value = value
+
       },
 
       /**
@@ -31,7 +32,13 @@ $main(function(){
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
       draw : function(canvas, x, y, invisible) {
-        return canvas.drawString(this.value, Math.round(x), Math.round(y), invisible)
+
+        this.dimensions = canvas.drawSymbol(
+          this.value, Math.round(x), Math.round(y), invisible
+        );
+
+        return this.dimensions;
+
       }
 
     })

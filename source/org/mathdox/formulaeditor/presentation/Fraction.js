@@ -77,12 +77,14 @@ $main(function(){
           invisible
         )
 
-        return {
+        this.dimensions = {
           left   : left,
           top    : top,
           width  : width,
           height : height
-        }
+        };
+
+        return this.dimensions;
 
       },
 

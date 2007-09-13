@@ -45,52 +45,6 @@ $main(function(){
     },
 
     /**
-     * Draws the specified string on the canvas, at the specified position, using
-     * the current fontName and fontSize. The (x,y) coordinate indicates where the
-     * the baseline of the leftmost symbol will appear.
-     * The result of this method is one object containing the values
-     * { left, top, width, height } that indicate the position and dimensions of
-     * the bounding rectangle of the drawn string.
-     * The optional parameter 'invisible' determines whether or not the string
-     * should be drawn to the canvas. By default this parameter is 'false'.
-     * Setting this parameter to 'true' can be used to obtain information about
-     * the dimensions of the drawn string, without actually drawing on the canvas.
-     */
-    drawString : function(string, x, y, invisible) {
-
-      // use the following variables to maintain track of the bounding rectangle
-      var left   = x
-      var top    = y
-      var right  = x
-      var bottom = y
-
-      // go through all characters in the string
-      for (var i=0; i<string.length; i++) {
-
-        var symbol = string.slice(i, i+1)
-
-        // draw the current character
-        var dimensions = this.drawSymbol(symbol, right, y, invisible)
-
-        // update the dimensions of the bounding rectangle
-        left   = Math.min(left, dimensions.left)
-        top    = Math.min(top, dimensions.top)
-        right  = Math.max(right, dimensions.left + dimensions.width)
-        bottom = Math.max(bottom, dimensions.top + dimensions.height)
-
-      }
-
-      // return information about the bounding rectangle
-      return {
-        left:   left,
-        top:    top,
-        width:  right - left,
-        height: bottom - top
-      }
-
-    },
-
-    /**
      * Draws the specified symbol (character) on the canvas, at the specified
      * position, using the current fontName and fontSize. The (x,y) coordinate
      * indicates where the left of the baseline of the symbol will appear.

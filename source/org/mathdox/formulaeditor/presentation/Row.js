@@ -5,28 +5,11 @@ $require("org/mathdox/formulaeditor/presentation/Node.js");
 $main(function(){
 
   /**
-   * Representation of a row of mathematical expressions in the presentation tree.
+   * Representation of a row of mathematical expressions in the presentation
+   * tree.
    */
   org.mathdox.formulaeditor.presentation.Row =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
-
-      initialize : function() {
-
-        with(org.mathdox.formulaeditor.presentation) {
-
-          arguments.callee.parent.initialize.apply(this, arguments);
-          var flattened = this.children.slice();
-          for (var i=0; i<flattened.length; i++) {
-            if (flattened[i] instanceof Row) {
-              var row = flattened[i];
-              flattened.splice.apply(flattened,[i,1].concat(row.children));
-            }
-          }
-          arguments.callee.parent.initialize.apply(this, flattened);
-
-        }
-
-      },
 
       /**
        * Draws the row to the canvas.
@@ -60,21 +43,53 @@ $main(function(){
           }
 
           // return information about the bounding rectangle
-          return {
+          this.dimensions = {
             left:   left,
             top:    top,
             width:  right - left,
             height: bottom - top
-          }
+          };
+
+          return this.dimensions;
 
         }
         else {
 
           with(org.mathdox.formulaeditor.presentation) {
-            return new Symbol("f").draw(canvas,x,y,true);
+            this.dimensions = new Symbol("f").draw(canvas,x,y,true);
+            return this.dimensions;
           }
 
         }
+
+      },
+
+      /**
+       * Flattens this row, meaning that all child nodes that are rows
+       * themselves will be embedded into this row.
+       */
+      flatten : function() {
+
+        var Row = org.mathdox.formulaeditor.presentation.Row;
+
+        // call flatten on the child nodes
+        arguments.callee.parent.flatten.apply(this);
+
+        // go through all children
+        var children = this.children;
+        for (var i=0; i<children.length; i++) {
+          var child = children[i];
+
+          // check whether the child is a row
+          if (child instanceof Row) {
+
+            // insert the child node's children into the list of children
+            children.splice.apply(children, [i,1].concat(child.children));
+
+          }
+
+        }
+        this.updateChildren();
 
       },
 

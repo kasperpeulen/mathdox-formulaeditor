@@ -67,13 +67,53 @@
         assertEquals("level 2 inheritance doesn't work", new Bar().test(), 2);
       }
 
+      // Test whether $extend works with a parent object (instead of a class)
+      var testExtendObject = function() {
+
+        var NewMathClass = $extend(Math, {
+
+          /**
+           * Override the log method of the Math object so that it will take a
+           * base argument.
+           */
+          log : function(a, base) {
+
+            // check whether a base argument has been specified
+            if (base != null) {
+
+              // use the parent object's log method to calculate the log
+              // with a base argument
+              return (
+                arguments.callee.parent.log(a) /
+                arguments.callee.parent.log(base)
+              );
+
+            }
+            else {
+
+              // forward the function call to the parent object
+              return arguments.callee.parent.log(a);
+
+            }
+
+          }
+
+        });
+
+        // use the new math class to calculate the 2 log of 64 :
+        var newMath = new NewMathClass();
+        assertEquals(6,newMath.log(64,2));
+        
+      }
+
       var exposeTestFunctionNames = function() {
         return [
           "testPresence",
           "testBaseurl",
           "testPackage",
           "testRequireMain",
-          "testExtend"
+          "testExtend",
+          "testExtendObject"
         ];
       }
 

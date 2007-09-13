@@ -85,7 +85,7 @@ var $baseurl;
 
   /**
    * Ensures that the script at the specified url is loaded before the main
-   * section is executed. Each url is only loaded once.
+   * section is executed.
    * We cannot detect whether a script has finished loading when a third-party
    * script is loaded that doesn't contain a call to $main. In those cases a
    * 'ready' function to detect load completion must be specified. This function
@@ -127,7 +127,8 @@ var $baseurl;
 
   /**
    * Calls the continuation function that is specified as a parameter when all
-   * previously specified requirements have been loaded.
+   * previously specified requirements have been loaded. Each main section is
+   * only executed once.
    */
   $main = function(continuation) {
     waiting.push(continuation);
@@ -146,7 +147,9 @@ var $baseurl;
       prototype = new parent();
     }
     else {
-      prototype = parent;
+      var parentConstructor = function(){};
+      parentConstructor.prototype = parent;
+      prototype = new parentConstructor();
     }
 
     // create the new class constructor
@@ -195,7 +198,7 @@ var $baseurl;
    * calculate the value of 'lastadded' and '$baseurl'.
    */
   var scripts = document.getElementsByTagName("script");
-  var scriptfinder = /(.*)org\/mathdox\/javascript\/core\.js(.*)$/;
+  var scriptfinder = /(.*)org\/mathdox\/javascript\/core\.js$/;
   for (var i=0; i<scripts.length; i++) {
     var match = scripts[i].src.match(scriptfinder);
     if (match != null) {

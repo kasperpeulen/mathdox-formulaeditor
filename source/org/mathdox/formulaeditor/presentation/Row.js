@@ -65,6 +65,82 @@ $main(function(){
       },
 
       /**
+       * Handles an onkeydown event from the browser. Returns false when the
+       * event has been handled and should not be handled by the browser,
+       * returns true otherwise.
+       */
+      onkeydown : function(event, editor) {
+
+        // only handle keypresses where alt, ctrl and shift are not held
+        if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
+
+          // handle backspace and delete
+          switch(event.keyCode) {
+
+            case  8: // backspace
+              var position = editor.cursor.position;
+              if (position.index > 0) {
+                this.remove(position.index - 1);
+                position.index--;
+                editor.redraw();
+                editor.save();
+              }
+              return false;
+
+            case 46: // delete 
+              this.remove(editor.cursor.position.index);
+              editor.redraw();
+              editor.save();
+              return false;
+
+          }
+
+        }
+
+        // pass the event back to the browser
+        return true;
+
+      },
+
+      /**
+       * Handles an onkeypress event from the browser. Returns false when the
+       * event has been handled and should not be handled by the browser,
+       * returns true otherwise.
+       */
+      onkeypress : function(event, editor) {
+
+        // only handle keypresses where alt and ctrl are not held
+        if (!event.altKey && !event.ctrlKey) {
+
+          var canvas    = editor.canvas;
+          var fontName  = canvas.fontName;
+          var fontSize  = canvas.fontSize;
+          var character = String.fromCharCode(event.charCode);
+
+          // see whether there is a character for pressed key in current font
+          if (canvas.fonts[fontName][fontSize].symbols[character]) {
+
+            var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
+            var position = editor.cursor.position;
+
+            // insert the character into the row, and move the cursor
+            position.row.insert(position.index, new Symbol(character));
+            editor.cursor.moveRight();
+
+            editor.redraw();
+            editor.save();
+            return true;
+
+          }
+
+        }
+
+        // pass the event back to the browser
+        return true;
+
+      },
+
+      /**
        * Flattens this row, meaning that all child nodes that are rows
        * themselves will be embedded into this row.
        */

@@ -107,4 +107,54 @@ $main(function(){
 
   }}}
 
+  /**
+   * Add a key handler for the '^' key.
+   */
+  org.mathdox.formulaeditor.presentation.Row =
+    $extend(org.mathdox.formulaeditor.presentation.Row, {
+
+      /**
+       * Override the onkeypress method to handle the '^' key.
+       */
+      onkeypress : function(event, editor) {
+
+        // only handle keypresses where alt and ctrl are not held
+        if (!event.altKey && !event.ctrlKey) {
+
+          // check whether the '^' key has been pressed
+          if (String.fromCharCode(event.charCode) == "^") {
+
+            var Superscript =
+              org.mathdox.formulaeditor.presentation.Superscript;
+
+            var index  = editor.cursor.position.index;
+            var length = this.children.length;
+
+            // search for an expression of precedence level 3 to the right of
+            // the cursor
+            var parsed = this.getSemantics(index, length, "expression3");
+
+            // create the operand of the superscript operation
+            var operand = this.remove(index, parsed.index);
+
+            // insert the fraction into the row
+            this.insert(index, new Superscript(operand));
+            editor.cursor.position = operand.getFollowingCursorPosition();
+
+            // update the editor state
+            editor.redraw();
+            editor.save();
+            return false;
+
+          }
+
+        }
+
+        // call the overridden method
+        return arguments.callee.parent.onkeypress.call(this, event, editor);
+
+      }
+
+    })
+
 })

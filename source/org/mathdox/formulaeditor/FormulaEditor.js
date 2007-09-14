@@ -83,144 +83,59 @@ $main(function(){
       this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
       this.draw();
 
-      // TODO move key handling code to the presentation tree nodes
-      with (org.mathdox.formulaeditor.semantics) {
+      // save the 'this' pointer, so it can be used in key handling below
+      var editor = this;
 
-        var editor = this;
+      // handle command keys
+      document.onkeydown = function(event) {
 
-        // handle command keys
-        document.onkeydown = function(event) {
+        // the Internet Explorer way (non-standard, of course) of
+        // getting the event object
+        if (!event) {
+          event = window.event
+        };
 
-          // the Internet Explorer way (non-standard, of course) of
-          // getting the event object
-          if (!event) {
-            event = window.event
-          };
+        // let the cursor object handle the event
+        return editor.cursor.onkeydown(event, editor);
 
-          var result = false
-
-          if (event.keyCode == 39) { // right arrow
-            editor.cursor.moveRight();
-            editor.redraw();
-          }
-          else if (event.keyCode == 37) { // left arrow
-            editor.cursor.moveLeft();
-            editor.redraw();
-          }
-          else if (event.keyCode == 40) { // down arrow
-            editor.cursor.moveDown();
-            editor.redraw();
-          }
-          else if (event.keyCode == 38) { // up arrow
-            editor.cursor.moveUp();
-            editor.redraw();
-          }
-          else if (event.keyCode == 46) { // delete
-            var position = editor.cursor.position;
-            position.row.remove(position.index);
-            editor.redraw();
-          }
-          else if (event.keyCode == 8) { // backspace
-            var position = editor.cursor.position;
-            if (position.index > 0) {
-              position.row.remove(position.index - 1);
-              position.index--;
-              editor.redraw();
-            }
-          }
-          else {
-            // pass the keypress through to the browser
-            result = true;
-          }
-
-          editor.updateTextArea();
-
-          return result;
       }
 
       // handle non-command keys
       document.onkeypress = function(event) {
 
-          // the Internet Explorer way (non-standard, of course) of
-          // getting the event object
-          if (!event) {
-            event = window.event
-          };
+        // the Internet Explorer way (non-standard, of course) of
+        // getting the event object
+        if (!event) {
+          event = window.event
+        };
 
-          // Internet Explorer does not set the charCode attribute, but the
-          // keyCode attribute
-          if (!("charCode" in event)) {
-            event.charCode = event.keyCode;
-          }
-
-          var result = false;
-
-          if (String.fromCharCode(event.charCode) == "^") {
-            with(org.mathdox.formulaeditor.presentation) {
-              var row   = editor.cursor.position.row;
-              var index = editor.cursor.position.index;
-              var parsed = row.getSemantics(index, row.children.length, "expression3");
-              var right = parsed.index > index ? row.remove(index, parsed.index) : new Row();
-              row.insert(index, new Superscript(right));
-              editor.cursor.position = right.getFollowingCursorPosition();
-              editor.redraw();
-            }
-          }
-          else if (String.fromCharCode(event.charCode) == "/") {
-
-            with (org.mathdox.formulaeditor.presentation) {
-
-              var row   = editor.cursor.position.row;
-              var index = editor.cursor.position.index;
-              var parsedright = row.getSemantics(index, row.children.length, "expression4");
-              var parsedleft  = row.getSemantics(0, index, "expression2", true);
-              var right = parsedright.index > index ? row.remove(index, parsedright.index) : new Row();
-              var left  = parsedleft.index  < index ? row.remove(parsedleft.index,  index) : new Row();
-              row.insert(parsedleft.index, new Fraction(left, right));
-              editor.cursor.position = right.getFollowingCursorPosition();
-              editor.redraw();
-
-            }
-          }
-          else {
-            var canvas = editor.canvas;
-            if (canvas.fonts[canvas.fontName][canvas.fontSize].symbols[String.fromCharCode(event.charCode)]){
-              var position  = editor.cursor.position;
-              var character = String.fromCharCode(event.charCode);
-              var symbol    = new org.mathdox.formulaeditor.presentation.Symbol(character);
-              position.row.insert(position.index, symbol);
-              editor.cursor.moveRight();
-              editor.redraw();
-            }
-            else {
-              // pass the keypress through to the browser
-              result = true;
-            }
-          }
-
-          editor.updateTextArea();
-
-          return result;
-
+        // Internet Explorer does not set the charCode attribute, but the
+        // keyCode attribute
+        if (!("charCode" in event)) {
+          event.charCode = event.keyCode;
         }
+
+        // let the cursor object handle the event
+        return editor.cursor.onkeypress(event, editor);
 
       }
 
     },
 
-    updateTextArea : function() {
+    save : function() {
 
       // update the text field
-      // TODO: only do this after a change in the presentation tree
       try {
         this.textarea.value =
-          "<OMOBJ>" +
+          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
+          "cdbase='http://www.openmath.org/cd'>" +
           this.presentation.getSemantics().value.getOpenMath() +
           "</OMOBJ>";
       }
       catch(exception) {
         this.textarea.value =
-          "<OMOBJ>" +
+          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
+          "cdbase='http://www.openmath.org/cd'>" +
             "<OME>" +
               "<OMS cd='moreerrors' name='encodingError'/>" +
               "<OMSTR>invalid expression entered</OMSTR>" +

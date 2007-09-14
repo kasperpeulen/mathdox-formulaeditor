@@ -62,6 +62,29 @@ $main(function(){
     },
 
     /**
+     * Method which is called whenever this node changes. Calls the parent's
+     * onchange method by default.
+     */
+    onchange : function(node) {
+
+      if (this.parent != null) {
+        this.parent.onchange(this);
+      }
+
+    },
+
+    /**
+     * Called whenever a keypress has been detected when the cursor was at the
+     * specified index. Does nothing by default, should be overridden to do
+     * something usefull.
+     */
+    onkeypress : function(index, event) {
+
+      // skip
+
+    },
+
+    /**
      * Flattens the tree, meaning that all rows inside rows will be moved into
      * one row.
      */
@@ -89,29 +112,6 @@ $main(function(){
         this.children[i].parent = this;
         this.children[i].index = i;
       }
-
-    },
-
-    /**
-     * Method which is called whenever this node changes. Calls the parent's
-     * onchange method by default.
-     */
-    onchange : function(node) {
-
-      if (this.parent != null) {
-        this.parent.onchange(this);
-      }
-
-    },
-
-    /**
-     * Called whenever a keypress has been detected when the cursor was at the
-     * specified index. Does nothing by default, should be overridden to do
-     * something usefull.
-     */
-    onkeypress : function(index, event) {
-
-      // skip
 
     },
 

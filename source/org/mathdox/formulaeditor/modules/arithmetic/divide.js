@@ -90,4 +90,54 @@ $main(function(){
 
   }}}
 
+  /**
+   * Add a key handler for the '/' key.
+   */
+  org.mathdox.formulaeditor.presentation.Row =
+    $extend(org.mathdox.formulaeditor.presentation.Row, {
+
+      /**
+       * Override the onkeypress method to handle the '/' key.
+       */
+      onkeypress : function(event, editor) {
+
+        // only handle keypresses where alt and ctrl are not held
+        if (!event.altKey && !event.ctrlKey) {
+
+          // check whether the '/' key has been pressed
+          if (String.fromCharCode(event.charCode) == "/") {
+
+            var Fraction = org.mathdox.formulaeditor.presentation.Fraction;
+            var index    = editor.cursor.position.index;
+            var length   = this.children.length;
+
+            // search for an expression of precedence level 2 to the left of the
+            // cursor, and of level 4 to the right of the cursor
+            var parsedleft  = this.getSemantics(0, index, "expression2", true);
+            var parsedright = this.getSemantics(index, length, "expression4");
+
+            // create the left and right operands of the fraction
+            var right = this.remove(index, parsedright.index);
+            var left  = this.remove(parsedleft.index,  index);
+
+            // insert the fraction into the row
+            this.insert(parsedleft.index, new Fraction(left, right));
+            editor.cursor.position = right.getFollowingCursorPosition();
+
+            // update the editor state
+            editor.redraw();
+            editor.save();
+            return false;
+
+          }
+
+        }
+
+        // call the overridden method
+        return arguments.callee.parent.onkeypress.call(this, event, editor);
+
+      }
+
+    })
+
 })

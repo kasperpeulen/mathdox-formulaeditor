@@ -13,6 +13,60 @@ $main(function(){
       this.position = position;
     },
 
+    /**
+     * Handles an onkeydown event from the browser. Returns false when the event
+     * has been handled and should not be handled by the browser, returns true
+     * otherwise.
+     */
+    onkeydown : function(event, editor) {
+
+      // only handle keypresses where alt, ctrl and shift are not held
+      if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
+
+        // handle arrow keys
+        switch(event.keyCode) {
+
+          case 37: // left arrow
+            this.moveLeft();
+            editor.redraw();
+            return false;
+
+          case 38: // up arrow
+            this.moveUp();
+            editor.redraw();
+            return false;
+
+          case 39: // right arrow
+            this.moveRight();
+            editor.redraw();
+            return false;
+
+          case 40: // down arrow
+            this.moveDown();
+            editor.redraw();
+            return false;
+
+        }
+
+      }
+
+      // pass the event to the presentation tree
+      return this.position.row.onkeydown(event, editor);
+
+    },
+
+    /**
+     * Handles an onkeypress event from the browser. Returns false when the
+     * event has been handled and should not be handled by the browser, returns
+     * true otherwise.
+     */
+    onkeypress : function(event, editor) {
+
+      // pass the event to the presentation tree
+      return this.position.row.onkeypress(event, editor);
+
+    },
+
     moveRight : function() {
 
       var row   = this.position.row;

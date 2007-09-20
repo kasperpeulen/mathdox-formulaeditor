@@ -23,8 +23,18 @@ $main(function(){
       // only handle keypresses where alt, ctrl and shift are not held
       if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
 
-        // handle arrow keys
+        // handle arrow keys, home and end
         switch(event.keyCode) {
+
+          case 35: // end
+            this.moveLast();
+            editor.redraw();
+            return false;
+
+          case 36: // home
+            this.moveFirst();
+            editor.redraw();
+            return false;
 
           case 37: // left arrow
             this.moveLeft();
@@ -109,6 +119,30 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getHigherCursorPosition(index, this.getX());
+      if (newPosition != null) {
+        this.position = newPosition;
+      }
+
+    },
+
+    moveFirst : function() {
+
+      var row   = this.position.row;
+      var index = this.position.index;
+
+      var newPosition = row.getFirstCursorPosition(index);
+      if (newPosition != null) {
+        this.position = newPosition;
+      }
+
+    },
+
+    moveLast : function() {
+
+      var row   = this.position.row;
+      var index = this.position.index;
+
+      var newPosition = row.getLastCursorPosition(index);
       if (newPosition != null) {
         this.position = newPosition;
       }

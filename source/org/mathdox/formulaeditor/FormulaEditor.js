@@ -4,6 +4,7 @@ $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/Canvas.js");
 $require("org/mathdox/formulaeditor/MathCanvas.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
+$require("org/mathdox/formulaeditor/EventHandler.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
@@ -14,7 +15,12 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 $main(function(){
 
   /**
-   * A formula editor that can be used to replace a textarea.
+   * Maintain a list of all formula editors that are initialized.
+   */
+  var editors = [];
+
+  /**
+   * Class that represents a formula editor.
    */
   org.mathdox.formulaeditor.FormulaEditor = $extend(Object, {
 
@@ -83,45 +89,12 @@ $main(function(){
       this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
       this.draw();
 
-      // save the 'this' pointer, so it can be used in key handling below
-      var editor = this;
-
-      // handle command keys
-      document.onkeydown = function(event) {
-
-        // the Internet Explorer way (non-standard, of course) of
-        // getting the event object
-        if (!event) {
-          event = window.event
-        };
-
-        // let the cursor object handle the event
-        return editor.cursor.onkeydown(event, editor);
-
-      }
-
-      // handle non-command keys
-      document.onkeypress = function(event) {
-
-        // the Internet Explorer way (non-standard, of course) of
-        // getting the event object
-        if (!event) {
-          event = window.event
-        };
-
-        // Internet Explorer does not set the charCode attribute, but the
-        // keyCode attribute
-        if (!("charCode" in event)) {
-          event.charCode = event.keyCode;
-        }
-
-        // let the cursor object handle the event
-        return editor.cursor.onkeypress(event, editor);
-
-      }
+      // register this editor in the list of editors.
+      editors.push(this);
 
     },
 
+    // TODO : move this to an onchange handler
     save : function() {
 
       // update the text field
@@ -130,7 +103,7 @@ $main(function(){
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
           this.presentation.getSemantics().value.getOpenMath() +
-          "</OMOBJ>";
+          "</OMOBJ>"; // TODO: parse until the end
       }
       catch(exception) {
         this.textarea.value =
@@ -160,6 +133,26 @@ $main(function(){
       this.canvas.canvas.setAttribute("height", dimensions.height + 2 * margin);
       this.presentation.draw(this.canvas, margin-dimensions.left, margin-dimensions.top);
       this.cursor.draw(this.canvas);
+    },
+
+    onkeydown : function(event) {
+
+      // forward the event to the cursor object
+      return this.cursor.onkeydown(event, this);
+
+    },
+
+    onkeypress : function(event) {
+
+      // forward the event to the cursor object
+      return this.cursor.onkeypress(event, this);
+
+    },
+
+    onmousedown : function(event) {
+
+      // TODO
+
     }
 
   });
@@ -172,7 +165,7 @@ $main(function(){
   // function that will be called upon loading
   var onload = function() {
 
-    // go through all textareas
+    // replace all textarea's of class 'mathdoxformula' with editors
     var textareas = document.getElementsByTagName("textarea")
     for (var i=0; i<textareas.length; i++) {
       var textarea = textareas[i];
@@ -196,9 +189,39 @@ $main(function(){
 
     }
 
+    // register key and mouse handlers that forward events to the editors
+    var Handler = $extend(org.mathdox.formulaeditor.EventHandler, {
+
+      onkeydown : function(event) {
+        var result = true;
+        for (var i=0; i<editors.length; i++) {
+          result = result && editors[i].onkeydown(event);
+        }
+        return result;
+      },
+
+      onkeypress : function(event) {
+        var result = true;
+        for (var i=0; i<editors.length; i++) {
+          result = result && editors[i].onkeypress(event);
+        }
+        return result;
+      },
+
+      onmousedown : function(event) {
+        var result = true;
+        for (var i=0; i<editors.length; i++) {
+          result = result && editors[i].onmousedown(event);
+        }
+        return result;
+      }
+
+    });
+    new Handler();
+
   }
 
-  // register the function as an event handler
+  // register the onload function as an event handler
   if (window.addEventListener) {
 
     // use the W3C standard way of registering event handlers
@@ -207,11 +230,11 @@ $main(function(){
   }
   else if (document.body.attachEvent){
 
+    // use the MSIE-only way of registering event handlers
     if (document.readyState == "complete") {
       onload();
     }
     else {
-      // use the MSIE-only way of registering event handlers
       document.body.attachEvent("onload", onload);
     }
 

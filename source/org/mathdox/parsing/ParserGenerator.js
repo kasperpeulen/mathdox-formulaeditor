@@ -200,10 +200,10 @@ $main(function(){
 
       initialize : function() {
 
-        this.begin.asString = "^";
+        this.begin.asString = "^" ;
         this.empty.asString = "()";
-        this.end.asString = "$";
-        this.never.asString = "0";
+        this.end.asString   = "$" ;
+        this.never.asString = "0" ;
 
       },
 

@@ -129,7 +129,7 @@ $main(function(){
 
             editor.redraw();
             editor.save();
-            return true;
+            return false;
 
           }
 
@@ -167,6 +167,32 @@ $main(function(){
         }
         this.updateChildren();
 
+      },
+
+      getFirstCursorPosition : function(index) {
+        if (index == null || index > 0) {
+          return this.getFollowingCursorPosition();
+        }
+        else {
+          if (this.parent != null) {
+            return this.parent.getFirstCursorPosition();
+          }
+          else {
+            return null;
+          }
+        }
+      },
+
+      getLastCursorPosition : function(index) {
+        if (index == null | index < this.children.length) {
+          return this.getPrecedingCursorPosition();
+        }
+        if (this.parent != null) {
+          return this.parent.getLastCursorPosition();
+        }
+        else {
+          return null;
+        }
       },
 
       getFollowingCursorPosition : function(index) {

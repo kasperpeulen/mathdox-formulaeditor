@@ -115,6 +115,24 @@ $main(function(){
 
     },
 
+    getFirstCursorPosition : function(index) {
+      if (this.parent != null) {
+        return this.parent.getFirstCursorPosition();
+      }
+      else {
+        return null;
+      }
+    },
+
+    getLastCursorPosition : function(index) {
+      if (this.parent != null) {
+        return this.parent.getLastCursorPosition();
+      }
+      else {
+        return null;
+      }
+    },
+
     getFollowingCursorPosition : function(index) {
       if (this.parent != null) {
         return { row : this.parent, index : this.index + 1 };

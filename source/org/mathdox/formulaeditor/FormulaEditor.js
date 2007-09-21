@@ -45,6 +45,11 @@ $main(function(){
     cursor : null,
 
     /**
+     * Indicates whether this formula editor has the focus.
+     */
+    hasFocus : false,
+
+    /**
      * Hides the specified textarea and replaces it by a canvas that will be
      * used for rendering formulae.
      */
@@ -58,9 +63,23 @@ $main(function(){
       // create an HTML canvas
       var htmlcanvas;
       htmlcanvas = document.createElement("canvas");
-      htmlcanvas.style.border  = "1px solid #99F";
+
+      // copy style attributes from the textarea to the canvas
+      for (var x in textarea.style) {
+        try {
+          htmlcanvas.style[x] = textarea.style[x];
+        }
+        catch(exception) {
+          // skip
+        }
+      }
+
+      // set the style attributes that determine the look of the editor
+      htmlcanvas.style.border        = "1px solid #99F";
       htmlcanvas.style.verticalAlign = "middle";
-      
+      htmlcanvas.style.cursor        = "text";
+      htmlcanvas.style.padding       = "0px";
+
       // insert canvas into the document before the textarea and hide the latter
       textarea.parentNode.insertBefore(htmlcanvas, textarea);
       textarea.style.display = "none";
@@ -135,24 +154,128 @@ $main(function(){
       this.cursor.draw(this.canvas);
     },
 
+    /**
+     * Handles an onkeydown event from the browser. Returns false when the event
+     * has been handled and should not be handled by the browser, returns true
+     * otherwise.
+     */
     onkeydown : function(event) {
 
-      // forward the event to the cursor object
-      return this.cursor.onkeydown(event, this);
+      // forward the event to the cursor object when we have the focus
+      if(this.hasFocus) {
+        this.focus(); // TODO: only necessary for crappy blinker implementation
+        return this.cursor.onkeydown(event, this);
+      }
 
     },
 
+    /**
+     * Handles an onkeypress event from the browser. Returns false when the
+     * event has been handled and should not be handled by the browser, returns
+     * true otherwise.
+     */
     onkeypress : function(event) {
 
-      // forward the event to the cursor object
-      return this.cursor.onkeypress(event, this);
+      // forward the event to the cursor object when we have the focus
+      if (this.hasFocus) {
+        this.focus(); // TODO: only necessary for crappy blinker implementation
+        return this.cursor.onkeypress(event, this);
+      }
 
     },
 
+    /**
+     * Handles an onmousedown event from the browser. Returns false when the
+     * event has been handled and should not be handled by the browser, returns
+     * true otherwise.
+     */
     onmousedown : function(event) {
 
-      // TODO
+      // retrieve the screen coordinates of the mouse click
+      var mouseX = event.clientX;
+      var mouseY = event.clientY;
 
+      // retrieve the page offset, needed to convert screen coordinates to
+      // document coordinates
+      var pageXOffset = window.pageXOffset;
+      var pageYOffset = window.pageYOffset;
+
+      // MSIE provides the page offset in a different way *sigh*
+      if (pageXOffset == null) {
+        var element = document.documentElement;
+        if (!element || !element.scrollLeft) {
+          element = document.body;
+        }
+        pageXOffset = element.scrollLeft;
+        pageYOffset = element.scrollTop;
+      }
+
+      // calculate the document coordinates of the mouse click
+      mouseX += pageXOffset;
+      mouseY += pageYOffset;
+
+      // calculate the document coordinates of the canvas element
+      var element = this.canvas.canvas;
+      var x      = 0;
+      var y      = 0;
+      var width  = element.offsetWidth;
+      var height = element.offsetHeight;
+      while (element) {
+        x += element.offsetLeft;
+        y += element.offsetTop;
+        element = element.offsetParent;
+      }
+
+      // check whether the mouse click falls in the canvas element
+      if (x<=mouseX && mouseX<=x+width && y<=mouseY && mouseY<=y+height) {
+        // we have focus
+        this.focus();
+        // forward the mouse click to the cursor object
+        return this.cursor.onmousedown(event, this, mouseX-x, mouseY-y);
+      }
+      else {
+        // we do not have focus
+        this.blur();
+        this.redraw();
+      }
+
+    },
+
+    // TODO: only necessary for crappy blinker implementation
+    blinker : 0,
+
+    focus : function() {
+
+      this.hasFocus = true;
+      this.cursor.visible = true;
+
+      // cursor blinking
+      // TODO: move to cursor class
+      var editor = this;
+      var blinker = ++this.blinker;
+      var blinkon;
+      var blinkoff;
+      blinkon = function() {
+        if (editor.hasFocus && (blinker == editor.blinker)) {
+          editor.cursor.visible = true;
+          editor.redraw();
+          window.setTimeout(blinkoff, 600);
+        }
+      }
+      blinkoff = function() {
+        if (editor.hasFocus && (blinker == editor.blinker)) {
+          editor.cursor.visible = false;
+          editor.redraw();
+          window.setTimeout(blinkon, 400);
+        }
+      }
+      blinkon();
+
+    },
+
+    blur : function() {
+      this.hasFocus = false;
+      this.cursor.visible = false;
     }
 
   });
@@ -195,7 +318,10 @@ $main(function(){
       onkeydown : function(event) {
         var result = true;
         for (var i=0; i<editors.length; i++) {
-          result = result && editors[i].onkeydown(event);
+          var intermediate = editors[i].onkeydown(event);
+          if (intermediate != null && intermediate == false) {
+            result = false;
+          }
         }
         return result;
       },
@@ -203,7 +329,10 @@ $main(function(){
       onkeypress : function(event) {
         var result = true;
         for (var i=0; i<editors.length; i++) {
-          result = result && editors[i].onkeypress(event);
+          var intermediate = editors[i].onkeypress(event);
+          if (intermediate != null && intermediate == false) {
+            result = false;
+          }
         }
         return result;
       },
@@ -211,7 +340,10 @@ $main(function(){
       onmousedown : function(event) {
         var result = true;
         for (var i=0; i<editors.length; i++) {
-          result = result && editors[i].onmousedown(event);
+          var intermediate = editors[i].onmousedown(event);
+          if (intermediate != null && intermediate == false) {
+            result = false;
+          }
         }
         return result;
       }

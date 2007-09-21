@@ -115,6 +115,20 @@ $main(function(){
 
     },
 
+    getCursorPosition : function(x, y) {
+
+      var left   = this.dimensions.left;
+      var width  = this.dimensions.width;
+
+      if (x < left + width / 2) {
+        return { row: this.parent, index: this.index };
+      }
+      else {
+        return { row: this.parent, index: this.index + 1 };
+      }
+
+    },
+
     getFirstCursorPosition : function(index) {
       if (this.parent != null) {
         return this.parent.getFirstCursorPosition();

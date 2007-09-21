@@ -50,6 +50,12 @@ $main(function(){
 
       },
 
+      getCursorPosition : function(x, y) {
+
+        return this.children[0].getCursorPosition(x,y);
+
+      },
+
       getFollowingCursorPosition : function(index) {
         if (index == null) {
           return this.children[0].getFollowingCursorPosition();

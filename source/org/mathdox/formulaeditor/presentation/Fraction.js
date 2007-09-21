@@ -88,6 +88,20 @@ $main(function(){
 
       },
 
+      getCursorPosition : function(x, y) {
+
+        var upper = this.children[0].dimensions;
+        var lower = this.children[1].dimensions;
+
+        if (y < ((upper.top + upper.height) + lower.top) / 2) {
+          return this.children[0].getCursorPosition(x, y);
+        }
+        else {
+          return this.children[1].getCursorPosition(x, y);
+        }
+
+      },
+
       getFollowingCursorPosition : function(index) {
         if (index == null) {
           return this.children[0].getFollowingCursorPosition();

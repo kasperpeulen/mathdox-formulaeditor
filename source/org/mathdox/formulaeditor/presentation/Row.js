@@ -169,6 +169,20 @@ $main(function(){
 
       },
 
+      getCursorPosition : function(x, y) {
+
+        var count = this.children.length;
+        for (var i=0; i<count; i++) {
+          var dimensions = this.children[i].dimensions;
+          if (x < dimensions.left + dimensions.width || i == count - 1) {
+            return this.children[i].getCursorPosition(x,y);
+          }
+        }
+
+        return { row: this, position: 0 };
+
+      },
+
       getFirstCursorPosition : function(index) {
         if (index == null || index > 0) {
           return this.getFollowingCursorPosition();

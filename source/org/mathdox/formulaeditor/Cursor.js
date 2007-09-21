@@ -9,6 +9,8 @@ $main(function(){
 
     position : null,
 
+    visible : false,
+
     initialize : function(position) {
       this.position = position;
     },
@@ -74,6 +76,18 @@ $main(function(){
 
       // pass the event to the presentation tree
       return this.position.row.onkeypress(event, editor);
+
+    },
+
+    /**
+     * Handles an onmousedown event from the browser. Returns false when the
+     * event has been handled and should not be handled by the browser, returns
+     * true otherwise.
+     */
+    onmousedown : function(event, editor, x, y) {
+
+      this.position = editor.presentation.getCursorPosition(x,y);
+      editor.redraw();
 
     },
 
@@ -174,41 +188,45 @@ $main(function(){
 
     draw : function(canvas) {
 
-      var lineWidth = 2.0;
-      var margin    = 2.0;
-      var color     = "#99F";
+      if (this.visible) {
 
-      var row   = this.position.row;
-      var index = this.position.index;
+        var lineWidth = 2.0;
+        var margin    = 2.0;
+        var color     = "#66C";
 
-      var dim0 = row.children[index-1] ? row.children[index - 1].dimensions : null;
-      var dim1 = row.children[index]   ? row.children[index].dimensions     : null;
+        var row   = this.position.row;
+        var index = this.position.index;
 
-      if (dim0 == null && dim1 == null) {
-        dim1 = row.dimensions;
+        var dim0 = row.children[index-1] ? row.children[index - 1].dimensions : null;
+        var dim1 = row.children[index]   ? row.children[index].dimensions     : null;
+
+        if (dim0 == null && dim1 == null) {
+          dim1 = row.dimensions;
+        }
+        if (dim0 == null && dim1 != null) {
+          dim0 = { left: row.dimensions.left, top: dim1.top, width:0, height: dim1.height };
+        }
+        if (dim1 == null && dim0 != null) {
+          dim1 = { left: dim0.left + dim0.width, top: dim0.top, width:0, height: dim0.height };
+        }
+
+        var x      = Math.round(dim0.left + dim0.width + ((dim1.left - (dim0.left + dim0.width))/2));
+        var top    = Math.round(Math.min(dim0.top, dim1.top) - margin);
+        var bottom = Math.round(Math.max(dim0.top + dim0.height, dim1.top + dim1.height) + margin);
+
+        var context = canvas.getContext();
+
+        context.save();
+        context.lineWidth = lineWidth;
+        context.strokeStyle = color;
+        context.beginPath();
+        context.moveTo(x, top);
+        context.lineTo(x, bottom);
+        context.stroke();
+        context.closePath();
+        context.restore();
+
       }
-      if (dim0 == null && dim1 != null) {
-        dim0 = { left: row.dimensions.left, top: dim1.top, width:0, height: dim1.height };
-      }
-      if (dim1 == null && dim0 != null) {
-        dim1 = { left: dim0.left + dim0.width, top: dim0.top, width:0, height: dim0.height };
-      }
-
-      var x      = Math.round(dim0.left + dim0.width + ((dim1.left - (dim0.left + dim0.width))/2));
-      var top    = Math.round(Math.min(dim0.top, dim1.top) - margin);
-      var bottom = Math.round(Math.max(dim0.top + dim0.height, dim1.top + dim1.height) + margin);
-
-      var context = canvas.getContext();
-
-      context.save();
-      context.lineWidth = lineWidth;
-      context.strokeStyle = color;
-      context.beginPath();
-      context.moveTo(x, top);
-      context.lineTo(x, bottom);
-      context.stroke();
-      context.closePath();
-      context.restore();
 
     }
 

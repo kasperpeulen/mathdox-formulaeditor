@@ -69,15 +69,15 @@
       <h4>Demo</h4>
 
       <p>
-        The following formula can be edited using your keyboard. Feel free to
+        The following formulas can be edited using your keyboard. Feel free to
         experiment, but beware that currently only integers, variables,
         multiplication (*), division (/), addition (+), subtraction (-) and
         exponents (^) are supported.
       </p>
 
-      <textarea id='formula' class='mathdoxformula'>
+      <textarea id='formula1' class='mathdoxformula' style='margin-right: 2em'>
 
-        &lt;OMOBJ>
+        &lt;OMOBJ xmlns='http://www.openmath.org/OpenMath'>
           &lt;OMA>
             &lt;OMS cd='arith1' name='divide'/>
             &lt;OMA>
@@ -99,9 +99,32 @@
 
       </textarea>
 
+      <textarea id='formula2' class='mathdoxformula'>
+
+        &lt;OMOBJ xmlns='http://www.openmath.org/OpenMath'>
+          &lt;OMA>
+            &lt;OMS cd='arith1' name='plus'/>
+            &lt;OMA>
+              &lt;OMS cd='arith1' name='power'/>
+              &lt;OMV name='x'/>
+              &lt;OMI>2&lt;/OMI>
+            &lt;/OMA>
+            &lt;OMA>
+              &lt;OMS cd='arith1' name='times'/>
+              &lt;OMI>3&lt;/OMI>
+              &lt;OMV name='x'/>
+            &lt;/OMA>
+            &lt;OMI>2</OMI>
+          &lt;/OMA>
+        &lt;/OMOBJ>
+
+      </textarea>
+
+      </p>
+
       <p>
-        To see an OpenMath representation of the formula above
-        <a href='javascript:alert(document.getElementById("formula").value)'>
+        To see an OpenMath representation of the first formula above
+        <a href='javascript:alert(document.getElementById("formula1").value)'>
         click here</a>. This demonstrates that a semantic tree of the formula
         is stored, and not just a presentation tree.
       </p>
@@ -148,8 +171,8 @@
       </p>
 
       <p>
-        <a href='http://mathdox.org/download/formulaeditor-0.2.zip'
-        >formulaeditor-0.2.zip</a>
+        <a href='http://mathdox.org/download/formulaeditor-0.3.zip'
+        >formulaeditor-0.3.zip</a>
       </p>
 
       <p>
@@ -166,14 +189,9 @@
       <h4>Known limitations</h4>
 
       <p>
-        Currently this editor has only been tested in Mozilla Firefox and
+        Currently this editor has only been tested in Mozilla Firefox (v2) and
         Microsoft Internet Explorer (v7). Support for the other main browsers
         (Safari, Opera, Konqueror) will be added later.
-      </p>
-
-      <p>
-        Currently only one editor per page is allowed. Support for multiple
-        editors per page will be added later.
       </p>
 
       <p>

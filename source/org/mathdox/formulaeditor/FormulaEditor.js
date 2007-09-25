@@ -116,16 +116,18 @@ $main(function(){
     // TODO : move this to an onchange handler
     save : function() {
 
-      // update the text field
+      var textarea = this.textarea;
+
+      // update the textarea
       try {
-        this.textarea.value =
+        textarea.value =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
           this.presentation.getSemantics().value.getOpenMath() +
           "</OMOBJ>"; // TODO: parse until the end
       }
       catch(exception) {
-        this.textarea.value =
+        textarea.value =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
             "<OME>" +
@@ -133,6 +135,15 @@ $main(function(){
               "<OMSTR>invalid expression entered</OMSTR>" +
             "</OME>" +
           "</OMOBJ>";
+      }
+
+      // if the textarea is an orbeon xforms control, use the orbeon update
+      // mechanism, see also:
+      // http://www.orbeon.com/ops/doc/reference-xforms-2#xforms-javascript
+      if (ORBEON && ORBEON.xforms && ORBEON.xforms.Document) {
+        if (textarea.id) {
+          ORBEON.xforms.Document.setValue(textarea.id, textarea.value);
+        }
       }
 
     },

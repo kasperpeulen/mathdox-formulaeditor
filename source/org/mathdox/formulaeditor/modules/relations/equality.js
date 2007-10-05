@@ -5,31 +5,31 @@ $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $main(function(){
 
   /**
-   * Defines a semantic tree node that represents a multiplication.
+   * Define a semantic tree node that represents an equality.
    */
-  org.mathdox.formulaeditor.semantics.Times =
+  org.mathdox.formulaeditor.semantics.Equals =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
 
-        onscreen : "*", // TODO : replace by ·
-        openmath : "<OMS cd='arith1' name='times'/>",
-        mathml   : "<mo>·</mo>"
+        onscreen : "=",
+        openmath : "<OMS cd='relation1' name='eq'/>",
+        mathml   : "<mo>=</mo>"
 
       }
 
     })
-
+  
   /**
-   * Extend the OpenMathParser object with parsing code for arith1.times.
+   * Extend the OpenMathParser object with parsing code for relation1.eq.
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
 
       /**
-       * Returns a Times object based on the OpenMath node.
+       * Returns an equality object based on the OpenMath node.
        */
-      handleArith1Times : function(node) {
+      handleRelation1Eq : function(node) {
 
         // parse the children of the OMA
         var children = node.getChildNodes();
@@ -38,8 +38,8 @@ $main(function(){
           operands[i-1] = this.handle(children.item(i))
         }
 
-        // construct a Times object
-        var result = new org.mathdox.formulaeditor.semantics.Times();
+        // construct an equality object
+        var result = new org.mathdox.formulaeditor.semantics.Equals();
         result.initialize.apply(result, operands);
         return result;
 
@@ -48,7 +48,7 @@ $main(function(){
     })
 
   /**
-   * Extend the ExpressionParser object with parsing code for multiplication.
+   * Extend the ExpressionParser object with parsing code for the equality sign.
    */
   with( org.mathdox.formulaeditor.semantics          ) {
   with( org.mathdox.formulaeditor.parsing.expression ) {
@@ -57,30 +57,31 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression3 = times | super.expression3
-        expression3 : function() {
+        // expression1 = equals | super.expression1
+        expression1 : function() {
           var parent = arguments.callee.parent;
           alternation(
-            rule("times"),
-            parent.expression3
+            rule("equals"),
+            parent.expression1
           ).apply(this, arguments);
         },
 
-        // times = expression3 "*" expression4
-        times :
+        // equals = expression1 "=" expression2
+        equals :
           transform(
             concatenation(
-              rule("expression3"),
-              literal("*"),
-              rule("expression4")
+              rule("expression1"),
+              literal("="),
+              rule("expression2")
             ),
             function(result) {
-              return new Times(result[0], result[2]);
+              return new Equals(result[0], result[2]);
             }
           )
 
       })
 
   }}}
+
 
 })

@@ -16,8 +16,23 @@ $main(function(){
         // start = expression
         start : rule("expression"),
 
-        // expression = braces | integer | variable
-        expression :
+        // expression = expression1
+        expression  : rule("expression1"), 
+
+        // expression1 = expression2
+        expression1 : rule("expression2"), // equals, lessthan, morethan, ...
+
+        // expression2 = expression3
+        expression2 : rule("expression3"), // plus, minus
+
+        // expression3 = expression4
+        expression3 : rule("expression4"), // times
+
+        // expression4 = expression5
+        expression4 : rule("expression5"), // power
+
+        // expression5 = braces | integer | variable
+        expression5 :
           alternation(
             rule("braces"),
             rule("integer"),

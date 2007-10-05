@@ -11,6 +11,7 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
+$require("org/mathdox/formulaeditor/modules/relations/equality.js");
 
 $main(function(){
 

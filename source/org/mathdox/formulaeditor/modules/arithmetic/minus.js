@@ -1,6 +1,5 @@
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/general.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 
 
@@ -55,22 +54,22 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression1 = minus | super.expression1
-        expression1 : function() {
+        // expression2 = minus | super.expression2
+        expression2 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("minus"),
-            parent.expression1
+            parent.expression2
           ).apply(this, arguments);
         },
 
-        // minus = expression1 "+" expression2
+        // minus = expression2 "+" expression3
         minus :
           transform(
             concatenation(
-              rule("expression1"),
+              rule("expression2"),
               literal("-"),
-              rule("expression2")
+              rule("expression3")
             ),
             function(result) {
               return new Minus(result[0], result[2]);

@@ -1,7 +1,6 @@
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/general.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 
 $main(function(){
@@ -79,20 +78,20 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression3 = power | super.expression3
-        expression3 : function() {
+        // expression4 = power | super.expression4
+        expression4 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("power"),
-            parent.expression3
+            parent.expression4
           ).apply(this, arguments);
         },
 
-        // power = expression4 superscript
+        // power = expression5 superscript
         power :
           transform(
             concatenation(
-              rule("expression4"),
+              rule("expression5"),
               rule("superscript")
             ),
             function(result) {

@@ -1,6 +1,5 @@
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/general.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 
 $main(function(){
@@ -22,14 +21,14 @@ $main(function(){
     })
 
   /**
-  * Extend the OpenMathParser object with parsing code for arith1.plus.
-  */
+   * Extend the OpenMathParser object with parsing code for arith1.plus.
+   */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
 
       /**
-      * Returns a Plus object based on the OpenMath node.
-      */
+       * Returns a Plus object based on the OpenMath node.
+       */
       handleArith1Plus : function(node) {
 
         // parse the children of the OMA
@@ -58,22 +57,22 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression1 = plus | super.expression1
-        expression1 : function() {
+        // expression2 = plus | super.expression2
+        expression2 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("plus"),
-            parent.expression1
+            parent.expression2
           ).apply(this, arguments);
         },
 
-        // plus = expression1 "+" expression2
+        // plus = expression2 "+" expression3
         plus :
           transform(
             concatenation(
-              rule("expression1"),
+              rule("expression2"),
               literal("+"),
-              rule("expression2")
+              rule("expression3")
             ),
             function(result) {
               return new Plus(result[0], result[2]);

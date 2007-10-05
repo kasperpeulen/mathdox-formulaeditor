@@ -1,7 +1,6 @@
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Fraction.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/general.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 
 $main(function(){
@@ -74,12 +73,12 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression2 = divide | super.expression2
-        expression2 : function() {
+        // expression3 = divide | super.expression3
+        expression3 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("divide"),
-            parent.expression2
+            parent.expression3
           ).apply(this, arguments);
         },
 

@@ -12,8 +12,6 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 
-var ORBEON;
-
 $main(function(){
 
   /**
@@ -55,63 +53,87 @@ $main(function(){
      * Hides the specified textarea and replaces it by a canvas that will be
      * used for rendering formulae.
      */
-    initialize : function(textarea) {
+    initialize : function(textarea, canvas) {
 
-      var Cursor    = org.mathdox.formulaeditor.Cursor;
-      var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
+      if (textarea) {
+
+        var Cursor    = org.mathdox.formulaeditor.Cursor;
+        var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
+
+        // ensure that there isn't already an editor for this textarea
+        for (var i=0; i<editors.length; i++) {
+          if (editors[i].textarea == textarea) {
+            return editors[i];
+          }
+        }
+
+        // check whether a new canvas needs to be added.
+        if (!canvas) {
+
+          // create an HTML canvas
+          canvas = document.createElement("canvas");
+
+          // copy style attributes from the textarea to the canvas
+          for (var x in textarea.style) {
+            try {
+              canvas.style[x] = textarea.style[x];
+            }
+            catch(exception) {
+              // skip
+            }
+          }
+
+          // set the style attributes that determine the look of the editor
+          canvas.style.border        = "1px solid #99F";
+          canvas.style.verticalAlign = "middle";
+          canvas.style.cursor        = "text";
+          canvas.style.padding       = "0px";
+
+          // insert canvas in the document before the textarea 
+          textarea.parentNode.insertBefore(canvas, textarea);
+
+          // Initialize the canvas. This is only needed in Internet Explorer,
+          // where Google's Explorer Canvas library handles canvases.
+          if (G_vmlCanvasManager) {
+            canvas = G_vmlCanvasManager.initElement(canvas);
+          }
+
+        }
+
+        // hide the textarea
+        textarea.style.display = "none";
+
+        // register the textarea and a new mathcanvas
+        this.textarea = textarea;
+        this.canvas   = new MathCanvas(canvas);
+
+        this.load();
+
+        // initialize the cursor, and draw the presentation tree
+        this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
+        this.draw();
+
+        // register this editor in the list of editors.
+        editors.push(this);
+
+      }
+
+    },
+
+    load : function() {
+
       var Parser    = org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
       var Row       = org.mathdox.formulaeditor.presentation.Row;
 
-      // create an HTML canvas
-      var htmlcanvas;
-      htmlcanvas = document.createElement("canvas");
-
-      // copy style attributes from the textarea to the canvas
-      for (var x in textarea.style) {
-        try {
-          htmlcanvas.style[x] = textarea.style[x];
-        }
-        catch(exception) {
-          // skip
-        }
-      }
-
-      // set the style attributes that determine the look of the editor
-      htmlcanvas.style.border        = "1px solid #99F";
-      htmlcanvas.style.verticalAlign = "middle";
-      htmlcanvas.style.cursor        = "text";
-      htmlcanvas.style.padding       = "0px";
-
-      // insert canvas into the document before the textarea and hide the latter
-      textarea.parentNode.insertBefore(htmlcanvas, textarea);
-      textarea.style.display = "none";
-
-      // Initialize the canvas. This is only needed in Internet Explorer,
-      // where Google's Explorer Canvas library handles canvases.
-      if (G_vmlCanvasManager) {
-        htmlcanvas = G_vmlCanvasManager.initElement(htmlcanvas);
-      }
-
-      // register the textarea and a new mathcanvas
-      this.textarea = textarea;
-      this.canvas   = new MathCanvas(htmlcanvas);
-
       // read any OpenMath code that may be present in the textarea
       try {
-        var parsed = new Parser().parse(textarea.value);
+        var parsed = new Parser().parse(this.textarea.value);
         this.presentation = new Row(parsed.getPresentation());
         this.presentation.flatten();
       }
       catch(exception) {
         this.presentation = new Row();
       }
-
-      // initialize the cursor, and draw the presentation tree
-      this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
-      this.draw();
-
-      // register this editor in the list of editors.
-      editors.push(this);
 
     },
 
@@ -137,15 +159,6 @@ $main(function(){
               "<OMSTR>invalid expression entered</OMSTR>" +
             "</OME>" +
           "</OMOBJ>";
-      }
-
-      // if the textarea is an orbeon xforms control, use the orbeon update
-      // mechanism, see also:
-      // http://www.orbeon.com/ops/doc/reference-xforms-2#xforms-javascript
-      if (ORBEON && ORBEON.xforms && ORBEON.xforms.Document) {
-        if (textarea.id) {
-          ORBEON.xforms.Document.setValue(textarea.id, textarea.value);
-        }
       }
 
     },

@@ -121,10 +121,9 @@ $main(function(){
           if (canvas.fonts[fontName][fontSize].symbols[character]) {
 
             var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
-            var position = editor.cursor.position;
 
             // insert the character into the row, and move the cursor
-            position.row.insert(position.index, new Symbol(character));
+            this.insert(editor.cursor.position.index, new Symbol(character));
             editor.cursor.moveRight();
 
             editor.redraw();
@@ -179,7 +178,7 @@ $main(function(){
           }
         }
 
-        return { row: this, position: 0 };
+        return { row: this, index: 0 };
 
       },
 

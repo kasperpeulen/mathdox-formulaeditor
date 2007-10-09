@@ -110,10 +110,10 @@ $main(function(){
             var index    = editor.cursor.position.index;
             var length   = this.children.length;
 
-            // search for an expression of precedence level 2 to the left of the
-            // cursor, and of level 4 to the right of the cursor
-            var parsedleft  = this.getSemantics(0, index, "expression2", true);
-            var parsedright = this.getSemantics(index, length, "expression4");
+            // search for an expression of precedence level 3 to the left of the
+            // cursor, and of level 5 to the right of the cursor
+            var parsedleft  = this.getSemantics(0, index, "expression3", true);
+            var parsedright = this.getSemantics(index, length, "expression5");
 
             // create the left and right operands of the fraction
             var right = this.remove(index, parsedright.index);

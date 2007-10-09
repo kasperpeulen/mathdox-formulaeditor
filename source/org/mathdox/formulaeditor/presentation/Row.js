@@ -346,73 +346,85 @@ $main(function(){
 
       getSemantics : function(begin, end, start, backward) {
 
-        if (begin == null) {
-          begin = 0;
-        }
-        if (end == null) {
-          end = this.children.length;
-        }
-        if (start == null) {
-          start = "start";
-        }
-        if (backward == null) {
-          backward = false;
-        }
+        // assign default values to parameters
+        if (begin    == null) { begin    = 0;                    }
+        if (end      == null) { end      = this.children.length; }
+        if (start    == null) { start    = "start";              }
+        if (backward == null) { backward = false;                }
 
-        with(org.mathdox.formulaeditor.presentation) {
-        with(org.mathdox.formulaeditor.parsing.expression) {
+        // use the expressionparser to parse the elements of the row
+        var Parser;
+        Parser = org.mathdox.formulaeditor.parsing.expression.ExpressionParser;
 
-          var parser = ExpressionParser;
+        // create the input for the parser by serializing the row elements
+        var input = "";
 
-          var string = "";
+        // go through the row elements
+        var children = this.children;
+        for (var i=begin; i<end; i++) {
 
-          for (var i=begin; i<end; i++) {
+          // start a new variable scope
+          (function(){
 
-            var child = this.children[i];
-            if (child instanceof Symbol) {
-              string += child.value
+            // act differently based on the type of the row element
+            var child = children[i];
+            if (child instanceof org.mathdox.formulaeditor.presentation.Symbol) {
+
+              // if the row element is a symbol, add its value to input string
+              input = input + child.value;
+
             }
             else {
-              // add dummy to input and semantic node to cache
-              var childSemantics = child.getSemantics();
 
+              // record the index of this row element in the parser input string
+              var inputindex = input.length;
+
+              // add a dummy to the input string
+              input = input + '#';
+
+              // retrieve the semantic tree node that represents the row element
+              var semantics = child.getSemantics();
+
+              // extend the parser so that it will parse the dummy into the
+              // correct semantic tree node
               var extension = {};
-              var childIndex = string.length;
+              extension[semantics.rule] =
+                function(context, index, result, continuation) {
 
-  //            alert(childIndex + "," + childSemantics.rule);
+                  var parent = arguments.callee.parent;
 
-              extension[childSemantics.rule] = function(context, index, result, continuation) {
-  //              alert("index: " + index + ", childIndex: " + childIndex + ", rule: " + childSemantics.rule);
-                var parent = arguments.callee.parent;
-                if (!context.backward) {
-                  if (index == childIndex) {
-                    continuation(index+1, result.concat([childSemantics.value]));
+                  if (!context.backward && index == inputindex) {
+                    continuation(index+1, result.concat([semantics.value]));
                   }
-                }
-                else {
-                  if (index-1 == childIndex) {
-                    continuation(index-1, [childSemantics.value].concat(result));
+                  else if(context.backward && index - 1 == inputindex) {
+                    continuation(index-1, [semantics.value].concat(result));
                   }
+                  else {
+                    parent[semantics.rule](context, index, result, continuation);
+                  }
+
                 }
-                parent[childSemantics.rule](context, index, result, continuation);
-              };
 
-              parser = $extend(parser, extension);
+              Parser = $extend(Parser, extension);
 
-              string += "#";
             }
 
-          }
+          })();
 
-          var parsed = new parser().parse(string, backward ? string.length : 0, backward, start);
 
-          return {
-            value : parsed.value,
-            index : parsed.index + begin,
-            rule  : "braces"
-          };
+        }
 
-        }}
+        // use the constructed parser and input to parse the row
+        var parsebegin = backward ? input.length : 0           ;
+        var parseend   = backward ? 0            : input.length;
+        var parsed = new Parser().parse(input, parsebegin, backward, start);
+
+        // return the result of parsing
+        return {
+          value : parsed.index == parseend ? parsed.value : null,
+          index : parsed.index + begin,
+          rule  : "braces"
+        };
 
       }
 

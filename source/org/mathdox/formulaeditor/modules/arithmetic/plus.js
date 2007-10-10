@@ -16,7 +16,9 @@ $main(function(){
         openmath : "<OMS cd='arith1' name='plus'/>",
         mathml   : "<mo>+</mo>"
 
-      }
+      },
+
+      precedence : 2
 
     })
 

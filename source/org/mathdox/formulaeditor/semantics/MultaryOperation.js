@@ -39,6 +39,9 @@ $main(function(){
 
       },
 
+      // The precedence level of the operator.
+      precedence : null,
+
       /**
        * Initializes the operation using the specified arguments as operands.
        */
@@ -57,10 +60,18 @@ $main(function(){
           // with operator symbols.
           var array = new Array();
           for (var i=0; i<this.operands.length; i++) {
+            var operand = this.operands[i];
             if (i>0) {
-              array[2*i-1] = new Symbol(this.symbol.onscreen);
+              array.push(new Symbol(this.symbol.onscreen));
             }
-            array[2*i] = this.operands[i].getPresentation();
+            if (operand.precedence && operand.precedence < this.precedence) {
+              array.push(new Symbol("("));
+              array.push(operand.getPresentation());
+              array.push(new Symbol(")"));
+            }
+            else {
+              array.push(operand.getPresentation());
+            }
           }
 
           // create and return a new presentation row using the constructed array

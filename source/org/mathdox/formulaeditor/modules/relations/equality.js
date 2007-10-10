@@ -16,7 +16,9 @@ $main(function(){
         openmath : "<OMS cd='relation1' name='eq'/>",
         mathml   : "<mo>=</mo>"
 
-      }
+      },
+
+      precedence : 1
 
     })
   

@@ -17,6 +17,8 @@ $main(function(){
 
       },
 
+      precedence : 4,
+
       getPresentation : function() {
 
         with (org.mathdox.formulaeditor.presentation) {

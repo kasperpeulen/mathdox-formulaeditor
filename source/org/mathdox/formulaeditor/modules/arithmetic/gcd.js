@@ -10,7 +10,7 @@ $main(function(){
       symbol : {
 
         onscreen : ["gcd(", ",", ")"],
-        openmath : "<OMS cd='arith1' name='gcd'/>",
+        openmath : "<OMS cd='arith1' name='gcd'/>"
 
       },
 

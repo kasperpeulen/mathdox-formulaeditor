@@ -10,7 +10,7 @@ $main(function(){
       symbol : {
 
         onscreen : ["lcm(", ",", ")"],
-        openmath : "<OMS cd='arith1' name='lcm'/>",
+        openmath : "<OMS cd='arith1' name='lcm'/>"
 
       },
 

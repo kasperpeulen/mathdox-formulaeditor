@@ -11,6 +11,24 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Row =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
 
+      initialize : function() {
+
+        var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
+
+        if (arguments.length == 1 && typeof(arguments[0]) == "string") {
+          var string = arguments[0];
+          var array = new Array();
+          for (var i=0; i<string.length; i++) {
+            array.push(new Symbol(string.charAt(i)));
+          }
+          return arguments.callee.parent.initialize.apply(this, array);
+        }
+        else {
+          return arguments.callee.parent.initialize.apply(this, arguments);
+        }
+
+      },
+
       /**
        * Draws the row to the canvas.
        *

@@ -40,7 +40,7 @@ $main(function(){
       },
 
       // The precedence level of the operator.
-      precedence : null,
+      precedence : 0,
 
       /**
        * Initializes the operation using the specified arguments as operands.
@@ -57,12 +57,20 @@ $main(function(){
         with(org.mathdox.formulaeditor.presentation) {
 
           // construct an array of the presentation of operand nodes interleaved
-          // with operator symbols.
+          // with operator symbols
           var array = new Array();
+          if (this.symbol.onscreen instanceof Array) {
+            array.push(new Row(this.symbol.onscreen[0]));
+          }
           for (var i=0; i<this.operands.length; i++) {
             var operand = this.operands[i];
             if (i>0) {
-              array.push(new Symbol(this.symbol.onscreen));
+              if (this.symbol.onscreen instanceof Array) {
+                array.push(new Row(this.symbol.onscreen[1]));
+              }
+              else {
+                array.push(new Row(this.symbol.onscreen));
+              }
             }
             if (operand.precedence && operand.precedence < this.precedence) {
               array.push(new Symbol("("));
@@ -73,8 +81,11 @@ $main(function(){
               array.push(operand.getPresentation());
             }
           }
+          if (this.symbol.onscreen instanceof Array) {
+            array.push(new Row(this.symbol.onscreen[2]));
+          }
 
-          // create and return a new presentation row using the constructed array
+          // create and return new presentation row using the constructed array
           var result = new Row();
           result.initialize.apply(result, array);
           return result;

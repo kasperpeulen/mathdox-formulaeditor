@@ -17,7 +17,7 @@ $main(function(){
 
       },
 
-      precedence : 4,
+      precedence : 5,
 
       getPresentation : function() {
 
@@ -80,20 +80,20 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression4 = power | super.expression4
-        expression4 : function() {
+        // expression5 = power | super.expression5
+        expression5 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("power"),
-            parent.expression4
+            parent.expression5
           ).apply(this, arguments);
         },
 
-        // power = expression5 superscript
+        // power = expression6 superscript
         power :
           transform(
             concatenation(
-              rule("expression5"),
+              rule("expression6"),
               rule("superscript")
             ),
             function(result) {

@@ -29,10 +29,13 @@ $main(function(){
         expression3 : rule("expression4"), // times
 
         // expression4 = expression5
-        expression4 : rule("expression5"), // power
+        expression4 : rule("expression5"), // unary minus
 
-        // expression5 = braces | integer | variable
-        expression5 :
+        // expression5 = expression6
+        expression5 : rule("expression6"), // power
+
+        // expression6 = braces | integer | variable
+        expression6 :
           alternation(
             rule("braces"),
             rule("integer"),

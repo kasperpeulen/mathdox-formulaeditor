@@ -17,7 +17,7 @@ $main(function(){
 
       },
 
-      precedence : 5,
+      precedence : 6,
 
       getPresentation : function() {
 
@@ -75,12 +75,12 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression3 = divide | super.expression3
-        expression3 : function() {
+        // expression6 = divide | super.expression6
+        expression6 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("divide"),
-            parent.expression3
+            parent.expression6
           ).apply(this, arguments);
         },
 

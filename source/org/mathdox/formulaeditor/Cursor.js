@@ -214,6 +214,16 @@ $main(function(){
         var top    = Math.round(Math.min(dim0.top, dim1.top) - margin);
         var bottom = Math.round(Math.max(dim0.top + dim0.height, dim1.top + dim1.height) + margin);
 
+        // ensure that size of the cursor is at least height of the symbol 'f'
+        var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
+        var fHeight = new Symbol("f").draw(canvas, 0, 0, true).height;
+        fHeight = fHeight + 2 * margin;
+        if (bottom - top < fHeight) {
+          var delta = fHeight - (bottom - top);
+          top = top - delta/2;
+          bottom = bottom + delta/2;
+        }
+
         var context = canvas.getContext();
 
         context.save();

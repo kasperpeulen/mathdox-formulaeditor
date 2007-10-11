@@ -12,7 +12,7 @@ $main(function(){
 
       symbol : {
 
-        onscreen : "*", // TODO : replace by ·
+        onscreen : "·",
         openmath : "<OMS cd='arith1' name='times'/>",
         mathml   : "<mo>·</mo>"
 
@@ -68,12 +68,12 @@ $main(function(){
           ).apply(this, arguments);
         },
 
-        // times = expression3 "*" expression4
+        // times = expression3 "·" expression4
         times :
           transform(
             concatenation(
               rule("expression3"),
-              literal("*"),
+              literal("·"),
               rule("expression4")
             ),
             function(result) {
@@ -84,5 +84,41 @@ $main(function(){
       })
 
   }}}
+
+  /**
+   * Add a key handler for the '*' key.
+   */
+  org.mathdox.formulaeditor.presentation.Row =
+    $extend(org.mathdox.formulaeditor.presentation.Row, {
+
+      /**
+       * Override the onkeypress method to handle the '*' key.
+       */
+      onkeypress : function(event, editor) {
+
+        // only handle keypresses where alt and ctrl are not held
+        if (!event.altKey && !event.ctrlKey) {
+
+          // check whether the '*' key has been pressed
+          if (String.fromCharCode(event.charCode) == "*") {
+
+            // substitute the charCode of "·" for "*".
+            var newEvent = {};
+            for (var x in event) {
+              newEvent[x] = event[x];
+            }
+            newEvent.charCode = "·".charCodeAt(0);
+            event = newEvent;
+
+          }
+
+        }
+
+        // call the overridden method
+        return arguments.callee.parent.onkeypress.call(this, event, editor);
+
+      }
+
+    })
 
 })

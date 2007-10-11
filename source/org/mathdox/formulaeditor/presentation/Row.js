@@ -136,7 +136,7 @@ $main(function(){
           var character = String.fromCharCode(event.charCode);
 
           // see whether there is a character for pressed key in current font
-          if (canvas.fonts[fontName][fontSize].symbols[character]) {
+          if (canvas.getSymbolData(character)) {
 
             var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
 

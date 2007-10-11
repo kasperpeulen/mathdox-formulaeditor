@@ -14,7 +14,7 @@ $main(function(){
 
       },
 
-      precedence : 6
+      precedence : 0
 
     })
 

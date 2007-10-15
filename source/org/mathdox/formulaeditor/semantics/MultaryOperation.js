@@ -39,7 +39,9 @@ $main(function(){
 
       },
 
-      // The precedence level of the operator.
+      /**
+       * The precedence level of the operator.
+       */
       precedence : 0,
 
       /**

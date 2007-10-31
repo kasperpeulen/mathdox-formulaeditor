@@ -77,7 +77,7 @@ $main(function(){
             return string.substring(0,1).toUpperCase() + string.substring(1);
         }
 
-        // figure out which handler method to call; for instance, for handling an
+        // figure out which handler method to call; for instance, for handling 
         // an <OMA> with as first argument <OMS cd='arith1' name='plus'/>, the
         // handleArith1Plus method is called
         var handler = "handle";
@@ -105,6 +105,24 @@ $main(function(){
 
       }
 
+
+    },
+
+    /**
+     * Handles an <OMBIND> node by pretending its an <OMA> node.
+     */
+    handleOMBIND: function(node) {
+
+      return this.handleOMA(node);
+
+    },
+
+    /**
+     * Ignores an <OMBVAR> node.
+     */
+    handleOMBVAR: function(node) {
+
+      return this.handle(node.getFirstChild());
 
     },
 

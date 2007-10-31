@@ -105,18 +105,23 @@
 
         &lt;OMOBJ xmlns='http://www.openmath.org/OpenMath'>
           &lt;OMA>
-            &lt;OMS cd='arith1' name='plus'/>
+            &lt;OMS cd='arith1' name='sum'/>
             &lt;OMA>
-              &lt;OMS cd='arith1' name='power'/>
-              &lt;OMV name='x'/>
-              &lt;OMI>2&lt;/OMI>
-            &lt;/OMA>
-            &lt;OMA>
-              &lt;OMS cd='arith1' name='times'/>
+              &lt;OMS cd='interval1' name='integer_interval'/>
+              &lt;OMI>1&lt;/OMI>
               &lt;OMI>3&lt;/OMI>
-              &lt;OMV name='x'/>
             &lt;/OMA>
-            &lt;OMI>2&lt;/OMI>
+            &lt;OMBIND>
+              &lt;OMS cd='fns1' name='lambda'/>
+              &lt;OMBVAR>
+                &lt;OMV name='n'/>
+              &lt;/OMBVAR>
+              &lt;OMA>
+                &lt;OMS cd='arith1' name='power'/>
+                &lt;OMV name='x'/>
+                &lt;OMV name='n'/>
+              &lt;/OMA>
+            &lt;/OMBIND>
           &lt;/OMA>
         &lt;/OMOBJ>
 
@@ -171,8 +176,8 @@
       </p>
 
       <p>
-        <a href='http://mathdox.org/download/formulaeditor-0.3.zip'
-        >formulaeditor-0.3.zip</a>
+        <a href='http://mathdox.org/download/formulaeditor-0.4.zip'
+        >formulaeditor-0.4.zip</a>
       </p>
 
       <p>

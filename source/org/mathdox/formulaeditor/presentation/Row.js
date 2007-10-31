@@ -38,7 +38,7 @@ $main(function(){
 
         if (this.children.length > 0) {
 
-          // use the following variables to maintain track of the bounding rectangle
+          // use following variables to maintain track of the bounding rectangle
           var left   = x
           var top    = y
           var right  = x
@@ -75,7 +75,18 @@ $main(function(){
 
           with(org.mathdox.formulaeditor.presentation) {
             this.dimensions = new Symbol("f").draw(canvas,x,y,true);
+
+            if (!invisible && this.parent) {
+              var context = canvas.getContext();
+              var dim = this.dimensions;
+              context.save();
+              context.fillStyle = "#DDF";
+              context.fillRect(dim.left, dim.top, dim.width, dim.height);
+              context.restore();
+            }
+
             return this.dimensions;
+
           }
 
         }
@@ -226,42 +237,82 @@ $main(function(){
         }
       },
 
-      getFollowingCursorPosition : function(index) {
+      /**
+       * Returns the cursor position following the specified index.
+       * See also Node.getFollowingCursorPosition(index).
+       */
+      getFollowingCursorPosition : function(index, descend) {
+
+        // default value for descend
+        if (descend == null) {
+          descend = true;
+        }
+
+        // when index is not specified, return the first position in this row
         if (index == null) {
           return { row : this, index : 0 };
         }
-        else {
-          if (index < this.children.length) {
-            return this.children[index].getFollowingCursorPosition();
+
+        // ask the child at the specified index for the cursor position
+        if (index < this.children.length) {
+          var result = null;
+          if (descend) {
+            result = this.children[index].getFollowingCursorPosition();
           }
-          else {
-            if (this.parent != null) {
-              return this.parent.getFollowingCursorPosition(this.index + 1);
-            }
-            else {
-              return null;
-            }
+          if (result == null) {
+            // when the child can not provide a cursor position, shift the
+            // cursor one position in this row
+            result = { row : this, index : index + 1 };
           }
+          return result;
         }
+
+        // when we're at the end of the row, ask the parent of the row for the
+        // position following this row
+        if (this.parent != null) {
+          return this.parent.getFollowingCursorPosition(this.index, false);
+        }
+
+        // no suitable cursor position could be found
+        return null;
+
       },
 
-      getPrecedingCursorPosition : function(index) {
+      getPrecedingCursorPosition : function(index, descend) {
+
+        // default value for descend
+        if (descend == null) {
+          descend = true;
+        }
+
+        // when index is not specified, return the last position in this row
         if (index == null) {
           return { row : this, index : this.children.length };
         }
-        else {
-          if (index > 0) {
-            return this.children[index - 1].getPrecedingCursorPosition();
+
+        // ask the child at the specified index for the cursor position
+        if (index > 0) {
+          var result = null;
+          if (descend) {
+            result = this.children[index-1].getPrecedingCursorPosition();
           }
-          else {
-            if (this.parent != null) {
-              return this.parent.getPrecedingCursorPosition(this.index);
-            }
-            else {
-              return null;
-            }
+          if (result == null) {
+            // when the child can not provide a cursor position, shift the
+            // cursor one position in this row
+            result = { row : this, index : index - 1 };
           }
+          return result;
         }
+
+        // when we're at the beginning of the row, ask the parent of the row for
+        // the position preceding this row
+        if (this.parent != null) {
+          return this.parent.getPrecedingCursorPosition(this.index, false);
+        }
+
+        // no suitable cursor position could be found
+        return null;
+
       },
 
       getLowerCursorPosition : function(index, x) {

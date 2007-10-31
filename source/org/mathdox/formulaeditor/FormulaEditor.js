@@ -13,6 +13,7 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/lcm.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
+$require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
 $require("org/mathdox/formulaeditor/modules/relations/equality.js");
@@ -153,7 +154,7 @@ $main(function(){
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
           this.presentation.getSemantics().value.getOpenMath() +
-          "</OMOBJ>"; // TODO: parse until the end
+          "</OMOBJ>";
       }
       catch(exception) {
         textarea.value =
@@ -310,6 +311,23 @@ $main(function(){
     }
 
   });
+
+  /**
+   * Add the static getFocusedEditor() method, that returns the formula editor
+   * that currently has focus. Returns null when none of the editors in the page
+   * have focus.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor = function() {
+
+    for (var i=0; i<editors.length; i++) {
+      if (editors[i].hasFocus) {
+        return editors[i];
+      }
+    }
+    return null;
+
+  }
+
 
   /**
    * When the document has finished loading, replace all textarea elements of

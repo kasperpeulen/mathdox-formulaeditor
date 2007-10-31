@@ -115,16 +115,22 @@ $main(function(){
 
     },
 
+    /**
+     * Returns a keyboard cursor position closest to the specified screen
+     * coordinates.
+     */
     getCursorPosition : function(x, y) {
 
-      var left   = this.dimensions.left;
-      var width  = this.dimensions.width;
-
-      if (x < left + width / 2) {
-        return { row: this.parent, index: this.index };
+      if (this.parent != null) {
+        if (x < this.dimensions.left + this.dimensions.width / 2) {
+          return this.parent.getPrecedingCursorPosition(this.index+1,false);
+        }
+        else {
+          return this.parent.getFollowingCursorPosition(this.index,false);
+        }
       }
       else {
-        return { row: this.parent, index: this.index + 1 };
+        return null;
       }
 
     },
@@ -147,52 +153,60 @@ $main(function(){
       }
     },
 
+    /**
+     * Returns the cursor position following the cursor position at the
+     * specified index. When no cursor position can be provided, null is
+     * returned. By default this method always returns null, override it to do
+     * something useful.
+     */
     getFollowingCursorPosition : function(index) {
-      if (this.parent != null) {
-        return { row : this.parent, index : this.index + 1 };
-      }
-      else {
-        return null;
-      }
+
+      return null;
+
     },
 
     getPrecedingCursorPosition : function(index) {
-      if (this.parent != null) {
-        return { row: this.parent, index: this.index };
-      }
-      else {
-        return null;
-      }
+
+      return null;
+
     },
 
     getLowerCursorPosition : function(index, x) {
 
-      if (this.parent != null) {
-        if (index == null) {
-          return { row: this.parent, index: this.index };
+      with(org.mathdox.formulaeditor.presentation) {
+
+        if (this.parent != null) {
+          if (index == null && this.parent instanceof Row) {
+            return { row: this.parent, index: this.index };
+          }
+          else {
+            return this.parent.getLowerCursorPosition(this.index, x);
+          }
         }
         else {
-          return this.parent.getLowerCursorPosition(this.index, x);
+          return null;
         }
-      }
-      else {
-        return null;
+
       }
 
     },
 
     getHigherCursorPosition : function(index, x) {
 
-      if (this.parent != null) {
-        if (index == null) {
-          return { row: this.parent, index: this.index };
+      with(org.mathdox.formulaeditor.presentation) {
+
+        if (this.parent != null) {
+          if (index == null && this.parent instanceof Row) {
+            return { row: this.parent, index: this.index };
+          }
+          else {
+            return this.parent.getHigherCursorPosition(this.index, x);
+          }
         }
         else {
-          return this.parent.getHigherCursorPosition(this.index, x);
+          return null;
         }
-      }
-      else {
-        return null;
+
       }
 
     }

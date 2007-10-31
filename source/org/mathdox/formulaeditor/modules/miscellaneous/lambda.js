@@ -14,7 +14,7 @@ $main(function(){
 
       symbol : {
 
-        onscreen : ["λ",".",""],
+        onscreen : ["λ",".",""]
 
       },
 

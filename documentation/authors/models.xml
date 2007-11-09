@@ -1,0 +1,39 @@
+<article>
+  <title>Extending the formulaeditor</title>
+  <subtitle>Adding functions like sin using a template (model)</subtitle>
+  <section>
+    <title>Introduction</title>
+    <para>
+      A lot of functions are entered and displayed in a similar way. They
+      consist of a function name (some word) followed by an opening bracket
+      <quote>(</quote>, a single argument, and a closing bracket
+      <quote>)</quote>.
+    </para>
+    <para>
+      If these functions are added with javascript code, then the code would be
+      very similar for all of them. This can lead to errors if people copy code
+      and do not take the time to properly edit it. Furthermore if some changes
+      need to be made, then these changes will have to be made to all the
+      different files.
+    </para>
+    <para>
+      These problems do not appear if a single template or
+      <emphasis>model</emphasis> is used to generate the code for several of
+      these functions by only having to enter a few entries per function. This
+      article describes how this has been made possible and how it can be used
+      and extended.
+    </para>
+  </section>
+  <section>
+    <title>Models</title>
+  </section>
+  <section>
+    <title>Instances</title>
+  </section>
+  <section>
+    <title>Generation of the output</title>
+  </section>
+  <section>
+    <title>Conclusion</title>
+  </section>
+</article>

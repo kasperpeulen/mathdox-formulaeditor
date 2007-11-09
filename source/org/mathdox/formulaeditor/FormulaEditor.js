@@ -16,7 +16,36 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
+
 $require("org/mathdox/formulaeditor/modules/relations/equality.js");
+
+$require("org/mathdox/formulaeditor/modules/transc1/arccos.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arccosh.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arccot.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arccoth.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arccsc.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arccsch.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arcsec.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arcsech.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arcsin.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arcsinh.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arctan.js");
+$require("org/mathdox/formulaeditor/modules/transc1/arctanh.js");
+$require("org/mathdox/formulaeditor/modules/transc1/cos.js");
+$require("org/mathdox/formulaeditor/modules/transc1/cosh.js");
+$require("org/mathdox/formulaeditor/modules/transc1/cot.js");
+$require("org/mathdox/formulaeditor/modules/transc1/coth.js");
+$require("org/mathdox/formulaeditor/modules/transc1/csc.js");
+$require("org/mathdox/formulaeditor/modules/transc1/csch.js");
+$require("org/mathdox/formulaeditor/modules/transc1/exp.js");
+$require("org/mathdox/formulaeditor/modules/transc1/ln.js");
+$require("org/mathdox/formulaeditor/modules/transc1/log.js");
+$require("org/mathdox/formulaeditor/modules/transc1/sec.js");
+$require("org/mathdox/formulaeditor/modules/transc1/sech.js");
+$require("org/mathdox/formulaeditor/modules/transc1/sin.js");
+$require("org/mathdox/formulaeditor/modules/transc1/sinh.js");
+$require("org/mathdox/formulaeditor/modules/transc1/tan.js");
+$require("org/mathdox/formulaeditor/modules/transc1/tanh.js");
 
 $main(function(){
 

@@ -10,6 +10,13 @@
   -->
   <property file='build.properties'/>
 
+  <!-- specify saxon classpath -->
+  <path id='saxon.classpath'>
+    <fileset dir='libraries/saxon'>
+      <include name='*.jar'/>
+    </fileset>
+  </path>
+  
   <!--
     Create a directory that contains all javascript and supporting files.
   -->
@@ -17,6 +24,17 @@
   
     <mkdir dir='build/javascript'/>
     
+    <!-- generate some javascript source -->
+    <xslt basedir='source/generated'
+      includes='auto.xml'
+      style='source/generated/xsl/model.xsl'
+      destdir='build/javascript'
+      force='true'
+      extension='js'
+      processor='trax'
+      classpathref='saxon.classpath'
+    />
+
     <!-- copy javascript source -->
     <copy todir='build/javascript'>
       <fileset dir='source'/>

@@ -4,7 +4,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arccos.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcCos</model:cname>
     <model:name>arccos</model:name>
   </model:instance>
   <!-- transc1.arccosh -->
@@ -12,7 +11,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arccosh.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcCosH</model:cname>
     <model:name>arccosh</model:name>
   </model:instance>
   <!-- transc1.arccot -->
@@ -20,7 +18,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arccot.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcCot</model:cname>
     <model:name>arccot</model:name>
   </model:instance>
   <!-- transc1.arccoth -->
@@ -28,7 +25,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arccoth.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcCotH</model:cname>
     <model:name>arccoth</model:name>
   </model:instance>
   <!-- transc1.arccsc -->
@@ -36,7 +32,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arccsc.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcCsc</model:cname>
     <model:name>arccsc</model:name>
   </model:instance>
   <!-- transc1.arccsch -->
@@ -44,7 +39,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arccsch.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcCscH</model:cname>
     <model:name>arccsch</model:name>
   </model:instance>
   <!-- transc1.arcsec -->
@@ -52,7 +46,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arcsec.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcSec</model:cname>
     <model:name>arcsec</model:name>
   </model:instance>
   <!-- transc1.arcsech -->
@@ -60,7 +53,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arcsech.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcSecH</model:cname>
     <model:name>arcsech</model:name>
   </model:instance>
   <!-- transc1.arcsin -->
@@ -68,7 +60,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arcsin.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcSin</model:cname>
     <model:name>arcsin</model:name>
   </model:instance>
   <!-- transc1.arcsinh -->
@@ -76,7 +67,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arcsinh.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcSinH</model:cname>
     <model:name>arcsinh</model:name>
   </model:instance>
   <!-- transc1.arctan -->
@@ -84,7 +74,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arctan.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcTan</model:cname>
     <model:name>arctan</model:name>
   </model:instance>
   <!-- transc1.arctanh -->
@@ -92,7 +81,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/arctanh.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>ArcTanH</model:cname>
     <model:name>arctanh</model:name>
   </model:instance>
   <!-- transc1.cos -->
@@ -100,7 +88,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/cos.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Cos</model:cname>
     <model:name>cos</model:name>
   </model:instance>
   <!-- transc1.cosh -->
@@ -108,7 +95,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/cosh.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>CosH</model:cname>
     <model:name>cosh</model:name>
   </model:instance>
   <!-- transc1.cot -->
@@ -116,7 +102,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/cot.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Cot</model:cname>
     <model:name>cot</model:name>
   </model:instance>
   <!-- transc1.coth -->
@@ -124,7 +109,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/coth.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>CotH</model:cname>
     <model:name>coth</model:name>
   </model:instance>
   <!-- transc1.csc -->
@@ -132,7 +116,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/csc.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Csc</model:cname>
     <model:name>csc</model:name>
   </model:instance>
   <!-- transc1.csch -->
@@ -140,7 +123,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/csch.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>CscH</model:cname>
     <model:name>csch</model:name>
   </model:instance>
   <!-- transc1.exp -->
@@ -148,7 +130,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/exp.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Exp</model:cname>
     <model:name>exp</model:name>
   </model:instance>
   <!-- transc1.ln -->
@@ -156,7 +137,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/ln.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Ln</model:cname>
     <model:name>ln</model:name>
   </model:instance>
   <!-- transc1.log -->
@@ -164,7 +144,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/log.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Log</model:cname>
     <model:name>log</model:name>
   </model:instance>
   <!-- transc1.sec -->
@@ -172,7 +151,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/sec.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Sec</model:cname>
     <model:name>sec</model:name>
   </model:instance>
   <!-- transc1.sech -->
@@ -180,7 +158,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/sech.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>secH</model:cname>
     <model:name>sech</model:name>
   </model:instance>
   <!-- transc1.sin -->
@@ -188,7 +165,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/sin.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Sin</model:cname>
     <model:name>sin</model:name>
   </model:instance>
   <!-- transc1.sinh -->
@@ -196,7 +172,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/sinh.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>SinH</model:cname>
     <model:name>sinh</model:name>
   </model:instance>
   <!-- transc1.tan -->
@@ -204,7 +179,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/tan.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Tan</model:cname>
     <model:name>tan</model:name>
   </model:instance>
   <!-- transc1.tanh -->
@@ -212,7 +186,6 @@
     target="org/mathdox/formulaeditor/modules/transc1/tanh.js"
   >
     <model:cd>transc1</model:cd>
-    <model:cname>Tanh</model:cname>
     <model:name>tanh</model:name>
   </model:instance>
 </model:list>

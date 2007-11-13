@@ -188,17 +188,36 @@
     </para>
     <!-- how to generate -->
     <para>
-      The generation can be done with an XSLT processor. It is done
-      automatically when building the formulaeditor for the instances in
-      <filename>source/generated/auto.xml</filename>. 
+      The generation can be done with an XSLT processor. The construction of
+      JavaScript files is done automatically when building the formulaeditor
+      with the ant <filename>build.xml</filename> script in the
+      <quote>javascript</quote> target.
+      The list of instances of JavaScript files can be found in
+      <filename>source/generated/auto.xml</filename>. The corresponding models
+      can be found in <filename>source/models/</filename> and are referenced
+      with <code>model="models/..."</code>. The XSLT-stylesheet used is
+      <filename>source/generated/xsl/model.xsl</filename>. 
     </para>
-    <para>
-      First some files are generated, then the other files are copied in 
-    </para>
-    <!-- copying after -->
-    <!-- xslt technique -->
   </section>
   <section>
     <title>Conclusion</title>
+    <!-- already useful -->
+    <para>
+      Constructing a model and using it afterwards can save a lot of time.
+      Furthermore it is easier to verify if the generated files will be
+      correct.
+    </para>
+    <para>
+      At the moment one model is available:
+      <filename>models/sinlike.xml</filename> for functions in one variable
+      like <quote>sin</quote>. All files from the content dictionary 
+      <quote>transc1</quote> can be generated using this model.
+    </para>
+    <para>
+      It might be useful to add more models. Suggestions for models are
+      welcome at <email>info@mathdox.org</email>. Other suggestions and
+      comments about extending the editor or automatically generation of
+      JavaScript code or other documents are also welcome. 
+    </para>
   </section>
 </article>

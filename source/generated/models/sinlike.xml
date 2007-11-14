@@ -2,7 +2,7 @@
 $main(function(){
 
   /**
-   * Define a semantic tree node that represents the greatest common divisor
+   * Define a semantic tree node that represents the <model:name/>
    * function.
    */
   org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/> =

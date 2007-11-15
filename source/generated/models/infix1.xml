@@ -1,0 +1,91 @@
+<model:model xmlns:model="local:model">
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+
+$main(function(){
+
+  /**
+   * Define a semantic tree node that represents <model:cd/>.<model:name/>.
+   */
+  org.mathdox.formulaeditor.semantics.Equals =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        onscreen : "<model:symbol_screen/>",
+        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
+        mathml   : "&lt;mo&gt;<model:symbol_screen/>&lt;/mo&gt;"
+
+      },
+
+      precedence : 1
+
+    })
+  
+  /**
+   * Extend the OpenMathParser object with parsing code for <model:cd/>.<model:name/>.
+   */
+  org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
+    $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
+
+      /**
+       * Returns an equality object based on the OpenMath node.
+       */
+      handle<model:cd capitalize="true"/><model:name capitalize="true"/> : function(node) {
+
+        // parse the children of the OMA
+        var children = node.getChildNodes();
+        var operands = new Array(children.getLength()-1);
+        for (var i=1; i&lt;children.length; i++) {
+          operands[i-1] = this.handle(children.item(i))
+        }
+
+        // construct an equality object
+        var result = new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>();
+        result.initialize.apply(result, operands);
+        return result;
+
+      }
+
+    })
+
+  /**
+   * Extend the ExpressionParser object with parsing code for the equality sign.
+   */
+  with( org.mathdox.formulaeditor.semantics          ) {
+  with( org.mathdox.formulaeditor.parsing.expression ) {
+  with( new org.mathdox.parsing.ParserGenerator()    ) {
+
+    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+
+        // expression1 = <model:name/> | super.expression1
+        expression1 : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:name/>"),
+            parent.expression1
+          ).apply(this, arguments);
+        },
+
+        // equals = expression1 "<model:symbol_enter/>" expression2
+        equals :
+          transform(
+            concatenation(
+              rule("expression1"),
+              literal("<model:symbol_enter/>"),
+              rule("expression2")
+            ),
+            function(result) {
+              return new Equals(result[0], result[2]);
+            }
+          )
+
+      })
+
+  }}}
+
+
+})
+</model:model>

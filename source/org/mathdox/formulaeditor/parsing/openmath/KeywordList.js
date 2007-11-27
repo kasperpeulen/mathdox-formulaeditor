@@ -1,6 +1,6 @@
 $package("org.mathdox.formulaeditor.parsing.openmath");
 
 $main(function(){
-  org.mathdox.formulaeditor.parsing.openmath.SymbolList = $extend(Object, {
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList = $extend(Object, {
   })
 })

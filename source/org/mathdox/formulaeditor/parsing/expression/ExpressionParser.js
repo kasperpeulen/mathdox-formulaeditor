@@ -2,6 +2,7 @@ $package("org.mathdox.formulaeditor.parsing.expression");
 
 $require("org/mathdox/parsing/Parser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
@@ -63,7 +64,16 @@ $main(function(){
               )
             ),
             function(result) {
-              return new Variable(result.join(""));
+	      // TODO: use a variable for result.join 
+	      if (org.mathdox.formulaeditor.parsing.expression.KeywordList[
+		      result.join("")]==null) {
+	        // not in the list of variables that are symbols
+		return new Variable(result.join(""));
+	      } else {
+		// in the list of symbols, return the corresponding object
+		// instead
+		return org.mathdox.formulaeditor.parsing.expression.KeywordList[result.join("")];
+	      }
             }
           ),
 

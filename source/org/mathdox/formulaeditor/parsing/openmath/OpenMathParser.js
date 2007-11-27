@@ -138,6 +138,17 @@ $main(function(){
     },
 
     /**
+     * Handles an <OMS> node that is translated to a symbol without arguments
+     */
+    /**
+    handleOMS: function(node) {
+      with(org.mathdox.formulaeditor.semantics) {
+        return new Symbol(node.getAttribute("cd"), node.getAttribute("name"));
+      }
+    },
+     */
+
+    /**
      * Handles an <OMV> node.
      */
     handleOMV: function(node) {

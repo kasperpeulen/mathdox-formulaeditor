@@ -8,14 +8,14 @@ $main(function(){
   /**
    * Define a semantic tree node that represents <model:cd/>.<model:name/>.
    */
-  org.mathdox.formulaeditor.semantics.Equals =
+  org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/> =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
 
         onscreen : "<model:symbol_screen/>",
         openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
-        mathml   : "&lt;mo&gt;<model:symbol_screen/>&lt;/mo&gt;"
+        mathml   : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;"
 
       },
 

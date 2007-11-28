@@ -1,0 +1,31 @@
+<model:model xmlns:model="local:model">
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
+
+$main(function(){
+
+  /**
+   * Define a semantic tree node that represents the 
+   * <model:cd/>.<model:name/> keyword.
+   */
+  org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/> =
+    $extend(org.mathdox.formulaeditor.semantics.Keyword, {
+      cd : "<model:cd/>",
+      name : "<model:name/>",
+      symbol : {
+
+        onscreen : "<model:onscreen/>",
+	openmath : null, // use default with model:cd and model:name
+	mathml : "<model:mathml/>"
+
+      }
+    })
+
+  org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] =
+    new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>("<model:cd/>", "<model:name/>")
+
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] =
+    new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>("<model:cd/>", "<model:name/>")
+
+})
+</model:model>
+

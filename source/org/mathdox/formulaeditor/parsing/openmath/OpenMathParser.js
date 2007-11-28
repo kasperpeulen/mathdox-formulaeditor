@@ -1,5 +1,6 @@
 $package("org.mathdox.formulaeditor.parsing.openmath");
 
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
@@ -140,13 +141,17 @@ $main(function(){
     /**
      * Handles an <OMS> node that is translated to a symbol without arguments
      */
-    /**
     handleOMS: function(node) {
-      with(org.mathdox.formulaeditor.semantics) {
-        return new Symbol(node.getAttribute("cd"), node.getAttribute("name"));
+      var symbolname= node.getAttribute("cd") + "__" + node.getAttribute("name");
+
+      if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
+	return org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]
+      } else {
+        throw new Error(
+          "OpenMathParser doesn't know how to handle this node: " + node + " when it is not first in an <OMA>."
+        );
       }
     },
-     */
 
     /**
      * Handles an <OMV> node.

@@ -1,10 +1,13 @@
 $package("org.mathdox.formulaeditor");
 
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/Canvas.js");
 $require("org/mathdox/formulaeditor/MathCanvas.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
+
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
@@ -17,7 +20,21 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
 
+$require("org/mathdox/formulaeditor/modules/logic1/false.js");
+$require("org/mathdox/formulaeditor/modules/logic1/true.js");
+
+$require("org/mathdox/formulaeditor/modules/nums1/e.js");
+$require("org/mathdox/formulaeditor/modules/nums1/i.js");
+$require("org/mathdox/formulaeditor/modules/nums1/infinity.js");
+$require("org/mathdox/formulaeditor/modules/nums1/pi.js");
+
+/*
+$require("org/mathdox/formulaeditor/modules/relation1/lt.js");
+*/
+
 $require("org/mathdox/formulaeditor/modules/relations/equality.js");
+
+$require("org/mathdox/formulaeditor/modules/set1/emptyset.js");
 
 $require("org/mathdox/formulaeditor/modules/transc1/arccos.js");
 $require("org/mathdox/formulaeditor/modules/transc1/arccosh.js");
@@ -192,6 +209,7 @@ $main(function(){
             "<OME>" +
               "<OMS cd='moreerrors' name='encodingError'/>" +
               "<OMSTR>invalid expression entered</OMSTR>" +
+	      exception.toString() +
             "</OME>" +
           "</OMOBJ>";
       }

@@ -1,4 +1,92 @@
 <model:list xmlns:model="local:model">
+  <!-- relation1.lt -->
+  <model:instance model="models/infix1.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/lt.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>lt</model:name>
+    <model:symbol_enter>&lt;</model:symbol_enter>
+    <!-- U+2264 less than or equal to -->
+    <!--<model:symbol_screen>&#x2264;</model:symbol_screen>-->
+    <model:symbol_mathml>&amp;lt;</model:symbol_mathml>
+    <model:symbol_screen>&lt;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.false -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/false.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:keyword>false</model:keyword>
+    <model:name>false</model:name>
+    <model:mathml>&lt;mi&gt;false&lt;/mi&gt;</model:mathml>
+    <model:onscreen>false</model:onscreen>
+  </model:instance>
+  <!-- logic1.true -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/true.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:keyword>true</model:keyword>
+    <model:name>true</model:name>
+    <model:mathml>&lt;mi&gt;true&lt;/mi&gt;</model:mathml>
+    <model:onscreen>true</model:onscreen>
+  </model:instance>
+  <!-- nums1.e -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/nums1/e.js"
+  >
+    <model:cd>nums1</model:cd>
+    <model:keyword>e</model:keyword>
+    <model:name>e</model:name>
+    <model:mathml>&lt;mi&gt;e&lt;/mi&gt;</model:mathml>
+    <model:onscreen>e</model:onscreen>
+  </model:instance>
+  <!-- nums1.i -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/nums1/i.js"
+  >
+    <model:cd>nums1</model:cd>
+    <model:keyword>i</model:keyword>
+    <model:name>i</model:name>
+    <model:mathml>&lt;mi&gt;i&lt;/mi&gt;</model:mathml>
+    <model:onscreen>i</model:onscreen>
+  </model:instance>
+  <!-- nums1.infinity -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/nums1/infinity.js"
+  >
+    <model:cd>nums1</model:cd>
+    <model:keyword>infinity</model:keyword>
+    <model:name>infinity</model:name>
+    <!-- U+221E infinity -->
+    <model:mathml>&lt;mi&gt;&#x221E;&lt;/mi&gt;</model:mathml>
+    <!-- U+221E infinity -->
+    <model:onscreen>infinity</model:onscreen>
+  </model:instance>
+  <!-- nums1.pi -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/nums1/pi.js"
+  >
+    <model:cd>nums1</model:cd>
+    <model:keyword>pi</model:keyword>
+    <model:name>pi</model:name>
+    <!-- U+03D6 greek pi symbol -->
+    <model:mathml>&lt;mi&gt;&#x03d6;&lt;/mi&gt;</model:mathml>
+    <!-- U+03D6 greek pi symbol -->
+    <model:onscreen>pi</model:onscreen>
+  </model:instance>
+  <!-- set1.emptyset -->
+  <model:instance model="models/keyword.xml"
+    target="org/mathdox/formulaeditor/modules/set1/emptyset.js"
+  >
+    <model:cd>set1</model:cd>
+    <model:keyword>emptyset</model:keyword>
+    <model:name>emptyset</model:name>
+    <!-- U+221E empty set -->
+    <model:mathml>&lt;mi&gt;&#x2205;&lt;/mi&gt;</model:mathml>
+    <!-- U+221E empty set -->
+    <model:onscreen>emptyset</model:onscreen>
+  </model:instance>
   <!-- transc1.arccos -->
   <model:instance model="models/sinlike.xml" 
     target="org/mathdox/formulaeditor/modules/transc1/arccos.js"

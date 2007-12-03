@@ -13,6 +13,7 @@ $main(function(){
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.parsing.Parser, {
+        // TODO make this list alphabetical
 
         // start = expression
         start : rule("expression"),
@@ -64,16 +65,19 @@ $main(function(){
               )
             ),
             function(result) {
-	      // TODO: use a variable for result.join 
-	      if (org.mathdox.formulaeditor.parsing.expression.KeywordList[
-		      result.join("")]==null) {
-	        // not in the list of variables that are symbols
-		return new Variable(result.join(""));
-	      } else {
-		// in the list of symbols, return the corresponding object
-		// instead
-		return org.mathdox.formulaeditor.parsing.expression.KeywordList[result.join("")];
-	      }
+              // store result.join(""); in a variable since it is used twice
+              var result_joined=result.join("");
+
+              if (org.mathdox.formulaeditor.parsing.expression.KeywordList[
+                      result_joined]==null) {
+                // not in the list of variables that are symbols
+                return new Variable(result_joined);
+              } else {
+                // in the list of symbols, return the corresponding object
+                // instead
+                // TODO: check if we need to update the presentation tree
+                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
+              }
             }
           ),
 
@@ -89,7 +93,7 @@ $main(function(){
               return result[1];
             }
           )
-
+        
       })
 
   }}

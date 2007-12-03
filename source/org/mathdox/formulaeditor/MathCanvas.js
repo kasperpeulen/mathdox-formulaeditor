@@ -176,6 +176,7 @@ $main(function(){
             'Φ' : { x:206, y:12,  width:13, height:14, yadjust:0  },
             'Ψ' : { x:230, y:12,  width:14, height:14, yadjust:0  },
             'Ω' : { x:255, y:11,  width:13, height:15, yadjust:0  },
+            'ø' : { x:303, y:39,  width:13, height:14, yadjust:2  },
             '!' : { x:34,  y:59,  width:3,  height:15, yadjust:0  },
             '"' : { x:57,  y:60,  width:7,  height:6,  yadjust:-8 },
             '#' : { x:83,  y:60,  width:15, height:18, yadjust:4  },
@@ -188,6 +189,8 @@ $main(function(){
             '*' : { x:255, y:59,  width:8,  height:9,  yadjust:-6 },
             '+' : { x:279, y:62,  width:14, height:14, yadjust:2  },
             ',' : { x:304, y:71,  width:3,  height:7,  yadjust:4  },
+	    // fake ' ', like ',', 4 pixes to the right
+            ' ' : { x:308, y:71,  width:3,  height:7,  yadjust:4  },
             '-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3 },
             '.' : { x:353, y:71,  width:3,  height:3,  yadjust:0  },
             '/' : { x:378, y:59,  width:8,  height:20, yadjust:5  },
@@ -273,6 +276,7 @@ $main(function(){
         // When a symbol can not be found in this font, search the fonts below
         fallback : ["cmr"],
 
+	// TODO: add cmsy ⇐,⇒,↔,≤,≥,∧,∨,<,>,⌐
         // point size 144
         144 : {
 
@@ -291,6 +295,7 @@ $main(function(){
 
       }
 
+	    // TODO: add cmmi10:п,π
     }
 
   })

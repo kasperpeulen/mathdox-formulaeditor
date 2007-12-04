@@ -276,7 +276,6 @@ $main(function(){
         // When a symbol can not be found in this font, search the fonts below
         fallback : ["cmr"],
 
-	// TODO: add cmsy ⇐,⇒,↔,≤,≥,∧,∨,<,>,⌐
         // point size 144
         144 : {
 
@@ -286,8 +285,16 @@ $main(function(){
           // the location of each character in the font image
           symbols : {
 
-            '·' : { x:38,  y:21,  width:3, height:2,  yadjust:-4 },
-            '|' : { x:297, y:258, width:2, height:20, yadjust:5  }
+            '·' : { x:38,  y:21,  width:3,  height:2,  yadjust:-4 },
+            '≤' : { x:124, y:55,  width:13, height:16, yadjust:3  },
+            '≥' : { x:153, y:55,  width:13, height:16, yadjust:3  },
+            '⇐' : { x:239, y:98,  width:18, height:12, yadjust:1  }, // <=
+            '⇒' : { x:268, y:98,  width:18, height:12, yadjust:1  }, // =>
+            '↔' : { x:353, y:98,  width:19, height:12, yadjust:1  }, // <=>
+            '¬' : { x:296, y:142, width:12, height:7,  yadjust:-1 },
+            '∧' : { x:411, y:220, width:12, height:13, yadjust:1  },
+            '∨' : { x:440, y:220, width:12, height:13, yadjust:1  },
+            '|' : { x:297, y:258, width:2,  height:20, yadjust:5  }
 
           }
 
@@ -295,7 +302,7 @@ $main(function(){
 
       }
 
-	    // TODO: add cmmi10:п,π
+	    // TODO: add cmmi10:п,π,<,>
     }
 
   })

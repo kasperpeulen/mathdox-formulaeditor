@@ -150,6 +150,30 @@ $main(function(){
      */
     fonts : {
 
+      // Computer Modern Math Italic
+      "cmmi" : {
+
+        // When a symbol can not be found in this font, search the fonts below
+        fallback : ["cmti"],
+
+        // point size 144
+        144 : {
+
+          // the image that contains the font characters
+          image : $baseurl + "org/mathdox/formulaeditor/fonts/cmmi10/144.png",
+
+          // the location of each character in the font image
+          symbols : {
+            'π' : { x:223, y:41,  width:12, height:10, yadjust:-1  },
+            'п' : { x:223, y:41,  width:12, height:10, yadjust:-1  },
+            '<' : { x:296, y:87,  width:13, height:12, yadjust:-1  },
+            '>' : { x:344, y:87,  width:13, height:12, yadjust:-1  }
+          }
+
+        }
+
+      },
+
       // Computer Modern Roman
       "cmr" : {
 
@@ -302,7 +326,6 @@ $main(function(){
 
       }
 
-	    // TODO: add cmmi10:п,π,<,>
     }
 
   })

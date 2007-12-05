@@ -8,7 +8,7 @@ $main(function(){
   /**
    * Define a semantic tree node that represents <model:cd/>.<model:name/>.
    */
-  org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/> =
+  org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/> =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
@@ -41,8 +41,8 @@ $main(function(){
           operands[i-1] = this.handle(children.item(i))
         }
 
-        // construct an equality object
-        var result = new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>();
+        // construct the corresponding object
+	var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
         result.initialize.apply(result, operands);
         return result;
 
@@ -64,13 +64,14 @@ $main(function(){
         expression1 : function() {
           var parent = arguments.callee.parent;
           alternation(
-            rule("<model:name/>"),
+            rule("<model:cd/><model:name/>"),
             parent.expression1
           ).apply(this, arguments);
         },
 
-        // equals = expression1 "<model:symbol_enter/>" expression2
-        equals :
+        // <model:cd/><model:name/> = 
+	//    expression1 "<model:symbol_enter/>" expression2
+        <model:cd/><model:name/> :
           transform(
             concatenation(
               rule("expression1"),
@@ -78,7 +79,7 @@ $main(function(){
               rule("expression2")
             ),
             function(result) {
-              return new Equals(result[0], result[2]);
+              return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
             }
           )
 

@@ -107,7 +107,6 @@ $main(function(){
     },
 
     getSymbolData : function(symbol) {
-
       // retrieve font and symbol data
       var font = this.fonts[this.fontName]
       var symbolData = font[this.fontSize].symbols[symbol]
@@ -154,7 +153,7 @@ $main(function(){
       "cmmi" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmti"],
+        fallback : ["cmr","cmsy"],
 
         // point size 144
         144 : {
@@ -178,7 +177,7 @@ $main(function(){
       "cmr" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmsy"],
+        fallback : ["cmmi","cmsy"],
 
         // point size 144
         144 : {
@@ -200,7 +199,7 @@ $main(function(){
             'Φ' : { x:206, y:12,  width:13, height:14, yadjust:0  },
             'Ψ' : { x:230, y:12,  width:14, height:14, yadjust:0  },
             'Ω' : { x:255, y:11,  width:13, height:15, yadjust:0  },
-            'ø' : { x:303, y:39,  width:13, height:14, yadjust:2  },
+            '∅' : { x:303, y:39,  width:13, height:14, yadjust:2  },
             '!' : { x:34,  y:59,  width:3,  height:15, yadjust:0  },
             '"' : { x:57,  y:60,  width:7,  height:6,  yadjust:-8 },
             '#' : { x:83,  y:60,  width:15, height:18, yadjust:4  },
@@ -298,7 +297,7 @@ $main(function(){
       "cmsy" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmr"],
+        fallback : ["cmmi","cmr"],
 
         // point size 144
         144 : {

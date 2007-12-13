@@ -23,6 +23,12 @@ $main(function(){
   org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] =
     new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>("<model:cd/>", "<model:name/>")
 
+  if ( "<model:keyword/>" != "<model:onscreen/>" ) {
+    org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:onscreen/>"] = 
+      new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>("<model:cd/>", "<model:name/>") 
+  }
+
+
   org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] =
     new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>("<model:cd/>", "<model:name/>")
 

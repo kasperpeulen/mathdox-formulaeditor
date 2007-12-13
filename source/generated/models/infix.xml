@@ -57,8 +57,10 @@ $main(function(){
   with( org.mathdox.formulaeditor.parsing.expression ) {
   with( new org.mathdox.parsing.ParserGenerator()    ) {
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
+      // only one expression, same on screen
+      org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
         // expression1 = <model:name/> | super.expression1
         expression1 : function() {
@@ -84,7 +86,50 @@ $main(function(){
           )
 
       })
+    } else { // allow alternative as displayed on the screen
+      org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
+        // expression1 = <model:name/> | super.expression1
+        expression1 : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:cd/><model:name/>"),
+            rule("<model:cd/><model:name/>alt"),
+            parent.expression1
+          ).apply(this, arguments);
+        },
+
+        // <model:cd/><model:name/> = 
+	//    expression1 "<model:symbol_enter/>" expression2
+        <model:cd/><model:name/> :
+          transform(
+            concatenation(
+              rule("expression1"),
+              literal("<model:symbol_enter/>"),
+              rule("expression2")
+            ),
+            function(result) {
+              return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
+            }
+          ),
+
+        // <model:cd/><model:name/>alt = 
+	//    expression1 "<model:symbol_screen/>" expression2
+        <model:cd/><model:name/>alt :
+          transform(
+            concatenation(
+              rule("expression1"),
+              literal("<model:symbol_screen/>"),
+              rule("expression2")
+            ),
+            function(result) {
+              return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
+            }
+          )
+
+      })
+    }
   }}}
 
 

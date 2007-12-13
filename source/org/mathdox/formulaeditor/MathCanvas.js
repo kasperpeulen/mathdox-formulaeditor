@@ -163,8 +163,8 @@ $main(function(){
 
           // the location of each character in the font image
           symbols : {
+	    // U+03C0 greek small letter pi
             'π' : { x:223, y:41,  width:12, height:10, yadjust:-1  },
-            'п' : { x:223, y:41,  width:12, height:10, yadjust:-1  },
             '<' : { x:296, y:87,  width:13, height:12, yadjust:-1  },
             '>' : { x:344, y:87,  width:13, height:12, yadjust:-1  }
           }
@@ -188,18 +188,42 @@ $main(function(){
           // the location of each character in the font image
           symbols : {
 
+	    // U+0393 greek capital letter gamma
             'Γ' : { x:8,   y:12,  width:12, height:14, yadjust:0  },
+
+	    // U+0393 greek capital letter gamma
             'Δ' : { x:34,  y:11,  width:15, height:15, yadjust:0  },
+
+	    // U+0398 greek capital letter theta
             'Θ' : { x:58,  y:11,  width:14, height:16, yadjust:1  },
+
+	    // U+039B greek capital letter lambda
             'Λ' : { x:82,  y:11,  width:14, height:15, yadjust:0  },
+
+	    // U+039E greek capital letter xi
             'Ξ' : { x:106, y:12,  width:13, height:14, yadjust:0  },
+
+	    // U+03A0 greek capital letter pi
             'Π' : { x:131, y:12,  width:15, height:14, yadjust:0  },
+
+	    // U+03A3 greek capital letter sigma
             'Σ' : { x:156, y:12,  width:13, height:14, yadjust:0  },
+
+	    // U+03A5 greek capital letter upsilon
             'Υ' : { x:181, y:11,  width:14, height:15, yadjust:0  },
+
+	    // U+03a6 greek capital letter phi
             'Φ' : { x:206, y:12,  width:13, height:14, yadjust:0  },
+
+	    // U+03A8 greek capital letter psi
             'Ψ' : { x:230, y:12,  width:14, height:14, yadjust:0  },
+
+	    // U+03A9 greek capital letter omega
             'Ω' : { x:255, y:11,  width:13, height:15, yadjust:0  },
+
+	    // U+2205 empty set
             '∅' : { x:303, y:39,  width:13, height:14, yadjust:2  },
+
             '!' : { x:34,  y:59,  width:3,  height:15, yadjust:0  },
             '"' : { x:57,  y:60,  width:7,  height:6,  yadjust:-8 },
             '#' : { x:83,  y:60,  width:15, height:18, yadjust:4  },
@@ -212,8 +236,10 @@ $main(function(){
             '*' : { x:255, y:59,  width:8,  height:9,  yadjust:-6 },
             '+' : { x:279, y:62,  width:14, height:14, yadjust:2  },
             ',' : { x:304, y:71,  width:3,  height:7,  yadjust:4  },
+
 	    // fake ' ', like ',', 4 pixes to the right
             ' ' : { x:308, y:71,  width:3,  height:7,  yadjust:4  },
+
             '-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3 },
             '.' : { x:353, y:71,  width:3,  height:3,  yadjust:0  },
             '/' : { x:378, y:59,  width:8,  height:20, yadjust:5  },
@@ -308,15 +334,39 @@ $main(function(){
           // the location of each character in the font image
           symbols : {
 
+	    // U+00B7 middle dot
             '·' : { x:38,  y:21,  width:3,  height:2,  yadjust:-4 },
+
+	    // U+2264 less than or equal to
             '≤' : { x:124, y:55,  width:13, height:16, yadjust:3  },
+
+	    // U+2265 greater than or equal to
             '≥' : { x:153, y:55,  width:13, height:16, yadjust:3  },
-            '⇐' : { x:239, y:98,  width:18, height:12, yadjust:1  }, // <=
-            '⇒' : { x:268, y:98,  width:18, height:12, yadjust:1  }, // =>
-            '↔' : { x:353, y:98,  width:19, height:12, yadjust:1  }, // <=>
+
+	    // U+2248 almost equal to
+            '≈' : { x:268, y:58,  width:14, height:9,  yadjust:-1 },
+
+	    // U+21D0 leftwards double arrow
+            '⇐' : { x:239, y:98,  width:18, height:12, yadjust:1  }, 
+
+	    // U+21D2 rightwards double arrow
+            '⇒' : { x:268, y:98,  width:18, height:12, yadjust:1  },
+
+	    // U+21D4 left right double arrow
+            '⇔' : { x:353, y:98,  width:19, height:12, yadjust:1  },
+
+	    // U+221E infinity
+            '∞' : { x:38,  y:141, width:18, height:10, yadjust:1 },
+
+	    // U+00AC not sign
             '¬' : { x:296, y:142, width:12, height:7,  yadjust:-1 },
+
+	    // U+2227 logical and
             '∧' : { x:411, y:220, width:12, height:13, yadjust:1  },
+
+	    // U+2228 logical or
             '∨' : { x:440, y:220, width:12, height:13, yadjust:1  },
+
             '|' : { x:297, y:258, width:2,  height:20, yadjust:5  }
 
           }

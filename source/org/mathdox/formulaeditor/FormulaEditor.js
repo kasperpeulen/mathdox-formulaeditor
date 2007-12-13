@@ -20,7 +20,11 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
 
+$require("org/mathdox/formulaeditor/modules/logic1/and.js");
+$require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
 $require("org/mathdox/formulaeditor/modules/logic1/false.js");
+$require("org/mathdox/formulaeditor/modules/logic1/implies.js");
+$require("org/mathdox/formulaeditor/modules/logic1/or.js");
 $require("org/mathdox/formulaeditor/modules/logic1/true.js");
 
 $require("org/mathdox/formulaeditor/modules/nums1/e.js");
@@ -28,11 +32,15 @@ $require("org/mathdox/formulaeditor/modules/nums1/i.js");
 $require("org/mathdox/formulaeditor/modules/nums1/infinity.js");
 $require("org/mathdox/formulaeditor/modules/nums1/pi.js");
 
-/*
+$require("org/mathdox/formulaeditor/modules/relation1/approx.js");
+$require("org/mathdox/formulaeditor/modules/relation1/eq.js");
+$require("org/mathdox/formulaeditor/modules/relation1/geq.js");
+$require("org/mathdox/formulaeditor/modules/relation1/gt.js");
+$require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
-*/
+/*$require("org/mathdox/formulaeditor/modules/relation1/neq.js");*/
 
-$require("org/mathdox/formulaeditor/modules/relations/equality.js");
+/*$require("org/mathdox/formulaeditor/modules/relations/equality.js");*/
 
 $require("org/mathdox/formulaeditor/modules/set1/emptyset.js");
 

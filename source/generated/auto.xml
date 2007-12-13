@@ -1,15 +1,129 @@
 <model:list xmlns:model="local:model">
+  <!-- logic1.and -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/and.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>and</model:name>
+    <model:symbol_enter> and </model:symbol_enter>
+    <!-- U+2227 logical and -->
+    <model:symbol_mathml>&#x2227;</model:symbol_mathml>
+    <!-- U+2227 logical and -->
+    <model:symbol_screen>&#x2227;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.equivalent -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/equivalent.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>equivalent</model:name>
+    <model:symbol_enter>&lt;=&gt;</model:symbol_enter>
+    <!-- U+21D4 left right double arrow -->
+    <model:symbol_mathml>&#x21D4;</model:symbol_mathml>
+    <!-- U+21D4 logical and -->
+    <model:symbol_screen>&#x21D4;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.implies -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/implies.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>implies</model:name>
+    <model:symbol_enter>=&gt;</model:symbol_enter>
+    <!-- U+21D2 rightwards double arrow -->
+    <model:symbol_mathml>&#x21D2;</model:symbol_mathml>
+    <!-- U+21D2 rightwards double arrow -->
+    <model:symbol_screen>&#x21D2;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.or -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/or.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>or</model:name>
+    <model:symbol_enter> or </model:symbol_enter>
+    <!-- U+2228 logical or -->
+    <model:symbol_mathml>&#x2228;</model:symbol_mathml>
+    <!-- U+2228 logical or -->
+    <model:symbol_screen>&#x2228;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.approx -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/approx.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>approx</model:name>
+    <model:symbol_enter>~~</model:symbol_enter>
+    <!-- U+2248 almost equal to -->
+    <model:symbol_mathml>&#x2248;</model:symbol_mathml>
+    <!-- U+2248 almost equal to -->
+    <model:symbol_screen>&#x2248;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.eq -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/eq.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>eq</model:name>
+    <model:symbol_enter>=</model:symbol_enter>
+    <model:symbol_mathml>=</model:symbol_mathml>
+    <model:symbol_screen>=</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.geq -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/geq.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>geq</model:name>
+    <model:symbol_enter>&gt;=</model:symbol_enter>
+    <!-- U+2265 greater than or equal to -->
+    <model:symbol_mathml>&#x2265;</model:symbol_mathml>
+    <!-- U+2265 greater than or equal to -->
+    <model:symbol_screen>&#x2265;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.gt -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/gt.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>gt</model:name>
+    <model:symbol_enter>&gt;</model:symbol_enter>
+    <model:symbol_mathml>&amp;gt;</model:symbol_mathml>
+    <model:symbol_screen>&gt;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.leq -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/leq.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>leq</model:name>
+    <model:symbol_enter>&lt;=</model:symbol_enter>
+    <!-- U+2264 less than or equal to -->
+    <model:symbol_mathml>&#x2264;</model:symbol_mathml>
+    <!-- U+2264 less than or equal to -->
+    <model:symbol_screen>&#x2264;</model:symbol_screen>
+  </model:instance>
   <!-- relation1.lt -->
-  <model:instance model="models/infix1.xml"
+  <model:instance model="models/infix.xml"
     target="org/mathdox/formulaeditor/modules/relation1/lt.js"
   >
     <model:cd>relation1</model:cd>
     <model:name>lt</model:name>
     <model:symbol_enter>&lt;</model:symbol_enter>
-    <!-- U+2264 less than or equal to -->
-    <!--<model:symbol_screen>&#x2264;</model:symbol_screen>-->
     <model:symbol_mathml>&amp;lt;</model:symbol_mathml>
     <model:symbol_screen>&lt;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.neq -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/neq.js"
+  >
+    <model:cd>relation1</model:cd>
+    <model:name>neq</model:name>
+    <model:symbol_enter>!=</model:symbol_enter>
+    <!-- U+2260 not equal to -->
+    <model:symbol_mathml>&#x2260;</model:symbol_mathml>
+    <!-- U+2260 not equal to -->
+    <model:symbol_screen>&#x2260;</model:symbol_screen>
   </model:instance>
   <!-- logic1.false -->
   <model:instance model="models/keyword.xml"
@@ -61,7 +175,7 @@
     <!-- U+221E infinity -->
     <model:mathml>&lt;mi&gt;&#x221E;&lt;/mi&gt;</model:mathml>
     <!-- U+221E infinity -->
-    <model:onscreen>infinity</model:onscreen>
+    <model:onscreen>&#x221E;</model:onscreen>
   </model:instance>
   <!-- nums1.pi -->
   <model:instance model="models/keyword.xml"
@@ -70,10 +184,10 @@
     <model:cd>nums1</model:cd>
     <model:keyword>pi</model:keyword>
     <model:name>pi</model:name>
-    <!-- U+03D6 greek pi symbol -->
-    <model:mathml>&lt;mi&gt;&#x03d6;&lt;/mi&gt;</model:mathml>
-    <!-- U+03D6 greek pi symbol -->
-    <model:onscreen>pi</model:onscreen>
+    <!-- U+03C0 greek small letter pi -->
+    <model:mathml>&lt;mi&gt;&#x03c0;&lt;/mi&gt;</model:mathml>
+    <!-- U+03C0 greek small letter pi -->
+    <model:onscreen>&#x03c0;</model:onscreen>
   </model:instance>
   <!-- set1.emptyset -->
   <model:instance model="models/keyword.xml"
@@ -82,10 +196,10 @@
     <model:cd>set1</model:cd>
     <model:keyword>emptyset</model:keyword>
     <model:name>emptyset</model:name>
-    <!-- U+221E empty set -->
+    <!-- U+2205 empty set -->
     <model:mathml>&lt;mi&gt;&#x2205;&lt;/mi&gt;</model:mathml>
-    <!-- U+221E empty set -->
-    <model:onscreen>emptyset</model:onscreen>
+    <!-- U+2205 empty set -->
+    <model:onscreen>&#x2205;</model:onscreen>
   </model:instance>
   <!-- transc1.arccos -->
   <model:instance model="models/sinlike.xml" 

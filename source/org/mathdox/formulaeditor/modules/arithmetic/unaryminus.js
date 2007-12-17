@@ -18,7 +18,7 @@ $main(function(){
 
       },
 
-      precedence : 4
+      precedence : 140
 
     })
 
@@ -50,21 +50,21 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression4 = unaryminus | super.expression4
-        expression4 : function() {
+        // expression140 = unaryminus | super.expression140
+        expression140 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("unaryminus"),
-            parent.expression4
+            parent.expression140
           ).apply(this, arguments);
         },
 
-        // unaryminus = "-" expression5
+        // unaryminus = "-" expression150
         unaryminus :
           transform(
             concatenation(
               literal("-"),
-              rule("expression5")
+              rule("expression150")
             ),
             function(result) {
               return new UnaryMinus(result[1]);

@@ -18,7 +18,7 @@ $main(function(){
 
       },
 
-      precedence : 3
+      precedence : 130
 
     })
 
@@ -59,22 +59,22 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression3 = times | super.expression3
-        expression3 : function() {
+        // expression130 = times | super.expression130
+        expression130 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("times"),
-            parent.expression3
+            parent.expression130
           ).apply(this, arguments);
         },
 
-        // times = expression3 "·" expression4
+        // times = expression130 "·" expression140
         times :
           transform(
             concatenation(
-              rule("expression3"),
+              rule("expression130"),
               literal("·"),
-              rule("expression4")
+              rule("expression140")
             ),
             function(result) {
               return new Times(result[0], result[2]);

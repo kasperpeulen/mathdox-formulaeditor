@@ -18,26 +18,38 @@ $main(function(){
         // start = expression
         start : rule("expression"),
 
-        // expression = expression1
-        expression  : rule("expression1"), 
+        // expression = expression70
+        expression  : rule("expression70"), 
 
-        // expression1 = expression2
-        expression1 : rule("expression2"), // equals, lessthan, morethan, ...
+        // expression70 = expression80
+        expression70 : rule("expression80"), // equivalence, ...
 
-        // expression2 = expression3
-        expression2 : rule("expression3"), // plus, minus
+        // expression80 = expression90
+        expression80 : rule("expression90"), // implies, ...
 
-        // expression3 = expression4
-        expression3 : rule("expression4"), // times
+        // expression90 = expression100
+        expression90 : rule("expression100"), // or, ...
 
-        // expression4 = expression5
-        expression4 : rule("expression5"), // unary minus
+        // expression100 = expression110
+        expression100 : rule("expression110"), // and, ...
 
-        // expression5 = expression6
-        expression5 : rule("expression6"), // power
+        // expression110 = expression120
+        expression110 : rule("expression120"), // equals, lessthan, morethan, ...
 
-        // expression6 = braces | integer | variable
-        expression6 :
+        // expression120 = expression130
+        expression120 : rule("expression130"), // plus, minus
+
+        // expression130 = expression140
+        expression130 : rule("expression140"), // times
+
+        // expression140 = expression150
+        expression140 : rule("expression150"), // unary minus
+
+        // expression150 = expression160
+        expression150 : rule("expression160"), // power
+
+        // expression160 = braces | integer | variable
+        expression160 :
           alternation(
             rule("braces"),
             rule("integer"),

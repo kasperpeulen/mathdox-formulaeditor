@@ -8,11 +8,11 @@ $require("org/mathdox/formulaeditor/MathCanvas.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
 
+$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
+$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/gcd.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/lcm.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");

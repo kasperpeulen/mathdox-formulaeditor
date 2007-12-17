@@ -17,7 +17,7 @@ $main(function(){
 
       },
 
-      precedence : 5,
+      precedence : 150,
 
       getPresentation : function() {
 
@@ -80,20 +80,20 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression5 = power | super.expression5
-        expression5 : function() {
+        // expression150 = power | super.expression150
+        expression150 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("power"),
-            parent.expression5
+            parent.expression150
           ).apply(this, arguments);
         },
 
-        // power = expression6 superscript
+        // power = expression160 superscript
         power :
           transform(
             concatenation(
-              rule("expression6"),
+              rule("expression160"),
               rule("superscript")
             ),
             function(result) {
@@ -131,9 +131,9 @@ $main(function(){
             var index  = editor.cursor.position.index;
             var length = this.children.length;
 
-            // search for an expression of precedence level 3 to the right of
+            // search for an expression of precedence level 130 to the right of
             // the cursor
-            var parsed = this.getSemantics(index, length, "expression3");
+            var parsed = this.getSemantics(index, length, "expression130");
 
             // create the operand of the superscript operation
             var operand = this.remove(index, parsed.index);

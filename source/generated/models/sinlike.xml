@@ -57,12 +57,12 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression6 = <model:name/> | super.expression6
-        expression6 : function() {
+        // expression160 = <model:name/> | super.expression160
+        expression160 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("<model:name/>"),
-            parent.expression6
+            parent.expression160
           ).apply(this, arguments);
         },
 

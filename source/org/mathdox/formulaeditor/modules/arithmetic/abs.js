@@ -50,12 +50,12 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression6 = abs | super.expression6
-        expression6 : function() {
+        // expression160 = abs | super.expression160
+        expression160 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("abs"),
-            parent.expression6
+            parent.expression160
           ).apply(this, arguments);
         },
 

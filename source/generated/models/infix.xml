@@ -19,7 +19,7 @@ $main(function(){
 
       },
 
-      precedence : 1
+      precedence : <model:precedence/>
 
     })
   
@@ -62,23 +62,23 @@ $main(function(){
       org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
 	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression1 = <model:name/> | super.expression1
-        expression1 : function() {
+        // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
+        expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("<model:cd/><model:name/>"),
-            parent.expression1
+            parent.expression<model:precedence/>
           ).apply(this, arguments);
         },
 
         // <model:cd/><model:name/> = 
-	//    expression1 "<model:symbol_enter/>" expression2
+	//    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
         <model:cd/><model:name/> :
           transform(
             concatenation(
-              rule("expression1"),
+              rule("expression<model:precedence/>"),
               literal("<model:symbol_enter/>"),
-              rule("expression2")
+              rule("expression<model:precedence2/>")
             ),
             function(result) {
               return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
@@ -90,24 +90,25 @@ $main(function(){
       org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
 	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression1 = <model:name/> | super.expression1
-        expression1 : function() {
+	// expression<model:precedence/> = <model:cd/><model:name/> | 
+	//   <model:cd/><model:name/>alt | super.expression<model:precedence/>
+        expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("<model:cd/><model:name/>"),
             rule("<model:cd/><model:name/>alt"),
-            parent.expression1
+            parent.expression<model:precedence/>
           ).apply(this, arguments);
         },
 
         // <model:cd/><model:name/> = 
-	//    expression1 "<model:symbol_enter/>" expression2
+	//    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
         <model:cd/><model:name/> :
           transform(
             concatenation(
-              rule("expression1"),
+              rule("expression<model:precedence/>"),
               literal("<model:symbol_enter/>"),
-              rule("expression2")
+              rule("expression<model:precedence2/>")
             ),
             function(result) {
               return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
@@ -115,13 +116,13 @@ $main(function(){
           ),
 
         // <model:cd/><model:name/>alt = 
-	//    expression1 "<model:symbol_screen/>" expression2
+	//    expression<model:precedence/> "<model:symbol_screen/>" expression<model:precedence2/>
         <model:cd/><model:name/>alt :
           transform(
             concatenation(
-              rule("expression1"),
+              rule("expression<model:precedence/>"),
               literal("<model:symbol_screen/>"),
-              rule("expression2")
+              rule("expression<model:precedence2/>")
             ),
             function(result) {
               return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);

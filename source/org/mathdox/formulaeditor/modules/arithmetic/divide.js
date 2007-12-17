@@ -17,7 +17,7 @@ $main(function(){
 
       },
 
-      precedence : 6,
+      precedence : 160,
 
       getPresentation : function() {
 
@@ -75,12 +75,12 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression6 = divide | super.expression6
-        expression6 : function() {
+        // expression160 = divide | super.expression160
+        expression160 : function() {
           var parent = arguments.callee.parent;
           alternation(
             rule("divide"),
-            parent.expression6
+            parent.expression160
           ).apply(this, arguments);
         },
 
@@ -112,10 +112,10 @@ $main(function(){
             var index    = editor.cursor.position.index;
             var length   = this.children.length;
 
-            // search for an expression of precedence level 3 to the left of the
-            // cursor, and of level 5 to the right of the cursor
-            var parsedleft  = this.getSemantics(0, index, "expression3", true);
-            var parsedright = this.getSemantics(index, length, "expression5");
+            // search for an expression of precedence level 130 to the left of the
+            // cursor, and of level 150 to the right of the cursor
+            var parsedleft  = this.getSemantics(0, index, "expression130", true);
+            var parsedright = this.getSemantics(index, length, "expression150");
 
             // create the left and right operands of the fraction
             var right = this.remove(index, parsedright.index);

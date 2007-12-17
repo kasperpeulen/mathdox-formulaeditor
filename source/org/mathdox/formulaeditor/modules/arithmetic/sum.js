@@ -4,7 +4,7 @@ $require("org/mathdox/formulaeditor/presentation/Column.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
-$require("org/mathdox/formulaeditor/modules/relations/equality.js");
+$require("org/mathdox/formulaeditor/modules/relation1/eq.js");
 $require("org/mathdox/formulaeditor/modules/miscellaneous/interval.js");
 $require("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
 
@@ -124,14 +124,14 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression2 = sum expression3 | super.expression2
-        expression2 : function() {
+        // expression120 = sum expression130 | super.expression120
+        expression120 : function() {
           var parent = arguments.callee.parent;
           alternation(
             transform(
               concatenation(
                 rule("sum"),
-                rule("expression3")
+                rule("expression130")
               ),
               function(result) {
 
@@ -142,7 +142,7 @@ $main(function(){
 
               }
             ),
-            parent.expression2
+            parent.expression120
           ).apply(this, arguments);
         },
 

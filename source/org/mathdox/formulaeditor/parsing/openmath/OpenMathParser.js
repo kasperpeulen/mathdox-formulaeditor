@@ -1,6 +1,7 @@
 $package("org.mathdox.formulaeditor.parsing.openmath");
 
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
+$require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
@@ -69,6 +70,7 @@ $main(function(){
      * Handle an <OMA> node.
      */
     handleOMA: function(node) {
+      var symbol;
 
       // handle <OMA>'s with as first argument an <OMS/>
       if ("OMS" == node.getFirstChild().getLocalName()) {
@@ -81,32 +83,48 @@ $main(function(){
         // figure out which handler method to call; for instance, for handling 
         // an <OMA> with as first argument <OMS cd='arith1' name='plus'/>, the
         // handleArith1Plus method is called
+        var symbolname= node.getFirstChild().getAttribute("cd") + "__" + node.getFirstChild().getAttribute("name");
+
         var handler = "handle";
+
         handler += uppercase(node.getFirstChild().getAttribute("cd"));
         handler += uppercase(node.getFirstChild().getAttribute("name"));
 
         // call the handler method
         if (handler in this) {
           return this[handler](node);
-        }
-        else {
-          throw new Error(
-            "OpenMathParser doesn't know how to handle this node: " + node
-          );
+        } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
+	  /* return a FunctionApplication at the end */
+          symbol = handleOMS(node.getFirstChild());
+        } else {
+            throw new Error(
+              "OpenMathParser doesn't know how to handle this node: " + node
+            );
         }
 
-      }
-      else {
-
-        // TODO: handle <OMA>'s that do not have an <OMS/> as first argument
-        throw new Error(
+      } else if ("OMV" == node.getFirstChild().getLocalName()) {
+	/* return a FunctionApplication at the end */
+        symbol = this.handleOMV(node.getFirstChild());
+      } else {
+	throw new Error(
           "OpenMathParser doesn't know how to handle an <OMA> that does " +
-          "not have an <OMS/> as first argument"
+          "not have an <OMS/> or <OMV/> as first argument"
         );
 
       }
 
+      if (symbol) {
+        var children = node.getChildNodes();
+        var operands = new Array(children.getLength()-1);
 
+        for (var i=1; i<children.length; i++) {
+          operands[i-1] = this.handle(children.item(i))
+        }
+        
+        with(org.mathdox.formulaeditor.semantics) {
+          return new FunctionApplication(symbol, operands);
+	}
+      }
     },
 
     /**
@@ -145,7 +163,7 @@ $main(function(){
       var symbolname= node.getAttribute("cd") + "__" + node.getAttribute("name");
 
       if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
-	return org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]
+        return org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]
       } else {
         throw new Error(
           "OpenMathParser doesn't know how to handle this node: " + node + " when it is not first in an <OMA>."

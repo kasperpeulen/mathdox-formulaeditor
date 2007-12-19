@@ -104,13 +104,15 @@
             );
             assert(result.name == "foo");
 
+	    /*
             // test backward parsing
             result = parser.parse(string, string.length, true).value
             assert(
               "result of parsing a variable is not a Variable object",
               result instanceof Variable
             );
-            assert(result.name == "bar");
+	    assert(result.name == "bar");
+	    */
 
           }
         }

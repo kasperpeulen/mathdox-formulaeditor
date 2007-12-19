@@ -26,6 +26,39 @@
         assertNotUndefined(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser)
       }
 
+      var testOMA = function() {
+        with(org.mathdox.formulaeditor.parsing.openmath) {
+          var parser = new OpenMathParser();
+          with(org.mathdox.formulaeditor.semantics) {
+            var parsed = parser.parse("<OMA><OMV name='f'/><OMV name='x'/></OMA>");
+            assert(
+              "parsing OMA/OMV doesn't return a FunctionApplication",
+              parsed instanceof FunctionApplication
+            );
+            assert(
+              "parsing OMA/OMV doesn't return a FunctionApplication/Variable",
+              parsed.symbol instanceof Variable
+            );
+            assert(
+              "OMA/OMV function name is wrong (should be 'f')",
+              parsed.symbol.name == "f"
+            );
+            assert(
+              "OMA/OMV function operands are not in an Array",
+	      parsed.operands instanceof Array 
+            );
+            assert(
+              "OMA/OMV function first operand is not a variable",
+	      parsed.operands[0] instanceof Variable
+            );
+            assert(
+              "OMA/OMV function first operand name is not x)",
+	      parsed.operands[0].name == "x"
+	    );
+          }
+        }
+      }
+
       var testOMI = function() {
         with(org.mathdox.formulaeditor.parsing.openmath) {
           var parser = new OpenMathParser();
@@ -85,6 +118,7 @@
       var exposeTestFunctionNames = function() {
         return [
           "testOpenMathParserPresence",
+          "testOMA",
           "testOMI",
           "testOMV",
           "testOMOBJ"

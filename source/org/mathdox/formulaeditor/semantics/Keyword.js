@@ -42,9 +42,20 @@ $main(function(){
       /**
        * Initializes the keyword using the specified arguments as operands.
        */
-      initialize : function(cd,name) {
-        this.cd = cd
-        this.name = name
+      initialize : function(cd,name,symbol) {
+        this.cd = cd;
+        this.name = name;
+	if (symbol) {
+	  if (symbol.onscreen) {
+	    this.symbol.onscreen = symbol.onscreen;
+	  }
+	  if (symbol.openmath) {
+	    this.symbol.openmath = symbol.openmath;
+	  }
+	  if (symbol.mathml) {
+	    this.symbol.mathml = symbol.mathml;
+	  }
+	}
       },
 
       /**

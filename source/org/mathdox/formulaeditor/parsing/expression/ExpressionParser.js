@@ -2,7 +2,9 @@ $package("org.mathdox.formulaeditor.parsing.expression");
 
 $require("org/mathdox/parsing/Parser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
+$require("org/mathdox/formulaeditor/parsing/expression/FunctionList.js");
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
@@ -52,6 +54,7 @@ $main(function(){
         expression160 :
           alternation(
             rule("braces"),
+	    rule("func"),
             rule("integer"),
             rule("variable")
           ),
@@ -104,7 +107,36 @@ $main(function(){
             function(result) {
               return result[1];
             }
-          )
+          ),
+
+	// function = variable '(' expr ( ',' expr ) * ')'
+	func :
+	  transform(
+	    concatenation(
+	      rule("variable"),
+	      literal('('),
+	      rule("expression"),
+	      repetition(
+		concatenation(
+		  literal(","),
+		  rule("expression")
+		)
+	      ),
+	      literal(')')
+	    ),
+	    function(result) {
+	      var array = new Array();
+
+	      for (var i=2; i+1<result.length; i=i+2) {
+	        array.push(result[i]);
+	      }
+
+	      var oper = new 
+	        org.mathdox.formulaeditor.semantics.FunctionApplication(result[0], array);
+
+	      return oper;
+	    }
+	  )
         
       })
 

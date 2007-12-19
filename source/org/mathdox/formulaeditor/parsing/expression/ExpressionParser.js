@@ -2,7 +2,6 @@ $package("org.mathdox.formulaeditor.parsing.expression");
 
 $require("org/mathdox/parsing/Parser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
-$require("org/mathdox/formulaeditor/parsing/expression/FunctionList.js");
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");

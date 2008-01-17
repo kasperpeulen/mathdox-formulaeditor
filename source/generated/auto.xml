@@ -56,7 +56,7 @@
     <model:symbol_screen>&#x2228;</model:symbol_screen>
   </model:instance>
   <!-- relation1.approx -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/approx.js"
   >
     <model:cd>relation1</model:cd>
@@ -70,7 +70,7 @@
     <model:symbol_screen>&#x2248;</model:symbol_screen>
   </model:instance>
   <!-- relation1.eq -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/eq.js"
   >
     <model:cd>relation1</model:cd>
@@ -82,7 +82,7 @@
     <model:symbol_screen>=</model:symbol_screen>
   </model:instance>
   <!-- relation1.geq -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/geq.js"
   >
     <model:cd>relation1</model:cd>
@@ -96,7 +96,7 @@
     <model:symbol_screen>&#x2265;</model:symbol_screen>
   </model:instance>
   <!-- relation1.gt -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/gt.js"
   >
     <model:cd>relation1</model:cd>
@@ -108,7 +108,7 @@
     <model:symbol_screen>&gt;</model:symbol_screen>
   </model:instance>
   <!-- relation1.leq -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/leq.js"
   >
     <model:cd>relation1</model:cd>
@@ -122,7 +122,7 @@
     <model:symbol_screen>&#x2264;</model:symbol_screen>
   </model:instance>
   <!-- relation1.lt -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/lt.js"
   >
     <model:cd>relation1</model:cd>
@@ -134,7 +134,7 @@
     <model:symbol_screen>&lt;</model:symbol_screen>
   </model:instance>
   <!-- relation1.neq -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/neq.js"
   >
     <model:cd>relation1</model:cd>

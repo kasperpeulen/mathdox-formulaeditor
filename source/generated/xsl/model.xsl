@@ -1,6 +1,7 @@
 <xsl:stylesheet 
   xmlns:mdf="http://www.mathdox.org/MathDox/Functions"
   xmlns:model='local:model' 
+  xmlns:xs='http://www.w3.org/2001/XMLSchema'
   xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
   version='2.0'
 >
@@ -21,12 +22,6 @@
   <xsl:template match='*' mode='copy' priority="2">
     <xsl:param name='capitalize'/>
 
-    <!--<xsl:message>
-      <xsl:text>local-name:</xsl:text>
-      <xsl:value-of select='local-name()'/>
-      <xsl:text>capitalize:</xsl:text>
-      <xsl:value-of select='$capitalize'/>
-    </xsl:message>-->
     <xsl:apply-templates select='node()[1]' mode='#current'>
       <xsl:with-param name='capitalize' select='$capitalize'/>
     </xsl:apply-templates>
@@ -52,15 +47,57 @@
     process the list
   -->
   <xsl:template match='model:list'>
-    <xsl:apply-templates/>
+    <xsl:apply-templates>
+      <xsl:with-param name='groupmember' as='node()' tunnel='yes'>
+        <empty/>
+      </xsl:with-param>
+    </xsl:apply-templates>
   </xsl:template>
 
-  <xsl:template match='model:instance'>
+  <xsl:template match='model:group'>
     <xsl:result-document href='{@target}'>
-      <xsl:apply-templates select='document(@model)' mode='model'>
-        <xsl:with-param name='instance' select='.' tunnel='yes' as='node()'/>
+      <xsl:apply-templates select='document(@model)' mode='group'>
+        <xsl:with-param name='group' select='.' tunnel='yes' as='node()'/>
       </xsl:apply-templates>
     </xsl:result-document>
+  </xsl:template>
+
+  <!--
+    check if the instance should be written to another file (default)
+    or not (default inside a model:group)
+  -->
+  <xsl:template match='model:instance'>
+    <xsl:param name='groupmember' tunnel='yes' as='node()'/>
+
+    <xsl:result-document href='{@target}'>
+      <xsl:apply-templates select='document(@model)' mode='model'>
+	<xsl:with-param name='instance' select='.' tunnel='yes' as='node()'/>
+      </xsl:apply-templates>
+    </xsl:result-document>
+  </xsl:template>
+
+  <!-- 
+    model:model, mode group, ignore
+  -->
+  <xsl:template match='model:model' mode='group'>
+    <xsl:apply-templates mode='#current'/>
+  </xsl:template>
+
+  <!--
+    model:group, mode group
+  -->
+
+  <xsl:template match='model:groupmember' mode='group'>
+    <xsl:param name='group' as='node()' tunnel='yes'/>
+    <xsl:variable name='this' as='node()' select='.'/>
+
+    <xsl:for-each select='$group/model:instance'>
+      <xsl:variable name='instance' as='node()' select='.'/>
+      <xsl:apply-templates select='$this/node()' mode='model'>
+        <xsl:with-param name='instance' tunnel='yes' as='node()' select='$instance'/>
+        <xsl:with-param name='groupmember' select='$this' as='node()'/>
+      </xsl:apply-templates>
+    </xsl:for-each>
   </xsl:template>
 
   <!-- 

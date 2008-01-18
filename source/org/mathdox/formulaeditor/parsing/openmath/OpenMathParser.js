@@ -3,6 +3,7 @@ $package("org.mathdox.formulaeditor.parsing.openmath");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
+$require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
 var SAXDriver;
@@ -142,6 +143,18 @@ $main(function(){
     handleOMBVAR: function(node) {
 
       return this.handle(node.getFirstChild());
+
+    },
+
+    /**
+     * Handles an <OMF> node.
+     */
+    handleOMF: function(node) {
+
+      with(org.mathdox.formulaeditor.semantics) {
+	if (node.getAttribute("dec"))
+	  return new SemanticFloat(node.getAttribute("dec"));
+      }
 
     },
 

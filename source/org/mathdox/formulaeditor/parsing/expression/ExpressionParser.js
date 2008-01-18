@@ -5,6 +5,7 @@ $require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
+$require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
 $main(function(){
@@ -53,8 +54,8 @@ $main(function(){
         expression160 :
           alternation(
             rule("braces"),
-	    rule("func"),
-            rule("integer"),
+            rule("parseNumber"),
+            rule("func"),
             rule("variable")
           ),
 
@@ -67,6 +68,30 @@ $main(function(){
             function(result) {
               return new Integer(Number(result.join("")));
             }
+          ),
+
+        // float = [0..9]+ ++ '.' ++ [0-9]*
+        parseFloat :
+          transform(
+            concatenation( 
+              repetitionplus(
+                range('0','9')
+              ),
+              literal('.'),
+              repetition(
+                range('0','9')
+              )
+            ),
+            function(result) {
+              return new SemanticFloat(Number(result.join("")));
+            }
+          ),
+
+        // number: float | integer
+        parseNumber :
+          alternation(
+            rule("parseFloat"),
+            rule("integer")
           ),
 
         // variable = ([a..z]|[A..Z])+
@@ -108,34 +133,34 @@ $main(function(){
             }
           ),
 
-	// function = variable '(' expr ( ',' expr ) * ')'
-	func :
-	  transform(
-	    concatenation(
-	      rule("variable"),
-	      literal('('),
-	      rule("expression"),
-	      repetition(
-		concatenation(
-		  literal(","),
-		  rule("expression")
-		)
-	      ),
-	      literal(')')
-	    ),
-	    function(result) {
-	      var array = new Array();
+        // function = variable '(' expr ( ',' expr ) * ')'
+        func :
+          transform(
+            concatenation(
+              rule("variable"),
+              literal('('),
+              rule("expression"),
+              repetition(
+                concatenation(
+                  literal(","),
+                  rule("expression")
+                )
+              ),
+              literal(')')
+            ),
+            function(result) {
+              var array = new Array();
 
-	      for (var i=2; i+1<result.length; i=i+2) {
-	        array.push(result[i]);
-	      }
+              for (var i=2; i+1<result.length; i=i+2) {
+                array.push(result[i]);
+              }
 
-	      var oper = new 
-	        org.mathdox.formulaeditor.semantics.FunctionApplication(result[0], array);
+              var oper = new 
+                org.mathdox.formulaeditor.semantics.FunctionApplication(result[0], array);
 
-	      return oper;
-	    }
-	  )
+              return oper;
+            }
+          )
         
       })
 

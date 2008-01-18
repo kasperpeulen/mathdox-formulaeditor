@@ -46,6 +46,7 @@ $main(function(){
         this.cd = cd;
         this.name = name;
 	if (symbol) {
+	  this.symbol = new Object();
 	  if (symbol.onscreen) {
 	    this.symbol.onscreen = symbol.onscreen;
 	  }

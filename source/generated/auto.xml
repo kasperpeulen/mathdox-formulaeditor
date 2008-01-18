@@ -147,6 +147,18 @@
     <!-- U+2260 not equal to -->
     <model:symbol_screen>&#x2260;</model:symbol_screen>
   </model:instance>
+  <!-- relation1.eq -->
+  <model:instance model="models/infix-nary.xml"
+    target="org/mathdox/formulaeditor/modules/relation2/eqs.js"
+  >
+    <model:cd>relation2</model:cd>
+    <model:name>eqs</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>=</model:symbol_enter>
+    <model:symbol_mathml>=</model:symbol_mathml>
+    <model:symbol_screen>=</model:symbol_screen>
+  </model:instance>
   <model:group model="models/keywords.xml" 
     target="org/mathdox/formulaeditor/modules/keywords.js"
   >

@@ -1,0 +1,183 @@
+<model:model xmlns:model="local:model">
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+
+$main(function(){
+
+  /**
+   * Define a semantic tree node that represents <model:cd/>.<model:name/>.
+   */
+  org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/> =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        onscreen : "<model:symbol_screen/>",
+        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
+        mathml   : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;"
+
+      },
+
+      precedence : <model:precedence/>
+
+    })
+  
+  /**
+   * Extend the OpenMathParser object with parsing code for <model:cd/>.<model:name/>.
+   */
+  org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
+    $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
+
+      /**
+       * Returns an equality object based on the OpenMath node.
+       */
+      handle<model:cd capitalize="true"/><model:name capitalize="true"/> : function(node) {
+
+        // parse the children of the OMA
+        var children = node.getChildNodes();
+        var operands = new Array(children.getLength()-1);
+        for (var i=1; i&lt;children.length; i++) {
+          operands[i-1] = this.handle(children.item(i))
+        }
+
+        // construct the corresponding object
+        var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
+        result.initialize.apply(result, operands);
+        return result;
+
+      }
+
+    })
+
+  /**
+   * Extend the ExpressionParser object with parsing code for the equality sign.
+   */
+  with( org.mathdox.formulaeditor.semantics          ) {
+  with( org.mathdox.formulaeditor.parsing.expression ) {
+  with( new org.mathdox.parsing.ParserGenerator()    ) {
+
+  if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
+      // only one expression, same on screen
+      org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+        $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+
+        // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
+        expression<model:precedence/> : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:cd/><model:name/>"),
+            parent.expression<model:precedence/>
+          ).apply(this, arguments);
+        },
+
+        // <model:cd/><model:name/> = 
+        //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
+        <model:cd/><model:name/> :
+          transform(
+            concatenation(
+              rule("expression<model:precedence2/>"),
+              literal("<model:symbol_enter/>"),
+              rule("expression<model:precedence2/>"),
+              repetitionplus(
+                concatenation(
+                  literal("<model:symbol_enter/>"),
+                  rule("expression<model:precedence2/>")
+                )
+              )
+            ),
+            function(result) {
+              var retval = new <model:cd capitalize="true"/><model:name capitalize="true"/>();
+	      var operands = new Array();
+	      var i;
+
+	      for (i=0; 2*i&lt;result.length; i++) {
+		operands[i] = result[2*i];
+	      }
+	      retval.operands = operands;
+
+              return retval;
+            }
+          )
+
+      })
+    } else { // allow alternative as displayed on the screen
+      org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+        $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+
+        // expression<model:precedence/> = <model:cd/><model:name/> | 
+        //   <model:cd/><model:name/>alt | super.expression<model:precedence/>
+        expression<model:precedence/> : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:cd/><model:name/>"),
+            rule("<model:cd/><model:name/>alt"),
+            parent.expression<model:precedence/>
+          ).apply(this, arguments);
+        },
+
+        // <model:cd/><model:name/> = 
+        //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
+        <model:cd/><model:name/> :
+          transform(
+            concatenation(
+              rule("expression<model:precedence2/>"),
+              literal("<model:symbol_enter/>"),
+              rule("expression<model:precedence2/>"),
+              repetitionplus(
+                concatenation(
+                  literal("<model:symbol_enter/>"),
+                  rule("expression<model:precedence2/>")
+                )
+              )
+            ),
+            function(result) {
+              var retval = new <model:cd capitalize="true"/><model:name capitalize="true"/>();
+	      var operands = new Array();
+	      var i;
+
+	      for (i=0; 2*i&lt;result.length; i++) {
+		operands[i] = result[2*i];
+	      }
+	      retval.operands = operands;
+
+              return retval;
+            }
+          ),
+
+        // <model:cd/><model:name/>alt = 
+        //    expression<model:precedence/> "<model:symbol_screen/>" expression<model:precedence2/>
+        <model:cd/><model:name/>alt :
+          transform(
+            concatenation(
+              rule("expression<model:precedence2/>"),
+              literal("<model:symbol_enter/>"),
+              rule("expression<model:precedence2/>"),
+              repetitionplus(
+                concatenation(
+                  literal("<model:symbol_enter/>"),
+                  rule("expression<model:precedence2/>")
+                )
+              )
+            ),
+            function(result) {
+              var retval = new <model:cd capitalize="true"/><model:name capitalize="true"/>();
+	      var operands = new Array();
+	      var i;
+
+	      for (i=0; 2*i&lt;result.length; i++) {
+		operands[i] = result[2*i];
+	      }
+	      retval.operands = operands;
+
+              return retval;
+            }
+          )
+
+      })
+    }
+  }}}
+
+
+})
+</model:model>

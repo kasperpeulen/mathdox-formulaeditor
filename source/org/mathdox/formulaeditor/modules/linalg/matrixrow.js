@@ -1,15 +1,16 @@
 $main(function(){
 
   /**
-   * Define a semantic tree node that represents the linalg2.matrixrow
+   * Define a semantic tree node that represents the linalg2.matrix
    */
-  org.mathdox.formulaeditor.semantics.Linalg2Matrixrow =
+  org.mathdox.formulaeditor.semantics.Linalg2Matrix =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
 
+        mathml   : ["<mtable>","","</mtable>"],
         onscreen : ["[", "]"],
-	openmath : "<OMS cd='linalg2' name='matrixrow'/>"
+        openmath : "<OMS cd='linalg2' name='matrix'/>"
 
       },
 
@@ -17,13 +18,35 @@ $main(function(){
 
     })
 
-  org.mathdox.formulaeditor.semantics.Linalg2Matrix =
+  /**
+   * Define a semantic tree node that represents the linalg2.matrixrow
+   */
+   org.mathdox.formulaeditor.semantics.Linalg2Matrixrow =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
 
+        mathml   : ["<mtr><mtd>","</mtd><mtd>","</mtd></mtr>"],
         onscreen : ["[", "]"],
-	openmath : "<OMS cd='linalg2' name='matrix'/>"
+        openmath : "<OMS cd='linalg2' name='matrixrow'/>"
+
+      },
+
+      precedence : 0
+
+    })
+
+  /**
+   * Define a semantic tree node that represents the linalg2.vector
+   */
+  org.mathdox.formulaeditor.semantics.Linalg2Vector =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        mathml   : ["<mo>[</mo>",",","<mo>]</mo>"],
+        onscreen : ["[", "]"],
+        openmath : "<OMS cd='linalg2' name='vector'/>"
 
       },
 
@@ -45,7 +68,7 @@ $main(function(){
         // parse the children of the OMA
         var children = node.getChildNodes();
         var operands = new Array(children.getLength()-1);
-	for (var i=1; i<children.length; i++) {
+        for (var i=1; i<children.length; i++) {
           operands[i-1] = this.handle(children.item(i))
         }
 
@@ -64,12 +87,31 @@ $main(function(){
         // parse the children of the OMA
         var children = node.getChildNodes();
         var operands = new Array(children.getLength()-1);
-	for (var i=1; i<children.length; i++) {
+        for (var i=1; i<children.length; i++) {
           operands[i-1] = this.handle(children.item(i))
         }
 
         // construct a Linalg2Matrixrow object
         var result = new org.mathdox.formulaeditor.semantics.Linalg2Matrixrow()
+        result.initialize.apply(result, operands)
+        return result
+
+      },
+
+      /**
+       * Returns a Linalg2Vector object based on the OpenMath node.
+       */
+      handleLinalg2Vector : function(node) {
+
+        // parse the children of the OMA
+        var children = node.getChildNodes();
+        var operands = new Array(children.getLength()-1);
+        for (var i=1; i<children.length; i++) {
+          operands[i-1] = this.handle(children.item(i))
+        }
+
+        // construct a Linalg2Matrixrow object
+        var result = new org.mathdox.formulaeditor.semantics.Linalg2Vector()
         result.initialize.apply(result, operands)
         return result
 
@@ -116,13 +158,28 @@ $main(function(){
                 array.push(result[i]);
               }
               var matrixLike;
-	      if (array[0] instanceof Linalg2Matrixrow) {
-	        matrixLike = new Linalg2Matrix();
-		matrixLike.initialize.apply(matrixLike, array);
-	      } else {
-	        matrixLike = new Linalg2Matrixrow();
-		matrixLike.initialize.apply(matrixLike, array);
-	      }
+              var allvector = true;
+              for (var i=0; i<array.length; i++) {
+                allvector = allvector && array[i] instanceof Linalg2Vector
+              }
+              if (allvector) {
+                /*
+                 * convert vectors in array to matrixrows
+                 */
+                var matrixRows = new Array()
+                for (var i=0; i<array.length; i++) {
+                  var row = new Linalg2Matrixrow
+                  row.initialize.apply(row, array[i].operands)
+                  matrixRows.push(row)
+                }
+                // create a new matrix
+                matrixLike = new Linalg2Matrix()
+                matrixLike.initialize.apply(matrixLike, matrixRows)
+              } else {
+                // create a vector 
+                matrixLike = new Linalg2Vector()
+                matrixLike.initialize.apply(matrixLike, array)
+              }
               return matrixLike;
             }
           )

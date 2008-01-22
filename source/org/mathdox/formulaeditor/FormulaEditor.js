@@ -21,6 +21,8 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
 
+$require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
+
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
 //$require("org/mathdox/formulaeditor/modules/logic1/false.js");
@@ -208,24 +210,7 @@ $main(function(){
       var textarea = this.textarea;
 
       // update the textarea
-      try {
-        textarea.value =
-          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
-          "cdbase='http://www.openmath.org/cd'>" +
-          this.presentation.getSemantics().value.getOpenMath() +
-          "</OMOBJ>";
-      }
-      catch(exception) {
-        textarea.value =
-          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
-          "cdbase='http://www.openmath.org/cd'>" +
-            "<OME>" +
-              "<OMS cd='moreerrors' name='encodingError'/>" +
-              "<OMSTR>invalid expression entered</OMSTR>" +
-	      exception.toString() +
-            "</OME>" +
-          "</OMOBJ>";
-      }
+      textarea.value = this.getOpenMath();
 
     },
 
@@ -368,9 +353,62 @@ $main(function(){
     blur : function() {
       this.hasFocus = false;
       this.cursor.visible = false;
+    },
+
+    getMathML : function() {
+      var mmlstring;
+      try {
+        mmlstring = this.presentation.getSemantics().value.getMathML();
+      }
+      catch(exception) {
+        mmlstring = exception.toString();
+      }
+
+      return mmlstring;
+    },
+
+    getOpenMath : function() {
+      var omstring;
+      try {
+        omstring =
+          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
+          "cdbase='http://www.openmath.org/cd'>" +
+          this.presentation.getSemantics().value.getOpenMath() +
+          "</OMOBJ>";
+      }
+      catch(exception) {
+        omstring =
+          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
+          "cdbase='http://www.openmath.org/cd'>" +
+            "<OME>" +
+              "<OMS cd='moreerrors' name='encodingError'/>" +
+              "<OMSTR>invalid expression entered</OMSTR>" +
+	      exception.toString() +
+            "</OME>" +
+          "</OMOBJ>";
+      }
+      
+      return omstring;
+
     }
 
   });
+
+  /**
+   * Add the static getEditorByTextArea(id) method, that returns the formula
+   * editor corresponding to a certain textarea. Returns null when none of the
+   * editors in the page has a textarea with that id argument id.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea = function(id) {
+
+    for (var i=0; i<editors.length; i++) {
+      if (id == editors[i].textarea.id) {
+        return editors[i];
+      }
+    }
+    return null;
+
+  }
 
   /**
    * Add the static getFocusedEditor() method, that returns the formula editor

@@ -14,7 +14,8 @@ $main(function(){
       symbol : {
 
         onscreen : ["-","",""],
-        openmath : "<OMS cd='arith1' name='unary_minus'/>"
+        openmath : "<OMS cd='arith1' name='unary_minus'/>",
+        mathml   : ["<mo>-</mo>","",""]
 
       },
 

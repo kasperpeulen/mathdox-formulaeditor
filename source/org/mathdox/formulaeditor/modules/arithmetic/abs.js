@@ -13,6 +13,7 @@ $main(function(){
 
       symbol : {
 
+        mathml   : ["<mo>|</mo>","","<mo>|</mo>"],
         onscreen : ["|","","|"],
         openmath : "<OMS cd='arith1' name='abs'/>"
 

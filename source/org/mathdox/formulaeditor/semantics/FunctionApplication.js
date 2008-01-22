@@ -71,12 +71,13 @@ $main(function(){
        */
       getOpenMath : function() {
 
-        var result = "<OMA>" + this.symbol.getOpenMath();
+        var result = "<OMA>" + this.symbol.getOpenMath()
         for (var i=0; i<this.operands.length; i++) {
-          result = result + this.operands[i].getOpenMath();
+          result = result + this.operands[i].getOpenMath()
         }
-        result = result + "</OMA>";
-        return result;
+        result = result + "</OMA>"
+
+        return result
 
       },
 
@@ -85,15 +86,14 @@ $main(function(){
        */
       getMathML : function() {
 
-        var result = "<mrow>"
+        var result = "<mrow>" + this.symbol.getMathML() + "<mo>(</mo>"
+
         for (var i=0; i<this.operands.length; i++) {
-          if (i>0) {
-            result = result + this.symbol.getMathML();
-          }
-          result = result + this.operands[i].getOpenMath();
+          result = result + this.operands[i].getMathML()
         }
-        result = result + "</mrow>";
-        return result;
+        result = result + "<mo>)</mo>" + "</mrow>"
+
+        return result
 
       }
 

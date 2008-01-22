@@ -116,12 +116,26 @@ $main(function(){
       getMathML : function() {
 
         var result = "<mrow>"
+
+	if (this.symbol.mathml instanceof Array) {
+	  result = result + this.symbol.mathml[0]
+	}
+
         for (var i=0; i<this.operands.length; i++) {
           if (i>0) {
-            result = result + this.symbol.mathml
+	    if (this.symbol.mathml instanceof Array) {
+	      result = result + this.symbol.mathml[1]
+	    } else {
+	      result = result + this.symbol.mathml
+	    }
           }
-          result = result + this.operands[i].getOpenMath()
+          result = result + this.operands[i].getMathML()
         }
+
+	if (this.symbol.mathml instanceof Array) {
+	  result = result + this.symbol.mathml[2]
+	}
+
         result = result + "</mrow>"
         return result
 

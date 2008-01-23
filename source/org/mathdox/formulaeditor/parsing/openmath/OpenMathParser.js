@@ -96,7 +96,7 @@ $main(function(){
           return this[handler](node);
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
 	  /* return a FunctionApplication at the end */
-          symbol = handleOMS(node.getFirstChild());
+          symbol = this.handleOMS(node.getFirstChild());
         } else {
             throw new Error(
               "OpenMathParser doesn't know how to handle this node: " + node

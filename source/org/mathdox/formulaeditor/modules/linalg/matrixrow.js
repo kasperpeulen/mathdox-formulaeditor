@@ -9,7 +9,7 @@ $main(function(){
       symbol : {
 
         mathml   : ["<mtable>","","</mtable>"],
-        onscreen : ["[", "]"],
+        onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg2' name='matrix'/>"
 
       },
@@ -21,13 +21,13 @@ $main(function(){
   /**
    * Define a semantic tree node that represents the linalg2.matrixrow
    */
-   org.mathdox.formulaeditor.semantics.Linalg2Matrixrow =
+  org.mathdox.formulaeditor.semantics.Linalg2Matrixrow =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
 
         mathml   : ["<mtr><mtd>","</mtd><mtd>","</mtd></mtr>"],
-        onscreen : ["[", "]"],
+        onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg2' name='matrixrow'/>"
 
       },
@@ -45,7 +45,7 @@ $main(function(){
       symbol : {
 
         mathml   : ["<mo>[</mo>",",","<mo>]</mo>"],
-        onscreen : ["[", "]"],
+        onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg2' name='vector'/>"
 
       },
@@ -110,7 +110,7 @@ $main(function(){
           operands[i-1] = this.handle(children.item(i))
         }
 
-        // construct a Linalg2Matrixrow object
+        // construct a Linalg2Vector object
         var result = new org.mathdox.formulaeditor.semantics.Linalg2Vector()
         result.initialize.apply(result, operands)
         return result
@@ -180,7 +180,7 @@ $main(function(){
                 matrixLike = new Linalg2Vector()
                 matrixLike.initialize.apply(matrixLike, array)
               }
-              return matrixLike;
+              return matrixLike
             }
           )
 

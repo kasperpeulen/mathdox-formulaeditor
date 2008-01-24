@@ -1,4 +1,16 @@
 <model:list xmlns:model="local:model">
+  <!-- arith1.unary_minus -->
+  <model:instance model="models/unary.xml"
+    target="org/mathdox/formulaeditor/modules/arith1/unary_minus.js"
+  >
+    <model:cd>arith1</model:cd>
+    <model:name>unary_minus</model:name>
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter>-</model:symbol_enter>
+    <model:symbol_mathml>-</model:symbol_mathml>
+    <model:symbol_screen>-</model:symbol_screen>
+  </model:instance>
   <!-- logic1.and -->
   <model:instance model="models/infix.xml"
     target="org/mathdox/formulaeditor/modules/logic1/and.js"
@@ -40,6 +52,20 @@
     <model:symbol_mathml>&#x21D2;</model:symbol_mathml>
     <!-- U+21D2 rightwards double arrow -->
     <model:symbol_screen>&#x21D2;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.not -->
+  <model:instance model="models/unary.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/not.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>not</model:name>
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter>!</model:symbol_enter>
+    <!-- U+00AC not sign -->
+    <model:symbol_mathml>&#x00AC;</model:symbol_mathml>
+    <!-- U+00AC not sign -->
+    <model:symbol_screen>&#x00AC;</model:symbol_screen>
   </model:instance>
   <!-- logic1.or -->
   <model:instance model="models/infix.xml"

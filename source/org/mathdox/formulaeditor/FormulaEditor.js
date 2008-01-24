@@ -19,7 +19,9 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
+//$require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
+
+$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
 
@@ -27,6 +29,7 @@ $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
 //$require("org/mathdox/formulaeditor/modules/logic1/false.js");
 $require("org/mathdox/formulaeditor/modules/logic1/implies.js");
+$require("org/mathdox/formulaeditor/modules/logic1/not.js");
 $require("org/mathdox/formulaeditor/modules/logic1/or.js");
 //$require("org/mathdox/formulaeditor/modules/logic1/true.js");
 

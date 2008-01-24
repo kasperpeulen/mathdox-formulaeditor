@@ -1,0 +1,121 @@
+<model:model xmlns:model="local:model">
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/presentation/Superscript.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+
+$main(function(){
+
+  /**
+   * Defines a semantic tree node that represents a unary minus.
+   */
+  org.mathdox.formulaeditor.semantics.<model:cd capitalize='true'/><model:name capitalize='true'/> =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        onscreen : ["<model:symbol_screen/>","",""],
+        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/&gt;",
+	mathml   : ["&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;","",""]
+
+      },
+
+      precedence : <model:precedence/>
+
+    })
+
+  /**
+   * Extend the OpenMathParser object with parsing code for arith1.unary_minus.
+   */
+  org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
+    $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
+
+      /**
+      * Returns a unary minus object based on the OpenMath node.
+      */
+      handle<model:cd capitalize='true'/><model:name capitalize='true'/> : function(node) {
+
+        var operand = this.handle(node.getChildNodes().item(1));
+        return new org.mathdox.formulaeditor.semantics.<model:cd capitalize='true'/><model:name capitalize='true'/>(operand);
+
+      }
+
+    })
+
+  /**
+   * Extend the ExpressionParser object with parsing code for unary minus.
+   */
+  with( org.mathdox.formulaeditor.semantics          ) {
+  with( org.mathdox.formulaeditor.parsing.expression ) {
+  with( new org.mathdox.parsing.ParserGenerator()    ) {
+
+  if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
+    // only one expression, same on screen
+    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+
+        // expression<model:precedence/> = <model:cd/><model:name/> | super.expression<model:precedence/>
+        expression<model:precedence/> : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:cd/><model:name/>"),
+            parent.expression<model:precedence/>
+          ).apply(this, arguments);
+        },
+
+        // <model:cd/><model:name/> = "<model:symbol_enter/>" expression<model:precedence2/>
+        <model:cd/><model:name/> :
+          transform(
+            concatenation(
+              literal("<model:symbol_enter/>"),
+              rule("expression<model:precedence2/>")
+            ),
+            function(result) {
+              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
+            }
+          )
+
+    })
+  } else { // allow alternative as displayed on the screen
+    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+
+        // expression<model:precedence/> = <model:cd/><model:name/> | super.expression<model:precedence/>
+        expression<model:precedence/> : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:cd/><model:name/>"),
+            rule("<model:cd/><model:name/>alt"),
+            parent.expression<model:precedence/>
+          ).apply(this, arguments);
+        },
+
+        // <model:cd/><model:name/> = "<model:symbol_enter/>" expression<model:precedence2/>
+        <model:cd/><model:name/> :
+          transform(
+            concatenation(
+              literal("<model:symbol_enter/>"),
+              rule("expression<model:precedence2/>")
+            ),
+            function(result) {
+              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
+            }
+          ),
+
+        // <model:cd/><model:name/>alt = "<model:symbol_screen/>" expression<model:precedence2/>
+        <model:cd/><model:name/>alt :
+          transform(
+            concatenation(
+              literal("<model:symbol_screen/>"),
+              rule("expression<model:precedence2/>")
+            ),
+            function(result) {
+              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
+            }
+          )
+     })
+   }
+  }}}
+
+})
+</model:model>

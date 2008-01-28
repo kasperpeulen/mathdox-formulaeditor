@@ -72,7 +72,7 @@ $main(function(){
           var above = this.children[0].getSemantics().value;
           var below = this.children[2].getSemantics().value;
 
-          if (below instanceof Equals) {
+          if (below instanceof Relation1Eq) {
 
             return {
               value : [below.operands[1], above, below.operands[0]],

@@ -62,7 +62,7 @@ $main(function(){
       var symbolData = this.getSymbolData(symbol);
       var font = symbolData.font;
 
-      // calculate the position of the topleft corner, the width and the heigh
+      // calculate the position of the topleft corner, the width and the height
       var left   = x
       var top    = y - symbolData.height + symbolData.yadjust
       var width  = symbolData.width

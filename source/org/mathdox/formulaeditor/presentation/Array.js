@@ -20,6 +20,15 @@ $main(function(){
       columns: 0,
 
       /*
+       * the heights of the rows
+       */
+      rowInfo : [],
+      /*
+       * the widths of the columns
+       */
+      colInfo : [],
+
+      /*
        * Determine the maximum height of a row
        * usage getMaxHeight(row) : max height of a row
        */
@@ -53,20 +62,16 @@ $main(function(){
         // the amount of space between the column elements
         var margin = 2.0
 
-        // the heights of the rows
-        var rowInfo = []
-        // the widths of the columns
-        var colInfo = []
         // total height
         var totalHeight = 0
-	
-	// fake drawing of children to set sizes
-	
-	for (var row = 0; row < this.rows; row++) {
-	  for (var col = 0; col < this.columns; col++) {
-	    this.entries[row][col].draw(canvas, 0, 0, true)
-	  }
-	}
+        
+        // fake drawing of children to set sizes
+        
+        for (var row = 0; row < this.rows; row++) {
+          for (var col = 0; col < this.columns; col++) {
+            this.entries[row][col].draw(canvas, 0, 0, true)
+          }
+        }
 
         for (var row = 0; row < this.rows; row++) {
           var rowHeight = this.getMaxHeight(row)
@@ -75,10 +80,10 @@ $main(function(){
             rowCenter = rowHeight/2+margin/2
             totalHeight += rowHeight 
           } else {
-            rowCenter = rowInfo[row-1].center + rowInfo[row-1].height/2 + margin + rowHeight/2
+            rowCenter = this.rowInfo[row-1].center + this.rowInfo[row-1].height/2 + margin + rowHeight/2
             totalHeight += rowHeight + margin
           }
-          rowInfo[row] = {
+          this.rowInfo[row] = {
             height : rowHeight,
             center : rowCenter
           }
@@ -86,7 +91,7 @@ $main(function(){
 
         // adjust rows for total height
         for (var row = 0; row < this.rows; row++) {
-          rowInfo[row].center -= totalHeight/2
+          this.rowInfo[row].center -= totalHeight/2
         }
 
         // the widths of the columns
@@ -98,42 +103,43 @@ $main(function(){
           var colWidth = this.getMaxWidth(col)
           if (col ==0 ) {
             colCenter = colWidth/2
-	    totalWidth += colWidth 
+            totalWidth += colWidth 
           } else {
-            colCenter = colInfo[col-1].center +colInfo[col-1].width/2+ margin + colWidth/2
-	    totalWidth += colWidth + margin
+            colCenter = this.colInfo[col-1].center +this.colInfo[col-1].width/2+ margin + colWidth/2
+            totalWidth += colWidth + margin
           }
-          colInfo[col] = {
-	    width  : colWidth,
-	    center : colCenter
+          this.colInfo[col] = {
+            width  : colWidth,
+            center : colCenter
           }
         }
 
         // adjust columns for total width
         for (var col = 0; col < this.columns; col++) {
-          //colInfo[col].center += width/2
+          //this.colInfo[col].center += width/2
         }
 
         // draw all entries
-        for (var row=0; row<this.rows; row++) {
-          for (var col=0; col<this.columns; col++) {
-            var entry       = this.entries[row][col]
-            var entryWidth  = entry.dimensions.width
-            var entryHeight = entry.dimensions.height
-            var entryTop    = entry.dimensions.top
-            entry.draw(
-              canvas,
-              x + colInfo[col].center - (entryWidth/2), 
-                    // horizontally centered in column
-              y + rowInfo[row].center - (entryHeight/2) - entryTop,
-                    // vertically centered in row
-              invisible
-            )
+        if (! invisible) {
+          for (var row=0; row<this.rows; row++) {
+            for (var col=0; col<this.columns; col++) {
+              var entry       = this.entries[row][col]
+              var entryWidth  = entry.dimensions.width
+              var entryHeight = entry.dimensions.height
+              var entryTop    = entry.dimensions.top
+              entry.draw(
+                canvas,
+                x + this.colInfo[col].center - (entryWidth/2), 
+                      // horizontally centered in column
+                y + this.rowInfo[row].center,
+                      // vertically centered in row
+                invisible
+              )
+            }
           }
         }
-
         return this.dimensions = {
-          top    : y-totalHeight/2-margin/2,
+          top    : this.rowInfo[0].center-this.rowInfo[0].height,
           left   : x,
           width  : totalWidth,
           height : totalHeight
@@ -143,27 +149,32 @@ $main(function(){
       getCursorPosition : function(x, y) {
         var row,col
 
+        // find the row
         row = 0
-        while ((row<this.rows) && (y<this.rowInfo[row].center+this.rowInfo[row].height/2)) {
+        while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top + this.rowInfo[row].height)) {
+          // not in row "row"
           row++
         }
 
+        // find the column
         col = 0
-        while ((col<this.columns) && (y<this.colInfo[col].center+this.colInfo[col].width/2)) {
+        while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + this.colInfo[col].width)) {
+          // not in column "col"
           col++
         }
 
-        if ((row>this.rows) || (col>this.columns)) {
-          return null
-        }
-        
         return this.entries[row][col].getCursorPosition(x,y)
       },
 
       /**
        * See also Node.getFollowingCursorPosition(index).
        */
-      getFollowingCursorPosition : function(index) {
+      getFollowingCursorPosition : function(index, descend) {
+        
+        // default value for descend
+        if (descend == null) {
+          descend = true
+        }
         if (index == null) {
           var result = null;
           var middle = Math.floor(this.children.length / 2);
@@ -181,10 +192,12 @@ $main(function(){
         }
 
         if (index<this.children.length) {
-          var result = this.children[index].getFollowingCursorPosition()
-          if ((result == null) && (index+1<this.children.length)) {
-            result = this.children[index+1].getFirstCursorPosition();
-          } else if (this.parent != null) {
+          var row = Math.floor(index / this.columns)
+          var col = index % this.columns
+          var result = this.entries[row][col].getFollowingCursorPosition()
+          if ((result == null) && (col+1<this.cols)) {
+            result = this.entries[row][col+1].getFirstCursorPosition();
+          } else if ((result == null) && (this.parent != null)) {
             result = this.parent.getFollowingCursorPosition(this.index, false)
           }
           return result
@@ -212,12 +225,12 @@ $main(function(){
           return result;
         }
 
-               if (index<this.children.length) {
-          var result = this.children[index].getFollowingCursorPosition()
-          if ((result == null) && (index+1<this.children.length)) {
-            result = this.children[index+1].getFirstCursorPosition();
+          if (index>0) {
+          var result = this.children[index].getPrecedingCursorPosition()
+          if ((result == null) && (index-1 >=0)) {
+            result = this.children[index-1].getLastCursorPosition();
           } else if (this.parent != null) {
-            result = this.parent.getFollowingCursorPosition(this.index, false)
+            result = this.parent.getPrecedingCursorPosition(this.index, false)
           }
           return result
         }
@@ -256,19 +269,19 @@ $main(function(){
         }
       },
       initialize : function () {
-	if (arguments.length >0) {
-	  this.entries = Array.prototype.slice.call(arguments)
-	  this.rows = this.entries.length
-	  this.columns = this.entries[0].length
-	}
-	this.children = new Array()
+        if (arguments.length >0) {
+          this.entries = Array.prototype.slice.call(arguments)
+          this.rows = this.entries.length
+          this.columns = this.entries[0].length
+        }
+        this.children = new Array()
 
         for (var row = 0; row < this.rows; row++) {
           for (var col = 0; col < this.columns; col++) {
             this.children.push(this.entries[row][col])
           }
         }
-	this.updateChildren()
+        this.updateChildren()
       }
 
     })

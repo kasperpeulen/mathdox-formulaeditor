@@ -151,14 +151,34 @@ $main(function(){
 
         // find the row
         row = 0
-        while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top + this.rowInfo[row].height)) {
+	/*
+	 * Here rowHeight   = this.rowInfo[row].height and 
+	 *      entryHeight = this.entries[row][0].dimensions.height
+	 *
+	 * this.entries[row][0].dimensions.top is the top of the entry
+	 * subtract (rowHeight-entryHeight)/2 to get the top of the row
+	 * add rowHeight to get the bottom of the row
+	 *
+	 * if the coordinate is below the bottom, increase the row number
+	 */
+        while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top - (this.rowInfo[row].height - this.entries[row][0].dimensions.height)/2 + this.rowInfo[row].height)) {
           // not in row "row"
           row++
         }
 
         // find the column
         col = 0
-        while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + this.colInfo[col].width)) {
+       	/*
+	 * Here colWidth   = this.colInfo[row].width and 
+	 *      entryWidth = this.entries[row][col].dimensions.width
+	 *
+	 * this.entries[row][col].dimensions.left is the left of the entry
+	 * subtract (colWidth - entryWidth)/2 to get the left of the column
+	 * add colWidth to get the right of the column
+	 *
+	 * if the coordinate is past the right, increase the column number
+	 */
+	while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
           // not in column "col"
           col++
         }

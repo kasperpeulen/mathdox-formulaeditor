@@ -151,16 +151,16 @@ $main(function(){
 
         // find the row
         row = 0
-	/*
-	 * Here rowHeight   = this.rowInfo[row].height and 
-	 *      entryHeight = this.entries[row][0].dimensions.height
-	 *
-	 * this.entries[row][0].dimensions.top is the top of the entry
-	 * subtract (rowHeight-entryHeight)/2 to get the top of the row
-	 * add rowHeight to get the bottom of the row
-	 *
-	 * if the coordinate is below the bottom, increase the row number
-	 */
+        /*
+         * Here rowHeight   = this.rowInfo[row].height and 
+         *      entryHeight = this.entries[row][0].dimensions.height
+         *
+         * this.entries[row][0].dimensions.top is the top of the entry
+         * subtract (rowHeight-entryHeight)/2 to get the top of the row
+         * add rowHeight to get the bottom of the row
+         *
+         * if the coordinate is below the bottom, increase the row number
+         */
         while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top - (this.rowInfo[row].height - this.entries[row][0].dimensions.height)/2 + this.rowInfo[row].height)) {
           // not in row "row"
           row++
@@ -168,17 +168,17 @@ $main(function(){
 
         // find the column
         col = 0
-       	/*
-	 * Here colWidth   = this.colInfo[row].width and 
-	 *      entryWidth = this.entries[row][col].dimensions.width
-	 *
-	 * this.entries[row][col].dimensions.left is the left of the entry
-	 * subtract (colWidth - entryWidth)/2 to get the left of the column
-	 * add colWidth to get the right of the column
-	 *
-	 * if the coordinate is past the right, increase the column number
-	 */
-	while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
+               /*
+         * Here colWidth   = this.colInfo[row].width and 
+         *      entryWidth = this.entries[row][col].dimensions.width
+         *
+         * this.entries[row][col].dimensions.left is the left of the entry
+         * subtract (colWidth - entryWidth)/2 to get the left of the column
+         * add colWidth to get the right of the column
+         *
+         * if the coordinate is past the right, increase the column number
+         */
+        while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
           // not in column "col"
           col++
         }
@@ -189,23 +189,19 @@ $main(function(){
       /**
        * See also Node.getFollowingCursorPosition(index).
        */
-      getFollowingCursorPosition : function(index, descend) {
+      getFollowingCursorPosition : function(index) {
         
-        // default value for descend
-        if (descend == null) {
-          descend = true
-        }
         if (index == null) {
-          var result = null;
-          var middle = Math.floor(this.children.length / 2);
-          var i      = middle;
-          while(result==null && 0<=i && i<this.children.length) {
-            result = this.children[i].getFollowingCursorPosition();
-            if (i>=middle) {
-              i = 2*middle - i - 1;
+          var row = null;
+          var middle = Math.floor(this.rows / 2);
+          var row    = middle;
+          while(result==null && 0<=row && row < this.rows) {
+            result = this.entries[row][0].getFollowingCursorPosition();
+            if (row>=middle) {
+              row = 2*middle - row - 1;
             }
             else {
-              i = 2*middle - i;
+              row = 2*middle - row;
             }
           }
           return result;
@@ -214,10 +210,11 @@ $main(function(){
         if (index<this.children.length) {
           var row = Math.floor(index / this.columns)
           var col = index % this.columns
-          var result = this.entries[row][col].getFollowingCursorPosition()
-          if ((result == null) && (col+1<this.cols)) {
+          var result 
+          if (col+1<this.columns) {
             result = this.entries[row][col+1].getFirstCursorPosition();
-          } else if ((result == null) && (this.parent != null)) {
+          } 
+          if ((result == null) && (this.parent != null)) {
             result = this.parent.getFollowingCursorPosition(this.index, false)
           }
           return result
@@ -230,26 +227,29 @@ $main(function(){
       getPrecedingCursorPosition : function(index) {
 
         if (index == null) {
-          var result = null;
-          var middle = Math.floor(this.children.length / 2);
-          var i      = middle;
-          while(result==null && 0<=i && i<this.children.length) {
-            result = this.children[i].getPrecedingCursorPosition();
-            if (i>=middle) {
-              i = 2*middle - i - 1;
+          var row = null;
+          var middle = Math.floor(this.rows / 2);
+          var row    = middle;
+          while(result==null && 0<=row && row < this.rows) {
+            result = this.entries[row][0].getFollowingCursorPosition();
+            if (row>=middle) {
+              row = 2*middle - row - 1;
             }
             else {
-              i = 2*middle - i;
+              row = 2*middle - row;
             }
           }
           return result;
         }
 
-          if (index>0) {
-          var result = this.children[index].getPrecedingCursorPosition()
-          if ((result == null) && (index-1 >=0)) {
-            result = this.children[index-1].getLastCursorPosition();
-          } else if (this.parent != null) {
+        if (index>0) {
+          var row = Math.floor(index / this.columns)
+          var col = index % this.columns
+          var result 
+          if (col>0) {
+            result = this.entries[row][col-1].getLastCursorPosition();
+          } 
+          if ((result == null) && (this.parent != null)) {
             result = this.parent.getPrecedingCursorPosition(this.index, false)
           }
           return result
@@ -260,33 +260,47 @@ $main(function(){
       },
 
       getLowerCursorPosition : function(index, x) {
-        var last = this.children.length - 1;
+        
         if (index == null) {
-          return this.children[0].getLowerCursorPosition(null, x);
+          return this.entries[0][0].getLowerCursorPosition(null, x)
         }
-        else {
-          if (index < last) {
-            return this.children[index + 1].getLowerCursorPosition(null, x);
+
+        if (index<this.children.length) {
+          var row = Math.floor(index / this.columns)
+          var col = index % this.columns
+          var result 
+          if (row+1<this.rows) {
+            result = this.entries[row+1][col].getLowerCursorPosition(null, x);
+          } 
+          if ((result == null) && (this.parent != null)) {
+            result = this.parent.getFollowingCursorPosition(index, x)
           }
-          else {
-            arguments.callee.parent.getLowerCursorPosition(this, index, x);
-          }
+          return result
         }
+
+        return null
       },
 
       getHigherCursorPosition : function(index, x) {
-        var last = this.children.length - 1;
+        
         if (index == null) {
-          return this.children[last].getHigherCursorPosition(null, x);
+          return this.entries[0][0].getLowerCursorPosition(null, x)
         }
-        else {
-          if (index > 0) {
-            return this.children[index - 1].getHigherCursorPosition(null, x);
+
+        if (index<this.children.length) {
+          var row = Math.floor(index / this.columns)
+          var col = index % this.columns
+          var result 
+          if (row>0) {
+            result = this.entries[row-1][col].getLowerCursorPosition(null, x);
+          } 
+          if ((result == null) && (this.parent != null)) {
+            result = this.parent.getFollowingCursorPosition(index, x)
           }
-          else {
-            arguments.callee.parent.getHigherCursorPosition(this, index, x);
-          }
+          return result
         }
+
+        return null
       },
       initialize : function () {
         if (arguments.length >0) {

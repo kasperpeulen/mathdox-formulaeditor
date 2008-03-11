@@ -10,7 +10,7 @@ $require("org/mathdox/formulaeditor/EventHandler.js");
 
 //$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
 //$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
-$require("org/mathdox/formulaeditor/modules/keywords.js");
+/*$require("org/mathdox/formulaeditor/modules/keywords.js");*/
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
@@ -21,10 +21,11 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 //$require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
 
-$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
+//$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
 
+/*
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
 //$require("org/mathdox/formulaeditor/modules/logic1/false.js");
@@ -44,9 +45,10 @@ $require("org/mathdox/formulaeditor/modules/relation1/geq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/gt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
+*/
 /*$require("org/mathdox/formulaeditor/modules/relation1/neq.js");*/
 
-$require("org/mathdox/formulaeditor/modules/relation2/eqs.js");
+//$require("org/mathdox/formulaeditor/modules/relation2/eqs.js");
 
 /*$require("org/mathdox/formulaeditor/modules/relations/equality.js");*/
 

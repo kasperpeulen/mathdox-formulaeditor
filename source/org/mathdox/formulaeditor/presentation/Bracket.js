@@ -5,11 +5,11 @@ $require("org/mathdox/formulaeditor/presentation/Node.js");
 $main(function(){
 
   /**
-   * Representation of a mathematical symbol (number, letter, operator) in the
+   * Representation of a mathematical bracket (with minimum height) in the
    * presentation tree.
    */
-  org.mathdox.formulaeditor.presentation.Symbol =
-    $extend(org.mathdox.formulaeditor.presentation.Node, {
+  org.mathdox.formulaeditor.presentation.Bracket =
+    $extend(org.mathdox.formulaeditor.presentation.Symbol, {
 
       /**
        * A string representation of the symbol.
@@ -20,17 +20,25 @@ $main(function(){
        */
       onscreen : null,
 
+      /*
+       * Minimum desired height
+       */
+      minimumHeight : 1,
+
       /**
        * Initializes a Symbol node in the presentation tree using the specified
        * string representation of a symbol.
        */
       initialize : function() {
-        
+
         if (arguments.length > 0) {
           this.value = arguments[0]
         }
         if (arguments.length > 1) {
-          this.onscreen = arguments[1]
+          this.minimumHeight = arguments[1]
+        }
+        if (arguments.length > 2) {
+          this.onscreen = arguments[2]
         }
 
       },
@@ -46,8 +54,8 @@ $main(function(){
 	  symbol = this.onscreen
         }
 
-        this.dimensions = canvas.drawSymbol(
-          symbol, Math.round(x), Math.round(y), invisible
+        this.dimensions = canvas.drawBracket(
+          symbol, Math.round(x), Math.round(y), this.minimumHeight, invisible
         );
 
         return this.dimensions;

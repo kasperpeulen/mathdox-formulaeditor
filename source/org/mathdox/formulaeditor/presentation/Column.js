@@ -40,11 +40,12 @@ $main(function(){
             var child       = this.children[i];
             var childWidth  = child.dimensions.width;
             var childHeight = child.dimensions.height;
+            var childLeft   = child.dimensions.left;
             var childBottom = child.dimensions.top + child.dimensions.height;
             child.draw(
               canvas,
-              center - (childWidth / 2), // horizontally centered
-              top - childBottom,         // above previous child
+              center - (childWidth / 2) - childLeft, // horizontally centered
+              top - childBottom,                     // above previous child
               invisible
             );
             top = top - childHeight - margin;
@@ -56,11 +57,12 @@ $main(function(){
             var child       = this.children[i];
             var childWidth  = child.dimensions.width;
             var childHeight = child.dimensions.height;
+            var childLeft   = child.dimensions.left;
             var childTop    = child.dimensions.top;
             child.draw(
               canvas,
-              center - (childWidth / 2), // horizontally centered
-              bottom - childTop,         // below previous child
+              center - (childWidth / 2) - childLeft, // horizontally centered
+              bottom - childTop,                     // below previous child
               invisible
             );
             bottom = bottom + childHeight + margin;
@@ -83,9 +85,11 @@ $main(function(){
           var middleChildTop    = middleChild.dimensions.top;
           var middleChildWidth  = middleChild.dimensions.width;
           var middleChildHeight = middleChild.dimensions.height;
+          var middleChildLeft   = middleChild.dimensions.left;
           middleChild.draw(
             canvas,
-            center - (middleChildWidth / 2), // horizontally centered
+            center - (middleChildWidth / 2) - middleChildLeft, 
+					      // horizontally centered
             y,
             invisible
           );
@@ -96,11 +100,12 @@ $main(function(){
             var child       = this.children[i];
             var childWidth  = child.dimensions.width;
             var childHeight = child.dimensions.height;
+            var childLeft   = child.dimensions.left;
             var childBottom = child.dimensions.top + child.dimensions.height;
             child.draw(
               canvas,
-              center - (childWidth / 2), // horizontally centered
-              top - childBottom,         // above previous child
+              center - (childWidth / 2) - childLeft, // horizontally centered
+              top - childBottom,                     // above previous child
               invisible
             );
             top = top - childHeight - margin;
@@ -112,11 +117,12 @@ $main(function(){
             var child       = this.children[i];
             var childWidth  = child.dimensions.width;
             var childHeight = child.dimensions.height;
+            var childLeft   = child.dimensions.left;
             var childTop    = child.dimensions.top;
             child.draw(
               canvas,
-              center - (childWidth / 2), // horizontally centered
-              bottom - childTop,         // below previous child
+              center - (childWidth / 2) - childLeft, // horizontally centered
+              bottom - childTop,                     // below previous child
               invisible
             );
             bottom = bottom + childHeight + margin;

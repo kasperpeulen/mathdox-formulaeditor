@@ -45,6 +45,95 @@ $main(function(){
     },
 
     /**
+     * Draws the specified bracket (character) on the canvas, at the specified
+     * position, using the current fontName and fontSize. The (x,y) coordinate
+     * indicates where the left of the baseline of the symbol will appear.
+     * The result of this method is one object containing the values
+     * { left, top, width, height } that indicate the position and dimensions of
+     * the bounding rectangle of the drawn symbol.
+     * The optional parameter 'invisible' determines whether or not the symbol
+     * should be drawn to the canvas. By default this parameter is 'false'.
+     * Setting this parameter to 'true' can be used to obtain information about
+     * the dimensions of the drawn symbol, without actually drawing on the
+     * canvas.
+     *
+     * This function is like the drawSymbol function, except it has an extra
+     * parameter minimumSize, which is used to determine the size of the
+     * brackets. A bracket symbol will be used of at least that size. If no
+     * symbol of that size is known it will be tried to construct it, if that
+     * fails a smaller symbol will be used. See also drawSymbol.
+     */
+    drawBracket : function(bracket, x, y, minimumHeight, invisible) {
+
+      // retrieve font and symbol data
+      var bracketData = this.getBracketData(bracket);
+      var font = bracketData.font;
+
+      var symbolData;
+
+      // see if a standard symbol can be used
+      for (var i=bracketData.symbols.length - 1 ; i>=0; i--) {
+        if (bracketData.symbols[i].height >= minimumHeight) {
+          symbolData = bracketData.symbols[i];
+        }
+      }
+
+      // use the largest symbol if none is large enough, TODO implement large
+      // constructing symbols
+      if (!symbolData) {
+        symbolData = bracketData.symbols[bracketData.symbols.length-1];
+      }
+
+      if (symbolData) {
+        // draw a symbol 
+        
+        // calculate the position of the topleft corner, the width and the height
+        var left   = x
+        var top    = y - symbolData.height + symbolData.yadjust
+        var width  = symbolData.width
+        var height = symbolData.height
+  
+        // draw that part of the font image which contains the symbol
+        if (!invisible) {
+  
+          var canvas = this.canvas;
+          var cache  = this.imageCache;
+  
+          var drawImage = function() {
+            canvas.getContext("2d").drawImage(
+              cache[font.image],
+              symbolData.x, symbolData.y, symbolData.width, symbolData.height,
+              left, top, width, height
+            );
+          };
+  
+          if (cache[font.image] == null) {
+            var image = new Image();
+            image.onload = function() {
+              cache[font.image] = image;
+              drawImage();
+            }
+            image.src = font.image;
+          }
+          else{
+            drawImage();
+          }
+  
+        }
+  
+        // return the coordinates of the topleft corner, the width and height
+        return {
+          left:   left,
+          top:    top,
+          width:  width,
+          height: height
+        }
+      } else {
+        // construct a symbol
+      }
+    },
+
+    /**
      * Draws the specified symbol (character) on the canvas, at the specified
      * position, using the current fontName and fontSize. The (x,y) coordinate
      * indicates where the left of the baseline of the symbol will appear.
@@ -106,7 +195,34 @@ $main(function(){
 
     },
 
-    getSymbolData : function(symbol) {
+    getBracketData : function(bracket) {
+      // retrieve font and bracket data
+      var font = this.fonts[this.fontName]
+      var bracketData = font[this.fontSize].brackets[bracket]
+
+      if (bracketData) {
+        // return bracketdata
+        bracketData.font = font[this.fontSize];
+        return bracketData;
+      }
+      else {
+        // check fallback fonts when the bracket could not be found in this font
+        for (var i=0; i<font.fallback.length; i++) {
+          var fallbackfont = this.fonts[font.fallback[i]];
+          bracketData = fallbackfont[this.fontSize].brackets[bracket];
+          if (bracketData) {
+            bracketData.font = fallbackfont[this.fontSize];
+            return bracketData;
+          }
+        }
+      }
+
+      // no bracket data found, return null
+      return null;
+
+    },
+
+     getSymbolData : function(symbol) {
       // retrieve font and symbol data
       var font = this.fonts[this.fontName]
       var symbolData = font[this.fontSize].symbols[symbol]
@@ -149,11 +265,61 @@ $main(function(){
      */
     fonts : {
 
+      // Computer Modern Math Extensions
+      "cmex" : {
+
+        // When a symbol can not be found in this font, search the fonts below
+        fallback : ["cmex", "cmr","cmsy"],
+
+        // point size 144
+        144 : {
+
+          // the location of each set of brackets in the font image
+          brackets : {
+            '(' : { 
+              symbols : [
+                { x: 12, y: 30, width: 6, height:24, yadjust:0},
+                { x: 12, y:119, width: 9, height:37, yadjust:0},
+                { x: 85, y:119, width:10, height:49, yadjust:0},
+                { x: 13, y:208, width:11, height:61, yadjust:0}
+              ],
+              topSymbol : 
+                { x: 14, y:296, width:12, height:37, yadjust:0},
+              bottomSymbol :
+                { x: 14, y:385, width:12, height:37, yadjust:0},
+              connection : 
+                { x: 14, y:331, width: 3, xadjust:0}
+            },
+            ')' : {
+	      symbols : [
+		{ x: 46, y: 30, width: 6, height:24, yadjust:0},
+		{ x: 45, y:119, width: 9, height:37, yadjust:0},
+		{ x:117, y:119, width: 9, height:49, yadjust:0},
+		{ x: 45, y:208, width:12, height:61, yadjust:0},
+	      ],
+	      topSymbol : 
+		{ x: 45, y:296, width:12, height:37, yadjust:0},
+	      bottomSymbol : 
+		{ x: 45, y:385, width:12, height:37, yadjust:0},
+              connection : 
+                { x: 54, y:331, width: 3, xadjust:0}
+            }
+          },
+
+          // the image that contains the font characters
+          image : $baseurl + "org/mathdox/formulaeditor/fonts/cmex10/144.png",
+
+          symbols : {}
+
+        }
+
+      },
+
       // Computer Modern Math Italic
       "cmmi" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmr","cmsy"],
+        fallback : ["cmex", "cmr","cmsy"],
 
         // point size 144
         144 : {
@@ -161,9 +327,12 @@ $main(function(){
           // the image that contains the font characters
           image : $baseurl + "org/mathdox/formulaeditor/fonts/cmmi10/144.png",
 
+          // brackets in this font (if any)
+          brackets : {},
+
           // the location of each character in the font image
           symbols : {
-	    // U+03C0 greek small letter pi
+            // U+03C0 greek small letter pi
             'π' : { x:223, y:41,  width:12, height:10, yadjust:-1  },
             '<' : { x:296, y:87,  width:13, height:12, yadjust:-1  },
             '>' : { x:344, y:87,  width:13, height:12, yadjust:-1  }
@@ -177,7 +346,7 @@ $main(function(){
       "cmr" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmmi","cmsy"],
+        fallback : ["cmex", "cmmi","cmsy"],
 
         // point size 144
         144 : {
@@ -185,43 +354,46 @@ $main(function(){
           // the image that contains the font characters
           image : $baseurl + "org/mathdox/formulaeditor/fonts/cmr10/144.png",
 
+          // brackets in this font (if any)
+          brackets : {},
+
           // the location of each character in the font image
           symbols : {
 
-	    // U+0393 greek capital letter gamma
+            // U+0393 greek capital letter gamma
             'Γ' : { x:8,   y:12,  width:12, height:14, yadjust:0  },
 
-	    // U+0393 greek capital letter gamma
+            // U+0393 greek capital letter gamma
             'Δ' : { x:34,  y:11,  width:15, height:15, yadjust:0  },
 
-	    // U+0398 greek capital letter theta
+            // U+0398 greek capital letter theta
             'Θ' : { x:58,  y:11,  width:14, height:16, yadjust:1  },
 
-	    // U+039B greek capital letter lambda
+            // U+039B greek capital letter lambda
             'Λ' : { x:82,  y:11,  width:14, height:15, yadjust:0  },
 
-	    // U+039E greek capital letter xi
+            // U+039E greek capital letter xi
             'Ξ' : { x:106, y:12,  width:13, height:14, yadjust:0  },
 
-	    // U+03A0 greek capital letter pi
+            // U+03A0 greek capital letter pi
             'Π' : { x:131, y:12,  width:15, height:14, yadjust:0  },
 
-	    // U+03A3 greek capital letter sigma
+            // U+03A3 greek capital letter sigma
             'Σ' : { x:156, y:12,  width:13, height:14, yadjust:0  },
 
-	    // U+03A5 greek capital letter upsilon
+            // U+03A5 greek capital letter upsilon
             'Υ' : { x:181, y:11,  width:14, height:15, yadjust:0  },
 
-	    // U+03a6 greek capital letter phi
+            // U+03a6 greek capital letter phi
             'Φ' : { x:206, y:12,  width:13, height:14, yadjust:0  },
 
-	    // U+03A8 greek capital letter psi
+            // U+03A8 greek capital letter psi
             'Ψ' : { x:230, y:12,  width:14, height:14, yadjust:0  },
 
-	    // U+03A9 greek capital letter omega
+            // U+03A9 greek capital letter omega
             'Ω' : { x:255, y:11,  width:13, height:15, yadjust:0  },
 
-	    // U+2205 empty set
+            // U+2205 empty set
             '∅' : { x:303, y:39,  width:13, height:14, yadjust:2  },
 
             '!' : { x:34,  y:59,  width:3,  height:15, yadjust:0  },
@@ -237,7 +409,7 @@ $main(function(){
             '+' : { x:279, y:62,  width:14, height:14, yadjust:2  },
             ',' : { x:304, y:71,  width:3,  height:7,  yadjust:4  },
 
-	    // fake ' ', like ',', 4 pixes to the right
+            // fake ' ', like ',', 4 pixes to the right
             ' ' : { x:308, y:71,  width:3,  height:7,  yadjust:4  },
 
             '-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3 },
@@ -323,7 +495,7 @@ $main(function(){
       "cmsy" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmmi","cmr"],
+        fallback : ["cmex", "cmmi","cmr"],
 
         // point size 144
         144 : {
@@ -331,40 +503,43 @@ $main(function(){
           // the image that contains the font characters
           image : $baseurl + "org/mathdox/formulaeditor/fonts/cmsy10/144.png",
 
+          // brackets in this font (if any)
+          brackets : {},
+
           // the location of each character in the font image
           symbols : {
 
-	    // U+00B7 middle dot
+            // U+00B7 middle dot
             '·' : { x:38,  y:21,  width:3,  height:2,  yadjust:-4 },
 
-	    // U+2264 less than or equal to
+            // U+2264 less than or equal to
             '≤' : { x:124, y:55,  width:13, height:16, yadjust:3  },
 
-	    // U+2265 greater than or equal to
+            // U+2265 greater than or equal to
             '≥' : { x:153, y:55,  width:13, height:16, yadjust:3  },
 
-	    // U+2248 almost equal to
+            // U+2248 almost equal to
             '≈' : { x:268, y:58,  width:14, height:9,  yadjust:-1 },
 
-	    // U+21D0 leftwards double arrow
+            // U+21D0 leftwards double arrow
             '⇐' : { x:239, y:98,  width:18, height:12, yadjust:1  }, 
 
-	    // U+21D2 rightwards double arrow
+            // U+21D2 rightwards double arrow
             '⇒' : { x:268, y:98,  width:18, height:12, yadjust:1  },
 
-	    // U+21D4 left right double arrow
+            // U+21D4 left right double arrow
             '⇔' : { x:353, y:98,  width:19, height:12, yadjust:1  },
 
-	    // U+221E infinity
+            // U+221E infinity
             '∞' : { x:38,  y:141, width:18, height:10, yadjust:1 },
 
-	    // U+00AC not sign
+            // U+00AC not sign
             '¬' : { x:296, y:142, width:12, height:7,  yadjust:-1 },
 
-	    // U+2227 logical and
+            // U+2227 logical and
             '∧' : { x:411, y:220, width:12, height:13, yadjust:1  },
 
-	    // U+2228 logical or
+            // U+2228 logical or
             '∨' : { x:440, y:220, width:12, height:13, yadjust:1  },
 
             '|' : { x:297, y:258, width:2,  height:20, yadjust:5  }

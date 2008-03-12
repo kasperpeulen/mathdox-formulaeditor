@@ -26,7 +26,7 @@ $main(function(){
        */
       draw : function(canvas, x, y, invisible) {
 
-	var height;
+        var height;
 
         // invisible drawing of array to set dimensions
         
@@ -41,13 +41,22 @@ $main(function(){
         this.leftBracket.draw(canvas, 0, 0, true)
         this.rightBracket.draw(canvas, 0, 0, true)
 
-	height = Math.max(
+        height = Math.max(
             this.leftBracket.dimensions.height,
             this.pArray.dimensions.height,
             this.rightBracket.dimensions.height
           )
 
-	var yAdjust = (height - this.pArray.dimensions.height)/2
+        var yAdjust = 0;
+        var yAdjustBrackets = 0;
+        
+        if (height>this.pArray.dimensions.height) {
+          yAdjust = (height - this.pArray.dimensions.height)/2;
+        }
+
+	if (height<this.pArray.dimensions.height) {
+          yAdjustBrackets = (this.pArray.dimensions.height - height)/2;
+	}
 
         this.dimensions = { 
           height : height,
@@ -56,30 +65,23 @@ $main(function(){
             this.pArray.dimensions.width +
             this.rightBracket.dimensions.width,
           left : x,
-          top : y - height + yAdjust
+          top : y + this.pArray.dimensions.top - yAdjust
         }
         
-	this.leftBracket.minimumHeight = this.pArray.dimensions.height;
+        this.leftBracket.minimumHeight = this.pArray.dimensions.height;
         this.leftBracket.draw(canvas, 
           x - this.leftBracket.dimensions.left, 
-          y - this.leftBracket.dimensions.top - this.dimensions.height + 
-	    yAdjust +
-            (this.dimensions.height - this.leftBracket.dimensions.height)/2, 
-	  invisible);
+          this.dimensions.top + this.dimensions.height + yAdjustBrackets, 
+          invisible);
 
         this.pArray.draw(canvas, 
           x + this.leftBracket.dimensions.width - this.pArray.dimensions.left, 
-          y - this.pArray.dimensions.top - this.dimensions.height +
-	    yAdjust +
-            (this.dimensions.height - this.pArray.dimensions.height)/2, 
-          invisible);
-	this.rightBracket.minimumHeight = this.pArray.dimensions.height;
+          y, invisible);
+        this.rightBracket.minimumHeight = this.pArray.dimensions.height;
         this.rightBracket.draw(canvas, 
-          x + this.leftBracket.dimensions.width + 
+          x + this.rightBracket.dimensions.width + 
             this.pArray.dimensions.width - this.rightBracket.dimensions.left, 
-          y - this.rightBracket.dimensions.top - this.dimensions.height +
-	    yAdjust +
-            (this.dimensions.height - this.rightBracket.dimensions.height)/2, 
+          this.dimensions.top + this.dimensions.height + yAdjustBrackets, 
           invisible);
         
         return this.dimensions;
@@ -203,12 +205,12 @@ $main(function(){
 
       initialize : function () {
         with (org.mathdox.formulaeditor.presentation) {
-	  if (!this.leftBracket) {
-	    this.leftBracket = new Bracket('(');
-	  }
-	  if (!this.rightBracket) {
-	    this.rightBracket = new Bracket(')');
-	  }
+          if (!this.leftBracket) {
+            this.leftBracket = new Bracket('(');
+          }
+          if (!this.rightBracket) {
+            this.rightBracket = new Bracket(')');
+          }
           this.pArray = new PArray();
           this.pArray.initialize.apply(this.pArray,arguments)
         }

@@ -3,6 +3,7 @@ $package("org.mathdox.formulaeditor.presentation");
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/PArray.js");
+$require("org/mathdox/formulaeditor/presentation/Row.js");
 
 $main(function(){
 
@@ -54,9 +55,9 @@ $main(function(){
           yAdjust = (height - this.pArray.dimensions.height)/2;
         }
 
-	if (height<this.pArray.dimensions.height) {
+        if (height<this.pArray.dimensions.height) {
           yAdjustBrackets = (this.pArray.dimensions.height - height)/2;
-	}
+        }
 
         this.dimensions = { 
           height : height,
@@ -212,7 +213,8 @@ $main(function(){
             this.rightBracket = new Bracket(')');
           }
           this.pArray = new PArray();
-          this.pArray.initialize.apply(this.pArray,arguments)
+          this.pArray.initialize.apply(this.pArray,arguments);
+          children = [ this.leftBracket, this.pArray, this.rightBracket ];
         }
       }
 

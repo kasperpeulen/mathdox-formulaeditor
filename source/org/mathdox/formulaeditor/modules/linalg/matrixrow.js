@@ -84,24 +84,24 @@ $main(function(){
       initialize : function() {
         var children = new Array()
         this.entries = Array.prototype.slice.call(arguments) // TODO: check
-	if (this.entries.length == 0) {
-	  this.entries[0] = new Symbol("1")
-	}
+        if (this.entries.length == 0) {
+          this.entries[0] = new Symbol("1")
+        }
 
         children.push(new Symbol('['))
         for (var i=0; i<this.entries.length; i++) {
-	  if (i>0) {
-	    children.push(new Symbol(','))
-	  }
-	  children.push(this.enties[i])
+          if (i>0) {
+            children.push(new Symbol(','))
+          }
+          children.push(this.enties[i])
         }
         children.push(new Symbol(']'))
 
         /*this.row = new Row()
         this.row.initialize.apply(children)
-	this.row.parent = this
-	this.row.index = 0*/
-	this.row = new Symbol("1")
+        this.row.parent = this
+        this.row.index = 0*/
+        this.row = new Symbol("1")
       },
       /* insert method not callable  */
       entries : [],
@@ -140,24 +140,25 @@ $main(function(){
 
       getPresentation : function() {
         with(org.mathdox.formulaeditor.presentation) {
-	
-          var rows = []
+        
+          var rows = [];
 
-	  //org.mathdox.operands3 = this.operands[0]//XXX
+          //org.mathdox.operands3 = this.operands[0]//XXX
           for ( var row =0 ; row<this.operands.length ; row++) {
-	    var currentRow = new Array()
-	    for (var col = 0 ; col<this.operands[row].operands.length; col++) {
-	      currentRow.push(this.operands[row].operands[col].getPresentation())
-	    }
-            rows[row] = currentRow
+            var currentRow = new Array();
+            for (var col = 0 ; col<this.operands[row].operands.length; col++) {
+              var entry = this.operands[row].operands[col].getPresentation();
+              currentRow.push(entry);
+            }
+            rows[row] = currentRow;
           }
 
-	  //org.mathdox.rows = rows//XXX
-	  var result = new Matrix()
-	  //org.mathdox.presentationMatrix=result//XXX
-	  result.initialize.apply(result,rows)
-	  //org.mathdox.presentationMatrix2=result//XXX
-	 
+          //org.mathdox.rows = rows//XXX
+          var result = new Matrix();
+          //org.mathdox.presentationMatrix=result//XXX
+          result.initialize.apply(result,rows);
+          //org.mathdox.presentationMatrix2=result//XXX
+         
           return result
         }
       } 
@@ -200,17 +201,17 @@ $main(function(){
 
       getPresentation : function() {
         with(org.mathdox.formulaeditor.presentation) {
-	  var array = new Array()
-	  var result = new Column()
-	  //array.push(new Symbol("[","("))
-	  for (var i=0; i<this.operands.length; i++) {
-	    if (i>0) {
-	      //array.push(new Symbol(","," "))
-	    }
-	    array.push(this.operands[i].getPresentation())
-	  }
-	  //array.push(new Symbol("]",")"))
-	  result.initialize.apply(result,array)
+          var array = new Array()
+          var result = new Column()
+          //array.push(new Symbol("[","("))
+          for (var i=0; i<this.operands.length; i++) {
+            if (i>0) {
+              //array.push(new Symbol(","," "))
+            }
+            array.push(this.operands[i].getPresentation())
+          }
+          //array.push(new Symbol("]",")"))
+          result.initialize.apply(result,array)
 
           return new Row(new Symbol("("),result, new Symbol(")"))
         }
@@ -238,9 +239,9 @@ $main(function(){
 
         // construct a Linalg2Matrix object
         var result = new org.mathdox.formulaeditor.semantics.Linalg2Matrix()
-	result.initialize.apply(result,operands)
-	//org.mathdox.matrixOperands = operands //XXX
-	//org.mathdox.semanticMatrix = result //XXX
+        result.initialize.apply(result,operands)
+        //org.mathdox.matrixOperands = operands //XXX
+        //org.mathdox.semanticMatrix = result //XXX
         return result
 
       },
@@ -259,8 +260,8 @@ $main(function(){
 
         // construct a Linalg2Matrixrow object
         var result = new org.mathdox.formulaeditor.semantics.Linalg2Matrixrow()
-	result.initialize.apply(result,operands)
-	//org.mathdox.rowResult = result.operands//XXX
+        result.initialize.apply(result,operands)
+        //org.mathdox.rowResult = result.operands//XXX
         return result
 
       },
@@ -341,7 +342,7 @@ $main(function(){
                 }
                 // create a new matrix
                 matrixLike = new Linalg2Matrix()
-		//org.mathdox.matrixRows=matrixRows //XXX
+                //org.mathdox.matrixRows=matrixRows //XXX
                 matrixLike.initialize.apply(matrixLike, matrixRows)
               } else {
                 // create a vector 

@@ -4,6 +4,7 @@ $require("org/mathdox/formulaeditor/presentation/Bracket.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/PArray.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
+$require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
 
 $main(function(){
 
@@ -87,122 +88,11 @@ $main(function(){
         
         return this.dimensions;
       },
-
-      //XXX todo
-      getCursorPosition : function(x, y) {
-        var row,col;
-
-        // find the row
-        row = 0
-        /*
-         * Here rowHeight   = this.rowInfo[row].height and 
-         *      entryHeight = this.entries[row][0].dimensions.height
-         *
-         * this.entries[row][0].dimensions.top is the top of the entry
-         * subtract (rowHeight-entryHeight)/2 to get the top of the row
-         * add rowHeight to get the bottom of the row
-         *
-         * if the coordinate is below the bottom, increase the row number
-         */
-        while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top - (this.rowInfo[row].height - this.entries[row][0].dimensions.height)/2 + this.rowInfo[row].height)) {
-          // not in row "row"
-          row++
-        }
-
-        // find the column
-        col = 0
-               /*
-         * Here colWidth   = this.colInfo[row].width and 
-         *      entryWidth = this.entries[row][col].dimensions.width
-         *
-         * this.entries[row][col].dimensions.left is the left of the entry
-         * subtract (colWidth - entryWidth)/2 to get the left of the column
-         * add colWidth to get the right of the column
-         *
-         * if the coordinate is past the right, increase the column number
-         */
-        while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
-          // not in column "col"
-          col++
-        }
-
-        return this.entries[row][col].getCursorPosition(x,y)
-      },
-
-      /**
-       * See also Node.getFollowingCursorPosition(index).
-       */
-      //XXX todo
-      getFollowingCursorPosition : function(index) {
-        
-        if (index == null) {
-          var row = null;
-          var middle = Math.floor(this.rows / 2);
-          var row    = middle;
-          while(result==null && 0<=row && row < this.rows) {
-            result = this.entries[row][0].getFollowingCursorPosition();
-            if (row>=middle) {
-              row = 2*middle - row - 1;
-            }
-            else {
-              row = 2*middle - row;
-            }
-          }
-          return result;
-        }
-
-        if (index<this.children.length) {
-          var row = Math.floor(index / this.columns)
-          var col = index % this.columns
-          var result 
-          if (col+1<this.columns) {
-            result = this.entries[row][col+1].getFirstCursorPosition();
-          } 
-          if ((result == null) && (this.parent != null)) {
-            result = this.parent.getFollowingCursorPosition(this.index, false)
-          }
-          return result;
-        }
-
-        return null;
-
-      },
-
-      //XXX todo
-      getPrecedingCursorPosition : function(index) {
-
-        if (index == null) {
-          var row = null;
-          var middle = Math.floor(this.rows / 2);
-          var row    = middle;
-          while(result==null && 0<=row && row < this.rows) {
-            result = this.entries[row][0].getFollowingCursorPosition();
-            if (row>=middle) {
-              row = 2*middle - row - 1;
-            }
-            else {
-              row = 2*middle - row;
-            }
-          }
-          return result;
-        }
-
-        if (index>0) {
-          var row = Math.floor(index / this.columns);
-          var col = index % this.columns;
-          var result ;
-          if (col>0) {
-            result = this.entries[row][col-1].getLastCursorPosition();
-          } 
-          if ((result == null) && (this.parent != null)) {
-            result = this.parent.getPrecedingCursorPosition(this.index, false);
-          }
-          return result;
-        }
-
-        return null;
-
-      },
+      // use some functions from Row
+      functionsFromRow : [ "getCursorPosition", "getFirstCursorPosition",
+        "getLastCursorPosition", "getFollowingCursorPosition",
+        "getPrecedingCursorPosition", "getLowerCursorPosition",
+        "getHigherCursorPosition" ],
 
       initialize : function () {
         with (org.mathdox.formulaeditor.presentation) {
@@ -214,7 +104,44 @@ $main(function(){
           }
           this.pArray = new PArray();
           this.pArray.initialize.apply(this.pArray,arguments);
-          children = [ this.leftBracket, this.pArray, this.rightBracket ];
+          this.children = [ this.leftBracket, this.pArray, this.rightBracket ];
+          this.updateChildren();
+
+          /* copy the cursor/position functions from Row */
+
+          var row = new Row(); // only an instance has the functions
+
+          for (var i=this.functionsFromRow.length - 1; i>=0; i--) {
+            this[this.functionsFromRow[i]] = 
+              row[ this.functionsFromRow[i] ];
+          }
+        }
+      },
+
+      getSemantics : function() {
+	var rows = this.pArray.entries;
+	var semanticRows;
+	var matrix;
+
+	with (org.mathdox.formulaeditor.semantics) {
+          semanticRows = new Array();
+          for (var i=0;i<rows.length;i++) {
+            var semanticRowEntries;
+  
+            semanticRowEntries= new Array();
+            for (var j=0; j<rows[i].length;j++) {
+              semanticRowEntries.push(rows[i][j].getSemantics().value);
+            }
+	    var semanticRow = new Linalg2Matrixrow();
+	    semanticRow.initialize.apply(semanticRow, semanticRowEntries);
+            semanticRows.push(semanticRow);
+          }
+          matrix = new Linalg2Matrix();
+	  matrix.initialize.apply(matrix, semanticRows);
+        }
+        return {
+          value : matrix,
+          rule  : "braces"
         }
       }
 

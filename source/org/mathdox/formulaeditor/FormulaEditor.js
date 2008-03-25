@@ -23,7 +23,7 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 
 //$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 
-$require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
+$require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
 /*
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");

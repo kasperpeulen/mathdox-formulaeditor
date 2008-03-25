@@ -89,7 +89,7 @@ $main(function(){
           middleChild.draw(
             canvas,
             center - (middleChildWidth / 2) - middleChildLeft, 
-					      // horizontally centered
+                                              // horizontally centered
             y,
             invisible
           );

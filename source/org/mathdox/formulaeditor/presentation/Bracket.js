@@ -51,7 +51,7 @@ $main(function(){
       draw : function(canvas, x, y, invisible) {
         var symbol = this.value
         if (this.onscreen != null) {
-	  symbol = this.onscreen
+          symbol = this.onscreen
         }
 
         this.dimensions = canvas.drawBracket(

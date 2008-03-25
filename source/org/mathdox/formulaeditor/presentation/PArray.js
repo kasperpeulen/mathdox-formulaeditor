@@ -65,14 +65,14 @@ $main(function(){
         // total height
         var totalHeight = 0
         
-        // fake drawing of children to set sizes
-        
-        for (var row = 0; row < this.rows; row++) {
-          for (var col = 0; col < this.columns; col++) {
-            this.entries[row][col].draw(canvas, 0, 0, true)
-          }
-        }
-
+        // fake drawing of children to set sizes
+        
+        for (var row = 0; row < this.rows; row++) {
+          for (var col = 0; col < this.columns; col++) {
+            this.entries[row][col].draw(canvas, 0, 0, true)
+          }
+        }
+ 
         for (var row = 0; row < this.rows; row++) {
           var rowHeight = this.getMaxHeight(row)
           var rowCenter

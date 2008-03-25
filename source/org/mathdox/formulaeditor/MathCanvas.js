@@ -294,7 +294,7 @@ $main(function(){
 	      symbols : [
 		{ x: 46, y: 30, width: 6, height:24, yadjust:0},
 		{ x: 45, y:119, width: 9, height:37, yadjust:0},
-		{ x:117, y:119, width: 9, height:49, yadjust:0},
+		{ x:117, y:119, width:11, height:49, yadjust:0},
 		{ x: 45, y:208, width:12, height:61, yadjust:0},
 	      ],
 	      topSymbol : 

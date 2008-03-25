@@ -104,6 +104,7 @@ $main(function(){
           }
           this.pArray = new PArray();
           this.pArray.initialize.apply(this.pArray,arguments);
+	  this.pArray.margin = 10.0;
           this.children = [ this.leftBracket, this.pArray, this.rightBracket ];
           this.updateChildren();
 

@@ -29,6 +29,11 @@ $main(function(){
       colInfo : [],
 
       /*
+       * the margin between the entries
+       */
+      margin : 2.0,
+
+      /*
        * Determine the maximum height of a row
        * usage getMaxHeight(row) : max height of a row
        */
@@ -59,59 +64,56 @@ $main(function(){
        */
       draw : function(canvas, x, y, invisible) {
 
-        // the amount of space between the column elements
-        var margin = 2.0
-
         // total height
-        var totalHeight = 0
+        var totalHeight = 0;
         
         // fake drawing of children to set sizes
         
         for (var row = 0; row < this.rows; row++) {
           for (var col = 0; col < this.columns; col++) {
-            this.entries[row][col].draw(canvas, 0, 0, true)
+            this.entries[row][col].draw(canvas, 0, 0, true);
           }
         }
  
         for (var row = 0; row < this.rows; row++) {
-          var rowHeight = this.getMaxHeight(row)
-          var rowCenter
+          var rowHeight = this.getMaxHeight(row);
+          var rowCenter;
           if (row == 0 ) {
-            rowCenter = rowHeight/2+margin/2
-            totalHeight += rowHeight 
+            rowCenter = rowHeight/2+this.margin/2;
+            totalHeight += rowHeight ;
           } else {
-            rowCenter = this.rowInfo[row-1].center + this.rowInfo[row-1].height/2 + margin + rowHeight/2
-            totalHeight += rowHeight + margin
-          }
+            rowCenter = this.rowInfo[row-1].center + this.rowInfo[row-1].height/2 + this.margin + rowHeight/2;
+            totalHeight += rowHeight + this.margin;
+          };
           this.rowInfo[row] = {
             height : rowHeight,
             center : rowCenter
-          }
+          };
         }
 
         // adjust rows for total height
         for (var row = 0; row < this.rows; row++) {
-          this.rowInfo[row].center -= totalHeight/2
+          this.rowInfo[row].center -= totalHeight/2;
         }
 
         // the widths of the columns
-        var columnwidth = []
+        var columnwidth = [];
         // total width
-        var totalWidth = 0
+        var totalWidth = 0;
 
         for (var col = 0; col < this.columns; col++) {
-          var colWidth = this.getMaxWidth(col)
+          var colWidth = this.getMaxWidth(col);
           if (col ==0 ) {
-            colCenter = colWidth/2
-            totalWidth += colWidth 
+            colCenter = colWidth/2;
+            totalWidth += colWidth;
           } else {
-            colCenter = this.colInfo[col-1].center +this.colInfo[col-1].width/2+ margin + colWidth/2
-            totalWidth += colWidth + margin
-          }
+            colCenter = this.colInfo[col-1].center +this.colInfo[col-1].width/2+ this.margin + colWidth/2;
+            totalWidth += colWidth + this.margin;
+          };
           this.colInfo[col] = {
             width  : colWidth,
             center : colCenter
-          }
+          };
         }
 
         // adjust columns for total width

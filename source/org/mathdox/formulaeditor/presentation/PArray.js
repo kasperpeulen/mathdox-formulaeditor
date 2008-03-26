@@ -234,7 +234,8 @@ $main(function(){
           var middle = Math.floor(this.rows / 2);
           var row    = middle;
           while(result==null && 0<=row && row < this.rows) {
-            result = this.entries[row][0].getFollowingCursorPosition();
+	    col = this.entries[row].length - 1;
+            result = this.entries[row][col].getPrecedingCursorPosition();
             if (row>=middle) {
               row = 2*middle - row - 1;
             }
@@ -246,8 +247,8 @@ $main(function(){
         }
 
         if (index>0) {
-          var row = Math.floor(index / this.columns)
-          var col = index % this.columns
+          var row = Math.floor(index / this.columns);
+          var col = index % this.columns;
           if (col>0) {
             result = this.entries[row][col-1].getLastCursorPosition();
           } 

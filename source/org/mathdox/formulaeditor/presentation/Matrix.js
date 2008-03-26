@@ -88,12 +88,37 @@ $main(function(){
         
         return this.dimensions;
       },
-      // use some functions from Row
       functionsFromRow : [ "getCursorPosition", "getFirstCursorPosition",
         "getLastCursorPosition", "getFollowingCursorPosition",
         "getPrecedingCursorPosition", "getLowerCursorPosition",
         "getHigherCursorPosition" ],
+      getCursorPosition: function(x,y) {
+        var dimensions;
 
+        dimensions = this.leftBracket.dimensions;
+        if (x < dimensions.left + dimensions.width) {
+          return this.getFirstCursorPosition();
+        }
+        dimensions = this.pArray.dimensions;
+        if (x < dimensions.left + dimensions.width) {
+          return this.pArray.getCursorPosition(x,y);
+        }
+        return this.getLastCursorPosition();
+      },
+      getFirstCursorPosition: function(index) {
+        if (this.parent != null) {
+          return result = { row: this.parent, index: this.index };
+        } else {
+          return null;
+        }
+      },
+      getLastCursorPosition: function(index) {
+        if (this.parent != null) {
+          return result = { row: this.parent, index: this.index+1 };
+        } else {
+          return null;
+        }
+      },
       initialize : function () {
         with (org.mathdox.formulaeditor.presentation) {
           if (!this.leftBracket) {
@@ -104,7 +129,7 @@ $main(function(){
           }
           this.pArray = new PArray();
           this.pArray.initialize.apply(this.pArray,arguments);
-	  this.pArray.margin = 10.0;
+          this.pArray.margin = 10.0;
           this.children = [ this.leftBracket, this.pArray, this.rightBracket ];
           this.updateChildren();
 
@@ -113,18 +138,20 @@ $main(function(){
           var row = new Row(); // only an instance has the functions
 
           for (var i=this.functionsFromRow.length - 1; i>=0; i--) {
-            this[this.functionsFromRow[i]] = 
-              row[ this.functionsFromRow[i] ];
+            if (! this[this.functionsFromRow[i]] ) {
+              this[this.functionsFromRow[i]] = 
+                row[ this.functionsFromRow[i] ];
+            }
           }
         }
       },
 
       getSemantics : function() {
-	var rows = this.pArray.entries;
-	var semanticRows;
-	var matrix;
+        var rows = this.pArray.entries;
+        var semanticRows;
+        var matrix;
 
-	with (org.mathdox.formulaeditor.semantics) {
+        with (org.mathdox.formulaeditor.semantics) {
           semanticRows = new Array();
           for (var i=0;i<rows.length;i++) {
             var semanticRowEntries;
@@ -133,12 +160,12 @@ $main(function(){
             for (var j=0; j<rows[i].length;j++) {
               semanticRowEntries.push(rows[i][j].getSemantics().value);
             }
-	    var semanticRow = new Linalg2Matrixrow();
-	    semanticRow.initialize.apply(semanticRow, semanticRowEntries);
+            var semanticRow = new Linalg2Matrixrow();
+            semanticRow.initialize.apply(semanticRow, semanticRowEntries);
             semanticRows.push(semanticRow);
           }
           matrix = new Linalg2Matrix();
-	  matrix.initialize.apply(matrix, semanticRows);
+          matrix.initialize.apply(matrix, semanticRows);
         }
         return {
           value : matrix,

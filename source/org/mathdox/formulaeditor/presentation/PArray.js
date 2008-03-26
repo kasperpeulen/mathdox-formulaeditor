@@ -227,6 +227,7 @@ $main(function(){
       },
 
       getPrecedingCursorPosition : function(index) {
+        var result=null;
 
         if (index == null) {
           var row = null;
@@ -247,18 +248,15 @@ $main(function(){
         if (index>0) {
           var row = Math.floor(index / this.columns)
           var col = index % this.columns
-          var result 
           if (col>0) {
             result = this.entries[row][col-1].getLastCursorPosition();
           } 
-          if ((result == null) && (this.parent != null)) {
-            result = this.parent.getPrecedingCursorPosition(this.index, false)
-          }
-          return result
         }
 
-        return null;
-
+        if ((result == null) && (this.parent != null)) {
+          result = this.parent.getPrecedingCursorPosition(this.index, false)
+        }
+        return result
       },
 
       getLowerCursorPosition : function(index, x) {

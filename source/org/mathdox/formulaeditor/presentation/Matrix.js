@@ -88,36 +88,90 @@ $main(function(){
         
         return this.dimensions;
       },
-      functionsFromRow : [ "getCursorPosition", "getFirstCursorPosition",
-        "getLastCursorPosition", "getFollowingCursorPosition",
-        "getPrecedingCursorPosition", "getLowerCursorPosition",
+      functionsFromRow : [ "getFirstCursorPosition",
+        "getLastCursorPosition", "getLowerCursorPosition",
         "getHigherCursorPosition" ],
       getCursorPosition: function(x,y) {
         var dimensions;
 
         dimensions = this.leftBracket.dimensions;
         if (x < dimensions.left + dimensions.width) {
-          return this.getFirstCursorPosition();
+	  if (this.parent != null) {
+	    return result = { row: this.parent, index: this.index };
+	  } else {
+	    return null;
+	  }
+          return this.getFollowingCursorPosition();
         }
         dimensions = this.pArray.dimensions;
         if (x < dimensions.left + dimensions.width) {
           return this.pArray.getCursorPosition(x,y);
         }
-        return this.getLastCursorPosition();
-      },
-      getFirstCursorPosition: function(index) {
-        if (this.parent != null) {
-          return result = { row: this.parent, index: this.index };
-        } else {
-          return null;
-        }
-      },
-      getLastCursorPosition: function(index) {
-        if (this.parent != null) {
+	if (this.parent != null) {
           return result = { row: this.parent, index: this.index+1 };
-        } else {
-          return null;
+	} else {
+          return this.getPrecedingCursorPosition();
+	}
+      },
+      getFollowingCursorPosition : function(index, descend) {
+
+        // default value for descend
+        if (descend == null) {
+          descend = true;
         }
+
+        // when index is not specified, return the first position in the array
+	if (index == null) {
+	  return this.pArray.getFollowingCursorPosition();
+	}
+	
+	var result = null;
+
+	if (index == 0) {
+	  if (descend) {
+	    result = this.pArray.getFollowingCursorPosition();
+	  }
+	}
+
+	if (result == null) {
+	  // when we're at the end of the matrix, ask the parent of the matrix
+	  // for the position following this matrix
+	  if (this.parent != null) {
+	    return this.parent.getFollowingCursorPosition(this.index, false);
+	  }
+	}
+        
+        return result;
+      },
+      getPrecedingCursorPosition : function(index, descend) {
+
+        // default value for descend
+        if (descend == null) {
+          descend = true;
+        }
+
+        // when index is not specified, return the first position in the array
+	if (index == null) {
+	  return this.pArray.getPrecedingCursorPosition();
+	}
+	
+	var result = null;
+
+	if (index == 1) {
+	  if (descend) {
+	    result = this.pArray.getPrecedingCursorPosition();
+	  }
+	}
+
+	if (result == null) {
+	  // when we're at the beginning of the matrix, ask the parent of the
+	  // matrix for the position before this matrix
+	  if (this.parent != null) {
+	    return this.parent.getPrecedingCursorPosition(this.index, false);
+	  }
+	}
+        
+        return result;
       },
       initialize : function () {
         with (org.mathdox.formulaeditor.presentation) {
@@ -130,7 +184,7 @@ $main(function(){
           this.pArray = new PArray();
           this.pArray.initialize.apply(this.pArray,arguments);
           this.pArray.margin = 10.0;
-          this.children = [ this.leftBracket, this.pArray, this.rightBracket ];
+          this.children = [ this.pArray ];
           this.updateChildren();
 
           /* copy the cursor/position functions from Row */

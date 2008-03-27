@@ -192,11 +192,12 @@ $main(function(){
        * See also Node.getFollowingCursorPosition(index).
        */
       getFollowingCursorPosition : function(index) {
-        
+        var result = null;
+	var row, col;
+
         if (index == null) {
-          var row = null;
-          var middle = Math.floor(this.rows / 2);
-          var row    = middle;
+          middle = Math.floor(this.rows / 2);
+          row    = middle;
           while(result==null && 0<=row && row < this.rows) {
             result = this.entries[row][0].getFollowingCursorPosition();
             if (row>=middle) {
@@ -209,20 +210,16 @@ $main(function(){
           return result;
         }
 
-        if (index<this.children.length) {
-          var row = Math.floor(index / this.columns)
-          var col = index % this.columns
-          var result 
-          if (col+1<this.columns) {
-            result = this.entries[row][col+1].getFirstCursorPosition();
-          } 
-          if ((result == null) && (this.parent != null)) {
-            result = this.parent.getFollowingCursorPosition(this.index, false)
-          }
-          return result
+        row = Math.floor(index / this.columns);
+        col = index % this.columns;
+        if (col+1<this.columns) {
+          result = this.entries[row][col+1].getFirstCursorPosition();
         }
 
-        return null;
+        if ((result == null) && (this.parent != null)) {
+          result = this.parent.getFollowingCursorPosition(this.index, false);
+        }
+        return result;
 
       },
 
@@ -234,7 +231,7 @@ $main(function(){
           var middle = Math.floor(this.rows / 2);
           var row    = middle;
           while(result==null && 0<=row && row < this.rows) {
-	    col = this.entries[row].length - 1;
+            col = this.entries[row].length - 1;
             result = this.entries[row][col].getPrecedingCursorPosition();
             if (row>=middle) {
               row = 2*middle - row - 1;

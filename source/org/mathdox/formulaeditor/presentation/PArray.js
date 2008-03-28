@@ -34,15 +34,26 @@ $main(function(){
       margin : 2.0,
 
       /*
+       * Should we draw a box around the PArray and all entries ?
+       */
+      drawBox : false,
+
+      /*
        * Determine the maximum height of a row
        * usage getMaxHeight(row) : max height of a row
        */
       getMaxHeight : function(row) {
         var maxHeight = 0;
+        var highTop = 0;
+        var lowBottom = 0;
         for (var col=0; col<this.columns; col++) {
-          maxHeight = Math.max(maxHeight, this.entries[row][col].dimensions.height)
+          highTop = Math.min(highTop, this.entries[row][col].dimensions.top);
+          lowBottom = Math.max(lowBottom, 
+            this.entries[row][col].dimensions.top + 
+            this.entries[row][col].dimensions.height);
         }
-        return maxHeight
+        maxHeight = lowBottom - highTop;
+        return { height: maxHeight, top: highTop, bottom: lowBottom };
       },
 
       /*
@@ -76,24 +87,34 @@ $main(function(){
         }
  
         for (var row = 0; row < this.rows; row++) {
-          var rowHeight = this.getMaxHeight(row);
+          var heightInfo = this.getMaxHeight(row);
+          var rowHeight = heightInfo.height;
+          var rowTop;
           var rowCenter;
+          var rowBaseline;
           if (row == 0 ) {
-            rowCenter = rowHeight/2+this.margin/2;
-            totalHeight += rowHeight ;
+            rowBaseline = 0;
+            rowTop = rowBaseline + heightInfo.top;
+            totalHeight += rowHeight;
           } else {
-            rowCenter = this.rowInfo[row-1].center + this.rowInfo[row-1].height/2 + this.margin + rowHeight/2;
+            rowTop = this.rowInfo[row-1].top + this.rowInfo[row-1].height
+              + this.margin;
+            rowBaseline = rowTop - heightInfo.top;
             totalHeight += rowHeight + this.margin;
           };
           this.rowInfo[row] = {
             height : rowHeight,
-            center : rowCenter
+            top : rowTop,
+            baseline : rowBaseline
           };
         }
 
+        var usedBaseline = this.rowInfo[Math.floor((this.rows)/2)].baseline;
+
         // adjust rows for total height
         for (var row = 0; row < this.rows; row++) {
-          this.rowInfo[row].center -= totalHeight/2;
+          this.rowInfo[row].top -= usedBaseline;
+          this.rowInfo[row].baseline -= usedBaseline;
         }
 
         // the widths of the columns
@@ -125,27 +146,34 @@ $main(function(){
         if (! invisible) {
           for (var row=0; row<this.rows; row++) {
             for (var col=0; col<this.columns; col++) {
-              var entry       = this.entries[row][col]
-              var entryWidth  = entry.dimensions.width
-              var entryHeight = entry.dimensions.height
-              var entryTop    = entry.dimensions.top
+              var entry       = this.entries[row][col];
+              var entryWidth  = entry.dimensions.width;
+              var entryHeight = entry.dimensions.height;
+              var entryTop    = entry.dimensions.top;
               entry.draw(
                 canvas,
                 x + this.colInfo[col].center - (entryWidth/2), 
                       // horizontally centered in column
-                y + this.rowInfo[row].center,
-                      // vertically centered in row
+                y + this.rowInfo[row].baseline,
                 invisible
-              )
+              );
+              if ((!invisible) && this.drawBox) {
+                canvas.drawBox(entry.dimensions, y + 
+                  this.rowInfo[row].baseline);
+              }
             }
           }
         }
-        return this.dimensions = {
-          top    : this.rowInfo[0].center-this.rowInfo[0].height,
+        this.dimensions = {
+          top    : y+this.rowInfo[0].top,
           left   : x,
           width  : totalWidth,
           height : totalHeight
         }
+        if ((!invisible) && this.drawBox) {
+          canvas.drawBox(this.dimensions, y);
+        }
+        return this.dimensions;
       },
 
       getCursorPosition : function(x, y) {
@@ -193,7 +221,7 @@ $main(function(){
        */
       getFollowingCursorPosition : function(index) {
         var result = null;
-	var row, col;
+        var row, col;
 
         if (index == null) {
           middle = Math.floor(this.rows / 2);

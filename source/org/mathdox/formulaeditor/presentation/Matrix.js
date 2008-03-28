@@ -20,6 +20,8 @@ $main(function(){
       leftBracket : null,
       // right bracket
       rightBracket : null,
+      // should we draw boxes ?
+      drawBox : false,
 
       /**
        * Draws the matrix to the canvas.
@@ -52,12 +54,15 @@ $main(function(){
         var yAdjust = 0;
         var yAdjustBrackets = 0;
         
+        // brackets are higher than the array
         if (height>this.pArray.dimensions.height) {
           yAdjust = (height - this.pArray.dimensions.height)/2;
         }
 
-        if (height<this.pArray.dimensions.height) {
-          yAdjustBrackets = (this.pArray.dimensions.height - height)/2;
+        // brackets are smaller than the array
+        // assuming right bracket has the same size as the left bracket
+        if (this.leftBracket.dimensions.height<height) {
+          yAdjustBrackets = (height - this.leftBracket.dimensions.height)/2;
         }
 
         this.dimensions = { 
@@ -73,7 +78,7 @@ $main(function(){
         this.leftBracket.minimumHeight = this.pArray.dimensions.height;
         this.leftBracket.draw(canvas, 
           x - this.leftBracket.dimensions.left, 
-          this.dimensions.top + this.dimensions.height + yAdjustBrackets, 
+          this.dimensions.top + this.dimensions.height - yAdjustBrackets, 
           invisible);
 
         this.pArray.draw(canvas, 
@@ -83,9 +88,16 @@ $main(function(){
         this.rightBracket.draw(canvas, 
           x + this.rightBracket.dimensions.width + 
             this.pArray.dimensions.width - this.rightBracket.dimensions.left, 
-          this.dimensions.top + this.dimensions.height + yAdjustBrackets, 
+          this.dimensions.top + this.dimensions.height - yAdjustBrackets, 
           invisible);
         
+        if ((!invisible) &&this.drawBox) {
+          canvas.drawBox(this.pArray.dimensions);
+          canvas.drawBox(this.leftBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+          canvas.drawBox(this.rightBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+          canvas.drawBox(this.dimensions,y);
+        }
+
         return this.dimensions;
       },
       functionsFromRow : [ "getFirstCursorPosition",
@@ -96,22 +108,22 @@ $main(function(){
 
         dimensions = this.leftBracket.dimensions;
         if (x < dimensions.left + dimensions.width) {
-	  if (this.parent != null) {
-	    return result = { row: this.parent, index: this.index };
-	  } else {
-	    return null;
-	  }
+          if (this.parent != null) {
+            return result = { row: this.parent, index: this.index };
+          } else {
+            return null;
+          }
           return this.getFollowingCursorPosition();
         }
         dimensions = this.pArray.dimensions;
         if (x < dimensions.left + dimensions.width) {
           return this.pArray.getCursorPosition(x,y);
         }
-	if (this.parent != null) {
+        if (this.parent != null) {
           return result = { row: this.parent, index: this.index+1 };
-	} else {
+        } else {
           return this.getPrecedingCursorPosition();
-	}
+        }
       },
       getFollowingCursorPosition : function(index, descend) {
 
@@ -121,25 +133,25 @@ $main(function(){
         }
 
         // when index is not specified, return the first position in the array
-	if (index == null) {
-	  return this.pArray.getFollowingCursorPosition();
-	}
-	
-	var result = null;
+        if (index == null) {
+          return this.pArray.getFollowingCursorPosition();
+        }
+        
+        var result = null;
 
-	if (index == 0) {
-	  if (descend) {
-	    result = this.pArray.getFollowingCursorPosition();
-	  }
-	}
+        if (index == 0) {
+          if (descend) {
+            result = this.pArray.getFollowingCursorPosition();
+          }
+        }
 
-	if (result == null) {
-	  // when we're at the end of the matrix, ask the parent of the matrix
-	  // for the position following this matrix
-	  if (this.parent != null) {
-	    return this.parent.getFollowingCursorPosition(this.index, false);
-	  }
-	}
+        if (result == null) {
+          // when we're at the end of the matrix, ask the parent of the matrix
+          // for the position following this matrix
+          if (this.parent != null) {
+            return this.parent.getFollowingCursorPosition(this.index, false);
+          }
+        }
         
         return result;
       },
@@ -151,25 +163,25 @@ $main(function(){
         }
 
         // when index is not specified, return the first position in the array
-	if (index == null) {
-	  return this.pArray.getPrecedingCursorPosition();
-	}
-	
-	var result = null;
+        if (index == null) {
+          return this.pArray.getPrecedingCursorPosition();
+        }
+        
+        var result = null;
 
-	if (index == 1) {
-	  if (descend) {
-	    result = this.pArray.getPrecedingCursorPosition();
-	  }
-	}
+        if (index == 1) {
+          if (descend) {
+            result = this.pArray.getPrecedingCursorPosition();
+          }
+        }
 
-	if (result == null) {
-	  // when we're at the beginning of the matrix, ask the parent of the
-	  // matrix for the position before this matrix
-	  if (this.parent != null) {
-	    return this.parent.getPrecedingCursorPosition(this.index, false);
-	  }
-	}
+        if (result == null) {
+          // when we're at the beginning of the matrix, ask the parent of the
+          // matrix for the position before this matrix
+          if (this.parent != null) {
+            return this.parent.getPrecedingCursorPosition(this.index, false);
+          }
+        }
         
         return result;
       },

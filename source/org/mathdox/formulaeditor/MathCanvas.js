@@ -134,6 +134,31 @@ $main(function(){
     },
 
     /**
+     * Draws a blue box around on the edge of an element, depending on the
+     * dimensions. It overwrites the character (that is stays inside its
+     * dimensions). The box will be drawn around
+     * (dimensions.left,dimensions.top) (upper left) and
+     * (dimensions.left+dimensions.width - 1, dimensions.top+dimensions.height
+     * - 1) (lower right). An additional line will be drawn around the
+     * baseline.
+     */
+    drawBox: function(dimensions,y) {
+      var canvas = this.canvas;
+      var context = this.getContext();
+      context.save();
+      context.lineWidth = 1.0;
+      context.strokeRect(dimensions.left, dimensions.top, dimensions.width - 1 , dimensions.height - 1 );
+      if (y) {
+	context.beginPath();
+	context.moveTo(dimensions.left, y);
+	context.lineTo(dimensions.left + dimensions.width - 1, y);
+	context.stroke();
+	context.closePath();
+      }
+      context.restore();
+    },
+
+    /**
      * Draws the specified symbol (character) on the canvas, at the specified
      * position, using the current fontName and fontSize. The (x,y) coordinate
      * indicates where the left of the baseline of the symbol will appear.
@@ -291,16 +316,16 @@ $main(function(){
                 { x: 14, y:331, width: 3, xadjust:0}
             },
             ')' : {
-	      symbols : [
-		{ x: 46, y: 30, width: 6, height:24, yadjust:0},
-		{ x: 45, y:119, width: 9, height:37, yadjust:0},
-		{ x:117, y:119, width:11, height:49, yadjust:0},
-		{ x: 45, y:208, width:12, height:61, yadjust:0},
-	      ],
-	      topSymbol : 
-		{ x: 45, y:296, width:12, height:37, yadjust:0},
-	      bottomSymbol : 
-		{ x: 45, y:385, width:12, height:37, yadjust:0},
+              symbols : [
+                { x: 46, y: 30, width: 6, height:24, yadjust:0},
+                { x: 45, y:119, width: 9, height:37, yadjust:0},
+                { x:117, y:119, width:11, height:49, yadjust:0},
+                { x: 45, y:208, width:12, height:61, yadjust:0},
+              ],
+              topSymbol : 
+                { x: 45, y:296, width:12, height:37, yadjust:0},
+              bottomSymbol : 
+                { x: 45, y:385, width:12, height:37, yadjust:0},
               connection : 
                 { x: 54, y:331, width: 3, xadjust:0}
             }

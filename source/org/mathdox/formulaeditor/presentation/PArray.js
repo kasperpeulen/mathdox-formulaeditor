@@ -292,14 +292,14 @@ $main(function(){
         }
 
         if (index<this.children.length) {
-          var row = Math.floor(index / this.columns)
-          var col = index % this.columns
+          var row = Math.floor(index / this.columns)
+          var col = index % this.columns
           var result 
           if (row+1<this.rows) {
             result = this.entries[row+1][col].getLowerCursorPosition(null, x);
           } 
           if ((result == null) && (this.parent != null)) {
-            result = this.parent.getFollowingCursorPosition(index, x)
+            result = this.parent.getLowerCursorPosition(this.index, x)
           }
           return result
         }
@@ -314,14 +314,14 @@ $main(function(){
         }
 
         if (index<this.children.length) {
-          var row = Math.floor(index / this.columns)
-          var col = index % this.columns
+          var row = Math.floor(index / this.columns)
+          var col = index % this.columns
           var result 
           if (row>0) {
             result = this.entries[row-1][col].getLowerCursorPosition(null, x);
           } 
           if ((result == null) && (this.parent != null)) {
-            result = this.parent.getFollowingCursorPosition(index, x)
+            result = this.parent.getHigherCursorPosition(this.index, x)
           }
           return result
         }

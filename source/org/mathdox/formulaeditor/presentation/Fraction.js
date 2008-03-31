@@ -140,7 +140,11 @@ $main(function(){
             return this.children[1].getLowerCursorPosition(null, x);
           }
           else {
-            arguments.callee.parent.getLowerCursorPosition(this, index, x);
+	    if (this.parent != null ) {
+	      return this.parent.getLowerCursorPosition(this.index, x);
+	    } else {
+	      return null;
+	    }
           }
         }
       },
@@ -155,7 +159,7 @@ $main(function(){
           }
           else {
             if (this.parent != null) {
-              this.parent.getHigherCursorPosition(this.index, x);
+              return this.parent.getHigherCursorPosition(this.index, x);
             }
             else {
               return null;

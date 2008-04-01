@@ -26,8 +26,8 @@ $main(function(){
           this.pArray.initialize.apply(this.pArray,arguments);
           this.pArray.margin = 10.0;
 
-          arguments.callee.parent.initialize(leftBracket, this.pArray,
-            rightBracket);
+          arguments.callee.parent.initialize.call(this, leftBracket,
+            this.pArray, rightBracket);
         }
       },
 

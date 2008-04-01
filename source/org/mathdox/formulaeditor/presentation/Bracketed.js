@@ -190,11 +190,9 @@ $main(function(){
 	    this.middle = arguments[1];
 	    this.rightBracket = arguments[2];
 	    this.children = [ this.middle ];
-	    alert("initializing: left"+!(!this.leftBracket)+", middle: "+!(!this.middle)+", right: "+!(!this.rightBracket));
 	  } else {
 	    this.children = [];
 	  }
-	  this.updateChildren();
 
           /* copy the cursor/position functions from Row */
 
@@ -206,6 +204,7 @@ $main(function(){
                 row[ this.functionsFromRow[i] ];
             }
           }
+	  this.updateChildren();
         }
       }
 

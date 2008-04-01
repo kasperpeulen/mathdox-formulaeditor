@@ -10,6 +10,10 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Column =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
+      /*
+       * the margin between the entries
+       */
+      margin: 2.0,
 
       /**
        * Draws the column to the canvas.
@@ -19,7 +23,7 @@ $main(function(){
       draw : function(canvas, x, y, invisible) {
 
         // the amount of space between the column elements
-        var margin = 2.0;
+        var margin = this.margin;
 
         // determine the dimensions of the children, and the maximum width
         var maxWidth = 0;

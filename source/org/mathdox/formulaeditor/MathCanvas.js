@@ -88,10 +88,19 @@ $main(function(){
         // draw a symbol 
         
         // calculate the position of the topleft corner, the width and the height
-        var left   = x
-        var top    = y - symbolData.height + symbolData.yadjust
-        var width  = symbolData.width
-        var height = symbolData.height
+	if (symbolData.margin) {
+	  symbolData = {
+	    x: symbolData.x - symbolData.margin,
+	    y: symbolData.y,
+	    width: symbolData.width + 2*symbolData.margin,
+	    height: symbolData.height,
+	    yadjust: symbolData.yadjust
+	  }
+	}
+        var left   = x;
+        var top    = y - symbolData.height + symbolData.yadjust;
+        var width  = symbolData.width;
+        var height = symbolData.height;
   
         // draw that part of the font image which contains the symbol
         if (!invisible) {
@@ -177,10 +186,10 @@ $main(function(){
       var font = symbolData.font;
 
       // calculate the position of the topleft corner, the width and the height
-      var left   = x
-      var top    = y - symbolData.height + symbolData.yadjust
-      var width  = symbolData.width
-      var height = symbolData.height
+      var left   = x;
+      var top    = y - symbolData.height + symbolData.yadjust;
+      var width  = symbolData.width;
+      var height = symbolData.height;
 
       // draw that part of the font image which contains the symbol
       if (!invisible) {
@@ -253,6 +262,15 @@ $main(function(){
       var symbolData = font[this.fontSize].symbols[symbol]
 
       if (symbolData) {
+	if (symbolData.margin) {
+	  symbolData = {
+	    x: symbolData.x - symbolData.margin,
+	    y: symbolData.y,
+	    width: symbolData.width + 2*symbolData.margin,
+	    height: symbolData.height,
+	    yadjust: symbolData.yadjust
+	  }
+	}
         // return symboldata
         symbolData.font = font[this.fontSize];
         return symbolData;
@@ -437,7 +455,7 @@ $main(function(){
             // fake ' ', like ',', 4 pixes to the right
             ' ' : { x:308, y:71,  width:3,  height:7,  yadjust:4  },
 
-            '-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3 },
+            '-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3, margin:2 },
             '.' : { x:353, y:71,  width:3,  height:3,  yadjust:0  },
             '/' : { x:378, y:59,  width:8,  height:20, yadjust:5  },
             '0' : { x:8,   y:84,  width:10, height:15, yadjust:1  },
@@ -535,7 +553,7 @@ $main(function(){
           symbols : {
 
             // U+00B7 middle dot
-            '·' : { x:38,  y:21,  width:3,  height:2,  yadjust:-4 },
+            '·' : { x:38,  y:21,  width:3,  height:2,  yadjust:-4 , margin:2 },
 
             // U+2264 less than or equal to
             '≤' : { x:124, y:55,  width:13, height:16, yadjust:3  },

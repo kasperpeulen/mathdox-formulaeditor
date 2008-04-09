@@ -1,5 +1,8 @@
 $package("org.mathdox.formulaeditor");
 
+// load make/maker functions
+$require("com/oreilly/javascript/tdg/make.js");
+
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
@@ -10,7 +13,7 @@ $require("org/mathdox/formulaeditor/EventHandler.js");
 
 //$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
 //$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
-/*$require("org/mathdox/formulaeditor/modules/keywords.js");*/
+$require("org/mathdox/formulaeditor/modules/keywords.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
@@ -91,6 +94,8 @@ $main(function(){
    */
   var editors = [];
 
+  var palette;
+
   /**
    * Class that represents a formula editor.
    */
@@ -115,6 +120,11 @@ $main(function(){
      * The keyboard cursor.
      */
     cursor : null,
+
+    /**
+     * The palette (if any)
+     */
+    palette : null,
 
     /**
      * Indicates whether this formula editor has the focus.
@@ -172,12 +182,60 @@ $main(function(){
 
         }
 
+	// check whether a palette needs to be added
+	if (!palette) {
+	  /*
+	  var ec = new com.oreilly.javascript.tdg.ElementCreation;
+	  var table = ec.maker("table");
+	  var tr = ec.maker("tr");
+	  var td = ec.maker("td");
+	  var span = ec.maker("span");
+
+	  palette = ec.make("div", { class: "formulaeditor_palette" }, 
+	    table({},[
+	      tr({},[ td({}, span({class:"math"}, "\\pi")) ])
+	    ])
+	  );
+
+	  palette.style.border = "solid";
+	  */
+	  //canvas.parentNode.insertBefore(palette, canvas);
+	  var palcanvas = document.createElement("canvas");
+
+	  // copy style attributes from the textarea to the canvas
+          for (var x in textarea.style) {
+            try {
+              palcanvas.style[x] = textarea.style[x];
+            }
+            catch(exception) {
+              // skip
+            }
+          }
+
+          // set the style attributes that determine the look of the editor
+          palcanvas.style.border        = "2px solid #99F";
+          palcanvas.style.verticalAlign = "middle";
+          palcanvas.style.cursor        = "text";
+          palcanvas.style.padding       = "0px";
+
+          // insert canvas in the document before the textarea 
+          textarea.parentNode.insertBefore(palcanvas, textarea);
+
+          // Initialize the canvas. This is only needed in Internet Explorer,
+          // where Google's Explorer Canvas library handles canvases.
+          if (G_vmlCanvasManager) {
+            palcanvas = G_vmlCanvasManager.initElement(palcanvas);
+          }
+	  palette = new org.mathdox.formulaeditor.Palette(palcanvas);
+	}
+
         // hide the textarea
         textarea.style.display = "none";
 
         // register the textarea and a new mathcanvas
         this.textarea = textarea;
         this.canvas   = new MathCanvas(canvas);
+	this.palette  = palette;
 
         this.load();
 
@@ -267,11 +325,11 @@ $main(function(){
     },
 
     /**
-     * Handles an onmousedown event from the browser. Returns false when the
-     * event has been handled and should not be handled by the browser, returns
-     * true otherwise.
+     * Returns info about the mouse event, returning {x, y}, where x and y are
+     * the relative positions in the canvas. If the mouseclick was not in the
+     * canvas null is returned instead.
      */
-    onmousedown : function(event) {
+    mouseeventinfo : function(event) {  
 
       // retrieve the screen coordinates of the mouse click
       var mouseX = event.clientX;
@@ -311,9 +369,29 @@ $main(function(){
       // check whether the mouse click falls in the canvas element
       if (x<=mouseX && mouseX<=x+width && y<=mouseY && mouseY<=y+height) {
         // we have focus
+        // forward the mouse click to the cursor object
+        return { x:mouseX-x, y:mouseY-y };
+      }
+      else {
+        // we do not have focus
+	return null;
+      }
+
+    },
+    /**
+     * Handles an onmousedown event from the browser. Returns false when the
+     * event has been handled and should not be handled by the browser, returns
+     * true otherwise.
+     */
+    onmousedown : function(event) {
+      // check whether the mouse click falls in the canvas element
+      var mouseinfo = this.mouseeventinfo(event);
+
+      if (mouseinfo) {
+        // we have focus
         this.focus();
         // forward the mouse click to the cursor object
-        return this.cursor.onmousedown(event, this, mouseX-x, mouseY-y);
+        return this.cursor.onmousedown(event, this, mouseinfo.x, mouseinfo.y);
       }
       else {
         // we do not have focus
@@ -491,13 +569,19 @@ $main(function(){
 
       onmousedown : function(event) {
         var result = true;
-        for (var i=0; i<editors.length; i++) {
-          var intermediate = editors[i].onmousedown(event);
-          if (intermediate != null && intermediate == false) {
-            result = false;
-          }
-        }
-        return result;
+	if (palette) {
+	  result = palette.onmousedown(event);
+	}
+	if (result) {
+	  // if not handled by palette, then continue
+	  for (var i=0; i<editors.length; i++) {
+	    var intermediate = editors[i].onmousedown(event);
+	    if (intermediate != null && intermediate == false) {
+	      result = false;
+	    }
+	  }
+	  return result;
+	}
       }
 
     });
@@ -523,5 +607,64 @@ $main(function(){
     }
 
   }
+
+  /**
+   * Class that represents a formula editor palette.
+   */
+  org.mathdox.formulaeditor.Palette = $extend(
+    org.mathdox.formulaeditor.FormulaEditor, {
+
+    // do nothing with a keypress
+    onkeydown : function(event) {
+      return true; 
+    },
+    // do nothing with a keypress
+    onkeypress : function(event) {
+      return true; 
+    },
+    // handle a mouseclick
+    onmousedown: function(event) {
+      // check whether the mouse click falls in the canvas element
+      var mouseinfo = this.mouseeventinfo(event);
+
+      if (mouseinfo) {
+        // we are clicked on
+	var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
+	if (editor) {
+	  this.presentation.insertSymbolFromPalette(editor, 
+	    mouseinfo.x, mouseinfo.y);
+	} else {
+	  alert("No formulaeditor with focus. Please click on an editor\n"+
+	        "at the position where the symbol should be entered.");
+	}
+
+	return false;
+      }
+      else {
+        // we are not clicked on 
+	return true;
+      }
+    },
+    // fake function, do not draw the cursor
+    cursor : {
+      draw: function() {
+	return true;
+      }
+    }
+    ,
+    // todo onmousedown : function(event) { }
+    initialize : function(canvas) {
+      var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
+      if (arguments.length > 0 ) { 
+        this.canvas = new MathCanvas(canvas);
+      }
+      with (org.mathdox.formulaeditor.presentation) {
+	var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
+	// create a PArray
+	this.presentation = new PArray([pi.getPresentation()]);
+	this.draw();
+      }
+    }
+  });
 
 });

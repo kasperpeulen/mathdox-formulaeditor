@@ -176,11 +176,11 @@ $main(function(){
         return this.dimensions;
       },
 
-      getCursorPosition : function(x, y) {
-        var row,col
+      getEntryFromPosition : function(x, y) {
+        var row,col;
 
         // find the row
-        row = 0
+        row = 0;
         /*
          * Here rowHeight   = this.rowInfo[row].height and 
          *      entryHeight = this.entries[row][0].dimensions.height
@@ -193,11 +193,11 @@ $main(function(){
          */
         while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top - (this.rowInfo[row].height - this.entries[row][0].dimensions.height)/2 + this.rowInfo[row].height)) {
           // not in row "row"
-          row++
+          row++;
         }
 
         // find the column
-        col = 0
+        col = 0;
                /*
          * Here colWidth   = this.colInfo[row].width and 
          *      entryWidth = this.entries[row][col].dimensions.width
@@ -210,13 +210,18 @@ $main(function(){
          */
         while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
           // not in column "col"
-          col++
+          col++;
         }
-
-        return this.entries[row][col].getCursorPosition(x,y)
+        return this.entries[row][col];
       },
 
-      /**
+      getCursorPosition : function(x, y) {
+        return this.getEntryFromPosition(x,y).getCursorPosition(x,y);
+      },
+
+      
+			
+     /**
        * See also Node.getFollowingCursorPosition(index).
        */
       getFollowingCursorPosition : function(index) {
@@ -330,20 +335,45 @@ $main(function(){
       },
       initialize : function () {
         if (arguments.length >0) {
-          this.entries = Array.prototype.slice.call(arguments)
-          this.rows = this.entries.length
-          this.columns = this.entries[0].length
+          this.entries = Array.prototype.slice.call(arguments);
+          this.rows = this.entries.length;
+          this.columns = this.entries[0].length;
         }
-        this.children = new Array()
+        this.children = new Array();
 
         for (var row = 0; row < this.rows; row++) {
           for (var col = 0; col < this.columns; col++) {
-            this.children.push(this.entries[row][col])
+            this.children.push(this.entries[row][col]);
           }
         }
-        this.updateChildren()
+        this.updateChildren();
+      },
+      insertSymbolFromPalette: function(editor,x,y) {
+	var position = editor.cursor.position;
+	var row = this.getEntryFromPosition(x,y);
+
+	with(org.mathdox.formulaeditor.presentation) {
+	  // warning: Node might not be the correct type
+	  for (pos = 0; pos < row.children.length; pos++) {
+	    var original = row.children[pos];
+	    var copy = new Node();
+	    var i;
+
+	    for(i in original) {
+	      copy[i] = original[i];
+	    }
+	    position.row.insert(position.index, copy);
+
+	    // this works, and seems to be the easiest way to do it, since a
+	    // move right might enter the symbol we just added
+	    // XXX it still doesn't look nice though
+	    //
+	    position.index++;
+	  }
+	  position.row.updateChildren();
+	}
       }
 
-    })
+  })
 
 })

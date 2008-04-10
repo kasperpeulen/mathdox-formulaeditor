@@ -220,7 +220,7 @@ $main(function(){
       },
 
       
-			
+                        
      /**
        * See also Node.getFollowingCursorPosition(index).
        */
@@ -333,7 +333,7 @@ $main(function(){
 
         return null
       },
-      initialize : function () {
+      initialize : function() {
         if (arguments.length >0) {
           this.entries = Array.prototype.slice.call(arguments);
           this.rows = this.entries.length;
@@ -349,40 +349,44 @@ $main(function(){
         this.updateChildren();
       },
       insertSymbolFromPalette: function(editor,x,y) {
-	var position = editor.cursor.position;
-	var row = this.getEntryFromPosition(x,y);
+        var position = editor.cursor.position;
+        var row = this.getEntryFromPosition(x,y);
 
-	with(org.mathdox.formulaeditor.presentation) {
-	  // warning: Node might not be the correct type
-	  for (pos = 0; pos < row.children.length; pos++) {
-	    // create a copy, 
-	    // XXX does this always work or do we need a real deep copy ?
-	    var original = row.children[pos];
-	    var copy;
-	    
-	    if (original instanceof Symbol) {
-	      copy = new Symbol();
-	    } else {
-	      copy = new Node();
-	    }
+        with(org.mathdox.formulaeditor.presentation) {
+          // warning: Node might not be the correct type
+          if (row.insertCopy) {
+              copy = row.insertCopy(position);
+          } else {
+            for (pos = 0; pos < row.children.length; pos++) {
+              // create a copy, 
+              // XXX does this always work or do we need a real deep copy ?
+              var original = row.children[pos];
+              var copy;
+            
+              if (original instanceof Symbol) {
+                copy = new Symbol();
+              } else {
+                copy = new Node();
+              }
 
-	    var i;
+              var i;
 
-	    for(i in original) {
-	      copy[i] = original[i];
-	    }
+              for(i in original) {
+                copy[i] = original[i];
+              }
 
-	    position.row.insert(position.index, copy);
+              position.row.insert(position.index, copy);
 
-	    // this works, and seems to be the easiest way to do it, since a
-	    // move right might enter the symbol we just added
-	    // XXX it still doesn't look nice though
-	    //
-	    position.index++;
-	  }
-	  editor.redraw();
-	  editor.save();
-	}
+              // this works, and seems to be the easiest way to do it, since a
+              // move right might enter the symbol we just added
+              // XXX it still doesn't look nice though
+              //
+              position.index++;
+            }
+          }
+          editor.redraw();
+          editor.save();
+        }
       }
 
   })

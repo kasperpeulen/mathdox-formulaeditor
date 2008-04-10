@@ -306,15 +306,15 @@ $main(function(){
         // handle some events here
         switch (event.keyCode) {
           case 116: // F5
-	    var Cursor    = org.mathdox.formulaeditor.Cursor;
+            var Cursor    = org.mathdox.formulaeditor.Cursor;
 
-	    this.save();
-	    this.load();
-	    this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
-	    this.focus(); // XXX is this necessary ?
-	    this.redraw();
+            this.save();
+            this.load();
+            this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
+            this.focus(); // XXX is this necessary ?
+            this.redraw();
 
-	    return false;
+            return false;
         }
         this.focus(); // TODO: only necessary for crappy blinker implementation
         return this.cursor.onkeydown(event, this);
@@ -673,8 +673,108 @@ $main(function(){
       }
       with (org.mathdox.formulaeditor.presentation) {
         var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
+
+        var autocreate = function(createFun) {
+          var obj = createFun(); 
+          if (obj instanceof Array) {
+            // in case of an array put it in a row for the palette, and add the
+            // items one by one in insertCopy
+            
+            var row = new Row();
+            row.initialize.apply(row, obj);
+            row.insertCopy = function(position) {
+              var toInsert = createFun();
+              var i;
+
+              for (i=0;i<toInsert.length;i++) {
+                position.row.insert(position.index, toInsert[i]);
+                position.index++;
+              };
+            }
+            obj = row;
+          } else {
+            obj.insertCopy = function(position) {
+              position.row.insert(position.index, createFun());
+              position.index++;
+            };
+          }
+          return obj;
+        }
+        var empty = function() {
+          var obj = new Symbol(" ");
+          obj.insertCopy = function(position) { };
+          return obj;
+        };
+        var autocreateOMA = function(cd, name) {
+          var createFun = function() {
+            return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation(), new Symbol("("), new Row(), new Symbol(")")];
+          };
+          return autocreate(createFun);
+        }
+        var autocreateOMS = function(cd, name) {
+          var createFun = function() {
+            return org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation();
+          };
+          return autocreate(createFun);
+        };
+        var autocreateSymbol = function(symbol) {
+          var createFun = function() {
+            return new Symbol(symbol);
+          }
+          return autocreate(createFun);
+        };
+        // create o/o 
+        var createFrac = function() {
+          return new Fraction(new Row(), new Row());
+        };
+        // create o^o
+        var createPower = function() {
+          return [new Row(), new Superscript(new Row)];
+        };
+        // create |o|
+        var createAbs = function() {
+          return [new Symbol("|"), new Row(), new Symbol("|")];
+        };
+        // create o!
+        var createFac = function() {
+          return [new Row(), new Symbol("!")];
+        };
+        // create e^o
+        var createEPower = function() {
+          return [autocreateOMS("nums1","e"), new Superscript(new Row())];
+        };
         // create a PArray
-        this.presentation = new PArray([pi.getPresentation()]);
+        this.presentation = new PArray(
+          [
+            autocreate(createFrac), autocreateSymbol("+"), 
+            autocreateSymbol("-"), 
+            // U+00B7 middle dot
+            autocreateSymbol("·"),
+            // U+2265 greater-than or equal to 
+            autocreateSymbol("≥"), 
+            autocreateSymbol(">"),
+            autocreateSymbol("<"), 
+            // U+2264 less-than or equal to 
+            autocreateSymbol("≤"),
+            autocreateSymbol("="),
+            // U+2227 logical and
+            autocreateSymbol("∧"),
+            // U+2228 logical or
+            autocreateSymbol("∨"),
+            autocreateOMS("nums1","pi"),
+            autocreateOMS("nums1","e"),
+            autocreateOMS("nums1","i"),
+            autocreateOMS("nums1","infinity"),
+            autocreate(createPower),
+            autocreate(createAbs),
+            autocreate(createFac),
+            autocreate(createEPower),
+            autocreateOMA("transc1", "cos"),
+            autocreateOMA("transc1", "sin"),
+            autocreateOMA("transc1", "tan"),
+            autocreateOMA("transc1", "ln")
+          ]
+        );
         this.draw();
       }
     }

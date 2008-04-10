@@ -80,23 +80,23 @@ $main(function(){
 
       // use the largest symbol if none is large enough, TODO implement large
       // constructing symbols
-      if (!symbolData) {
-        symbolData = bracketData.symbols[bracketData.symbols.length-1];
-      }
+      //if (!symbolData) {
+      //  symbolData = bracketData.symbols[bracketData.symbols.length-1];
+      //}
 
       if (symbolData) {
         // draw a symbol 
         
         // calculate the position of the topleft corner, the width and the height
-	if (symbolData.margin) {
-	  symbolData = {
-	    x: symbolData.x - symbolData.margin,
-	    y: symbolData.y,
-	    width: symbolData.width + 2*symbolData.margin,
-	    height: symbolData.height,
-	    yadjust: symbolData.yadjust
-	  }
-	}
+        if (symbolData.margin) {
+          symbolData = {
+            x: symbolData.x - symbolData.margin,
+            y: symbolData.y,
+            width: symbolData.width + 2*symbolData.margin,
+            height: symbolData.height,
+            yadjust: symbolData.yadjust
+          }
+        }
         var left   = x;
         var top    = y - symbolData.height + symbolData.yadjust;
         var width  = symbolData.width;
@@ -139,7 +139,80 @@ $main(function(){
         }
       } else {
         // construct a symbol
-      }
+        var topSymbol = bracketData.topSymbol;
+        var bottomSymbol = bracketData.bottomSymbol;
+        var connection = bracketData.connection;
+        var left = x;
+        var height = Math.max(minimumHeight,
+          topSymbol.height + bottomSymbol.height);
+        var top = y - height + bottomSymbol.yadjust;
+        var width = Math.max(topSymbol.width, connection.xadjust+
+          connection.width, bottomSymbol.width);
+
+        if (!invisible) {
+  
+          var canvas = this.canvas;
+          var cache  = this.imageCache;
+  
+          var drawImage = function() {
+            var topPos = { 
+              left: left,
+              top: top,
+              width: topSymbol.width,
+              height: topSymbol.height
+            };
+                   var bottomPos = { 
+              left: left,
+              top: top + height - bottomSymbol.height ,
+              width: bottomSymbol.width,
+              height: bottomSymbol.height
+            };
+                   var connPos = { 
+              left: left,
+              top: topPos.top + topPos.height,
+              width: connection.width,
+              height: height - topPos.height - bottomPos.height
+            };
+            canvas.getContext("2d").drawImage(
+              cache[font.image],
+              topSymbol.x, topSymbol.y, topSymbol.width, topSymbol.height,
+              topPos.left, topPos.top, topPos.width, topPos.height
+            );
+            if (connPos.height>0) {
+              canvas.getContext("2d").drawImage(
+                cache[font.image],
+                connection.x, connection.y, connection.width, connection.height,
+                connPos.left+connection.xadjust, connPos.top, connPos.width, connPos.height
+              );
+            }
+            canvas.getContext("2d").drawImage(
+              cache[font.image],
+              bottomSymbol.x, bottomSymbol.y, bottomSymbol.width, bottomSymbol.height,
+              bottomPos.left, bottomPos.top, bottomPos.width, bottomPos.height
+            );
+          };
+  
+          if (cache[font.image] == null) {
+            var image = new Image();
+            image.onload = function() {
+              cache[font.image] = image;
+              drawImage();
+            }
+            image.src = font.image;
+          }
+          else{
+            drawImage();
+          }
+  
+        }
+         // return the coordinates of the topleft corner, the width and height
+        return {
+          left:   left,
+          top:    top,
+          width:  width,
+          height: height
+        }
+       }
     },
 
     /**
@@ -158,11 +231,11 @@ $main(function(){
       context.lineWidth = 1.0;
       context.strokeRect(dimensions.left, dimensions.top, dimensions.width - 1 , dimensions.height - 1 );
       if (y) {
-	context.beginPath();
-	context.moveTo(dimensions.left, y);
-	context.lineTo(dimensions.left + dimensions.width - 1, y);
-	context.stroke();
-	context.closePath();
+        context.beginPath();
+        context.moveTo(dimensions.left, y);
+        context.lineTo(dimensions.left + dimensions.width - 1, y);
+        context.stroke();
+        context.closePath();
       }
       context.restore();
     },
@@ -262,15 +335,15 @@ $main(function(){
       var symbolData = font[this.fontSize].symbols[symbol]
 
       if (symbolData) {
-	if (symbolData.margin) {
-	  symbolData = {
-	    x: symbolData.x - symbolData.margin,
-	    y: symbolData.y,
-	    width: symbolData.width + 2*symbolData.margin,
-	    height: symbolData.height,
-	    yadjust: symbolData.yadjust
-	  }
-	}
+        if (symbolData.margin) {
+          symbolData = {
+            x: symbolData.x - symbolData.margin,
+            y: symbolData.y,
+            width: symbolData.width + 2*symbolData.margin,
+            height: symbolData.height,
+            yadjust: symbolData.yadjust
+          }
+        }
         // return symboldata
         symbolData.font = font[this.fontSize];
         return symbolData;
@@ -327,11 +400,11 @@ $main(function(){
                 { x: 13, y:208, width:11, height:61, yadjust:0}
               ],
               topSymbol : 
-                { x: 14, y:296, width:12, height:37, yadjust:0},
+                { x: 14, y:296, width:12, height:36, yadjust:0},
               bottomSymbol :
                 { x: 14, y:385, width:12, height:37, yadjust:0},
               connection : 
-                { x: 14, y:331, width: 3, xadjust:0}
+                { x: 14, y:331, width: 3, height: 1, yadjust:0, xadjust:0}
             },
             ')' : {
               symbols : [
@@ -341,11 +414,11 @@ $main(function(){
                 { x: 45, y:208, width:12, height:61, yadjust:0},
               ],
               topSymbol : 
-                { x: 45, y:296, width:12, height:37, yadjust:0},
+                { x: 45, y:296, width:12, height:36, yadjust:0},
               bottomSymbol : 
                 { x: 45, y:385, width:12, height:37, yadjust:0},
               connection : 
-                { x: 54, y:331, width: 3, xadjust:0}
+                { x: 54, y:331, width: 3, height: 1, yadjust:0, xadjust:9}
             }
           },
 

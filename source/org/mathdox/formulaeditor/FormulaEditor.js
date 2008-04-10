@@ -182,27 +182,27 @@ $main(function(){
 
         }
 
-	// check whether a palette needs to be added
-	if (!palette) {
-	  /*
-	  var ec = new com.oreilly.javascript.tdg.ElementCreation;
-	  var table = ec.maker("table");
-	  var tr = ec.maker("tr");
-	  var td = ec.maker("td");
-	  var span = ec.maker("span");
+        // check whether a palette needs to be added
+        if (!palette) {
+          /*
+          var ec = new com.oreilly.javascript.tdg.ElementCreation;
+          var table = ec.maker("table");
+          var tr = ec.maker("tr");
+          var td = ec.maker("td");
+          var span = ec.maker("span");
 
-	  palette = ec.make("div", { class: "formulaeditor_palette" }, 
-	    table({},[
-	      tr({},[ td({}, span({class:"math"}, "\\pi")) ])
-	    ])
-	  );
+          palette = ec.make("div", { class: "formulaeditor_palette" }, 
+            table({},[
+              tr({},[ td({}, span({class:"math"}, "\\pi")) ])
+            ])
+          );
 
-	  palette.style.border = "solid";
-	  */
-	  //canvas.parentNode.insertBefore(palette, canvas);
-	  var palcanvas = document.createElement("canvas");
+          palette.style.border = "solid";
+          */
+          //canvas.parentNode.insertBefore(palette, canvas);
+          var palcanvas = document.createElement("canvas");
 
-	  // copy style attributes from the textarea to the canvas
+          // copy style attributes from the textarea to the canvas
           for (var x in textarea.style) {
             try {
               palcanvas.style[x] = textarea.style[x];
@@ -226,8 +226,8 @@ $main(function(){
           if (G_vmlCanvasManager) {
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);
           }
-	  palette = new org.mathdox.formulaeditor.Palette(palcanvas);
-	}
+          palette = new org.mathdox.formulaeditor.Palette(palcanvas);
+        }
 
         // hide the textarea
         textarea.style.display = "none";
@@ -235,7 +235,7 @@ $main(function(){
         // register the textarea and a new mathcanvas
         this.textarea = textarea;
         this.canvas   = new MathCanvas(canvas);
-	this.palette  = palette;
+        this.palette  = palette;
 
         this.load();
 
@@ -303,6 +303,19 @@ $main(function(){
 
       // forward the event to the cursor object when we have the focus
       if(this.hasFocus) {
+        // handle some events here
+        switch (event.keyCode) {
+          case 116: // F5
+	    var Cursor    = org.mathdox.formulaeditor.Cursor;
+
+	    this.save();
+	    this.load();
+	    this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
+	    this.focus(); // XXX is this necessary ?
+	    this.redraw();
+
+	    return false;
+        }
         this.focus(); // TODO: only necessary for crappy blinker implementation
         return this.cursor.onkeydown(event, this);
       }
@@ -374,7 +387,7 @@ $main(function(){
       }
       else {
         // we do not have focus
-	return null;
+        return null;
       }
 
     },
@@ -466,7 +479,7 @@ $main(function(){
             "<OME>" +
               "<OMS cd='moreerrors' name='encodingError'/>" +
               "<OMSTR>invalid expression entered</OMSTR>" +
-	      exception.toString() +
+              exception.toString() +
             "</OME>" +
           "</OMOBJ>";
       }
@@ -569,19 +582,19 @@ $main(function(){
 
       onmousedown : function(event) {
         var result = true;
-	if (palette) {
-	  result = palette.onmousedown(event);
-	}
-	if (result) {
-	  // if not handled by palette, then continue
-	  for (var i=0; i<editors.length; i++) {
-	    var intermediate = editors[i].onmousedown(event);
-	    if (intermediate != null && intermediate == false) {
-	      result = false;
-	    }
-	  }
-	  return result;
-	}
+        if (palette) {
+          result = palette.onmousedown(event);
+        }
+        if (result) {
+          // if not handled by palette, then continue
+          for (var i=0; i<editors.length; i++) {
+            var intermediate = editors[i].onmousedown(event);
+            if (intermediate != null && intermediate == false) {
+              result = false;
+            }
+          }
+          return result;
+        }
       }
 
     });
@@ -629,26 +642,26 @@ $main(function(){
 
       if (mouseinfo) {
         // we are clicked on
-	var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
-	if (editor) {
-	  this.presentation.insertSymbolFromPalette(editor, 
-	    mouseinfo.x, mouseinfo.y);
-	} else {
-	  alert("No formulaeditor with focus. Please click on an editor\n"+
-	        "at the position where the symbol should be entered.");
-	}
+        var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
+        if (editor) {
+          this.presentation.insertSymbolFromPalette(editor, 
+            mouseinfo.x, mouseinfo.y);
+        } else {
+          alert("No formulaeditor with focus. Please click on an editor\n"+
+                "at the position where the symbol should be entered.");
+        }
 
-	return false;
+        return false;
       }
       else {
         // we are not clicked on 
-	return true;
+        return true;
       }
     },
     // fake function, do not draw the cursor
     cursor : {
       draw: function() {
-	return true;
+        return true;
       }
     }
     ,
@@ -659,10 +672,10 @@ $main(function(){
         this.canvas = new MathCanvas(canvas);
       }
       with (org.mathdox.formulaeditor.presentation) {
-	var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
-	// create a PArray
-	this.presentation = new PArray([pi.getPresentation()]);
-	this.draw();
+        var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
+        // create a PArray
+        this.presentation = new PArray([pi.getPresentation()]);
+        this.draw();
       }
     }
   });

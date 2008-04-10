@@ -57,7 +57,7 @@ $main(function(){
             this.moveDown();
             editor.redraw();
             return false;
-
+	  
         }
 
       }

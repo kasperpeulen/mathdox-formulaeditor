@@ -355,13 +355,23 @@ $main(function(){
 	with(org.mathdox.formulaeditor.presentation) {
 	  // warning: Node might not be the correct type
 	  for (pos = 0; pos < row.children.length; pos++) {
+	    // create a copy, 
+	    // XXX does this always work or do we need a real deep copy ?
 	    var original = row.children[pos];
-	    var copy = new Node();
+	    var copy;
+	    
+	    if (original instanceof Symbol) {
+	      copy = new Symbol();
+	    } else {
+	      copy = new Node();
+	    }
+
 	    var i;
 
 	    for(i in original) {
 	      copy[i] = original[i];
 	    }
+
 	    position.row.insert(position.index, copy);
 
 	    // this works, and seems to be the easiest way to do it, since a
@@ -370,7 +380,8 @@ $main(function(){
 	    //
 	    position.index++;
 	  }
-	  position.row.updateChildren();
+	  editor.redraw();
+	  editor.save();
 	}
       }
 

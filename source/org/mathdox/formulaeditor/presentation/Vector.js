@@ -14,22 +14,23 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.presentation.Bracketed, {
       // variable to store the array to get the semantics
       entries : null,
-      column: null,
 
       initialize : function () {
         with (org.mathdox.formulaeditor.presentation) {
-          var leftBracket = new Bracket('(');
-          var rightBracket = new Bracket(')');
-	  var column;
+          this.leftBracket = new Bracket('(');
+          this.rightBracket = new Bracket(')');
 
-          column = new Column();
-          column.initialize.apply(column,arguments);
-          column.margin = 10.0;
+          this.middle = new Column();
+          this.middle.initialize.apply(this.middle,arguments);
+          this.middle.margin = 10.0;
 
-          arguments.callee.parent.initialize(leftBracket, column,
-            rightBracket);
+	  // XXX it is nicer to use the parent's initialize but there's a
+	  // strange bug there
+          //arguments.callee.parent.initialize(leftBracket, column,
+          //  rightBracket);
 	  
-	  this.entries = arguments;
+	  this.entries = Array.prototype.slice.call(arguments);
+	  this.updateChildren();
         }
       },
 
@@ -46,7 +47,7 @@ $main(function(){
           vector.initialize.apply(vector, semanticEntries);
         }
         return {
-          value : matrix,
+          value : vector,
           rule  : "braces"
         }
       }

@@ -10,6 +10,7 @@ $require("org/mathdox/formulaeditor/Canvas.js");
 $require("org/mathdox/formulaeditor/MathCanvas.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
+$require("org/mathdox/formulaeditor/presentation/EmptyRow.js");
 
 //$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
 //$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
@@ -673,6 +674,7 @@ $main(function(){
       }
       with (org.mathdox.formulaeditor.presentation) {
         var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
+	var semInteger = org.mathdox.formulaeditor.semantics.Integer;
 
         var autocreate = function(createFun) {
           var obj = createFun(); 
@@ -723,21 +725,56 @@ $main(function(){
           }
           return autocreate(createFun);
         };
+        var autocreateMatrix = function(n,m) {
+	  var obj = new Vector(new Row((new semInteger(n)).getPresentation(),new Symbol("x"), (new semInteger(m)).getPresentation()));
+          obj.insertCopy = function(position) {
+	    var rows = new Array();
+            var i,j;
+            for (i=0;i<n;i++) {
+	      var row = new Array();
+	      for (j=0;j<m;j++) {
+		row.push(new Row());
+	      }
+	      rows.push(row);
+            }
+            var mat = new Matrix();
+	    mat.initialize.apply(mat,rows);
+            position.row.insert(position.index, mat);
+            position.index++;
+          }
+          return obj;
+        };
+        var autocreateVector = function(size) {
+	  var i = new semInteger(size);
+          var obj = new Vector(new Row(i.getPresentation()));
+          obj.insertCopy = function(position) {
+	    var entries = new Array();
+            var i;
+            for (i=0;i<size;i++) {
+              entries.push(new Row());
+            }
+            var v = new Vector();
+	    v.initialize.apply(v,entries);
+            position.row.insert(position.index, v);
+            position.index++;
+          }
+          return obj;
+        };
         // create o/o 
         var createFrac = function() {
           return new Fraction(new Row(), new Row());
         };
         // create o^o
         var createPower = function() {
-          return [new Row(), new Superscript(new Row)];
+          return [new EmptyRow(), new Superscript(new Row)];
         };
         // create |o|
         var createAbs = function() {
-          return [new Symbol("|"), new Row(), new Symbol("|")];
+          return [new Symbol("|"), new EmptyRow(), new Symbol("|")];
         };
         // create o!
         var createFac = function() {
-          return [new Row(), new Symbol("!")];
+          return [new EmptyRow(), new Symbol("!")];
         };
         // create e^o
         var createEPower = function() {
@@ -745,36 +782,45 @@ $main(function(){
         };
         // create a PArray
         this.presentation = new PArray(
-          [
-            autocreate(createFrac), autocreateSymbol("+"), 
+          [ autocreateSymbol("+"), 
             autocreateSymbol("-"), 
             // U+00B7 middle dot
             autocreateSymbol("·"),
-            // U+2265 greater-than or equal to 
-            autocreateSymbol("≥"), 
-            autocreateSymbol(">"),
-            autocreateSymbol("<"), 
-            // U+2264 less-than or equal to 
-            autocreateSymbol("≤"),
-            autocreateSymbol("="),
             // U+2227 logical and
             autocreateSymbol("∧"),
             // U+2228 logical or
             autocreateSymbol("∨"),
-            autocreateOMS("nums1","pi"),
+            autocreateOMA("transc1", "cos"),
+	    autocreateVector(2),
+          ],
+          [ autocreateSymbol("<"), 
+            // U+2264 less-than or equal to 
+            autocreateSymbol("≤"),
+            autocreateSymbol("="),
+            // U+2265 greater-than or equal to 
+            autocreateSymbol("≥"), 
+            autocreateSymbol(">"),
+            autocreateOMA("transc1", "sin"),
+	    autocreateVector(3),
+          ],
+          [ autocreateOMS("nums1","pi"),
             autocreateOMS("nums1","e"),
             autocreateOMS("nums1","i"),
             autocreateOMS("nums1","infinity"),
+            empty(),
+            autocreateOMA("transc1", "tan"),
+	    autocreateMatrix(2,2),
+          ],
+          [ autocreate(createFrac), 
             autocreate(createPower),
             autocreate(createAbs),
             autocreate(createFac),
             autocreate(createEPower),
-            autocreateOMA("transc1", "cos"),
-            autocreateOMA("transc1", "sin"),
-            autocreateOMA("transc1", "tan"),
-            autocreateOMA("transc1", "ln")
+            autocreateOMA("transc1", "ln"),
+	    autocreateMatrix(2,3),
           ]
         );
+        this.presentation.margin = 10.0;
         this.draw();
       }
     }

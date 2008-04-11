@@ -1,5 +1,7 @@
 <model:model xmlns:model="local:model">
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
 
@@ -7,6 +9,12 @@ $main(function(){
     var cd;
     var name;
     var symbol;
+    var newvars = new Array();
+    var regex = /^[A-Za-z]*$/;
+
+    var hasOnlyLetters = function(s) {
+      return regex.test(s);
+    }
 
     <model:groupmember>
     /**
@@ -27,7 +35,37 @@ $main(function(){
     }
   
     org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new Keyword(cd, name, symbol);
+
+    if ( ! hasOnlyLetters("<model:onscreen/>") ) {
+      newvars.push( "<model:onscreen/>" );
+    }
   </model:groupmember>
+    with( new org.mathdox.parsing.ParserGenerator() ) {
+      if(newvars.length &gt; 0) {
+        var args = new Array();
+        pg = new org.mathdox.parsing.ParserGenerator();
+        for (var i=0;i &lt; newvars.length; i++) {
+	  args.push(literal(newvars[i]));
+	}
+        org.mathdox.formulaeditor.parsing.expression.ExpressionParser = $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+            variable : function() {
+	      var parent = arguments.callee.parent;
+	      alternation(
+	        transform(
+		  alternation.apply(this, args),
+		  function(result) {
+		    var result_joined = result.join("");
+
+		    // this should be in the keywordlist
+		    return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
+		  }
+		),
+	        parent.variable
+	      ).apply(this, arguments);
+            }
+        })
+      }
+    }
   }
 })
 </model:model>

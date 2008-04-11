@@ -152,7 +152,12 @@ $main(function(){
             var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
 
             // insert the character into the row, and move the cursor
-            this.insert(editor.cursor.position.index, new Symbol(character));
+            if (character != " ") {
+              this.insert(editor.cursor.position.index, new Symbol(character));
+            } else {
+	      // spaces do not have a value
+              this.insert(editor.cursor.position.index, new Symbol(""," "));
+            }
             editor.cursor.moveRight();
 
             editor.redraw();
@@ -186,9 +191,10 @@ $main(function(){
 
           // check whether the child is a row
           if (child instanceof Row) {
-
-            // insert the child node's children into the list of children
-            children.splice.apply(children, [i,1].concat(child.children));
+            if (!(child.isEmpty && child.isEmpty())) {
+              // insert the child node's children into the list of children
+              children.splice.apply(children, [i,1].concat(child.children));
+            }
 
           }
 

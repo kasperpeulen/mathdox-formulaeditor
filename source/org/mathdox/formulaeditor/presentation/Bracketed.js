@@ -184,16 +184,17 @@ $main(function(){
         return result;
       },
       initialize : function () {
-        with (org.mathdox.formulaeditor.presentation) {
-	  if (arguments.length>0) {
-	    this.leftBracket = arguments[0];
-	    this.middle = arguments[1];
-	    this.rightBracket = arguments[2];
-	    this.children = [ this.middle ];
-	  } else {
-	    this.children = [];
-	  }
+	if (arguments.length>0) {
+	  this.leftBracket = arguments[0];
+	  this.middle = arguments[1];
+	  this.rightBracket = arguments[2];
+	  this.children = new Array();
+	  this.children.push(this.middle);
+	} else {
+	  this.children = new Array();
+	}
 
+        with (org.mathdox.formulaeditor.presentation) {
           /* copy the cursor/position functions from Row */
 
           var row = new Row(); // only an instance has the functions

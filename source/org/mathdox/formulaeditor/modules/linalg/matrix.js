@@ -26,7 +26,7 @@ $main(function(){
       getPresentation : function() {
         with(org.mathdox.formulaeditor.presentation) {
         
-          var rows = [];
+          var rows = new Array();
 
           for ( var row =0 ; row<this.operands.length ; row++) {
             var currentRow = new Array();
@@ -40,7 +40,7 @@ $main(function(){
           var result = new Matrix();
           result.initialize.apply(result,rows);
          
-          return result
+          return result;
         }
       } 
 

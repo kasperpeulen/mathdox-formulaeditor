@@ -209,6 +209,21 @@ $main(function(){
 
       }
 
+    },
+    toString : function() {
+      if (this.value) {
+	return this.value;
+      } else if (this.children) {
+	var str = "[ ";
+	for (var i=0; i<this.children.length; i++) {
+	  str+=this.children[i];
+	  if (i<this.children.length-1) {
+	    str +=", ";
+	  }
+	}
+	str+=" ]";
+	return str;
+      }
     }
 
   })

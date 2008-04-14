@@ -27,10 +27,10 @@ $main(function(){
       initialize : function() {
         
         if (arguments.length > 0) {
-          this.value = arguments[0]
+          this.value = arguments[0];
         }
         if (arguments.length > 1) {
-          this.onscreen = arguments[1]
+          this.onscreen = arguments[1];
         }
 
       },
@@ -45,7 +45,7 @@ $main(function(){
         if (this.onscreen != null) {
           symbol = this.onscreen
         }
-
+        
         this.dimensions = canvas.drawSymbol(
           symbol, Math.round(x), Math.round(y), invisible
         );

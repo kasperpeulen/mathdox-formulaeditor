@@ -77,7 +77,7 @@ $main(function(){
 
         // total height
         var totalHeight = 0;
-        
+        
         // fake drawing of children to set sizes
         
         for (var row = 0; row < this.rows; row++) {
@@ -126,14 +126,14 @@ $main(function(){
           var colWidth = this.getMaxWidth(col);
           if (col ==0 ) {
             colCenter = colWidth/2;
-            totalWidth += colWidth;
+            totalWidth += colWidth;
           } else {
             colCenter = this.colInfo[col-1].center +this.colInfo[col-1].width/2+ this.margin + colWidth/2;
-            totalWidth += colWidth + this.margin;
+            totalWidth += colWidth + this.margin;
           };
           this.colInfo[col] = {
-            width  : colWidth,
-            center : colCenter
+            width  : colWidth,
+            center : colCenter
           };
         }
 

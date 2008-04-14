@@ -10,7 +10,6 @@ $require("org/mathdox/formulaeditor/Canvas.js");
 $require("org/mathdox/formulaeditor/MathCanvas.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
-$require("org/mathdox/formulaeditor/presentation/EmptyRow.js");
 
 //$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
 //$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
@@ -25,7 +24,7 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 //$require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
 
-//$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
+$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
@@ -674,7 +673,7 @@ $main(function(){
       }
       with (org.mathdox.formulaeditor.presentation) {
         var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
-	var semInteger = org.mathdox.formulaeditor.semantics.Integer;
+        var semInteger = org.mathdox.formulaeditor.semantics.Integer;
 
         var autocreate = function(createFun) {
           var obj = createFun(); 
@@ -686,18 +685,33 @@ $main(function(){
             row.initialize.apply(row, obj);
             row.insertCopy = function(position) {
               var toInsert = createFun();
+	      var doinsert = function(node, removeEmpty) {
+                var moveright = 
+                  position.row.insert(position.index, node, removeEmpty);
+                if (moveright) {
+                  position.index++;
+                }
+	      }
               var i;
 
               for (i=0;i<toInsert.length;i++) {
-                position.row.insert(position.index, toInsert[i]);
-                position.index++;
+		if (toInsert[i] instanceof Row) {
+		  for (var j=0; j<toInsert[i].children.length; j++) {
+		    doinsert(toInsert[i].children[j], ((i==0) && (j==0)) );
+		  }
+		} else {
+		  doinsert(toInsert[i], (i==0) );
+		}
               };
             }
             obj = row;
           } else {
             obj.insertCopy = function(position) {
-              position.row.insert(position.index, createFun());
-              position.index++;
+              var moveright = 
+                position.row.insert(position.index, createFun());
+              if (moveright) {
+                position.index++;
+              }
             };
           }
           return obj;
@@ -709,7 +723,7 @@ $main(function(){
         };
         var autocreateOMA = function(cd, name) {
           var createFun = function() {
-            return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation(), new Symbol("("), new Row(), new Symbol(")")];
+            return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation(), new Symbol("("), null, new Symbol(")")];
           };
           return autocreate(createFun);
         }
@@ -726,35 +740,35 @@ $main(function(){
           return autocreate(createFun);
         };
         var autocreateMatrix = function(n,m) {
-	  var obj = new Vector(new Row((new semInteger(n)).getPresentation(),new Symbol("x"), (new semInteger(m)).getPresentation()));
+          var obj = new Vector(new Row((new semInteger(n)).getPresentation(),new Symbol("x"), (new semInteger(m)).getPresentation()));
           obj.insertCopy = function(position) {
-	    var rows = new Array();
+            var rows = new Array();
             var i,j;
             for (i=0;i<n;i++) {
-	      var row = new Array();
-	      for (j=0;j<m;j++) {
-		row.push(new Row());
-	      }
-	      rows.push(row);
+              var row = new Array();
+              for (j=0;j<m;j++) {
+                row.push(new Row());
+              }
+              rows.push(row);
             }
             var mat = new Matrix();
-	    mat.initialize.apply(mat,rows);
+            mat.initialize.apply(mat,rows);
             position.row.insert(position.index, mat);
             position.index++;
           }
           return obj;
         };
         var autocreateVector = function(size) {
-	  var i = new semInteger(size);
+          var i = new semInteger(size);
           var obj = new Vector(new Row(i.getPresentation()));
           obj.insertCopy = function(position) {
-	    var entries = new Array();
+            var entries = new Array();
             var i;
             for (i=0;i<size;i++) {
               entries.push(new Row());
             }
             var v = new Vector();
-	    v.initialize.apply(v,entries);
+            v.initialize.apply(v,entries);
             position.row.insert(position.index, v);
             position.index++;
           }
@@ -766,15 +780,15 @@ $main(function(){
         };
         // create o^o
         var createPower = function() {
-          return [new EmptyRow(), new Superscript(new Row)];
+          return [null, new Superscript(new Row())];
         };
         // create |o|
         var createAbs = function() {
-          return [new Symbol("|"), new EmptyRow(), new Symbol("|")];
+          return [new Symbol("|"), null, new Symbol("|")];
         };
         // create o!
         var createFac = function() {
-          return [new EmptyRow(), new Symbol("!")];
+          return [null, new Symbol("!")];
         };
         // create e^o
         var createEPower = function() {
@@ -791,7 +805,7 @@ $main(function(){
             // U+2228 logical or
             autocreateSymbol("∨"),
             autocreateOMA("transc1", "cos"),
-	    autocreateVector(2),
+            autocreateVector(2),
           ],
           [ autocreateSymbol("<"), 
             // U+2264 less-than or equal to 
@@ -801,7 +815,7 @@ $main(function(){
             autocreateSymbol("≥"), 
             autocreateSymbol(">"),
             autocreateOMA("transc1", "sin"),
-	    autocreateVector(3),
+            autocreateVector(3),
           ],
           [ autocreateOMS("nums1","pi"),
             autocreateOMS("nums1","e"),
@@ -809,7 +823,7 @@ $main(function(){
             autocreateOMS("nums1","infinity"),
             empty(),
             autocreateOMA("transc1", "tan"),
-	    autocreateMatrix(2,2),
+            autocreateMatrix(2,2),
           ],
           [ autocreate(createFrac), 
             autocreate(createPower),
@@ -817,7 +831,7 @@ $main(function(){
             autocreate(createFac),
             autocreate(createEPower),
             autocreateOMA("transc1", "ln"),
-	    autocreateMatrix(2,3),
+            autocreateMatrix(2,3),
           ]
         );
         this.presentation.margin = 10.0;

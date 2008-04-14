@@ -1,6 +1,7 @@
 $package("org.mathdox.formulaeditor.presentation");
 
 $require("org/mathdox/formulaeditor/presentation/Node.js");
+$require("org/mathdox/formulaeditor/presentation/BlockSymbol.js");
 
 $main(function(){
 
@@ -14,6 +15,7 @@ $main(function(){
       initialize : function() {
 
         var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
+        var BlockSymbol = org.mathdox.formulaeditor.presentation.BlockSymbol;
 
         if (arguments.length == 1 && typeof(arguments[0]) == "string") {
           var string = arguments[0];
@@ -24,7 +26,14 @@ $main(function(){
           return arguments.callee.parent.initialize.apply(this, array);
         }
         else {
-          return arguments.callee.parent.initialize.apply(this, arguments);
+	  var children = Array.prototype.slice.call(arguments);
+	  for (var i=0; i<children.length; i++) {
+	    // an "empty" box is a symbol with the empty string
+	    if (children[i]==null) {
+	      children[i] = new BlockSymbol();
+	    }
+	  }
+          return arguments.callee.parent.initialize.apply(this, children);
         }
 
       },
@@ -72,24 +81,15 @@ $main(function(){
 
         }
         else {
+	  this.dimensions = canvas.drawFBox(x, y, true);
 
-          with(org.mathdox.formulaeditor.presentation) {
-            this.dimensions = new Symbol("f").draw(canvas,x,y,true);
-
-            if (!invisible && this.parent) {
-              var context = canvas.getContext();
-              var dim = this.dimensions;
-              context.save();
-              context.fillStyle = "#DDF";
-              context.fillRect(dim.left, dim.top, dim.width, dim.height);
-              context.restore();
-            }
-
-            return this.dimensions;
-
+          if (!invisible && this.parent) {
+	    canvas.drawFBox(x, y, invisible);
           }
 
-        }
+          return this.dimensions;
+
+	}
 
       },
 
@@ -150,12 +150,13 @@ $main(function(){
           if (canvas.getSymbolData(character)) {
 
             var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
+            var Row   = org.mathdox.formulaeditor.presentation.Row;
 
             // insert the character into the row, and move the cursor
             if (character != " ") {
               this.insert(editor.cursor.position.index, new Symbol(character));
             } else {
-	      // spaces do not have a value
+              // spaces do not have a value
               this.insert(editor.cursor.position.index, new Symbol(""," "));
             }
             editor.cursor.moveRight();
@@ -191,11 +192,8 @@ $main(function(){
 
           // check whether the child is a row
           if (child instanceof Row) {
-            if (!(child.isEmpty && child.isEmpty())) {
-              // insert the child node's children into the list of children
-              children.splice.apply(children, [i,1].concat(child.children));
-            }
-
+            // insert the child node's children into the list of children
+            children.splice.apply(children, [i,1].concat(child.children));
           }
 
         }
@@ -393,10 +391,38 @@ $main(function(){
         }
       },
 
+      isEmpty : function() {
+        return (this.children.length == 0);
+      },
 
-      insert : function(index, node) {
-        this.children.splice(index, 0, node);
-        this.updateChildren(index);
+      insert : function(index, node, fillempty) {
+        var BlockSymbol = org.mathdox.formulaeditor.presentation.BlockSymbol;
+        var newindex = index;
+	var moveright = true;
+
+        if (fillempty == null) {
+          fillempty = true;
+        }
+	if (node==null) {
+	  node = new BlockSymbol();
+	}
+
+        if (fillempty && index<=this.children.length && 
+          this.children[index] instanceof BlockSymbol
+	) {
+          this.children.splice(index, 1, node);
+        } else if (fillempty && index-1>=0 && 
+            this.children[index-1] instanceof BlockSymbol
+	) {
+          this.children.splice(index-1, 1, node);
+          newindex = index - 1;
+	  moveright = false; // do not move right after inserting now
+        } else {
+          this.children.splice(newindex, 0, node);
+        }
+        this.updateChildren(newindex);
+
+	return moveright;
       },
 
       replace : function(index, node) {

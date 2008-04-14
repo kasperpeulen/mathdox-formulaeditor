@@ -239,6 +239,29 @@ $main(function(){
       }
       context.restore();
     },
+   
+    // draw a box the size of the symbol of the letter 'f' 
+    drawFBox : function(x, y, invisible, letter) {
+      var dim;
+      if (letter == null) {
+	letter = "f";
+      }
+      with(org.mathdox.formulaeditor.presentation) {
+	dim= new Symbol(letter).draw(this,x,y,true);
+
+        if (!invisible) {
+          var context = this.getContext();
+          context.save();
+          context.fillStyle = "#DDF";
+          context.fillRect(dim.left, dim.top, dim.width, dim.height);
+          context.restore();
+        }
+
+	return dim;
+      }
+
+    },
+
 
     /**
      * Draws the specified symbol (character) on the canvas, at the specified

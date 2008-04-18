@@ -271,10 +271,15 @@ $main(function(){
     save : function() {
 
       var textarea = this.textarea;
+      var openmathInfo = this.getOpenMath(true);
 
       // update the textarea
-      textarea.value = this.getOpenMath();
+      textarea.value = openmathInfo.value;
 
+      return { 
+        success: openmathInfo.success,
+        errorString: openmathInfo.errorString
+      };
     },
 
     redraw : function() {
@@ -308,11 +313,19 @@ $main(function(){
           case 116: // F5
             var Cursor    = org.mathdox.formulaeditor.Cursor;
 
-            this.save();
-            this.load();
-            this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
-            this.focus(); // XXX is this necessary ?
-            this.redraw();
+            var saveResult = this.save();
+            if (saveResult.success) {
+              // formula can be parsed and transformed to OpenMath
+              this.load();
+              this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
+              this.focus(); // XXX is this necessary ?
+              this.redraw();
+            } else {
+              // formula cannot be parsed and transformed to OpenMath
+              alert("The formula could not be interpreted correctly. "+
+                "The error message was:\n"+saveResult.errorString
+              );
+            }
 
             return false;
         }
@@ -463,29 +476,63 @@ $main(function(){
       return mmlstring;
     },
 
-    getOpenMath : function() {
+    /**
+     * getOpenMath()
+     *
+     * function to get the OpenMath value of the formula in the formulaeditor
+     * returns the contents of the formulaeditor as an OpenMath string.
+     * 
+     * extended with optional argument returnErrorInfo (boolean). If true
+     * an array is returned instead with entries: 
+     * - value (the OpenMath string);
+     * - success (a boolean, true if no error has occurred);
+     * - errorString (the exception converted to a string, which might be shown
+     *   to the user).
+     *
+     * Usually an error occurs when there is an error in the entered formula.
+     */
+    getOpenMath : function(returnErrorInfo) {
       var omstring;
+      var errorInfo;
+      var success;
+
+      if (returnErrorInfo == null) {
+        returnErrorInfo = false;
+      }
+
       try {
         omstring =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
           this.presentation.getSemantics().value.getOpenMath() +
           "</OMOBJ>";
+        success = true;
+        errorString = null;
       }
       catch(exception) {
+        errorString = exception.toString();
         omstring =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
             "<OME>" +
               "<OMS cd='moreerrors' name='encodingError'/>" +
               "<OMSTR>invalid expression entered</OMSTR>" +
-              exception.toString() +
+              errorString + 
             "</OME>" +
           "</OMOBJ>";
+        success = false;
       }
       
-      return omstring;
-
+      if (returnErrorInfo) {
+        /* return information about whether an error did occur */
+        return { 
+          errorString : errorString,
+          success: success,
+          value: omstring,
+        };
+      } else {
+        return omstring;
+      }
     }
 
   });
@@ -685,23 +732,23 @@ $main(function(){
             row.initialize.apply(row, obj);
             row.insertCopy = function(position) {
               var toInsert = createFun();
-	      var doinsert = function(node, removeEmpty) {
+              var doinsert = function(node, removeEmpty) {
                 var moveright = 
                   position.row.insert(position.index, node, removeEmpty);
                 if (moveright) {
                   position.index++;
                 }
-	      }
+              }
               var i;
 
               for (i=0;i<toInsert.length;i++) {
-		if (toInsert[i] instanceof Row) {
-		  for (var j=0; j<toInsert[i].children.length; j++) {
-		    doinsert(toInsert[i].children[j], ((i==0) && (j==0)) );
-		  }
-		} else {
-		  doinsert(toInsert[i], (i==0) );
-		}
+                if (toInsert[i] instanceof Row) {
+                  for (var j=0; j<toInsert[i].children.length; j++) {
+                    doinsert(toInsert[i].children[j], ((i==0) && (j==0)) );
+                  }
+                } else {
+                  doinsert(toInsert[i], (i==0) );
+                }
               };
             }
             obj = row;

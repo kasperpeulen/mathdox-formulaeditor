@@ -13,6 +13,9 @@ $main(function(){
       /**
        * Draws the fraction on the canvas.
        *
+       * vertically aligned on middle of previous symbol if present or middle
+       * of a letter x (on the baseline) otherwise
+       *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
       draw : function(canvas, x, y, invisible) {

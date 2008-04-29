@@ -7,7 +7,7 @@ $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/Canvas.js");
-$require("org/mathdox/formulaeditor/MathCanvas.js");
+$require("org/mathdox/formulaeditor/MathCanvasFill.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
 

@@ -109,6 +109,7 @@ $main(function(){
           };
         }
 
+	// align on middle row: Math.floor((this.rows)/2)
         var usedBaseline = this.rowInfo[Math.floor((this.rows)/2)].baseline;
 
         // adjust rows for total height

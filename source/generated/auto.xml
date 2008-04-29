@@ -208,6 +208,17 @@
       <model:name>lcm</model:name>
       <model:onscreen>lcm</model:onscreen>
     </model:instance>
+    <!-- arith1.root -->
+    <model:instance model="models/keyword.xml" 
+      target="org/mathdox/formulaeditor/modules/arith1/root.js"
+    >
+      <model:cd>arith1</model:cd>
+      <model:keyword>rt</model:keyword>
+      <!-- TODO: use mroot -->
+      <model:mathml>&lt;mi&gt;rt&lt;/mi&gt;</model:mathml>
+      <model:name>root</model:name>
+      <model:onscreen>rt</model:onscreen>
+    </model:instance>
     <!-- logic1.false -->
     <model:instance model="models/keyword.xml"
       target="org/mathdox/formulaeditor/modules/logic1/false.js"

@@ -17,11 +17,9 @@ var copy = function(data) {
     for(var i=0; i<data.length; i++) {
       if (i>0) {
 	output.print(",");
-	if (i>1) {
-	  if (Math.floor((i-1)/8)==(i-1)/8) {
-	    output.print("",true);
-	    output.print("  ");
-	  }
+	if (Math.floor(i/8)==i/8) {
+	  output.print("",true);
+	  output.print("  ");
 	}
       }
       copy(data[i]);

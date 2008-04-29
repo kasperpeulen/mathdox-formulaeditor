@@ -66,23 +66,15 @@ $main(function(){
     drawBracket : function(bracket, x, y, minimumHeight, invisible) {
 
       // retrieve font and symbol data
-      var bracketData = this.getBracketData(bracket);
-      var font = bracketData.font;
-
       var symbolData;
 
       // see if a standard symbol can be used
-      for (var i=bracketData.symbols.length - 1 ; i>=0; i--) {
-        if (bracketData.symbols[i].height >= minimumHeight) {
-          symbolData = bracketData.symbols[i];
+      for (var i=4 ; i>=1; i--) {
+	var tmpData = this.getSymbolDataByPosition(bracket + i);
+        if (tmpData.height >= minimumHeight) {
+          symbolData = tmpData;
         }
       }
-
-      // use the largest symbol if none is large enough, TODO implement large
-      // constructing symbols
-      //if (!symbolData) {
-      //  symbolData = bracketData.symbols[bracketData.symbols.length-1];
-      //}
 
       if (symbolData) {
         // draw a symbol 
@@ -101,6 +93,7 @@ $main(function(){
         var top    = y - symbolData.height + symbolData.yadjust;
         var width  = symbolData.width;
         var height = symbolData.height;
+	var font = symbolData.font;
   
         // draw that part of the font image which contains the symbol
         if (!invisible) {
@@ -108,6 +101,7 @@ $main(function(){
           var canvas = this.canvas;
           var cache  = this.imageCache;
   
+	  // XXX re-copy from drawsymbol
           var drawImage = function() {
             canvas.getContext("2d").drawImage(
               cache[font.image],
@@ -115,7 +109,8 @@ $main(function(){
               left, top, width, height
             );
           };
-  
+ 
+	  //alert("font.image:"+font.image);
           if (cache[font.image] == null) {
             var image = new Image();
             image.onload = function() {
@@ -139,15 +134,31 @@ $main(function(){
         }
       } else {
         // construct a symbol
-        var topSymbol = bracketData.topSymbol;
-        var bottomSymbol = bracketData.bottomSymbol;
-        var connection = bracketData.connection;
+        var topSymbol = this.getSymbolDataByPosition(bracket+"u");
+        var bottomSymbol = this.getSymbolDataByPosition(bracket+"l");
+        var connection = this.getSymbolDataByPosition(bracket+"m");
+
+	// get rid of aliased top/bottom
+	// for top part
+	topSymbol.height -= 1;
+	// for middle part
+	if (connection.height > 2) {
+	  // get rid of aliased top/bottom
+	  connection.height -= 2;
+	  connection.y += 1;
+	}
+	// for bottom part
+	bottomSymbol.height -= 1;
+	bottomSymbol.y += 1;
+
         var left = x;
         var height = Math.max(minimumHeight,
           topSymbol.height + bottomSymbol.height);
         var top = y - height + bottomSymbol.yadjust;
-        var width = Math.max(topSymbol.width, connection.xadjust+
-          connection.width, bottomSymbol.width);
+	var width = Math.max(topSymbol.width, connection.width,
+	  bottomSymbol.width);
+
+	var font = topSymbol.font;
 
         if (!invisible) {
   
@@ -155,43 +166,50 @@ $main(function(){
           var cache  = this.imageCache;
   
           var drawImage = function() {
+	    var minXadjust = Math.min(topSymbol.xadjust,
+	      bottomSymbol.xadjust, connection.xadjust)
             var topPos = { 
-              left: left,
+              left: left + topSymbol.xadjust - minXadjust,
               top: top,
               width: topSymbol.width,
               height: topSymbol.height
             };
-                   var bottomPos = { 
-              left: left,
+            var bottomPos = { 
+              left: left + bottomSymbol.xadjust - minXadjust,
               top: top + height - bottomSymbol.height ,
               width: bottomSymbol.width,
               height: bottomSymbol.height
             };
-                   var connPos = { 
-              left: left,
+            var connPos = { 
+              left: left + connection.xadjust - minXadjust,
               top: topPos.top + topPos.height,
               width: connection.width,
               height: height - topPos.height - bottomPos.height
             };
+	    //alert("top: ("+topPos.left+", "+topPos.top+", "+topPos.width+", "+topPos.height+")\n"+"conn: ("+connPos.left+", "+connPos.top+", "+connPos.width+", "+connPos.height+")\n"+"bottom: ("+bottomPos.left+", "+bottomPos.top+", "+bottomPos.width+", "+bottomPos.height+")");
+	    //alert("font.image:"+font.image);
             canvas.getContext("2d").drawImage(
               cache[font.image],
               topSymbol.x, topSymbol.y, topSymbol.width, topSymbol.height,
-              topPos.left, topPos.top, topPos.width, topPos.height
+              topPos.left, topPos.top, topPos.width, 
+	      topPos.height
             );
             if (connPos.height>0) {
               canvas.getContext("2d").drawImage(
                 cache[font.image],
                 connection.x, connection.y, connection.width, connection.height,
-                connPos.left+connection.xadjust, connPos.top, connPos.width, connPos.height
-              );
+                connPos.left, connPos.top, 
+		connPos.width, connPos.height);
             }
             canvas.getContext("2d").drawImage(
               cache[font.image],
-              bottomSymbol.x, bottomSymbol.y, bottomSymbol.width, bottomSymbol.height,
-              bottomPos.left, bottomPos.top, bottomPos.width, bottomPos.height
+              bottomSymbol.x, bottomSymbol.y, bottomSymbol.width, 
+	      bottomSymbol.height, bottomPos.left, 
+	      bottomPos.top, bottomPos.width, bottomPos.height
             );
           };
-  
+	  
+	  // XXX check and possibly update
           if (cache[font.image] == null) {
             var image = new Image();
             image.onload = function() {
@@ -205,6 +223,7 @@ $main(function(){
           }
   
         }
+	//alert("total: ("+left+", "+top+", "+width+", "+height+")");
          // return the coordinates of the topleft corner, the width and height
         return {
           left:   left,
@@ -244,10 +263,10 @@ $main(function(){
     drawFBox : function(x, y, invisible, letter) {
       var dim;
       if (letter == null) {
-	letter = "f";
+        letter = "f";
       }
       with(org.mathdox.formulaeditor.presentation) {
-	dim= new Symbol(letter).draw(this,x,y,true);
+        dim= new Symbol(letter).draw(this,x,y,true);
 
         if (!invisible) {
           var context = this.getContext();
@@ -257,7 +276,7 @@ $main(function(){
           context.restore();
         }
 
-	return dim;
+        return dim;
       }
 
     },
@@ -304,12 +323,24 @@ $main(function(){
         if (cache[font.image] == null) {
           var image = new Image();
           image.onload = function() {
-            cache[font.image] = image;
-            drawImage();
+	    if (cache[font.image] instanceof Array) {
+	      var todo = cache[font.image];
+
+	      cache[font.image] = image;
+
+	      for (var i=0; i<todo.length; i++) {
+		todo[i](); // call stored drawImage functions
+	      }
+	    }
           }
           image.src = font.image;
-        }
-        else{
+
+	  cache[font.image] = new Array();
+
+	  cache[font.image].push(drawImage);
+        } else if (cache[font.image] instanceof Array) {
+	  cache[font.image].push(drawImage);
+	} else {
           drawImage();
         }
 
@@ -327,8 +358,8 @@ $main(function(){
 
     getBracketData : function(bracket) {
       // retrieve font and bracket data
-      var font = this.fonts[this.fontName]
-      var bracketData = font[this.fontSize].brackets[bracket]
+      var font = this.fonts[this.fontName];
+      var bracketData = font[this.fontSize].brackets[bracket];
 
       if (bracketData) {
         // return bracketdata
@@ -352,10 +383,25 @@ $main(function(){
 
     },
 
-     getSymbolData : function(symbol) {
+    getSymbolData : function(symbol) {
       // retrieve font and symbol data
-      var font = this.fonts[this.fontName]
-      var symbolData = font[this.fontSize].symbols[symbol]
+      var font = this.fonts[this.fontName];
+      var symbolData ;
+     
+      symbolData = this.getSymbolDataByPosition(symbol);
+
+      if (!symbolData) {
+        symbolData = font[this.fontSize].symbols[symbol]; 
+      } /*else {
+        var oldsymbolData = font[this.fontSize].symbols[symbol];
+        alert("symbol: "+symbol+"\n"+
+        "symboldata,    x: "+symbolData.x+" y: "+symbolData.y+
+          " width: "+symbolData.width+" height: "+symbolData.height+
+          " yadjust: "+symbolData.yadjust+"\n"+
+        "oldsymboldata, x: "+oldsymbolData.x+" y: "+oldsymbolData.y+
+          " width: "+oldsymbolData.width+" height: "+oldsymbolData.height+
+          " yadjust: "+oldsymbolData.yadjust);
+      } */
 
       if (symbolData) {
         if (symbolData.margin) {
@@ -365,10 +411,12 @@ $main(function(){
             width: symbolData.width + 2*symbolData.margin,
             height: symbolData.height,
             yadjust: symbolData.yadjust
-          }
+          };
         }
         // return symboldata
-        symbolData.font = font[this.fontSize];
+	if (!symbolData.font) {
+	  symbolData.font = font[this.fontSize];
+	}
         return symbolData;
       }
       else {
@@ -386,6 +434,41 @@ $main(function(){
       // no symbol data found, return null
       return null;
 
+    },
+
+    getSymbolDataByPosition: function(symbol) {
+      var positionInfo = org.mathdox.formulaeditor.MathCanvas.symbolPositions[
+        symbol];
+      var fBP = org.mathdox.formulaeditor.MathCanvas.fontsByPosition;
+      var fontSize = this.fontSize;
+
+      if (!positionInfo) {
+        //alert("no positioninfo : "+symbol);
+        return null;
+      }
+      
+      if (!fBP[positionInfo.font]) {
+        alert("no metrics for this font");
+        return null;
+      }
+
+      if (!fBP[positionInfo.font][fontSize]) {
+        for (var i in fBP[positionInfo.font]) {
+          alert("index: "+i);
+        }
+        alert("no metrics for this fontsize: "+fontSize);
+        return null;
+      }
+      
+      if (positionInfo.row*16+positionInfo.col >=
+        fBP[positionInfo.font][fontSize].length) {
+        alert("positionInfo row: "+positionInfo.row+" col: "+positionInfo.col);
+        alert("no metrics for this symbol: "+(positionInfo.row*16+positionInfo.col)+"/"+fBP[positionInfo.font][fontSize].length);
+        return null;
+      }
+
+      return fBP[positionInfo.font][fontSize][ positionInfo.row * 16 +
+        positionInfo.col ];
     },
 
     /**
@@ -442,6 +525,12 @@ $main(function(){
                 { x: 45, y:385, width:12, height:37, yadjust:0},
               connection : 
                 { x: 54, y:331, width: 3, height: 1, yadjust:0, xadjust:9}
+            },
+            // U+221A square root
+            '√' : {
+              symbols : [ 
+                { x: 11, y:651, width: 19, height: 25, yadjust:0},
+              ],
             }
           },
 
@@ -690,7 +779,303 @@ $main(function(){
       }
 
     }
+    /*
+    symbolPositions : {
+      'a' : { font:"cmr10", row:6, col: 1 },
+      'b' : { font:"cmr10", row:6, col: 2 },
+      'c' : { font:"cmr10", row:6, col: 3 },
+      'd' : { font:"cmr10", row:6, col: 4 },
+      'e' : { font:"cmr10", row:6, col: 5 },
+      'f' : { font:"cmr10", row:6, col: 6 },
+      'g' : { font:"cmr10", row:6, col: 7 },
+      'h' : { font:"cmr10", row:6, col: 8 },
+      'i' : { font:"cmr10", row:6, col: 9 },
+      'j' : { font:"cmr10", row:6, col:10 },
+      'k' : { font:"cmr10", row:6, col:11 },
+      'l' : { font:"cmr10", row:6, col:12 },
+      'm' : { font:"cmr10", row:6, col:13 },
+      'n' : { font:"cmr10", row:6, col:14 },
+      'o' : { font:"cmr10", row:6, col:15 },
+      'p' : { font:"cmr10", row:7, col: 0 },
+      'q' : { font:"cmr10", row:7, col: 1 },
+      'r' : { font:"cmr10", row:7, col: 2 },
+      's' : { font:"cmr10", row:7, col: 3 },
+      't' : { font:"cmr10", row:7, col: 4 },
+      'u' : { font:"cmr10", row:7, col: 5 },
+      'v' : { font:"cmr10", row:7, col: 6 },
+      'w' : { font:"cmr10", row:7, col: 7 },
+      'x' : { font:"cmr10", row:7, col: 8 },
+      'y' : { font:"cmr10", row:7, col: 9 },
+      'z' : { font:"cmr10", row:7, col:10 }
+    },*/
 
-  })
+  });
+
+  /**
+   * Static function addFont to add fonts to the static MathCanvas in
+   * fontsByPosition. Arguments are like jsMath.Img.AddFont:
+   * - size: the size (in pt?) of the font
+   * - data: a record with fontname: array
+   *   where array contains 256 entries (relative width, relative height,
+   *   yadjust, optional xadjust)
+   *   followed by a list of horizontal positions, a list of vertical
+   *   positions and the lower right coordinates of the picture
+   */
+  org.mathdox.formulaeditor.MathCanvas.addFont = function(size,data) {
+    var fontSize = ""+size;
+
+    if (!org.mathdox.formulaeditor.MathCanvas.fontsByPosition) {
+      org.mathdox.formulaeditor.MathCanvas.fontsByPosition = {};
+    }
+    var fBP = org.mathdox.formulaeditor.MathCanvas.fontsByPosition;
+
+    for (var fontName in data) {
+      if (!fBP[fontName]) {
+        fBP[fontName] = {};
+      }
+      var fBPN = fBP[fontName];
+      var fontInput = data[fontName];
+      var font = { image : $baseurl + "org/mathdox/formulaeditor/fonts/" +
+	  fontName + "/" + fontSize + ".png"};
+
+      if (!fBPN[fontSize]) {
+        fBPN[fontSize] = new Array();
+      }
+      var fontInfo = fBPN[fontSize];
+      var length = fontInput.length;
+
+      for (var row = 0; row < 8; row++) {
+        for (var col = 0; col < 16; col ++) {
+          var pos = row*16 + col;
+
+          if (pos<length-3) {
+            var xadjust = 0;
+            var width = fontInput[pos][0];
+            var height = fontInput[pos][1];
+            var yadjust = fontInput[pos][2];
+            
+            if (fontInput[pos][3]) {
+              xadjust = fontInput[pos][3];
+            }
+            var outputCharInfo = {
+              x: fontInput[ length - 3 ][col] - xadjust,
+              y: fontInput[ length - 2 ][row] - height + yadjust,
+              width: width,
+              height: height,
+	      xadjust: - xadjust,
+              yadjust: yadjust, // XXX check the sign
+	      font:font
+            };
+          }
+          
+          fontInfo.push(outputCharInfo);
+        }
+      }
+    }
+  }
+
+  // XXX: how to multiple alternatives for symbols (capital pi vs product,
+  // emptyset vs o with stroke) ?
+  // XXX: which symbols to choose for ',`,"
+  org.mathdox.formulaeditor.MathCanvas.symbolsInFont = {
+    cmr10: [
+      // U+0393 Greek capital letter gamma
+      // U+0349 Greek capital letter delta
+      // U+0398 Greek capital letter theta
+      // U+039E Greek capital letter xi
+      // U+039B Greek capital letter lamda
+      // U+03A0 Greek capital letter pi
+      // U+03A3 Greek capital letter sigma
+      // U+03D2 Greek upsilon with hook symbol
+      [  'Γ',  'Δ',  'Θ',  'Ξ',  'Λ',  'Π',  'Σ',  'ϒ',
+      // U+03A6 Greek capital letter phi
+      // U+03A8 Greek capital letter psi
+      // U+03A9 Greek capital letter omega
+         'Φ',  'Ψ',  'Ω', 'ff', 'fi', 'fl','ffi','ffl'],
+      // U+00B4 Acute accent (spacing)
+      // U+00B0 Degree sign
+      [ null, null,  '`',  '´', null, null, null,  '°', 
+      // U+00B8 Cedilla (spacing)
+      // U+00D7 Latin small letter sharp s
+      // U+00E6 Latin small letter ae
+      // U+0152 Latin small ligature oe
+      // U+00F8 Latin small letter o with stroke
+      // U+00C6 Latin capital ae
+      // U+0152 Latin capital ligature oe
+      // U+00D8 Latin capital letter o with stroke
+         '¸',  'ß',  'æ',  'œ',  'ø',  'Æ',  'Œ',  'Ø'],
+      [ null,  '!',  '"',  '#',  '$',  '%',  '&', '\'',
+         '(',  ')',  '*',  '+',  ',',  '-',  '.',  '/'],
+      [  '0',  '1',  '2',  '3',  '4',  '5',  '6',  '7',
+      // U+00A1 inverted exclamation mark
+      // U+00BF inverted question mark
+         '8',  '9',  ':',  ';',  '¡',  '=',  '¿',  '?'],
+      [  '@',  'A',  'B',  'C',  'D',  'E',  'F',  'G',
+         'H',  'I',  'J',  'K',  'L',  'M',  'N',  'O'],
+      [  'P',  'Q',  'R',  'S',  'T',  'U',  'V',  'W',
+         'X',  'Y',  'Z',  '[', '``',  ']',  '^', '^.'],
+      [ null,  'a',  'b',  'c',  'd',  'e',  'f',  'g',
+         'h',  'i',  'j',  'k',  'l',  'm',  'n',  'o'],
+      [  'p',  'q',  'r',  's',  't',  'u',  'v',  'w',
+      // U+00A8 diaeresis (spacing)
+         'x',  'y',  'z', null, null, null,  '~',  '¨']
+    ],
+    cmbx10: [
+      // U+0393 Greek capital letter gamma
+      // U+0349 Greek capital letter delta
+      // U+0398 Greek capital letter theta
+      // U+039B Greek capital letter lamda
+      // U+039E Greek capital letter xi
+      // U+03A0 Greek capital letter pi
+      // U+03A3 Greek capital letter sigma
+      // U+03D2 Greek upsilon with hook symbol
+      [ 'bΓ', 'bΔ', 'bΘ', 'bΛ', 'bΞ', 'bΠ', 'bΣ', 'bϒ', 
+      // U+03A6 Greek capital letter phi
+      // U+03A8 Greek capital letter psi
+      // U+03A9 Greek capital letter omega
+        'bΦ', 'bΨ', 'bΩ','bff','bfi','bfl','bffi','bffl'],
+      // U+00B4 Acute accent (spacing)
+      // U+00B0 Degree sign
+      [ null, null, 'b`', 'b´', null, null, null, 'b°',
+      // U+00B8 Cedilla (spacing)
+      // U+00D7 Latin small letter sharp s
+      // U+00E6 Latin small letter ae
+      // U+0152 Latin small ligature oe
+      // U+00F8 Latin small letter o with stroke
+      // U+00C6 Latin capital ae
+      // U+0152 Latin capital ligature oe
+      // U+00D8 Latin capital letter o with stroke
+        'b¸', 'bß', 'bæ', 'bœ', 'bø', 'bÆ', 'bŒ', 'bØ'],
+      [ null, 'b!', 'b"', 'b#', 'b$', 'b%', 'b&','b\'',
+        'b(', 'b)', 'b*', 'b+', 'b,', 'b-', 'b.', 'b/'],
+      [ 'b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7',
+      // U+00A1 inverted exclamation mark
+      // U+00BF inverted question mark
+        'b8', 'b9', 'b:', 'b;', 'b¡', 'b=', 'b¿', 'b?'],
+      [ 'b@', 'bA', 'bB', 'bC', 'bD', 'bE', 'bF', 'bG',
+        'bH', 'bI', 'bJ', 'bK', 'bL', 'bM', 'bN', 'bO'],
+      [ 'bP', 'bQ', 'bR', 'bS', 'bT', 'bU', 'bV', 'bW',
+        'bX', 'bY', 'bZ', 'b[','b``', 'b]', 'b^','b^.'],
+      [ null, 'ba', 'bb', 'bc', 'bd', 'be', 'bf', 'bg',
+        'bh', 'bi', 'bj', 'bk', 'bl', 'bm', 'bn', 'bo'],
+      [ 'bp', 'bq', 'br', 'bs', 'bt', 'bu', 'bv', 'bw',
+      // U+00A8 diaeresis (spacing)
+        'bx', 'by', 'bz', null, null, null, 'b~', 'b¨']
+    ],
+    cmex10: [
+      // U+230A left floor
+      // U+230B right floor
+      // U+2308 right ceiling
+      // U+2309 right ceiling
+      [ '(1', ')1', '[1', ']1', '⌊1', '⌋1', '⌈1', '⌉1',
+        '{1', '}1', '<1', '>1', null, null, '/1','\\1'],
+      [ '(2', ')2', '(3', ')3', '[3', ']3', '⌊3', '⌋3',
+        '⌈3', '⌉3', '{3', '}3', '<3', '>3', '/3','\\3'],
+      [ '(4', ')4', '[4', ']4', '⌊4', '⌋4', '⌈4', '⌉4',
+        '{4', '}4', '<4', '>4', '/4','\\4', '/2','\\2'],
+      [ '(u', ')u', '[u', ']u', '[l', ']l', '[m', ']m',
+        '{u', '}u', '{l', '}l', '{m', '}m', null, null],
+      [ '(l', ')l', '(m', ')m', '<2', '>2', null, null,
+        null, null, null, null, null, null, null, null],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null],
+      [ null, null, null, null, null, null, null, null,
+        '[2', ']2', '⌊2', '⌋2', '⌈2', '⌉2', '{2', '}2'],
+      [ 'v1', 'v2', 'v3', 'v4', 'vl', 'vm', 'vu', null,
+        null, null, null, null, null, null, null, null]
+    ],
+    cmmi10: [
+      // U+0393 Greek capital letter gamma
+      // U+0349 Greek capital letter delta
+      // U+0398 Greek capital letter theta
+      // U+039E Greek capital letter xi
+      // U+039B Greek capital letter lamda
+      // U+03A0 Greek capital letter pi
+      // U+03A3 Greek capital letter sigma
+      // U+03D2 Greek upsilon with hook symbol
+      [ 'mΓ', 'mΔ', 'mΘ', 'mΛ', 'mΞ', 'mΠ', 'mΣ', 'mϒ',
+      // U+03A6 Greek capital letter phi
+      // U+03A8 Greek capital letter psi
+      // U+03A9 Greek capital letter omega
+      // U+03B1 Greek small letter alpha
+      // U+03B2 Greek small letter beta
+      // U+03B3 Greek small letter gamma
+      // U+03B4 Greek small letter delta
+      // U+03F5 Greek lunate epsilon symbol
+        'mΦ', 'mΨ', 'mΩ', 'mα', 'mβ', 'mγ', 'mδ', 'mϵ'],
+      // U+03B6 Greek small letter zeta
+      // U+03B7 Greek small letter eta
+      // U+03B8 Greek small letter theta
+      // U+03B9 Greek small letter iota
+      // U+03BA Greek small letter kappa
+      // U+03BB Greek small letter lamda
+      // U+03BC Greek small letter mu
+      // U+03BD Greek small letter nu
+      [ 'mζ', 'mη', 'mθ', 'mι', 'mκ', 'mλ', 'mμ', 'mν',
+      // U+03BE Greek small letter xi
+      // U+03C0 Greek small letter pi
+      // U+03C1 Greek small letter rho
+      // U+03C3 Greek small letter sigma
+      // U+03C4 Greek small letter tau
+      // U+03C5 Greek small letter upsilon
+      // U+03D5 Greek phi symbol
+      // U+03C7 Greek small letter chi
+        'mξ', 'mπ', 'mρ', 'mσ', 'mτ', 'mυ', 'mϕ', 'mχ'],
+      // U+03C8 Greek small letter psi
+      // U+03C9 Greek small letter omega
+      // U+03B5 Greek small letter epsilon
+      // U+03D1 Greek theta symbol
+      // U+03D6 Greek pi symbol
+      // U+03F1 Greek rho symbol
+      // U+03C2 Greek small letter final sigma
+      // U+03C6 Greek small letter phi
+      [ 'mψ', 'mω', 'mε', 'mϑ', 'mϖ', 'mϱ', 'mς', 'mφ',
+        null, null, null, null, null, null, null, null],
+      [ 'm0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7',
+        'm8', 'm9', 'm.', 'm,', 'm<', 'm/', 'm>', 'm*'],
+      // U+2202 Partial differential
+      [  '∂', 'mA', 'mB', 'mC', 'mD', 'mE', 'mF', 'mG',
+        'mH', 'mI', 'mJ', 'mK', 'mL', 'mM', 'mN', 'mO'],
+      [ 'mP', 'mQ', 'mR', 'mS', 'mT', 'mU', 'mV', 'mW',
+        'mX', 'mY', 'mZ', null, null, null, null, null],
+      [ null, 'ma', 'mb', 'mc', 'md', 'me', 'mf', 'mg',
+        'mh', 'mi', 'mj', 'mk', 'ml', 'mm', 'mn', 'mo'],
+      [ 'mp', 'mq', 'mr', 'ms', 'mt', 'mu', 'mv', 'mw',
+        'mx', 'my', 'mz', null, null, null, null, null]
+    ]
+  };
+
+  org.mathdox.formulaeditor.MathCanvas.fillSymbolPositions = function() {
+    var sp,sif;
+    if (!org.mathdox.formulaeditor.MathCanvas.symbolPositions) {
+      org.mathdox.formulaeditor.MathCanvas.symbolPositions = {};
+    }
+    sp = org.mathdox.formulaeditor.MathCanvas.symbolPositions;
+    sif = org.mathdox.formulaeditor.MathCanvas.symbolsInFont;
+
+    for (var font in sif) {
+      var symbolsArray = sif[font];
+      for (var row = 0; row<symbolsArray.length; row++) {
+        for (var col = 0; col<symbolsArray[row].length; col++) {
+          var symbol = symbolsArray[row][col];
+          if (symbol != null) {
+            if (symbol in sp) {
+              alert("duplicate entry for \""+symbol+"\"\n"+sp[symbol].font+
+                ": ("+sp[symbol].row+", "+sp[symbol].col+")\n"+
+                font+": ("+row+", "+col+")\n");
+            } else {
+              sp[symbol] = {
+                font: font,
+                row: row,
+                col: col
+              };
+            }
+          }
+        }
+      }
+    }
+  };
+
+  org.mathdox.formulaeditor.MathCanvas.fillSymbolPositions();
 
 })

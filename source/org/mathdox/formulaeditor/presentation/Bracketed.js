@@ -76,17 +76,20 @@ $main(function(){
         this.leftBracket.minimumHeight = this.middle.dimensions.height;
         this.leftBracket.draw(canvas, 
           x - this.leftBracket.dimensions.left, 
-          this.dimensions.top + this.dimensions.height - yAdjustBrackets, 
+          this.dimensions.top + yAdjustBrackets - 
+	  this.leftBracket.dimensions.top, 
           invisible);
 
         this.middle.draw(canvas, 
           x + this.leftBracket.dimensions.width - this.middle.dimensions.left, 
           y, invisible);
+
         this.rightBracket.minimumHeight = this.middle.dimensions.height;
         this.rightBracket.draw(canvas, 
           x + this.rightBracket.dimensions.width + 
-            this.middle.dimensions.width - this.rightBracket.dimensions.left, 
-          this.dimensions.top + this.dimensions.height - yAdjustBrackets, 
+            this.middle.dimensions.width - this.rightBracket.dimensions.left,
+          this.dimensions.top + yAdjustBrackets - 
+	  this.rightBracket.dimensions.top, 
           invisible);
         
         if ((!invisible) &&this.drawBox) {

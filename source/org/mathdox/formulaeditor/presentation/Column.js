@@ -16,7 +16,14 @@ $main(function(){
       margin: 2.0,
 
       /**
+       * should we draw a box around the column and all entries ?
+       */
+      drawBox : false,
+
+      /**
        * Draws the column to the canvas.
+       *
+       * vertical align on middle column: Math.floor((this.children.length)/2)
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
@@ -24,123 +31,70 @@ $main(function(){
 
         // the amount of space between the column elements
         var margin = this.margin;
+        var rowInfo = new Array();
 
         // determine the dimensions of the children, and the maximum width
         var maxWidth = 0;
+        var totalHeight = 0;
+
         for (var i=0; i<this.children.length; i++) {
-          this.children[i].draw(canvas, 0, 0, true);
-          maxWidth = Math.max(maxWidth, this.children[i].dimensions.width);
-        }
+          var height;
+          var top;
+          var baseline;
+          var dimensions = this.children[i].draw(canvas, 0, 0, true);
 
-        // determine the horizontal center of the column
-        var center = x + (maxWidth / 2);
-
-        // determine whether there is a middle element or not
-        if (this.children.length % 2 == 0) {
-
-          // draw all children above the baseline
-          var top = y - margin / 2;
-          for (var i = this.children.length / 2 - 1; i >= 0; i--) {
-            var child       = this.children[i];
-            var childWidth  = child.dimensions.width;
-            var childHeight = child.dimensions.height;
-            var childLeft   = child.dimensions.left;
-            var childBottom = child.dimensions.top + child.dimensions.height;
-            child.draw(
-              canvas,
-              center - (childWidth / 2) - childLeft, // horizontally centered
-              top - childBottom,                     // above previous child
-              invisible
-            );
-            top = top - childHeight - margin;
+          maxWidth = Math.max(maxWidth, dimensions.width);
+          height = dimensions.height;
+          if (i == 0) {
+            baseline = 0;
+            top = baseline + dimensions.top;
+            totalHeight += height;
+          } else {
+            top = rowInfo[i-1].top + rowInfo[i-1].height + margin;
+            baseline = top - dimensions.top;
+            totalHeight += height + margin;
           }
 
-          // draw all children below the baseline
-          var bottom = y + margin / 2;
-          for (var i = this.children.length/2; i < this.children.length; i++) {
-            var child       = this.children[i];
-            var childWidth  = child.dimensions.width;
-            var childHeight = child.dimensions.height;
-            var childLeft   = child.dimensions.left;
-            var childTop    = child.dimensions.top;
-            child.draw(
-              canvas,
-              center - (childWidth / 2) - childLeft, // horizontally centered
-              bottom - childTop,                     // below previous child
-              invisible
-            );
-            bottom = bottom + childHeight + margin;
-          }
-
-          // return the dimensions of the column
-          return this.dimensions = {
-            top    : top,
-            left   : x,
-            width  : maxWidth,
-            height : bottom - top
+          rowInfo[i] = {
+            height: height,
+            top: top,
+            baseline: baseline
           };
-
         }
-        else {
 
-          // draw the middle child
-          var middle            = Math.floor(this.children.length / 2);
-          var middleChild       = this.children[middle];
-          var middleChildTop    = middleChild.dimensions.top;
-          var middleChildWidth  = middleChild.dimensions.width;
-          var middleChildHeight = middleChild.dimensions.height;
-          var middleChildLeft   = middleChild.dimensions.left;
-          middleChild.draw(
-            canvas,
-            center - (middleChildWidth / 2) - middleChildLeft, 
-                                              // horizontally centered
-            y,
+        // determine the baseline of the column (vertical aligned on middle
+        // row, rounded down)
+        
+        var usedBaseline = rowInfo[Math.floor(this.children.length/2)].baseline;
+
+        for (var row = 0; row < this.children.length; row++) {
+          rowInfo[row].top -= usedBaseline;
+          rowInfo[row].baseline -= usedBaseline;
+        }
+
+        // center of the column
+        var center = x + maxWidth/2;
+
+        for (var row = 0; row < this.children.length; row++) {
+          var childLeft = center - this.children[row].dimensions.width/2;
+          this.children[row].draw(canvas, childLeft, y + rowInfo[row].baseline, 
             invisible
           );
-          
-          // draw all children above the middle child
-          var top = y + middleChildTop - margin;
-          for (var i = middle - 1; i >= 0; i--) {
-            var child       = this.children[i];
-            var childWidth  = child.dimensions.width;
-            var childHeight = child.dimensions.height;
-            var childLeft   = child.dimensions.left;
-            var childBottom = child.dimensions.top + child.dimensions.height;
-            child.draw(
-              canvas,
-              center - (childWidth / 2) - childLeft, // horizontally centered
-              top - childBottom,                     // above previous child
-              invisible
-            );
-            top = top - childHeight - margin;
-          }
-
-          // draw all children below the middle child
-          var bottom = y + middleChildTop + middleChildHeight + margin;
-          for (var i = middle + 1; i < this.children.length; i++) {
-            var child       = this.children[i];
-            var childWidth  = child.dimensions.width;
-            var childHeight = child.dimensions.height;
-            var childLeft   = child.dimensions.left;
-            var childTop    = child.dimensions.top;
-            child.draw(
-              canvas,
-              center - (childWidth / 2) - childLeft, // horizontally centered
-              bottom - childTop,                     // below previous child
-              invisible
-            );
-            bottom = bottom + childHeight + margin;
-          }
-
-          // return the dimensions of the column
-          return this.dimensions = {
-            top    : top,
-            left   : x,
-            width  : maxWidth,
-            height : bottom - top
-          };
-          
         }
+
+        this.dimensions = {
+          top: y + rowInfo[0].top,
+          left: x,
+          width: maxWidth,
+          height: totalHeight
+        };
+
+
+	if ((!invisible) && this.drawBox) {
+	  canvas.drawBox(this.dimensions,y);
+	}
+
+        return this.dimensions;
 
       },
 

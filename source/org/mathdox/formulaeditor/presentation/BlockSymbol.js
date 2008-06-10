@@ -11,12 +11,17 @@ $main(function(){
 
     initialize : function() {
       this.value = null;
-      this.onscreen = "f";
+
+      if (arguments.length == 1) {
+        this.onscreen = arguments[0];
+      } else {
+        this.onscreen = "f";
+      }
     },
 
     draw : function(canvas, x, y, invisible) {
       this.dimensions = canvas.drawFBox(
-	Math.round(x), Math.round(y), invisible, this.onscreen
+        Math.round(x), Math.round(y), invisible, this.onscreen
       );
 
       return this.dimensions;

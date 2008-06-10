@@ -787,7 +787,18 @@ $main(function(){
           return autocreate(createFun);
         };
         var autocreateMatrix = function(n,m) {
-          var obj = new Vector(new Row((new semInteger(n)).getPresentation(),new Symbol("x"), (new semInteger(m)).getPresentation()));
+          var rows = new Array();
+          var i,j;
+          for (i=0;i<n;i++) {
+            var row = new Array();
+            for (j=0;j<m;j++) {
+              row.push(new Row(new BlockSymbol(",")));
+            }
+            rows.push(row);
+          }
+          var obj = new Matrix();
+          obj.initialize.apply(obj, rows);
+
           obj.insertCopy = function(position) {
             var rows = new Array();
             var i,j;
@@ -806,8 +817,13 @@ $main(function(){
           return obj;
         };
         var autocreateVector = function(size) {
-          var i = new semInteger(size);
-          var obj = new Vector(new Row(i.getPresentation()));
+          var i;
+          var entries = new Array();
+          for (i=0;i<size;i++) {
+            entries.push(new Row(new BlockSymbol(",")));
+          }
+          var obj = new Vector();
+          obj.initialize.apply(obj, entries);
           obj.insertCopy = function(position) {
             var entries = new Array();
             var i;

@@ -1,3 +1,5 @@
+$identify("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
+
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Column.js");

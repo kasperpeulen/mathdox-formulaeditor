@@ -1,5 +1,7 @@
 $package("org.mathdox.parsing");
 
+$identify("org/mathdox/parsing/Parser.js");
+
 $main(function(){
 
   org.mathdox.parsing.Parser = $extend(Object, {

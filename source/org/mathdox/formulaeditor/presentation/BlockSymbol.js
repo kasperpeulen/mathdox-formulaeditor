@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.presentation");
 
+$identify("org/mathdox/formulaeditor/presentation/BlockSymbol.js");
+
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 
 $main(function(){

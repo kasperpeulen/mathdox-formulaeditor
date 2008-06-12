@@ -58,6 +58,14 @@
       </patternset>
     </unzip>
 
+    <!-- unzip code from JavaScript: the definitive guide 5th edn -->
+    <unzip dest='build/javascript'>
+      <fileset dir='libraries' includes='oreilly_tdg5*.zip'/>
+      <patternset>
+        <include name='**/*.js'/>
+      </patternset>
+    </unzip>
+
     <!-- copy jsmath fonts next to the javascript files -->
     <copy todir='build/javascript/org/mathdox/formulaeditor'>
       <fileset dir='build/temporary/jsmath'/>
@@ -77,6 +85,11 @@
     </copy>
 
     <delete dir='build/temporary'/>
+
+    <!-- copy MathCanvasFill.js -->
+    <copy todir="build/javascript/org/mathdox/formulaeditor/">
+      <fileset file="source/convert/MathCanvasFill.js"/>
+    </copy>
     
   </target>
   

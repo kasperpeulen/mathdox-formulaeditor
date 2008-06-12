@@ -1,3 +1,5 @@
+$identify("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
+
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){

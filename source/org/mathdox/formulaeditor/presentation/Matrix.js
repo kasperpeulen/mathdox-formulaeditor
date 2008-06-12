@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.presentation");
 
+$identify("org/mathdox/formulaeditor/presentation/Matrix.js");
+
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
 $require("org/mathdox/formulaeditor/presentation/Bracketed.js");
 $require("org/mathdox/formulaeditor/presentation/PArray.js");

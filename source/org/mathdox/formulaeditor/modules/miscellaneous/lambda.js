@@ -1,3 +1,5 @@
+$identify("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
+
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 

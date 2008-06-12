@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.parsing.expression");
 
+$identify("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+
 $require("org/mathdox/parsing/Parser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");

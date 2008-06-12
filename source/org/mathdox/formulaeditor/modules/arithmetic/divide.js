@@ -1,3 +1,5 @@
+$identify("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
+
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Fraction.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");

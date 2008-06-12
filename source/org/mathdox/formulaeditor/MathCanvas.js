@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor");
 
+$identify("org/mathdox/formulaeditor/MathCanvas.js");
+
 $main(function(){
 
   /**

@@ -1,3 +1,5 @@
+$identify("org/mathdox/formulaeditor/OrbeonForms.js");
+
 $require("org/mathdox/formulaeditor/FormulaEditor.js");
 
 var ORBEON;

@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor");
 
+$identify("org/mathdox/formulaeditor/FormulaEditor.js");
+
 // load make/maker functions
 $require("com/oreilly/javascript/tdg/make.js");
 

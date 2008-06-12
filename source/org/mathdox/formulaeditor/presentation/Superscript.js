@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.presentation");
 
+$identify("org/mathdox/formulaeditor/presentation/Superscript.js");
+
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 
 $main(function(){

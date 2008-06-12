@@ -1,5 +1,7 @@
 $package("org.mathdox.parsing");
 
+$identify("org/mathdox/parsing/ParserGenerator.js");
+
 $main(function(){
 
   /**

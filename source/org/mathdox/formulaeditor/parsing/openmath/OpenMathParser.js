@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.parsing.openmath");
 
+$identify("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");

@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor");
 
+$identify("org/mathdox/formulaeditor/EventHandler.js");
+
 $main(function(){
 
   org.mathdox.formulaeditor.EventHandler = $extend(Object, {

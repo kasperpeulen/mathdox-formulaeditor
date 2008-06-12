@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.semantics");
 
+$identify("org/mathdox/formulaeditor/semantics/Keyword.js");
+
 $require("org/mathdox/formulaeditor/semantics/Node.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 

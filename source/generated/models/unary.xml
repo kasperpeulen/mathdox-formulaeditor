@@ -1,4 +1,6 @@
 <model:model xmlns:model="local:model">
+$identify("org/mathdox/formulaeditor/modules/<model:cd/>/<model:name/>.js");
+
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");

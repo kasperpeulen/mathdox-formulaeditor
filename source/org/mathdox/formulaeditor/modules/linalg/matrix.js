@@ -1,3 +1,5 @@
+$identify("org/mathdox/formulaeditor/modules/linalg/matrix.js");
+
 $require("org/mathdox/formulaeditor/presentation/Node.js")
 $require("org/mathdox/formulaeditor/presentation/Row.js")
 $require("org/mathdox/formulaeditor/presentation/Matrix.js")

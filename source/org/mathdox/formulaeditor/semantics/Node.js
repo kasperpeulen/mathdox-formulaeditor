@@ -1,5 +1,8 @@
 $package("org.mathdox.formulaeditor.semantics");
 
+$identify("org/mathdox/formulaeditor/semantics/Node.js");
+
+
 $main(function(){
 
   /**

@@ -2,6 +2,7 @@
  * Declare the global variables that will be exported by this script.
  */
 var $package;
+var $identify;
 var $require;
 var $main;
 var $extend;
@@ -18,7 +19,10 @@ var $baseurl;
    * used by the $main and $require functions to ensure that each $main argument
    * is executed only once.
    */
-  var executed = {};
+  var executed = {
+    urls: {},
+    nourl: {}
+  };
 
   /**
    * This counter is used to keep track of how many urls were requested to be
@@ -30,7 +34,10 @@ var $baseurl;
    * A list of functions that wish to be called when the 'loading' counter
    * reaches 0.
    */
-  var waiting = [];
+  var waiting = { 
+    urls:{},
+    nourl:[] 
+  };
 
   /**
    * Holds a reference to the script tag that was last added to the document by
@@ -65,6 +72,39 @@ var $baseurl;
   }
 
   /**
+   * url of the currently procressed file 
+   */
+  var current={}; 
+
+  /**
+   * set the url of the currently processed file
+   */
+  $identify = function(string) {
+    current.url = string;
+  }
+
+  var execute_with_requirements = function(url) {
+    if (executed.urls[url]) {
+      return;
+    }
+
+    if (!waiting.urls[url]) {
+      //alert("no identification for '"+url+"'");
+      return;
+    }
+	    
+    var requirements = waiting.urls[url].requirements;
+    if (requirements && requirements.length) {
+      var i;
+      for (i=requirements.length-1; i>=0; i--) {
+	execute_with_requirements(requirements[i].url);
+      }
+    }
+    waiting.urls[url].continuation();
+    executed.urls[url] = true;
+  }
+
+  /**
    * When a script has been loaded, this function will check whether all
    * requirements have been loaded, and will then execute the main sections.
    */
@@ -72,12 +112,23 @@ var $baseurl;
 
     loading = loading - 1;
     if (loading == 0) {
-      while (waiting.length > 0) {
-        var continuation = waiting.pop();
-        if (!executed[continuation]) {
-          executed[continuation] = true;
+
+      while (waiting.nourl.length > 0) {
+	var nourl = waiting.nourl.pop();
+	var urlobj;
+	for (urlobj in nourl.requirements) {
+	  execute_with_requirements(nourl.requirements[urlobj].url);
+	}
+        var continuation = nourl.continuation;
+        if (!executed.nourl[continuation]) {
+          executed.nourl[continuation] = true;
           continuation();
         }
+      }
+
+      var url;
+      for (url in waiting.urls) {
+	execute_with_requirements(url);
       }
     }
 
@@ -93,7 +144,20 @@ var $baseurl;
    * Typically, such a function would check for the presence of a variable that
    * is set by the third-party script.
    */
+
+  /* delayed require */
   $require = function(url, ready) {
+    if (!current.requirements) {
+      current.requirements = new Array();
+    }
+    current.requirements.push( { url:url, ready:ready } );
+  }
+
+  var require_action = function(url, ready) {
+    // already being loaded
+    if (waiting.urls[url]) {
+      return;
+    }
 
     // add base url to url, unless it is an absolute url
     if (!url.match(/^\/|:/)) {
@@ -131,7 +195,34 @@ var $baseurl;
    * only executed once.
    */
   $main = function(continuation) {
-    waiting.push(continuation);
+    current.continuation = continuation;
+
+    /* add current to waiting queue */
+    if (current.url) {
+      waiting.urls[current.url] = current;
+    } else {
+      waiting.nourl.push({
+	continuation:continuation, 
+	requirements:current.requirements
+      });
+    }
+
+    /* store requirements and reset current */
+    var requirements = current.requirements;
+
+    current={};
+
+    /* do delayed requires and create waiting queue */
+    if (requirements) {
+      var i;
+
+      for (i = requirements.length - 1; i>=0; i--) {
+	var req = requirements[i];
+
+	require_action(req.url, req.ready);
+      }
+    }
+    /* call onload function */
     onload();
   }
 

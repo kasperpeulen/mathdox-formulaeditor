@@ -1,5 +1,7 @@
 $package("org.mathdox.formulaeditor.semantics");
 
+$identify("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
+
 $require("org/mathdox/formulaeditor/semantics/Node.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");

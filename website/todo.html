@@ -1,0 +1,279 @@
+<html>
+
+  <head>
+
+    <title>MathDox formula editor</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+    </script>
+
+    <style type='text/css'>
+
+      #main {
+        background-color:#FFF;
+        width:50em;
+        font-family:sans-serif;
+      }
+
+      .code {
+        padding-left:2em;
+        font-family:monospace;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id='main'>
+
+      <h3>MathDox formula editor</h3>
+
+      <p>
+        The MathDox formula editor is a web-based editor for mathematical
+        formulas. It is currently being developed at the Technische Universiteit
+        Eindhoven as a means for students to enter formulas in an e-learning
+        environment. Its main features are listed below.
+      </p>
+
+      <ul>
+        <li>
+          It has a <em>two-dimensional WYSIWYG</em> interface.
+        </li>
+        <li>
+          It can produce a <em>semantic</em> representation of the formula.
+        </li>
+        <li>
+          <em>No plugins</em> need to be installed in the browser to use the
+          editor.
+        </li>
+        <li>
+          It can be easily <em>integrated into existing HTML</em> pages.
+        </li>
+        <li>
+          It is available under an <em>open source</em> license.
+        </li>
+      </ul>
+
+      <p>
+        The editor is written in Javascript and uses the HTML5 canvas element in
+        combination with jsMath sprite fonts to render mathematics.
+      </p>
+
+      <p>
+        Any questions or comments about the editor are welcome and can be
+        directed at <a href='mailto:info@mathdox.org'>info@mathdox.org</a>.
+      </p>
+
+      <h4>Demo</h4>
+
+      <p>
+        The following formulas can be edited using your keyboard. Feel free to
+        experiment, but beware that currently only integers, variables,
+        multiplication (*), division (/), addition (+), subtraction (-) and
+        exponents (^) are supported.
+      </p>
+
+      <textarea id='formula2' class='mathdoxformula' style='margin-right: 2em'>
+
+        &lt;OMOBJ xmlns='http://www.openmath.org/OpenMath'>
+          &lt;OMA>
+            &lt;OMS cd='linalg2' name='matrix'/>
+            &lt;OMA>
+              &lt;OMS cd='linalg2' name='matrixrow'/>
+                &lt;OMI>1&lt;/OMI>
+            &lt;/OMA>
+          &lt;/OMA>
+        &lt;/OMOBJ>
+
+      </textarea>
+
+      <textarea id='formula1' class='mathdoxformula'>
+
+        &lt;OMOBJ xmlns='http://www.openmath.org/OpenMath'>
+          &lt;OMA>
+            &lt;OMS cd='linalg2' name='matrix'/>
+            &lt;OMA>
+              &lt;OMS cd='linalg2' name='matrixrow'/>
+              &lt;OMI>1&lt;/OMI>
+              &lt;OMI>2&lt;/OMI>
+            &lt;/OMA>
+            &lt;OMA>
+              &lt;OMS cd='linalg2' name='matrixrow'/>
+              &lt;OMI>3&lt;/OMI>
+              &lt;OMI>4&lt;/OMI>
+            &lt;/OMA>
+          &lt;/OMA>
+        &lt;/OMOBJ>
+
+      </textarea>
+
+      <h2>really short term todo list</h2>
+      <ul>
+        <li>speed up: loading</li>
+        <li>speed up: redrawing</li>
+        <li>speed up: cursor movement/inserting/deleting</li>
+        <li>speed up: single method to cache symbols/drawImage</li>
+        <li>extra symbols (root, square root, list1.list)</li>
+      </ul>
+      <h2>short term todo list</h2>
+      <ul>
+        <li>create a more suitable test website with todo list</li>
+        <li>scalability: ctrl+, ctrl-</li>
+        <li>scalability: cmsy10 (symbols)</li>
+        <li>palette: make palette floating with css</li>
+        <li>palette: make showing palette optional</li>
+	<li>palette: toggle button</li>
+	<li>palette: clean up palette code and add more documentation</li>
+        <li>incorporate changes to main formulaeditor website</li>
+      </ul>
+      <h2>mid term todo list</h2>
+      <ul>
+	<li>getOpenMath/getMathML button</li>
+        <li>list of all supported symbols</li>
+        <li>slanted letters for variables</li>
+        <li>fix vertical navigation with 1/2 inside a matrix</li>
+	<li>palette: parse symbols from xml</li>
+        <li>some symbols in blue: keywords/parentheses</li>
+        <li>implement growing/shrinking matrices</li>
+        <li>reload button</li>
+        <li>add != (neq) symbol</li>
+        <li>3x</li>
+      </ul>
+
+      <h2>items done</h2>
+      <ul>
+	<li>palette: display vectors and matrices with (small) blocks</li>
+	<li>scalability</li>
+	<li>vector positioning like matrix</li>
+	<li>F5 do not reload with error</li>
+	<li>fix a index bug with inserting 2 symbols in an emptyrow (<b>done</b>)</li>
+	<li>check which other symbols to add(<b>done</b>)</li>
+	<li>palette: add symbols from mathadore : 2x2 matrix, 2x3 matrix 2 vector, 3 vector, sin(.) (<b>done</b></li>
+	<li>ignore spaces (<b>done</b>)</li>
+	<li>growing brackets (<b>done</b>)</li>
+        <li>palette: add palette to page (<b>done</b>)</li>
+	<li>palette: add some basic symbols to palette (<b>done</b>)</li>
+        <li>reload with F5 (<b>done</b>)</li>
+	<li>More space around multiplication-cdot, '-' (<b>done</b>)</li>
+	<li>palette: add symbol on 'current' position (<b>done</b>)</li>
+      </ul>
+
+      <p>
+        To see an OpenMath representation of the first formula above
+        <a href='javascript:alert(document.getElementById("formula1").value)'>
+        click here</a>. This demonstrates that a semantic tree of the formula
+        is stored, and not just a presentation tree. To see a MathML
+        representation of the first formula above 
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.getSemantics().rule)'>semantics rule</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.getSemantics().index)'>semantics index</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.getSemantics().value)'>semantics value</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.getSemantics().value[0])'>semantics value[0]</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.getSemantics().value.getOpenMath())'>openmath</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation instanceof org.mathdox.formulaeditor.presentation.Row)'>is row</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation instanceof org.mathdox.formulaeditor.presentation.Matrix)'>is matrix</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.children'>children</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.children.length'>children length</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.children[0] instanceof org.mathdox.formulaeditor.presentation.Row)'>child is row</a>.
+        <a href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").presentation.children[0] instanceof org.mathdox.formulaeditor.presentation.Matrix)'>child is matrix</a>.
+        <a href='javascript:alert(new org.mathdox.formulaeditor.presentation.Column(Symbol("1"),Symbol("2")))'>example matrix</a>.
+        <a href='javascript:alert(new org.mathdox.formulaeditor.presentation.Column(Symbol("1"),Symbol("2")).getSemantics())'>example matrix</a>.
+      </p>
+
+      <h4>Usage</h4>
+
+      <p>
+        Please be warned that this is not yet a finished product; there are
+        still many features missing that you would expect in a formula editor.
+        Having said that, if you want to use the formula editor in a webpage,
+        there are two ways to do so. The first method is by including a
+        reference to the main javascript file at the mathdox.org server:
+      </p>
+
+      <p class='code'>
+        &lt;script type='text/javascript'
+        src='http://mathdox.org/formulaeditor/main.js'>&lt;/script>
+      </p>
+
+      <p>
+        The second (alternative) method is by copying the formulaeditor
+        javascript sources to the same location as the webpage, and reference
+        the main javascript file from there:
+      </p>
+
+      <p class='code'>
+        &lt;script type='text/javascript'
+        src='org/mathdox/formulaeditor/main.js'>&lt;/script>
+      </p>
+
+      <p>
+        In addition you also need to add a textarea of class 'mathdoxformula' at
+        the place where you want the formula editing field to appear:
+      </p>
+
+      <p class='code'>
+        &lt;textarea class='mathdoxformula'>&lt;/textarea>
+      </p>
+
+      <h4>Download</h4>
+      <p>
+        Webpage authors that want to deploy the formula editor javascript
+        sources to their own website can download the following package:
+      </p>
+
+      <p>
+        <a href='http://mathdox.org/download/formulaeditor-0.4.zip'
+        >formulaeditor-0.4.zip</a>
+      </p>
+
+      <p>
+        Developers that are interested in changing the formulaeditor itself, can
+        checkout the source from the
+        <a href='http://subversion.tigris.org/'>subversion</a> repository at:
+      </p>
+
+      <p>
+        <a href='https://mathdox.org/svn/repos/public/formulaeditor'
+        >https://mathdox.org/svn/repos/public/formulaeditor</a>
+      </p>
+
+      <h4>Known limitations</h4>
+
+      <p>
+        Currently this editor has only been tested in Mozilla Firefox (v2) and
+        Microsoft Internet Explorer (v7). Support for the other main browsers
+        (Safari, Opera, Konqueror) will be added later.
+      </p>
+
+      <p>
+        Only a very limited set of mathematical operations is supported right
+        now.
+      </p>
+
+      <h4>Copyright information</h4>
+
+      <p>
+        Copyright (C) 2007 Technische Universiteit Eindhoven
+      </p>
+      <p>
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License <a href='http://www.gnu.org/licenses/lgpl.html'>as
+        published by the Free Software Foundation</a>; either
+        version 2.1 of the License, or (at your option) any later version.
+      </p>
+      <p>
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
+      </p>
+
+    </div>
+
+  </body>
+
+</html>

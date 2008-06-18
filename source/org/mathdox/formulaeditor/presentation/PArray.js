@@ -24,11 +24,11 @@ $main(function(){
       /*
        * the heights of the rows
        */
-      rowInfo : [],
+      rowInfo : null,
       /*
        * the widths of the columns
        */
-      colInfo : [],
+      colInfo : null,
 
       /*
        * the margin between the entries
@@ -111,7 +111,7 @@ $main(function(){
           };
         }
 
-	// align on middle row: Math.floor((this.rows)/2)
+        // align on middle row: Math.floor((this.rows)/2)
         var usedBaseline = this.rowInfo[Math.floor((this.rows)/2)].baseline;
 
         // adjust rows for total height
@@ -246,8 +246,8 @@ $main(function(){
           return result;
         }
 
-        row = Math.floor(index / this.columns);
-        col = index % this.columns;
+        row = Math.floor(index / this.columns);
+        col = index % this.columns;
         if (col+1<this.columns) {
           result = this.entries[row][col+1].getFirstCursorPosition();
         }
@@ -337,6 +337,8 @@ $main(function(){
         return null
       },
       initialize : function() {
+        this.rowInfo = new Array();
+        this.colInfo = new Array();
         if (arguments.length >0) {
           this.entries = Array.prototype.slice.call(arguments);
           this.rows = this.entries.length;

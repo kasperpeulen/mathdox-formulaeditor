@@ -140,18 +140,23 @@ $main(function(){
         var bottomSymbol = this.getSymbolDataByPosition(bracket+"l");
         var connection = this.getSymbolDataByPosition(bracket+"m");
 
-	// get rid of aliased top/bottom
-	// for top part
-	topSymbol.height -= 1;
-	// for middle part
-	if (connection.height > 2) {
+	if (!topSymbol.adjusted) {
 	  // get rid of aliased top/bottom
-	  connection.height -= 2;
-	  connection.y += 1;
+	  // for top part
+	  topSymbol.adjusted = true;
+	  topSymbol.height -= 1;
+
+	  // for middle part
+	  if (connection.height > 2) {
+	    // get rid of aliased top/bottom
+	    connection.height -= 2;
+	    connection.y += 1;
+	  }
+
+	  // for bottom part
+	  bottomSymbol.height -= 1;
+	  bottomSymbol.y += 1;
 	}
-	// for bottom part
-	bottomSymbol.height -= 1;
-	bottomSymbol.y += 1;
 
         var left = x;
         var height = Math.max(minimumHeight,

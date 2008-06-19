@@ -35,7 +35,7 @@ $main(function(){
      */
     initialize : function(canvas) {
       this.canvas = canvas;
-      this.imageCache = {};
+      this.imageCache = new Object();
     },
 
     /**
@@ -537,7 +537,7 @@ $main(function(){
             '√' : {
               symbols : [ 
                 { x: 11, y:651, width: 19, height: 25, yadjust:0},
-              ],
+              ]
             }
           },
 
@@ -1085,4 +1085,4 @@ $main(function(){
 
   org.mathdox.formulaeditor.MathCanvas.fillSymbolPositions();
 
-})
+});

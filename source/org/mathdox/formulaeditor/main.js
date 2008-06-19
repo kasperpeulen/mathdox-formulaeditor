@@ -25,7 +25,6 @@
   }
 
   addScript("org/mathdox/javascript/core.js");
-  addScript("org/mathdox/formulaeditor/FormulaEditor.js");
   addScript("org/mathdox/formulaeditor/OrbeonForms.js");
 
 })()

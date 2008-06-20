@@ -190,7 +190,7 @@ $main(function(){
         }
 
         // check whether a palette needs to be added
-        if (showPalette && !palette) {
+        if (this.showPalette && !palette) {
           /*
           var ec = new com.oreilly.javascript.tdg.ElementCreation;
           var table = ec.maker("table");
@@ -578,104 +578,6 @@ $main(function(){
 
 
   /**
-   * When the document has finished loading, replace all textarea elements of
-   * class 'mathdoxformula' with a formula editor.
-   */
-
-  // function that will be called upon loading
-  var onload = function() {
-
-    // replace all textarea's of class 'mathdoxformula' with editors
-    var textareas = document.getElementsByTagName("textarea")
-    for (var i=0; i<textareas.length; i++) {
-      var textarea = textareas[i];
-
-      // retrieve the class attribute of the textarea
-      var classattribute = textarea.getAttribute("class");
-
-      // workaround bug in IE
-      // see also http://www.doxdesk.com/personal/posts/wd/20020617-dom.html
-      if (!classattribute) {
-        classattribute = textarea.getAttribute("className");
-      }
-
-      // check whether this textarea is of class 'mathdoxformula'
-      if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
-
-        // replace the textarea by a formula editor
-        new org.mathdox.formulaeditor.FormulaEditor(textarea);
-
-      }
-
-    }
-
-    // register key and mouse handlers that forward events to the editors
-    var Handler = $extend(org.mathdox.formulaeditor.EventHandler, {
-
-      onkeydown : function(event) {
-        var result = true;
-        for (var i=0; i<editors.length; i++) {
-          var intermediate = editors[i].onkeydown(event);
-          if (intermediate != null && intermediate == false) {
-            result = false;
-          }
-        }
-        return result;
-      },
-
-      onkeypress : function(event) {
-        var result = true;
-        for (var i=0; i<editors.length; i++) {
-          var intermediate = editors[i].onkeypress(event);
-          if (intermediate != null && intermediate == false) {
-            result = false;
-          }
-        }
-        return result;
-      },
-
-      onmousedown : function(event) {
-        var result = true;
-        if (palette) {
-          result = palette.onmousedown(event);
-        }
-        if (result) {
-          // if not handled by palette, then continue
-          for (var i=0; i<editors.length; i++) {
-            var intermediate = editors[i].onmousedown(event);
-            if (intermediate != null && intermediate == false) {
-              result = false;
-            }
-          }
-          return result;
-        }
-      }
-
-    });
-    new Handler();
-
-  }
-
-  // register the onload function as an event handler
-  if (window.addEventListener) {
-
-    // use the W3C standard way of registering event handlers
-    window.addEventListener("load", onload, false)
-
-  }
-  else if (document.body.attachEvent){
-
-    // use the MSIE-only way of registering event handlers
-    if (document.readyState == "complete") {
-      onload();
-    }
-    else {
-      document.body.attachEvent("onload", onload);
-    }
-
-  }
-
-  /**
    * Class that represents a formula editor palette.
    */
   org.mathdox.formulaeditor.Palette = $extend(
@@ -909,5 +811,103 @@ $main(function(){
       }
     }
   });
+
+  /**
+   * When the document has finished loading, replace all textarea elements of
+   * class 'mathdoxformula' with a formula editor.
+   */
+
+  // function that will be called upon loading
+  var onload = function() {
+
+    // replace all textarea's of class 'mathdoxformula' with editors
+    var textareas = document.getElementsByTagName("textarea")
+    for (var i=0; i<textareas.length; i++) {
+      var textarea = textareas[i];
+
+      // retrieve the class attribute of the textarea
+      var classattribute = textarea.getAttribute("class");
+
+      // workaround bug in IE
+      // see also http://www.doxdesk.com/personal/posts/wd/20020617-dom.html
+      if (!classattribute) {
+        classattribute = textarea.getAttribute("className");
+      }
+
+      // check whether this textarea is of class 'mathdoxformula'
+      if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
+
+        // replace the textarea by a formula editor
+        new org.mathdox.formulaeditor.FormulaEditor(textarea);
+
+      }
+
+    }
+
+    // register key and mouse handlers that forward events to the editors
+    var Handler = $extend(org.mathdox.formulaeditor.EventHandler, {
+
+      onkeydown : function(event) {
+        var result = true;
+        for (var i=0; i<editors.length; i++) {
+          var intermediate = editors[i].onkeydown(event);
+          if (intermediate != null && intermediate == false) {
+            result = false;
+          }
+        }
+        return result;
+      },
+
+      onkeypress : function(event) {
+        var result = true;
+        for (var i=0; i<editors.length; i++) {
+          var intermediate = editors[i].onkeypress(event);
+          if (intermediate != null && intermediate == false) {
+            result = false;
+          }
+        }
+        return result;
+      },
+
+      onmousedown : function(event) {
+        var result = true;
+        if (palette) {
+          result = palette.onmousedown(event);
+        }
+        if (result) {
+          // if not handled by palette, then continue
+          for (var i=0; i<editors.length; i++) {
+            var intermediate = editors[i].onmousedown(event);
+            if (intermediate != null && intermediate == false) {
+              result = false;
+            }
+          }
+          return result;
+        }
+      }
+
+    });
+    new Handler();
+
+  }
+
+  // register the onload function as an event handler
+  if (window.addEventListener) {
+
+    // use the W3C standard way of registering event handlers
+    window.addEventListener("load", onload, false)
+
+  }
+  else if (document.body.attachEvent){
+
+    // use the MSIE-only way of registering event handlers
+    if (document.readyState == "complete") {
+      onload();
+    }
+    else {
+      document.body.attachEvent("onload", onload);
+    }
+
+  }
 
 });

@@ -72,7 +72,7 @@ $main(function(){
 
       // see if a standard symbol can be used
       for (var i=4 ; i>=1; i--) {
-	var tmpData = this.getSymbolDataByPosition(bracket + i);
+        var tmpData = this.getSymbolDataByPosition(bracket + i);
         if (tmpData.height >= minimumHeight) {
           symbolData = tmpData;
         }
@@ -95,7 +95,7 @@ $main(function(){
         var top    = y - symbolData.height + symbolData.yadjust;
         var width  = symbolData.width;
         var height = symbolData.height;
-	var font = symbolData.font;
+        var font = symbolData.font;
   
         // draw that part of the font image which contains the symbol
         if (!invisible) {
@@ -103,7 +103,6 @@ $main(function(){
           var canvas = this.canvas;
           var cache  = this.imageCache;
   
-	  // XXX re-copy from drawsymbol
           var drawImage = function() {
             canvas.getContext("2d").drawImage(
               cache[font.image],
@@ -111,20 +110,32 @@ $main(function(){
               left, top, width, height
             );
           };
- 
-	  //alert("font.image:"+font.image);
+
+          /* warning code used in both drawSymbol and drawBracket */
           if (cache[font.image] == null) {
             var image = new Image();
             image.onload = function() {
-              cache[font.image] = image;
-              drawImage();
+              if (cache[font.image] instanceof Array) {
+                var todo = cache[font.image];
+  
+                cache[font.image] = image;
+  
+                for (var i=0; i<todo.length; i++) {
+                  todo[i](); // call stored drawImage functions
+                }
+              }
             }
+            cache[font.image] = new Array();
+  
+            cache[font.image].push(drawImage);
+  
             image.src = font.image;
-          }
-          else{
+          } else if (cache[font.image] instanceof Array) {
+            cache[font.image].push(drawImage);
+          } else {
             drawImage();
           }
-  
+ 
         }
   
         // return the coordinates of the topleft corner, the width and height
@@ -140,32 +151,32 @@ $main(function(){
         var bottomSymbol = this.getSymbolDataByPosition(bracket+"l");
         var connection = this.getSymbolDataByPosition(bracket+"m");
 
-	if (!topSymbol.adjusted) {
-	  // get rid of aliased top/bottom
-	  // for top part
-	  topSymbol.adjusted = true;
-	  topSymbol.height -= 1;
+        if (!topSymbol.adjusted) {
+          // get rid of aliased top/bottom
+          // for top part
+          topSymbol.adjusted = true;
+          topSymbol.height -= 1;
 
-	  // for middle part
-	  if (connection.height > 2) {
-	    // get rid of aliased top/bottom
-	    connection.height -= 2;
-	    connection.y += 1;
-	  }
+          // for middle part
+          if (connection.height > 2) {
+            // get rid of aliased top/bottom
+            connection.height -= 2;
+            connection.y += 1;
+          }
 
-	  // for bottom part
-	  bottomSymbol.height -= 1;
-	  bottomSymbol.y += 1;
-	}
+          // for bottom part
+          bottomSymbol.height -= 1;
+          bottomSymbol.y += 1;
+        }
 
         var left = x;
         var height = Math.max(minimumHeight,
           topSymbol.height + bottomSymbol.height);
         var top = y - height + bottomSymbol.yadjust;
-	var width = Math.max(topSymbol.width, connection.width,
-	  bottomSymbol.width);
+        var width = Math.max(topSymbol.width, connection.width,
+          bottomSymbol.width);
 
-	var font = topSymbol.font;
+        var font = topSymbol.font;
 
         if (!invisible) {
   
@@ -173,8 +184,8 @@ $main(function(){
           var cache  = this.imageCache;
   
           var drawImage = function() {
-	    var minXadjust = Math.min(topSymbol.xadjust,
-	      bottomSymbol.xadjust, connection.xadjust)
+            var minXadjust = Math.min(topSymbol.xadjust,
+              bottomSymbol.xadjust, connection.xadjust)
             var topPos = { 
               left: left + topSymbol.xadjust - minXadjust,
               top: top,
@@ -193,44 +204,56 @@ $main(function(){
               width: connection.width,
               height: height - topPos.height - bottomPos.height
             };
-	    //alert("top: ("+topPos.left+", "+topPos.top+", "+topPos.width+", "+topPos.height+")\n"+"conn: ("+connPos.left+", "+connPos.top+", "+connPos.width+", "+connPos.height+")\n"+"bottom: ("+bottomPos.left+", "+bottomPos.top+", "+bottomPos.width+", "+bottomPos.height+")");
-	    //alert("font.image:"+font.image);
+            //alert("top: ("+topPos.left+", "+topPos.top+", "+topPos.width+", "+topPos.height+")\n"+"conn: ("+connPos.left+", "+connPos.top+", "+connPos.width+", "+connPos.height+")\n"+"bottom: ("+bottomPos.left+", "+bottomPos.top+", "+bottomPos.width+", "+bottomPos.height+")");
+            //alert("font.image:"+font.image);
             canvas.getContext("2d").drawImage(
               cache[font.image],
               topSymbol.x, topSymbol.y, topSymbol.width, topSymbol.height,
               topPos.left, topPos.top, topPos.width, 
-	      topPos.height
+              topPos.height
             );
             if (connPos.height>0) {
               canvas.getContext("2d").drawImage(
                 cache[font.image],
                 connection.x, connection.y, connection.width, connection.height,
                 connPos.left, connPos.top, 
-		connPos.width, connPos.height);
+                connPos.width, connPos.height);
             }
             canvas.getContext("2d").drawImage(
               cache[font.image],
               bottomSymbol.x, bottomSymbol.y, bottomSymbol.width, 
-	      bottomSymbol.height, bottomPos.left, 
-	      bottomPos.top, bottomPos.width, bottomPos.height
+              bottomSymbol.height, bottomPos.left, 
+              bottomPos.top, bottomPos.width, bottomPos.height
             );
           };
-	  
-	  // XXX check and possibly update
+          
+          /* warning code used in both drawSymbol and drawBracket */
           if (cache[font.image] == null) {
             var image = new Image();
             image.onload = function() {
-              cache[font.image] = image;
-              drawImage();
+              if (cache[font.image] instanceof Array) {
+                var todo = cache[font.image];
+  
+                cache[font.image] = image;
+  
+                for (var i=0; i<todo.length; i++) {
+                  todo[i](); // call stored drawImage functions
+                }
+              }
             }
+            cache[font.image] = new Array();
+  
+            cache[font.image].push(drawImage);
+  
             image.src = font.image;
-          }
-          else{
+          } else if (cache[font.image] instanceof Array) {
+            cache[font.image].push(drawImage);
+          } else {
             drawImage();
           }
   
         }
-	//alert("total: ("+left+", "+top+", "+width+", "+height+")");
+        //alert("total: ("+left+", "+top+", "+width+", "+height+")");
          // return the coordinates of the topleft corner, the width and height
         return {
           left:   left,
@@ -327,30 +350,30 @@ $main(function(){
           );
         };
 
+        /* warning code used in both drawSymbol and drawBracket */
         if (cache[font.image] == null) {
           var image = new Image();
           image.onload = function() {
-	    if (cache[font.image] instanceof Array) {
-	      var todo = cache[font.image];
+            if (cache[font.image] instanceof Array) {
+              var todo = cache[font.image];
 
-	      cache[font.image] = image;
+              cache[font.image] = image;
 
-	      for (var i=0; i<todo.length; i++) {
-		todo[i](); // call stored drawImage functions
-	      }
-	    }
+              for (var i=0; i<todo.length; i++) {
+                todo[i](); // call stored drawImage functions
+              }
+            }
           }
+          cache[font.image] = new Array();
+
+          cache[font.image].push(drawImage);
+
           image.src = font.image;
-
-	  cache[font.image] = new Array();
-
-	  cache[font.image].push(drawImage);
         } else if (cache[font.image] instanceof Array) {
-	  cache[font.image].push(drawImage);
-	} else {
+          cache[font.image].push(drawImage);
+        } else {
           drawImage();
         }
-
       }
 
       // return the coordinates of the topleft corner, the width and height
@@ -421,9 +444,9 @@ $main(function(){
           };
         }
         // return symboldata
-	if (!symbolData.font) {
-	  symbolData.font = font[this.fontSize];
-	}
+        if (!symbolData.font) {
+          symbolData.font = font[this.fontSize];
+        }
         return symbolData;
       }
       else {
@@ -843,7 +866,7 @@ $main(function(){
       var fBPN = fBP[fontName];
       var fontInput = data[fontName];
       var font = { image : $baseurl + "org/mathdox/formulaeditor/fonts/" +
-	  fontName + "/" + fontSize + ".png"};
+          fontName + "/" + fontSize + ".png"};
 
       if (!fBPN[fontSize]) {
         fBPN[fontSize] = new Array();
@@ -869,9 +892,9 @@ $main(function(){
               y: fontInput[ length - 2 ][row] - height + yadjust,
               width: width,
               height: height,
-	      xadjust: - xadjust,
+              xadjust: - xadjust,
               yadjust: yadjust, // XXX check the sign
-	      font:font
+              font:font
             };
           }
           

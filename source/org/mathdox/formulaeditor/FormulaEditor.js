@@ -127,6 +127,11 @@ $main(function(){
      * The palette (if any)
      */
     palette : null,
+    
+    /**
+     * Boolean that indicates whether the palette should be shown
+     */
+    showPalette : true,
 
     /**
      * Indicates whether this formula editor has the focus.
@@ -185,7 +190,7 @@ $main(function(){
         }
 
         // check whether a palette needs to be added
-        if (!palette) {
+        if (showPalette && !palette) {
           /*
           var ec = new com.oreilly.javascript.tdg.ElementCreation;
           var table = ec.maker("table");
@@ -530,7 +535,7 @@ $main(function(){
         return { 
           errorString : errorString,
           success: success,
-          value: omstring,
+          value: omstring
         };
       } else {
         return omstring;
@@ -775,7 +780,7 @@ $main(function(){
             return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation(), new Symbol("("), null, new Symbol(")")];
           };
           return autocreate(createFun);
-        }
+        };
         var autocreateOMS = function(cd, name) {
           var createFun = function() {
             return org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation();
@@ -870,7 +875,7 @@ $main(function(){
             // U+2228 logical or
             autocreateSymbol("∨"),
             autocreateOMA("transc1", "cos"),
-            autocreateVector(2),
+            autocreateVector(2)
           ],
           [ autocreateSymbol("<"), 
             // U+2264 less-than or equal to 
@@ -880,7 +885,7 @@ $main(function(){
             autocreateSymbol("≥"), 
             autocreateSymbol(">"),
             autocreateOMA("transc1", "sin"),
-            autocreateVector(3),
+            autocreateVector(3)
           ],
           [ autocreateOMS("nums1","pi"),
             autocreateOMS("nums1","e"),
@@ -888,7 +893,7 @@ $main(function(){
             autocreateOMS("nums1","infinity"),
             empty(),
             autocreateOMA("transc1", "tan"),
-            autocreateMatrix(2,2),
+            autocreateMatrix(2,2)
           ],
           [ autocreate(createFrac), 
             autocreate(createPower),
@@ -896,7 +901,7 @@ $main(function(){
             autocreate(createFac),
             autocreate(createEPower),
             autocreateOMA("transc1", "ln"),
-            autocreateMatrix(2,3),
+            autocreateMatrix(2,3)
           ]
         );
         this.presentation.margin = 10.0;

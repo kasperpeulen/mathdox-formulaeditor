@@ -1,7 +1,10 @@
 <model:model xmlns:model="local:model">
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$identify("org/mathdox/formulaeditor/modules/<model:cd/>/<model:name/>.js");
+
+$require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
 

@@ -1,9 +1,10 @@
 <model:model xmlns:model="local:model">
 $identify("org/mathdox/formulaeditor/modules/<model:cd/>/<model:name/>.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
 
@@ -123,7 +124,7 @@ $main(function(){
         <model:cd/><model:name/> :
           transform(
             concatenation(
-              rule("expression<model:precedence2/>"),
+              rule("expression<model:precedence/>"),
               literal("<model:symbol_enter/>"),
               rule("expression<model:precedence2/>"),
               repetitionplus(
@@ -152,7 +153,7 @@ $main(function(){
         <model:cd/><model:name/>alt :
           transform(
             concatenation(
-              rule("expression<model:precedence2/>"),
+              rule("expression<model:precedence/>"),
               literal("<model:symbol_enter/>"),
               rule("expression<model:precedence2/>"),
               repetitionplus(

@@ -6,6 +6,7 @@ $require("org/mathdox/formulaeditor/presentation/Matrix.js")
 $require("org/mathdox/formulaeditor/presentation/Vector.js")
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js")
 //$require("org/mathdox/formulaeditor/presentation/Matrix.js")
+$require("org/mathdox/parsing/ParserGenerator.js")
 
 $main(function(){
 

@@ -30,7 +30,9 @@ $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
-/*
+$require("org/mathdox/formulaeditor/presentation/Root.js");
+
+
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
 //$require("org/mathdox/formulaeditor/modules/logic1/false.js");
@@ -50,10 +52,8 @@ $require("org/mathdox/formulaeditor/modules/relation1/geq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/gt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
-*/
-/*$require("org/mathdox/formulaeditor/modules/relation1/neq.js");*/
-
-//$require("org/mathdox/formulaeditor/modules/relation2/eqs.js");
+$require("org/mathdox/formulaeditor/modules/relation1/neq.js");
+$require("org/mathdox/formulaeditor/modules/relation2/eqs.js");
 
 /*$require("org/mathdox/formulaeditor/modules/relations/equality.js");*/
 
@@ -766,6 +766,9 @@ $main(function(){
         var createEPower = function() {
           return [autocreateOMS("nums1","e"), new Superscript(new Row())];
         };
+	var createRoot = function() { 
+	  return [new Root(new Row(new Symbol("x")))];
+	};
         // create a PArray
         this.presentation = new PArray(
           [ autocreateSymbol("+"), 
@@ -793,7 +796,8 @@ $main(function(){
             autocreateOMS("nums1","e"),
             autocreateOMS("nums1","i"),
             autocreateOMS("nums1","infinity"),
-            empty(),
+            //empty(),
+            autocreate(createRoot),
             autocreateOMA("transc1", "tan"),
             autocreateMatrix(2,2)
           ],

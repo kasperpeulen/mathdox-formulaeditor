@@ -22,6 +22,7 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
+$require("org/mathdox/formulaeditor/modules/arithmetic/root.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 //$require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
@@ -31,7 +32,6 @@ $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
 $require("org/mathdox/formulaeditor/presentation/Root.js");
-
 
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
@@ -767,7 +767,7 @@ $main(function(){
           return [autocreateOMS("nums1","e"), new Superscript(new Row())];
         };
 	var createRoot = function() { 
-	  return [new Root(new Row(new Symbol("x")))];
+	  return [new Root(new Row(new Symbol("x")), new Row(new semInteger(2).getPresentation()))];
 	};
         // create a PArray
         this.presentation = new PArray(

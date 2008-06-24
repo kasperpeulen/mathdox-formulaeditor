@@ -2,10 +2,14 @@ $package("org.mathdox.formulaeditor.presentation");
 
 $identify("org/mathdox/formulaeditor/presentation/Root.js");
 
+$require("org/mathdox/formulaeditor/modules/keywords.js");
+
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
 $require("org/mathdox/formulaeditor/presentation/Bracketed.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
+
+$require("org/mathdox/formulaeditor/semantics/Integer.js");
 
 $main(function(){
 
@@ -15,6 +19,9 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Root =
     $extend(org.mathdox.formulaeditor.presentation.Bracketed, {
+      // base of the root (especially if not 2)
+      base : null,
+
       // width of the line
       lineWidth : 1.0,
 
@@ -121,6 +128,7 @@ $main(function(){
 	  this.leftBracket = 
 	    new org.mathdox.formulaeditor.presentation.Bracket("v");
 	  this.middle = arguments[0];
+	  this.base = arguments[1];
 	  this.children = new Array();
 	  this.children.push(this.middle);
 	} else {
@@ -140,7 +148,21 @@ $main(function(){
           }
 	  this.updateChildren();
         }
+      },
+
+      getSemantics : function() {
+        var root;
+
+        with (org.mathdox.formulaeditor.semantics) {
+          root = new Arith1Root(this.middle.getSemantics().value, 
+	    new Integer(2));
+        }
+        return {
+          value : root,
+          rule  : "braces"
+        }
       }
+
 
     })
 

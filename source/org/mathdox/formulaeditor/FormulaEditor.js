@@ -31,6 +31,8 @@ $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
+$require("org/mathdox/formulaeditor/modules/list1/list.js");
+
 $require("org/mathdox/formulaeditor/presentation/Root.js");
 
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
@@ -767,7 +769,13 @@ $main(function(){
           return [autocreateOMS("nums1","e"), new Superscript(new Row())];
         };
 	var createRoot = function() { 
-	  return [new Root(new Row(new Symbol("x")), new Row(new semInteger(2).getPresentation()))];
+	  return [new Root(new Row(), new Row())];
+	};
+	var createRoot2 = function() { 
+	  return [new Root(new Row(new Row()), new Row(new semInteger(2).getPresentation()))];
+	};
+	var createList = function() { 
+	  return [new Symbol("{"), null, new Symbol("}")];
 	};
         // create a PArray
         this.presentation = new PArray(
@@ -780,7 +788,8 @@ $main(function(){
             // U+2228 logical or
             autocreateSymbol("∨"),
             autocreateOMA("transc1", "cos"),
-            autocreateVector(2)
+            autocreateVector(2),
+            autocreate(createRoot2)
           ],
           [ autocreateSymbol("<"), 
             // U+2264 less-than or equal to 
@@ -790,16 +799,17 @@ $main(function(){
             autocreateSymbol("≥"), 
             autocreateSymbol(">"),
             autocreateOMA("transc1", "sin"),
-            autocreateVector(3)
+            autocreateVector(3),
+            autocreate(createRoot)
           ],
           [ autocreateOMS("nums1","pi"),
             autocreateOMS("nums1","e"),
             autocreateOMS("nums1","i"),
             autocreateOMS("nums1","infinity"),
-            //empty(),
-            autocreate(createRoot),
+            empty(),
             autocreateOMA("transc1", "tan"),
-            autocreateMatrix(2,2)
+            autocreateMatrix(2,2),
+            autocreate(createList)
           ],
           [ autocreate(createFrac), 
             autocreate(createPower),
@@ -807,7 +817,8 @@ $main(function(){
             autocreate(createFac),
             autocreate(createEPower),
             autocreateOMA("transc1", "ln"),
-            autocreateMatrix(2,3)
+            autocreateMatrix(2,3),
+            empty()
           ]
         );
         this.presentation.margin = 10.0;

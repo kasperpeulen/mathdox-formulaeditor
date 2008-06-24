@@ -31,6 +31,13 @@ $main(function(){
       // should we draw boxes ?
       drawBox : false,
 
+      drawBaseQ: function() {
+	var baseSemantics = this.base.getSemantics();
+
+	return (!baseSemantics || !baseSemantics.value || 
+	  !baseSemantics.value.value || (baseSemantics.value.value != 2));
+      },
+
       /**
        * Draws the root to the canvas.
        *
@@ -51,9 +58,7 @@ $main(function(){
         middleheight = this.middle.dimensions.height + this.lineWidth + 
           this.margin*2;
 
-	var baseSemantics = this.base.getSemantics();
-	drawBase = (!baseSemantics || !baseSemantics.value || 
-	  !baseSemantics.value.value || (baseSemantics.value.value != 2));
+	drawBase = this.drawBaseQ();
 
 	if (drawBase) {
 	  this.base.draw(canvas, 0, 0, true);
@@ -154,6 +159,94 @@ $main(function(){
         return this.dimensions;
       },
 
+      getCursorPosition : function(x,y) {
+	var count = this.children.length;
+        for (var i=0; i<count; i++) {
+          var dimensions = this.children[i].dimensions;
+          if (x < dimensions.left + dimensions.width || i == count - 1) {
+            return this.children[i].getCursorPosition(x,y);
+          }
+        }
+
+        return { row: this.parent, index: this.index };
+      },
+
+      getFollowingCursorPosition : function(index, descend) {
+
+        // default value for descend
+        if (descend == null) {
+          descend = true;
+        }
+
+        // when index is not specified, return the first position in the array
+        if (index == null) {
+	  if (this.drawBaseQ()) {
+	    return this.base.getFollowingCursorPosition();
+	  } else {
+	    return this.middle.getFollowingCursorPosition();
+	  }
+        }
+        
+        var result = null;
+
+        if (index == 0) {
+          if (descend) {
+	    if (this.drawBaseQ()) {
+	      result = this.base.getFollowingCursorPosition();
+	    } else {
+	      return this.middle.getFollowingCursorPosition();
+	    }
+          }
+	  if (result == null) {
+	    result = this.middle.getFollowingCursorPosition();
+	  }
+        }
+
+        if (result == null) {
+          // when we're at the end of the matrix, ask the parent of the matrix
+          // for the position following this matrix
+          if (this.parent != null) {
+            return this.parent.getFollowingCursorPosition(this.index, false);
+          }
+        }
+        
+        return result;
+      },
+      getPrecedingCursorPosition : function(index, descend) {
+
+        // default value for descend
+        if (descend == null) {
+          descend = true;
+        }
+
+        // when index is not specified, return the first position in the array
+        if (index == null) {
+          return this.middle.getPrecedingCursorPosition();
+        }
+        
+        var result = null;
+
+        if (index == 1) {
+          if (descend) {
+            result = this.middle.getPrecedingCursorPosition();
+          }
+	  if (result == null) {
+	    if (this.drawBaseQ()) {
+	      result = this.base.getPrecedingCursorPosition();
+	    }
+	  }
+	}
+
+        if (result == null) {
+          // when we're at the beginning of the matrix, ask the parent of the
+          // matrix for the position before this matrix
+          if (this.parent != null) {
+            return { row: this.parent, index: this.index };
+          }
+        }
+        
+        return result;
+      },
       initialize : function () {
         if (arguments.length>0) {
           this.leftBracket = 
@@ -161,6 +254,7 @@ $main(function(){
           this.middle = arguments[0];
           this.base = arguments[1];
           this.children = new Array();
+          this.children.push(this.base);
           this.children.push(this.middle);
         } else {
           this.children = new Array();

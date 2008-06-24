@@ -1072,6 +1072,24 @@ $main(function(){
         'mh', 'mi', 'mj', 'mk', 'ml', 'mm', 'mn', 'mo'],
       [ 'mp', 'mq', 'mr', 'ms', 'mt', 'mu', 'mv', 'mw',
         'mx', 'my', 'mz', null, null, null, null, null]
+    ],
+    cmsy10: [
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null,  '{',  '}',
+        null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ]
     ]
   };
 

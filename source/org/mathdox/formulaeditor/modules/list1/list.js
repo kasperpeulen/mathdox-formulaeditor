@@ -14,7 +14,7 @@ $main(function(){
 
       symbol : {
 
-        mathml   : ["<mo>{</mo>","","<mo>}</mo>"],
+        mathml   : ["<mo>{</mo>",",","<mo>}</mo>"],
         onscreen : ["{",",","}"],
         openmath : "<OMS cd='list1' name='list'/>"
 

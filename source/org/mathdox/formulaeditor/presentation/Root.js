@@ -39,28 +39,44 @@ $main(function(){
       draw : function(canvas, x, y, invisible) {
         var middleheight;
         var rootheight;
+        var baseheight;
         var height;
+        var vlheight;
+	var drawBase;
 
         // invisible drawing of array to set dimensions
         
         this.middle.draw(canvas, 0, 0, true);
 
-	middleheight = this.middle.dimensions.height + this.lineWidth + 
-	  this.margin*2;
+        middleheight = this.middle.dimensions.height + this.lineWidth + 
+          this.margin*2;
 
-	// if the left and right symbols are brackets set the height
-	// XXX check if they are brackets
-        this.leftBracket.minimumHeight = middleheight;
+	var baseSemantics = this.base.getSemantics();
+	drawBase = (!baseSemantics || !baseSemantics.value || 
+	  !baseSemantics.value.value || (baseSemantics.value.value != 2));
+
+	if (drawBase) {
+	  this.base.draw(canvas, 0, 0, true);
+	  baseheight = this.base.dimensions.height;
+	  vlheight = canvas.drawSymbol("vl", 0, 0, true).height;
+	}
+
+        // if the left and right symbols are brackets set the height
+        // XXX check if they are brackets
+	if (drawBase) {
+	  this.leftBracket.minimumHeight = Math.max(middleheight, 
+	    Math.min(2*baseheight+3*this.margin,
+	      baseheight+vlheight+3*this.margin ));
+	} else {
+	  this.leftBracket.minimumHeight = middleheight;
+	}
 
         // invisible drawing of brackets to set dimensions
         this.leftBracket.draw(canvas, 0, 0, true);
 
-	rootheight = this.leftBracket.dimensions.height;
+        rootheight = this.leftBracket.dimensions.height;
 
-        height = Math.max(
-            rootheight,
-            middleheight
-        );
+        height = rootheight;
 
         var yAdjust = 0;
         var yAdjustBrackets = 0;
@@ -70,51 +86,66 @@ $main(function(){
           yAdjust = (height - middleheight)/2;
         }
 
-        // brackets are smaller than the array
-        // assuming right bracket has the same size as the left bracket
-        if (rootheight<height) {
-          yAdjustBrackets = (height - rootheight)/2;
-        }
-
+        // baseXAdjust: negative number or 0 indicating how much the base sticks
+        // out to the left
+        var baseXAdjust = 0;
+	if (drawBase) {
+	  baseXAdjust = Math.min(0, 
+	    this.leftBracket.dimensions.width/2 - this.base.dimensions.width);
+	}
+ 
         this.dimensions = { 
           height : height,
           width : 
             this.leftBracket.dimensions.width +
-            this.middle.dimensions.width,
+            this.middle.dimensions.width - baseXAdjust + this.margin,
           left : x,
           top : y - this.leftBracket.dimensions.height + yAdjust/2 
         }
-       
-        this.leftBracket.draw(canvas, 
-          x - this.leftBracket.dimensions.left, 
-	  y - (this.leftBracket.dimensions.top +
-	    this.leftBracket.dimensions.height) + yAdjust/2 , 
-          invisible);
-	/* XXX adjust vertically */
-        this.middle.draw(canvas, 
-          x + this.leftBracket.dimensions.width - this.middle.dimensions.left, 
-          y - (this.middle.dimensions.top+this.middle.dimensions.height) 
-	  - this.margin,
-	  invisible);
-
-	if (!invisible) {
-	  // draw line
-	  var context = canvas.getContext();
-
-	  context.save();
-	  context.lineWidth = this.lineWidth;
-	  context.beginPath();
-	  context.moveTo(x+this.leftBracket.dimensions.width - 1,
-	    this.dimensions.top + this.lineWidth);
-	  context.lineTo(x+this.dimensions.width, 
-	    this.dimensions.top + this.lineWidth);
-	  context.stroke();
-	  context.closePath();
-	  context.restore();
+     
+	if (drawBase) {
+	  this.base.draw(canvas,
+	    x - this.base.dimensions.left,
+	    y + yAdjust/2 - Math.min(rootheight/2, vlheight) - 
+	      (this.base.dimensions.top + this.base.dimensions.height) - 
+	      2*this.margin,
+	    invisible);
 	}
 
-	/* XXX adjust */
+        this.leftBracket.draw(canvas, 
+          x - this.leftBracket.dimensions.left - baseXAdjust, 
+          y - (this.leftBracket.dimensions.top +
+            this.leftBracket.dimensions.height) + yAdjust/2 , 
+          invisible);
+        /* XXX adjust vertically */
+        this.middle.draw(canvas, 
+          x - baseXAdjust + this.leftBracket.dimensions.width -
+          this.middle.dimensions.left + this.margin , 
+          y - (this.middle.dimensions.top+this.middle.dimensions.height) 
+          - this.margin,
+          invisible);
+
+        if (!invisible) {
+          // draw line
+          var context = canvas.getContext();
+
+          context.save();
+          context.lineWidth = this.lineWidth;
+          context.beginPath();
+          context.moveTo(x-baseXAdjust+this.leftBracket.dimensions.width - 1,
+            this.dimensions.top + this.lineWidth);
+          context.lineTo(x+this.dimensions.width, 
+            this.dimensions.top + this.lineWidth);
+          context.stroke();
+          context.closePath();
+          context.restore();
+        }
+
+        /* XXX adjust */
         if ((!invisible) &&this.drawBox) {
+	  if (drawBase) {
+	    canvas.drawBox(this.base.dimensions);
+	  }
           canvas.drawBox(this.middle.dimensions);
           canvas.drawBox(this.leftBracket.dimensions);
           canvas.drawBox(this.dimensions,y);
@@ -124,16 +155,16 @@ $main(function(){
       },
 
       initialize : function () {
-	if (arguments.length>0) {
-	  this.leftBracket = 
-	    new org.mathdox.formulaeditor.presentation.Bracket("v");
-	  this.middle = arguments[0];
-	  this.base = arguments[1];
-	  this.children = new Array();
-	  this.children.push(this.middle);
-	} else {
-	  this.children = new Array();
-	}
+        if (arguments.length>0) {
+          this.leftBracket = 
+            new org.mathdox.formulaeditor.presentation.Bracket("v");
+          this.middle = arguments[0];
+          this.base = arguments[1];
+          this.children = new Array();
+          this.children.push(this.middle);
+        } else {
+          this.children = new Array();
+        }
 
         with (org.mathdox.formulaeditor.presentation) {
           /* copy the cursor/position functions from Row */
@@ -146,7 +177,7 @@ $main(function(){
                 row[ this.functionsFromRow[i] ];
             }
           }
-	  this.updateChildren();
+          this.updateChildren();
         }
       },
 
@@ -155,7 +186,7 @@ $main(function(){
 
         with (org.mathdox.formulaeditor.semantics) {
           root = new Arith1Root(this.middle.getSemantics().value, 
-	    new Integer(2));
+            this.base.getSemantics().value);
         }
         return {
           value : root,

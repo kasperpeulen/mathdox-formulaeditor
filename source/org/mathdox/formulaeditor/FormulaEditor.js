@@ -242,7 +242,7 @@ $main(function(){
         }
 
         // hide the textarea
-        //textarea.style.display = "none";
+        textarea.style.display = "none";
 
         // register the textarea and a new mathcanvas
         this.textarea = textarea;

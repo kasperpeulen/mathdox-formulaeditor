@@ -32,10 +32,10 @@ $main(function(){
       drawBox : false,
 
       drawBaseQ: function() {
-	var baseSemantics = this.base.getSemantics();
+        var baseSemantics = this.base.getSemantics();
 
-	return (!baseSemantics || !baseSemantics.value || 
-	  !baseSemantics.value.value || (baseSemantics.value.value != 2));
+        return (!baseSemantics || !baseSemantics.value || 
+          !baseSemantics.value.value || (baseSemantics.value.value != 2));
       },
 
       /**
@@ -49,7 +49,7 @@ $main(function(){
         var baseheight;
         var height;
         var vlheight;
-	var drawBase;
+        var drawBase;
 
         // invisible drawing of array to set dimensions
         
@@ -58,23 +58,23 @@ $main(function(){
         middleheight = this.middle.dimensions.height + this.lineWidth + 
           this.margin*2;
 
-	drawBase = this.drawBaseQ();
+        drawBase = this.drawBaseQ();
 
-	if (drawBase) {
-	  this.base.draw(canvas, 0, 0, true);
-	  baseheight = this.base.dimensions.height;
-	  vlheight = canvas.drawSymbol("vl", 0, 0, true).height;
-	}
+        if (drawBase) {
+          this.base.draw(canvas, 0, 0, true);
+          baseheight = this.base.dimensions.height;
+          vlheight = canvas.drawSymbol("vl", 0, 0, true).height;
+        }
 
         // if the left and right symbols are brackets set the height
         // XXX check if they are brackets
-	if (drawBase) {
-	  this.leftBracket.minimumHeight = Math.max(middleheight, 
-	    Math.min(2*baseheight+3*this.margin,
-	      baseheight+vlheight+3*this.margin ));
-	} else {
-	  this.leftBracket.minimumHeight = middleheight;
-	}
+        if (drawBase) {
+          this.leftBracket.minimumHeight = Math.max(middleheight, 
+            Math.min(2*baseheight+3*this.margin,
+              baseheight+vlheight+3*this.margin ));
+        } else {
+          this.leftBracket.minimumHeight = middleheight;
+        }
 
         // invisible drawing of brackets to set dimensions
         this.leftBracket.draw(canvas, 0, 0, true);
@@ -94,10 +94,10 @@ $main(function(){
         // baseXAdjust: negative number or 0 indicating how much the base sticks
         // out to the left
         var baseXAdjust = 0;
-	if (drawBase) {
-	  baseXAdjust = Math.min(0, 
-	    this.leftBracket.dimensions.width/2 - this.base.dimensions.width);
-	}
+        if (drawBase) {
+          baseXAdjust = Math.min(0, 
+            this.leftBracket.dimensions.width/2 - this.base.dimensions.width);
+        }
  
         this.dimensions = { 
           height : height,
@@ -108,14 +108,14 @@ $main(function(){
           top : y - this.leftBracket.dimensions.height + yAdjust/2 
         }
      
-	if (drawBase) {
-	  this.base.draw(canvas,
-	    x - this.base.dimensions.left,
-	    y + yAdjust/2 - Math.min(rootheight/2, vlheight) - 
-	      (this.base.dimensions.top + this.base.dimensions.height) - 
-	      2*this.margin,
-	    invisible);
-	}
+        if (drawBase) {
+          this.base.draw(canvas,
+            x - this.base.dimensions.left,
+            y + yAdjust/2 - Math.min(rootheight/2, vlheight) - 
+              (this.base.dimensions.top + this.base.dimensions.height) - 
+              2*this.margin,
+            invisible);
+        }
 
         this.leftBracket.draw(canvas, 
           x - this.leftBracket.dimensions.left - baseXAdjust, 
@@ -148,9 +148,9 @@ $main(function(){
 
         /* XXX adjust */
         if ((!invisible) &&this.drawBox) {
-	  if (drawBase) {
-	    canvas.drawBox(this.base.dimensions);
-	  }
+          if (drawBase) {
+            canvas.drawBox(this.base.dimensions);
+          }
           canvas.drawBox(this.middle.dimensions);
           canvas.drawBox(this.leftBracket.dimensions);
           canvas.drawBox(this.dimensions,y);
@@ -160,14 +160,26 @@ $main(function(){
       },
 
       getCursorPosition : function(x,y) {
-	var count = this.children.length;
-        for (var i=0; i<count; i++) {
-          var dimensions = this.children[i].dimensions;
-          if (x < dimensions.left + dimensions.width || i == count - 1) {
-            return this.children[i].getCursorPosition(x,y);
+        var dimensions;
+
+        // check for base
+        if (this.drawBaseQ()) {
+          dimensions = this.base.dimensions;
+          if (x < dimensions.left + dimensions.width) {
+            return this.base.getCursorPosition(x,y);
+          }
+        } 
+
+        // check for middle
+        dimensions = this.middle.dimensions;
+        if (! this.drawBaseQ()) {
+          if (x < dimensions.left) {
+            return { row: this.parent, index: this.index };
           }
         }
-
+        if (x < dimensions.left + dimensions.width) {
+          return this.middle.getCursorPosition(x,y);
+        }
         return { row: this.parent, index: this.index };
       },
 
@@ -180,26 +192,26 @@ $main(function(){
 
         // when index is not specified, return the first position in the array
         if (index == null) {
-	  if (this.drawBaseQ()) {
-	    return this.base.getFollowingCursorPosition();
-	  } else {
-	    return this.middle.getFollowingCursorPosition();
-	  }
+          if (this.drawBaseQ()) {
+            return this.base.getFollowingCursorPosition();
+          } else {
+            return this.middle.getFollowingCursorPosition();
+          }
         }
         
         var result = null;
 
         if (index == 0) {
           if (descend) {
-	    if (this.drawBaseQ()) {
-	      result = this.base.getFollowingCursorPosition();
-	    } else {
-	      return this.middle.getFollowingCursorPosition();
-	    }
+            if (this.drawBaseQ()) {
+              result = this.base.getFollowingCursorPosition();
+            } else {
+              return this.middle.getFollowingCursorPosition();
+            }
           }
-	  if (result == null) {
-	    result = this.middle.getFollowingCursorPosition();
-	  }
+          if (result == null) {
+            result = this.middle.getFollowingCursorPosition();
+          }
         }
 
         if (result == null) {
@@ -230,12 +242,12 @@ $main(function(){
           if (descend) {
             result = this.middle.getPrecedingCursorPosition();
           }
-	  if (result == null) {
-	    if (this.drawBaseQ()) {
-	      result = this.base.getPrecedingCursorPosition();
-	    }
-	  }
-	}
+          if (result == null) {
+            if (this.drawBaseQ()) {
+              result = this.base.getPrecedingCursorPosition();
+            }
+          }
+        }
 
         if (result == null) {
           // when we're at the beginning of the matrix, ask the parent of the

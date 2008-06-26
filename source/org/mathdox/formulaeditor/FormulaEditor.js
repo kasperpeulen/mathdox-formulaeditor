@@ -227,6 +227,9 @@ $main(function(){
           palcanvas.style.cursor        = "text";
           palcanvas.style.padding       = "0px";
 
+	  // set a classname so the user can extend the style
+	  palcanvas.className           = "formulaeditorpalette";
+
           // insert canvas in the document before the textarea 
           textarea.parentNode.insertBefore(palcanvas, textarea);
 
@@ -239,7 +242,7 @@ $main(function(){
         }
 
         // hide the textarea
-        textarea.style.display = "none";
+        //textarea.style.display = "none";
 
         // register the textarea and a new mathcanvas
         this.textarea = textarea;
@@ -284,6 +287,10 @@ $main(function(){
 
       // update the textarea
       textarea.value = openmathInfo.value;
+      if (ORBEON) {
+	ORBEON.xforms.Document.setValue(textarea.id, 
+	  new String(openmathInfo.value));
+      }
 
       return { 
         success: openmathInfo.success,

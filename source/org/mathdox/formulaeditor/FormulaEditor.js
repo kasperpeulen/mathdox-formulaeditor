@@ -196,6 +196,8 @@ $main(function(){
           canvas.style.cursor        = "text";
           canvas.style.padding       = "0px";
 
+          canvas.className           = "formulaeditorinput";
+
           // insert canvas in the document before the textarea 
           textarea.parentNode.insertBefore(canvas, textarea);
 

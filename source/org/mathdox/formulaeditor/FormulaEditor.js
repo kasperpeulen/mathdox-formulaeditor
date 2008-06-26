@@ -98,7 +98,7 @@ $main(function(){
    */
   var editors = [];
 
-  var palette;
+  var palettes;
 
   /**
    * Class that represents a formula editor.
@@ -129,7 +129,7 @@ $main(function(){
      * The palette (if any)
      */
     palette : null,
-    
+
     /**
      * Boolean that indicates whether the palette should be shown
      */
@@ -139,6 +139,22 @@ $main(function(){
      * Indicates whether this formula editor has the focus.
      */
     hasFocus : false,
+
+    /**
+     * checkClass(classNames, className): function to help check if an HTML
+     * element contains a certain class.
+     */
+    checkClass: function(classNames, className) {
+      var words = classNames.split(" ");
+      var i;
+
+      for (i=0; i<words.length; i++) {
+        if (words[i] == className) {
+          return true;
+        }
+      }
+      return false;
+    },
 
     /**
      * Hides the specified textarea and replaces it by a canvas that will be
@@ -192,7 +208,12 @@ $main(function(){
         }
 
         // check whether a palette needs to be added
-        if (this.showPalette && !palette) {
+	this.showPalette = this.showPalette &&
+	  (this.checkClass(textarea.className, "mathdoxpalette") || 
+          (!this.checkClass(textarea.className, "mathdoxnopalette") && 
+	    !palettes)
+	  );
+        if (this.showPalette) { 
           /*
           var ec = new com.oreilly.javascript.tdg.ElementCreation;
           var table = ec.maker("table");
@@ -227,8 +248,8 @@ $main(function(){
           palcanvas.style.cursor        = "text";
           palcanvas.style.padding       = "0px";
 
-	  // set a classname so the user can extend the style
-	  palcanvas.className           = "formulaeditorpalette";
+          // set a classname so the user can extend the style
+          palcanvas.className           = "formulaeditorpalette";
 
           // insert canvas in the document before the textarea 
           textarea.parentNode.insertBefore(palcanvas, textarea);
@@ -238,7 +259,12 @@ $main(function(){
           if (G_vmlCanvasManager) {
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);
           }
-          palette = new org.mathdox.formulaeditor.Palette(palcanvas);
+
+	  if (!palettes) {
+	    palettes = new Array();
+	  }
+	  this.palette = new org.mathdox.formulaeditor.Palette(palcanvas);
+          palettes.push(this.palette);
         }
 
         // hide the textarea
@@ -247,7 +273,6 @@ $main(function(){
         // register the textarea and a new mathcanvas
         this.textarea = textarea;
         this.canvas   = new MathCanvas(canvas);
-        this.palette  = palette;
 
         this.load();
 
@@ -288,8 +313,8 @@ $main(function(){
       // update the textarea
       textarea.value = openmathInfo.value;
       if (ORBEON) {
-	ORBEON.xforms.Document.setValue(textarea.id, 
-	  new String(openmathInfo.value));
+        ORBEON.xforms.Document.setValue(textarea.id, 
+          new String(openmathInfo.value));
       }
 
       return { 
@@ -775,15 +800,15 @@ $main(function(){
         var createEPower = function() {
           return [autocreateOMS("nums1","e"), new Superscript(new Row())];
         };
-	var createRoot = function() { 
-	  return [new Root(new Row(), new Row())];
-	};
-	var createRoot2 = function() { 
-	  return [new Root(new Row(new Row()), new Row(new semInteger(2).getPresentation()))];
-	};
-	var createList = function() { 
-	  return [new Symbol("{"), null, new Symbol("}")];
-	};
+        var createRoot = function() { 
+          return [new Root(new Row(), new Row())];
+        };
+        var createRoot2 = function() { 
+          return [new Root(new Row(new Row()), new Row(new semInteger(2).getPresentation()))];
+        };
+        var createList = function() { 
+          return [new Symbol("{"), null, new Symbol("}")];
+        };
         // create a PArray
         this.presentation = new PArray(
           [ autocreateSymbol("+"), 
@@ -893,11 +918,16 @@ $main(function(){
 
       onmousedown : function(event) {
         var result = true;
-        if (palette) {
-          result = palette.onmousedown(event);
+        if (palettes) {
+	  var i;
+	  for (i=0;i<palettes.length;i++) {
+	    if (result) {
+	      result = result && palettes[i].onmousedown(event);
+	    }
+	  }
         }
         if (result) {
-          // if not handled by palette, then continue
+          // if not handled by palettes, then continue
           for (var i=0; i<editors.length; i++) {
             var intermediate = editors[i].onmousedown(event);
             if (intermediate != null && intermediate == false) {

@@ -210,11 +210,11 @@ $main(function(){
         }
 
         // check whether a palette needs to be added
-	this.showPalette = this.showPalette &&
-	  (this.checkClass(textarea.className, "mathdoxpalette") || 
+        this.showPalette = this.showPalette &&
+          (this.checkClass(textarea.className, "mathdoxpalette") || 
           (!this.checkClass(textarea.className, "mathdoxnopalette") && 
-	    !palettes)
-	  );
+            !palettes)
+          );
         if (this.showPalette) { 
           /*
           var ec = new com.oreilly.javascript.tdg.ElementCreation;
@@ -262,10 +262,10 @@ $main(function(){
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);
           }
 
-	  if (!palettes) {
-	    palettes = new Array();
-	  }
-	  this.palette = new org.mathdox.formulaeditor.Palette(palcanvas);
+          if (!palettes) {
+            palettes = new Array();
+          }
+          this.palette = new org.mathdox.formulaeditor.Palette(palcanvas);
           palettes.push(this.palette);
         }
 
@@ -314,10 +314,6 @@ $main(function(){
 
       // update the textarea
       textarea.value = openmathInfo.value;
-      if (ORBEON) {
-        ORBEON.xforms.Document.setValue(textarea.id, 
-          new String(openmathInfo.value));
-      }
 
       return { 
         success: openmathInfo.success,
@@ -503,6 +499,13 @@ $main(function(){
     },
 
     blur : function() {
+      if (this.hasFocus) {
+        // on losing focus save changes to ORBEON if ORBEON is around
+        if (ORBEON) {
+          ORBEON.xforms.Document.setValue(this.textarea.id, 
+            new String(this.textarea.value));
+        }
+      }
       this.hasFocus = false;
       this.cursor.visible = false;
     },
@@ -921,12 +924,12 @@ $main(function(){
       onmousedown : function(event) {
         var result = true;
         if (palettes) {
-	  var i;
-	  for (i=0;i<palettes.length;i++) {
-	    if (result) {
-	      result = result && palettes[i].onmousedown(event);
-	    }
-	  }
+          var i;
+          for (i=0;i<palettes.length;i++) {
+            if (result) {
+              result = result && palettes[i].onmousedown(event);
+            }
+          }
         }
         if (result) {
           // if not handled by palettes, then continue
@@ -949,19 +952,29 @@ $main(function(){
   if (window.addEventListener) {
 
     // use the W3C standard way of registering event handlers
-    window.addEventListener("load", onload, false)
+    window.addEventListener("load", onload, false);
+  } else {
 
-  }
-  else if (document.body.attachEvent){
+    // document.body might not exist yet, if it doesn't call the check function
+    // with a 50 ms delay (fixes a bug)
+    
+    var bodyChecker;
 
-    // use the MSIE-only way of registering event handlers
-    if (document.readyState == "complete") {
-      onload();
+    bodyChecker = function() {
+      if (!document.body) {
+        setTimeout(bodyChecker,50);
+      } else {
+        if (document.body.attachEvent){
+          // use the MSIE-only way of registering event handlers
+          if (document.readyState == "complete") {
+            onload();
+          } else {
+            document.body.attachEvent("onload", onload);
+          }
+        }
+      }
     }
-    else {
-      document.body.attachEvent("onload", onload);
-    }
-
+    bodyChecker();
   }
 
 });

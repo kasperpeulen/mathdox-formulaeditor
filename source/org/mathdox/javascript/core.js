@@ -40,6 +40,11 @@ var $baseurl;
   };
 
   /**
+   * A list of scripts already added
+   */
+  var loadingurls = new Object();
+
+  /**
    * Holds a reference to the script tag that was last added to the document by
    * the $require function. New scripts will be added below this script.
    */
@@ -112,7 +117,6 @@ var $baseurl;
 
     loading = loading - 1;
     if (loading == 0) {
-
       while (waiting.nourl.length > 0) {
 	var nourl = waiting.nourl.pop();
 	var urlobj;
@@ -155,9 +159,12 @@ var $baseurl;
 
   var require_action = function(url, ready) {
     // already being loaded
-    if (waiting.urls[url]) {
+    if (waiting.urls[url] || loadingurls[url]) {
       return;
     }
+
+    // store that this url has been added
+    loadingurls[url] = true;
 
     // add base url to url, unless it is an absolute url
     if (!url.match(/^\/|:/)) {

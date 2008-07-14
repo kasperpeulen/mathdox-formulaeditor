@@ -70,8 +70,10 @@
 
       <h2>really short term todo list</h2>
       <ul>
+        <li>fix race condition in main.js (only start loading after main.js)</li>
+        <li>fix race condition in OrbeonForms.js (if ORBEON doesn't exist yet)</li>
+        <li>OrbeonForms.js (how to check if formulaeditor is fully loaded before starting)</li>
         <li>update index.html webpage</li>
-        <li>ORBEON change only on blur (?)</li>
         <li>slow with multiple fields, see wortel: books/differentieren/exams/nl/exam1.xml</li>
       </ul>
       <h2>short term todo list</h2>
@@ -99,6 +101,7 @@
       </ul>
       <h2>mid term todo list</h2>
       <ul>
+	<li>show formulaeditor contents when printing</li>
 	<li>moving fe around (hans has an url ?)</li>
         <li>use variable size brackets for abs and list</li>
         <li>getOpenMath/getMathML button</li>
@@ -115,6 +118,8 @@
 
       <h2>items done</h2>
       <ul>
+        <li>document.body.attachEvent race condition fixed (now setting a timeout if document.body does not exist yet)</li>
+        <li>ORBEON field update only on blur</li>
 	<li>sensible margin for palette/input canvas on mathdoxplayer</li>
 	<li>allow toggling palette on/of from mathdoxplayer</li>
         <li>toggling palette on/off (per textarea)</li>

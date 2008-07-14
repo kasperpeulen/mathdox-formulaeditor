@@ -964,7 +964,7 @@ $main(function(){
       if (!document.body) {
         setTimeout(bodyChecker,50);
       } else {
-        if (document.body.attachEvent){
+        if (document.body.attachEvent) {
           // use the MSIE-only way of registering event handlers
           if (document.readyState == "complete") {
             onload();

@@ -133,8 +133,8 @@
   -->
   <target name='zip' depends='javascript-identify'>
     <mkdir dir='build/zip'/>
-    <zip destfile='build/zip/formulaeditor.zip'>
-      <fileset dir='build/javascript'/>
+    <zip destfile='build/zip/formulaeditor-${version}.zip'>
+      <zipfileset dir='build/javascript' prefix='formulaeditor-${version}'/>
     </zip>
   </target>
 
@@ -145,7 +145,13 @@
     <mkdir dir='build/website'/>
     <copy todir='build/website'>
       <fileset dir='build/javascript'/>
-      <fileset dir='website'/>
+      <fileset dir='website' excludes='**/*html'/>
+    </copy>
+    <copy todir='build/website'>
+      <fileset dir='website' includes='**/*html'/>
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
     </copy>
     <copy todir='build/website'>
       <fileset

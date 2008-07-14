@@ -72,9 +72,15 @@
 
       <p>
         The following formulas can be edited using your keyboard. Feel free to
-        experiment, but beware that currently only integers, variables,
-        multiplication (*), division (/), addition (+), subtraction (-) and
-        exponents (^) are supported.
+	experiment. Supported are among others: integers, floating point
+	numbers, variables, some keywords (like sin and pi), multiplication
+	(*), division (/), addition (+), subtraction (-) and exponents (^). 
+      </p>
+      <p>
+	It is possible to show zero, one or multiple palettes that can be used
+	to insert something at the cursor position of the formulaeditor with
+	focus. With this palette it is also possible to enter matrices and
+	(square) roots.
       </p>
 
       <textarea id='formula1' class='mathdoxformula' style='margin-right: 2em'>
@@ -134,14 +140,15 @@
 	is stored, and not just a presentation tree. To see a MathML
 	representation of the first formula above <a
 	href='javascript:alert(org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").getMathML())'>click
-	here</a>.
+	here</a>. Note that the conversion to MathML has not been tested
+	 exhaustively and does still contain errors.
       </p>
 
       <h4>Usage</h4>
 
       <p>
-        Please be warned that this is not yet a finished product; there are
-        still many features missing that you would expect in a formula editor.
+	Please be warned that this editor is still being extended; it is
+	however used in our <a href='http://mathdox.org/'>MathDox software</a>.
         Having said that, if you want to use the formula editor in a webpage,
         there are two ways to do so. The first method is by including a
         reference to the main javascript file at the mathdox.org server:
@@ -179,8 +186,8 @@
       </p>
 
       <p>
-        <a href='http://mathdox.org/download/formulaeditor-0.4.zip'
-        >formulaeditor-0.4.zip</a>
+      <a href='http://mathdox.org/download/formulaeditor-${version}.zip'
+        >formulaeditor-${version}.zip</a>
       </p>
 
       <p>

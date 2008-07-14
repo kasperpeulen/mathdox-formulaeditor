@@ -19,5 +19,5 @@ $main(function(){
 
       precedence : 0
 
-    })
-})
+    });
+});

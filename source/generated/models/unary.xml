@@ -24,7 +24,7 @@ $main(function(){
 
       precedence : <model:precedence/>
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.unary_minus.
@@ -42,7 +42,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the ExpressionParser object with parsing code for unary minus.
@@ -77,7 +77,7 @@ $main(function(){
             }
           )
 
-    })
+    });
   } else { // allow alternative as displayed on the screen
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
@@ -115,9 +115,9 @@ $main(function(){
               return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
             }
           )
-     })
+     });
    }
   }}}
 
-})
+});
 </model:model>

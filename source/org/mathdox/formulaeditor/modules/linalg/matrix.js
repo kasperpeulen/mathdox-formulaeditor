@@ -47,7 +47,7 @@ $main(function(){
         }
       } 
 
-    })
+    });
 
   /**
    * Define a semantic tree node that represents the linalg2.vector
@@ -80,7 +80,7 @@ $main(function(){
         }
       }
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for linalg2.matrixrow
@@ -145,7 +145,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the ExpressionParser object with parsing code for Matrixrow.
@@ -212,9 +212,9 @@ $main(function(){
             }
           )
 
-      })
+      });
 
   }}}
 
 
-})
+});

@@ -92,11 +92,46 @@
     </copy>
     
   </target>
-  
+
+  <!-- 
+    Create a file containing all javascript files with identify
+  -->
+  <target name='javascript-identify' depends ='javascript'>
+    <concat destfile='build/javascript-identify/identify.body'>
+      <fileset dir='build/javascript' includes='**/*.js'/>
+      <filterchain>
+        <linecontains>
+	  <contains value='$identify('/>
+	</linecontains>
+	<tokenfilter>
+	  <replaceregex 
+	    pattern='\$identify\("(.*)"\);' 
+	    replace='  &lt;identify file="\1"/&gt;'/>
+	</tokenfilter>
+      </filterchain>
+    </concat>
+    <concat destfile='build/javascript-identify/identify.xml'>
+      <file file='source/generated/identify/identify.header'/>
+      <file file='build/javascript-identify/identify.body'/>
+      <file file='source/generated/identify/identify.footer'/>
+    </concat>
+    <xslt 
+      in='build/javascript-identify/identify.xml'
+      out='build/javascript/org/mathdox/formulaeditor/OrbeonFormsConcat.js'
+      style='source/generated/identify/identify.xsl'
+      force='true'
+      extension='js'
+      processor='trax'
+      classpathref='saxon.classpath'
+    >
+      <param name='filedir' expression ='../../../build/javascript'/>
+    </xslt>
+  </target>
+
   <!--
     Create a zip file of all javascript and supporting files.
   -->
-  <target name='zip' depends='javascript'>
+  <target name='zip' depends='javascript-identify'>
     <mkdir dir='build/zip'/>
     <zip destfile='build/zip/formulaeditor.zip'>
       <fileset dir='build/javascript'/>
@@ -106,7 +141,7 @@
   <!--
     Copy all files for the website.
   -->
-  <target name='website' depends='javascript'>
+  <target name='website' depends='javascript-identify'>
     <mkdir dir='build/website'/>
     <copy todir='build/website'>
       <fileset dir='build/javascript'/>
@@ -123,7 +158,7 @@
   <!--
     Run unit tests.
   -->
-  <target name='test' depends='javascript'>
+  <target name='test' depends='javascript-identify'>
 
     <!--
       Unzip JsUnit distribution zip file.
@@ -196,7 +231,7 @@
   </target>
 
 
-  <target name='default' depends='javascript'/>  
+  <target name='default' depends='javascript-identify'/>  
   <target name='all' depends='javascript,zip,website,test'/>
 
 </project>

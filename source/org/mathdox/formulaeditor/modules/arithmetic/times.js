@@ -22,7 +22,7 @@ $main(function(){
 
       precedence : 130
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.times.
@@ -49,7 +49,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the ExpressionParser object with parsing code for multiplication.
@@ -83,7 +83,7 @@ $main(function(){
             }
           )
 
-      })
+      });
 
   }}}
 
@@ -121,6 +121,6 @@ $main(function(){
 
       }
 
-    })
+    });
 
-})
+});

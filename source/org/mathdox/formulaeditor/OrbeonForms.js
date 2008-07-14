@@ -29,7 +29,7 @@ $main(function(){
 
         }
 
-    })
+    });
 
     /**
      * Override Orbeon's xformsHandleResponse method so that it initializes any
@@ -67,4 +67,4 @@ $main(function(){
 
   }
 
-})
+});

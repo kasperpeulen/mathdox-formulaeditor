@@ -23,7 +23,7 @@ $main(function(){
 
       precedence : 0
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.abs.
@@ -41,7 +41,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the ExpressionParser object with parsing code for absolute values.
@@ -75,8 +75,8 @@ $main(function(){
             }
           )
 
-      })
+      });
 
   }}}
 
-})
+});

@@ -51,7 +51,7 @@ $main(function(){
       
       }
     
-    })
+    });
 
   /**
    * Defines an on-screen sum.
@@ -92,7 +92,7 @@ $main(function(){
 
       }
 
-  })
+  });
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.sum.
@@ -113,7 +113,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
 
   /**
@@ -156,4 +156,4 @@ $main(function(){
   }}}
 
 
-})
+});

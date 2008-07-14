@@ -23,7 +23,7 @@ $main(function(){
 
       precedence : 120
 
-    })
+    });
 
   /**
   * Extend the OpenMathParser object with parsing code for arith1.minus.
@@ -46,7 +46,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
   * Extend the ExpressionParser object with parsing code for minus operations.
@@ -80,8 +80,8 @@ $main(function(){
             }
           )
 
-      })
+      });
 
   }}}
 
-})
+});

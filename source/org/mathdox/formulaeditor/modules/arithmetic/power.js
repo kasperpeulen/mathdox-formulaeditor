@@ -47,7 +47,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.power.
@@ -70,7 +70,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the ExpressionParser object with parsing code for power operations.
@@ -106,7 +106,7 @@ $main(function(){
         // superscript = 0
         superscript : never
 
-      })
+      });
 
   }}}
 
@@ -158,6 +158,6 @@ $main(function(){
 
       }
 
-    })
+    });
 
-})
+});

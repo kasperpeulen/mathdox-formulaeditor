@@ -24,6 +24,6 @@ $main(function(){
   
     org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new Keyword(cd, name, symbol);
   }
-})
+});
 </model:model>
 

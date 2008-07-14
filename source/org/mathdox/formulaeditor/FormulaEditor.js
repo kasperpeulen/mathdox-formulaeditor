@@ -952,7 +952,11 @@ $main(function(){
   if (window.addEventListener) {
 
     // use the W3C standard way of registering event handlers
-    window.addEventListener("load", onload, false);
+    if (org.mathdox.formulaeditor.hasLoaded) {
+      onload();
+    } else {
+      window.addEventListener("load", onload, false);
+    }
   } else {
 
     // document.body might not exist yet, if it doesn't call the check function
@@ -971,10 +975,21 @@ $main(function(){
           } else {
             document.body.attachEvent("onload", onload);
           }
-        }
+        } 
       }
     }
     bodyChecker();
   }
 
 });
+
+org.mathdox.formulaeditor.hasLoaded = false;
+
+if (window.addEventListener) {
+  var setLoaded = function() {
+    org.mathdox.formulaeditor.hasLoaded = true;
+  }
+
+  // use the W3C standard way of registering event handlers
+  window.addEventListener("load", setLoaded, false);
+}

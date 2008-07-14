@@ -65,10 +65,10 @@ $main(function(){
 	        parent.variable
 	      ).apply(this, arguments);
             }
-        })
+        });
       }
     }
   }
-})
+});
 </model:model>
 

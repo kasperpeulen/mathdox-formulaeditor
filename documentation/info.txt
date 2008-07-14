@@ -1,0 +1,22 @@
+name: Jan Willem Knopper
+affiliation: Technische Universiteit Eindhoven
+10 line description:
+*****
+The MathDox formula editor
+
+The MathDox formula editor is a web-based editor for mathematical
+formulas. It has been developed at the Technische Universiteit Eindhoven
+as a means for students to enter formulas in an e-learning environment.
+Its main features are listed below:
+
+* It has a two-dimensional WYSIWYG interface (rephrase ?).
+* It can produce a semantic representation of the formula (OpenMath).
+* No plugins need to be installed in the browser to use the editor .
+* It can be easily integrated into existing HTML pages.
+* It is available under an open source license (LGPL).
+
+With the addition of more symbols and an optional palette and some
+speed improvements, the formulaeditor is now ready to be used.
+*****
+picture: editor with palette inside exercise ?
+url: http://mathdox.org/formulaeditor

@@ -4,4 +4,4 @@ $identify("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 
 $main(function(){
   org.mathdox.formulaeditor.parsing.expression.KeywordList = new Object()
-})
+});

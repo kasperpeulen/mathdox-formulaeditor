@@ -4,6 +4,7 @@
 var $package;
 var $identify;
 var $require;
+var $contains;
 var $main;
 var $extend;
 var $baseurl;
@@ -84,8 +85,8 @@ var $baseurl;
   /**
    * set the url of the currently processed file
    */
-  $identify = function(string) {
-    current.url = string;
+  $identify = function(name) {
+    current.url = name;
   }
 
   var execute_with_requirements = function(url) {
@@ -94,10 +95,9 @@ var $baseurl;
     }
 
     if (!waiting.urls[url]) {
-      //alert("no identification for '"+url+"'");
       return;
     }
-	    
+	
     var requirements = waiting.urls[url].requirements;
     if (requirements && requirements.length) {
       var i;
@@ -105,6 +105,7 @@ var $baseurl;
 	execute_with_requirements(requirements[i].url);
       }
     }
+    //alert("executing: "+url);
     waiting.urls[url].continuation();
     executed.urls[url] = true;
   }
@@ -289,6 +290,15 @@ var $baseurl;
     // return new class constructor
     return constructor;
 
+  }
+
+  /*
+   * Help function to indicate that more files are concatenated and do not
+   * needed to be loaded seperately.
+   */
+  $contains = function(url) {
+    loadingurls[url] = true;
+    loading += 1;
   }
 
   /**

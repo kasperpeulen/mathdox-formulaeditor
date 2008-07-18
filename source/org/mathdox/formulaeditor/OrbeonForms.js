@@ -35,8 +35,21 @@ $main(function(){
      * Override Orbeon's xformsHandleResponse method so that it initializes any
      * canvases that might have been added by the xforms engine.
      */
-    var oldXformsHandleResponse = xformsHandleResponse;
-    xformsHandleResponse = function(request) {
+
+    /* prevent an error if the xformsHandleResponse doesn't exist */
+    var xformsHandleResponse;
+
+    var oldXformsHandleResponse;
+    var newXformsHandleResponse;
+    
+    if (xformsHandleResponse) {
+      oldXformsHandleResponse = xformsHandleResponse;
+    } else if (ORBEON.xforms.Server.handleResponse) {
+      oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
+    } else {
+      alert("ERROR: detected orbeon, but could not add response handler");
+    }
+    newXformsHandleResponse = function(request) {
 
       // call the overridden method
       oldXformsHandleResponse.apply(this, arguments);
@@ -63,7 +76,12 @@ $main(function(){
       }
       
     }
-
+    
+    if (xformsHandleResponse) {
+      xformsHandleResponse = newXformsHandleResponse;
+    } else if (ORBEON.xforms.Server.handleResponse) {
+      ORBEON.xforms.Server.handleResponse = newXformsHandleResponse;
+    } 
 
   }
 

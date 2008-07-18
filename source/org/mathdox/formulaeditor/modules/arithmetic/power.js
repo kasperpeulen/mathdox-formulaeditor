@@ -39,8 +39,7 @@ $main(function(){
 
       getMathML : function() {
 
-        return
-          "<msup>" +
+        return "<msup>" +
           this.operands[0].getMathML() +
           this.operands[1].getMathML() +
           "</msup>";

@@ -34,8 +34,7 @@ $main(function(){
 
       getMathML : function() {
 
-        return
-          "<msqrt>" +
+        return "<msqrt>" +
           this.operands[0].getMathML()
           "</msqrt>";
 

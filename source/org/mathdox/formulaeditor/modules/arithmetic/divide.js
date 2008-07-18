@@ -34,8 +34,7 @@ $main(function(){
 
       getMathML : function() {
 
-        return
-          "<mfrac>" +
+        return "<mfrac>" +
           this.operands[0].getMathML() +
           this.operands[1].getMathML() +
           "</mfrac>";

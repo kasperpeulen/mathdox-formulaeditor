@@ -4,19 +4,15 @@ affiliation: Technische Universiteit Eindhoven
 *****
 The MathDox formula editor
 
-The MathDox formula editor is a web-based editor for mathematical
-formulas. It has been developed at the Technische Universiteit Eindhoven
-as a means for students to enter formulas in an e-learning environment.
-Its main features are listed below:
-
-* It has a two-dimensional WYSIWYG interface (rephrase ?).
-* It can produce a semantic representation of the formula (OpenMath).
-* No plugins need to be installed in the browser to use the editor .
-* It can be easily integrated into existing HTML pages.
-* It is available under an open source license (LGPL).
-
-With the addition of more symbols and an optional palette and some
-speed improvements, the formulaeditor is now ready to be used.
+The MathDox formula editor allows users of web-applications to easily type in
+mathematical formulas. It can be used instead of a textarea in an HTML form. To
+the developer of the web-application it will seem as if the user entered the
+formula in OpenMath code. The MathDox formula editor is written in Javascript,
+so it can be integrated into any webpage without requiring a plug-in to be
+installed in the web-browser. It is realeased under an open-source license to
+encourage its use and allow collaboration on expanding its capabilities. Since
+last year a lot of new symbols have been added aswell as an optional palette,
+which makes it easier to enter them. It is now also possible to add additional
+simple keywords and functions (like pi or sin) by editing an XML file.
 *****
-picture: editor with palette inside exercise ?
 url: http://mathdox.org/formulaeditor

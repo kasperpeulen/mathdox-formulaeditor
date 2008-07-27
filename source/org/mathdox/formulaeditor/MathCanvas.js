@@ -417,21 +417,30 @@ $main(function(){
       // retrieve font and symbol data
       var font = this.fonts[this.fontName];
       var symbolData ;
-     
+ 
       symbolData = this.getSymbolDataByPosition(symbol);
 
       if (!symbolData) {
+        if (symbol==' ') {
+          symbolData = this.getSymbolDataByPosition(',');
+          symbolData = {
+            x:symbolData.x+symbolData.width+1,
+            y:symbolData.y,
+            width:symbolData.width,
+            height:symbolData.height,
+            yadjust:symbolData.yadjust,
+          }
+        } else if ((!symbol) || (symbol=='') || (symbol.charCodeAt(0)==0)) {
+          return null;
+        }
+
+      }
+
+      if (!symbolData) {
+        // should not happen any more
+        alert("symbol: '"+symbol+"' cannot be gotten by position");
         symbolData = font[this.fontSize].symbols[symbol]; 
-      } /*else {
-        var oldsymbolData = font[this.fontSize].symbols[symbol];
-        alert("symbol: "+symbol+"\n"+
-        "symboldata,    x: "+symbolData.x+" y: "+symbolData.y+
-          " width: "+symbolData.width+" height: "+symbolData.height+
-          " yadjust: "+symbolData.yadjust+"\n"+
-        "oldsymboldata, x: "+oldsymbolData.x+" y: "+oldsymbolData.y+
-          " width: "+oldsymbolData.width+" height: "+oldsymbolData.height+
-          " yadjust: "+oldsymbolData.yadjust);
-      } */
+      }
 
       if (symbolData) {
         if (symbolData.margin) {
@@ -445,6 +454,7 @@ $main(function(){
         }
         // return symboldata
         if (!symbolData.font) {
+          //XXX fix this
           symbolData.font = font[this.fontSize];
         }
         return symbolData;
@@ -521,7 +531,7 @@ $main(function(){
       "cmex" : {
 
         // When a symbol can not be found in this font, search the fonts below
-        fallback : ["cmex", "cmr","cmsy"],
+        fallback : ["cmr","cmsy", "cmmi"],
 
         // point size 144
         144 : {
@@ -1050,7 +1060,7 @@ $main(function(){
       // U+03C5 Greek small letter upsilon
       // U+03D5 Greek phi symbol
       // U+03C7 Greek small letter chi
-        'mξ', 'mπ', 'mρ', 'mσ', 'mτ', 'mυ', 'mϕ', 'mχ'],
+        'mξ', 'π', 'mρ', 'mσ', 'mτ', 'mυ', 'mϕ', 'mχ'],
       // U+03C8 Greek small letter psi
       // U+03C9 Greek small letter omega
       // U+03B5 Greek small letter epsilon
@@ -1062,7 +1072,7 @@ $main(function(){
       [ 'mψ', 'mω', 'mε', 'mϑ', 'mϖ', 'mϱ', 'mς', 'mφ',
         null, null, null, null, null, null, null, null],
       [ 'm0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7',
-        'm8', 'm9', 'm.', 'm,', 'm<', 'm/', 'm>', 'm*'],
+        'm8', 'm9', 'm.', 'm,',  '<', 'm/',  '>', 'm*'],
       // U+2202 Partial differential
       [  '∂', 'mA', 'mB', 'mC', 'mD', 'mE', 'mF', 'mG',
         'mH', 'mI', 'mJ', 'mK', 'mL', 'mM', 'mN', 'mO'],
@@ -1074,20 +1084,31 @@ $main(function(){
         'mx', 'my', 'mz', null, null, null, null, null]
     ],
     cmsy10: [
+      // U+00B7 middle dot
+      [ null,  '·', null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null ],
+      // U+2264 less than or equal to
+      // U+2265 greater than or equal to
+      [ null, null, null, null,  '≤',  '≥', null, null,
+      // U+2248 almost equal to
+        null,  '≈', null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+      // U+21D0 leftwards double arrow
+      // U+21D2 rightwards double arrow
+      // U+21D4 left right double arrow
+         '⇐',  '⇒', null, null,  '⇔', null, null, null ],
+      // U+221E infinity
+      [ null,  '∞', null, null, null, null, null, null,
+      // U+00AC not sign
+        null, null,  '¬', null, null, null, null, null ],
       [ null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ],
+      // U+2227 logical and
+      // U+2228 logical or
       [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ],
+        null, null, null, null, null, null,  '∧',  '∨' ],
       [ null, null, null, null, null, null,  '{',  '}',
-        null, null, null, null, null, null, null, null ],
+        null, null,  '|', null, null, null, null, null ],
       [ null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ]
     ]

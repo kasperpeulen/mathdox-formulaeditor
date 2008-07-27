@@ -58,6 +58,7 @@ print("$main(function(){");
 
 load("fonts-sprite/cmbx10/font.js");
 load("fonts-sprite/cmex10/font.js");
+load("fonts-sprite/cmmi10/font.js");
 load("fonts-sprite/cmr10/font.js");
 load("fonts-sprite/cmsy10/font.js");
 load("fonts-sprite/cmti10/font.js");

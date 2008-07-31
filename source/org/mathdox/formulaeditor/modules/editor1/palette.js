@@ -60,6 +60,7 @@ $main(function(){
       }
       
       var pArray = new org.mathdox.formulaeditor.presentation.PArray();
+      pArray.margin = 10.0;
       pArray.initialize.apply(pArray,rows);
 
       return pArray;

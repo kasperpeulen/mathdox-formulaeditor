@@ -182,7 +182,7 @@ $main(function(){
           // when we're at the beginning of the matrix, ask the parent of the
           // matrix for the position before this matrix
           if (this.parent != null) {
-            return this.parent.getPrecedingCursorPosition(this.index, false);
+            return this.parent.getPrecedingCursorPosition(this.index+1, false);
           }
         }
         

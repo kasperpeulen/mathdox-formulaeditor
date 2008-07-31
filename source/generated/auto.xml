@@ -1,4 +1,28 @@
 <model:list xmlns:model="local:model">
+  <!-- arith1.minus -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/arith1/minus.js"
+  >
+    <model:cd>arith1</model:cd>
+    <model:name>minus</model:name>
+    <model:precedence>120</model:precedence>
+    <model:precedence2>130</model:precedence2>
+    <model:symbol_enter>-</model:symbol_enter>
+    <model:symbol_mathml>-</model:symbol_mathml>
+    <model:symbol_screen>-</model:symbol_screen>
+  </model:instance>
+  <!-- arith1.plus -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/arith1/plus.js"
+  >
+    <model:cd>arith1</model:cd>
+    <model:name>plus</model:name>
+    <model:precedence>120</model:precedence>
+    <model:precedence2>130</model:precedence2>
+    <model:symbol_enter>+</model:symbol_enter>
+    <model:symbol_mathml>+</model:symbol_mathml>
+    <model:symbol_screen>+</model:symbol_screen>
+  </model:instance>
   <!-- arith1.unary_minus -->
   <model:instance model="models/unary.xml"
     target="org/mathdox/formulaeditor/modules/arith1/unary_minus.js"
@@ -195,6 +219,7 @@
       <model:mathml>&lt;mi&gt;gcd&lt;/mi&gt;</model:mathml>
       <model:name>gcd</model:name>
       <model:onscreen>gcd</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- arith1.lcm -->
     <model:instance>
@@ -203,6 +228,7 @@
       <model:mathml>&lt;mi&gt;lcm&lt;/mi&gt;</model:mathml>
       <model:name>lcm</model:name>
       <model:onscreen>lcm</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- arith1.root -->
     <model:instance>
@@ -212,6 +238,16 @@
       <model:mathml>&lt;mi&gt;rt&lt;/mi&gt;</model:mathml>
       <model:name>root</model:name>
       <model:onscreen>rt</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- editor1.palette_whitespace -->
+    <model:instance>
+      <model:cd>editor1</model:cd>
+      <model:keyword></model:keyword>
+      <model:mathml></model:mathml>
+      <model:name>palette_whitespace</model:name>
+      <model:onscreen> </model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- logic1.false -->
     <model:instance>
@@ -220,6 +256,7 @@
       <model:mathml>&lt;mi&gt;false&lt;/mi&gt;</model:mathml>
       <model:name>false</model:name>
       <model:onscreen>false</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- logic1.true -->
     <model:instance>
@@ -228,6 +265,7 @@
       <model:mathml>&lt;mi&gt;true&lt;/mi&gt;</model:mathml>
       <model:name>true</model:name>
       <model:onscreen>true</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- nums1.e -->
     <model:instance>
@@ -236,6 +274,7 @@
       <model:mathml>&lt;mi&gt;e&lt;/mi&gt;</model:mathml>
       <model:name>e</model:name>
       <model:onscreen>e</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- nums1.i -->
     <model:instance>
@@ -244,6 +283,7 @@
       <model:mathml>&lt;mi&gt;i&lt;/mi&gt;</model:mathml>
       <model:name>i</model:name>
       <model:onscreen>i</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- nums1.infinity -->
     <model:instance>
@@ -254,6 +294,7 @@
       <model:name>infinity</model:name>
       <!-- U+221E infinity -->
       <model:onscreen>&#x221E;</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- nums1.pi -->
     <model:instance>
@@ -264,6 +305,7 @@
       <model:name>pi</model:name>
       <!-- U+03C0 greek small letter pi -->
       <model:onscreen>&#x03c0;</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- set1.emptyset -->
     <model:instance>
@@ -274,6 +316,7 @@
       <model:name>emptyset</model:name>
       <!-- U+2205 empty set -->
       <model:onscreen>&#x2205;</model:onscreen>
+      <model:type>constant</model:type>
     </model:instance>
     <!-- transc1.arccos -->
     <model:instance>
@@ -282,6 +325,7 @@
       <model:mathml>&lt;mi&gt;arccos&lt;/mi&gt;</model:mathml>
       <model:name>arccos</model:name>
       <model:onscreen>arccos</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arccosh -->
     <model:instance>
@@ -290,6 +334,7 @@
       <model:mathml>&lt;mi&gt;arccosh&lt;/mi&gt;</model:mathml>
       <model:name>arccosh</model:name>
       <model:onscreen>arccosh</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arccot -->
     <model:instance>
@@ -298,6 +343,7 @@
       <model:mathml>&lt;mi&gt;arccot&lt;/mi&gt;</model:mathml>
       <model:name>arccot</model:name>
       <model:onscreen>arccot</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arccoth -->
     <model:instance>
@@ -306,6 +352,7 @@
       <model:mathml>&lt;mi&gt;arccoth&lt;/mi&gt;</model:mathml>
       <model:name>arccoth</model:name>
       <model:onscreen>arccoth</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arccsc -->
     <model:instance>
@@ -314,6 +361,7 @@
       <model:mathml>&lt;mi&gt;arccsc&lt;/mi&gt;</model:mathml>
       <model:name>arccsc</model:name>
       <model:onscreen>arccsc</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arccsch -->
     <model:instance>
@@ -322,6 +370,7 @@
       <model:mathml>&lt;mi&gt;arccsch&lt;/mi&gt;</model:mathml>
       <model:name>arccsch</model:name>
       <model:onscreen>arccsch</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arcsec -->
     <model:instance>
@@ -330,6 +379,7 @@
       <model:mathml>&lt;mi&gt;arcsec&lt;/mi&gt;</model:mathml>
       <model:name>arcsec</model:name>
       <model:onscreen>arcsec</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arcsech -->
     <model:instance>
@@ -338,6 +388,7 @@
       <model:mathml>&lt;mi&gt;arcsech&lt;/mi&gt;</model:mathml>
       <model:name>arcsech</model:name>
       <model:onscreen>arcsech</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arcsin -->
     <model:instance>
@@ -346,6 +397,7 @@
       <model:mathml>&lt;mi&gt;arcsin&lt;/mi&gt;</model:mathml>
       <model:name>arcsin</model:name>
       <model:onscreen>arcsin</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arcsinh -->
     <model:instance>
@@ -354,6 +406,7 @@
       <model:mathml>&lt;mi&gt;arcsinh&lt;/mi&gt;</model:mathml>
       <model:name>arcsinh</model:name>
       <model:onscreen>arcsinh</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arctan -->
     <model:instance>
@@ -362,6 +415,7 @@
       <model:mathml>&lt;mi&gt;arctan&lt;/mi&gt;</model:mathml>
       <model:name>arctan</model:name>
       <model:onscreen>arctan</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.arctanh -->
     <model:instance>
@@ -370,6 +424,7 @@
       <model:mathml>&lt;mi&gt;arctanh&lt;/mi&gt;</model:mathml>
       <model:name>arctanh</model:name>
       <model:onscreen>arctanh</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.cos -->
     <model:instance>
@@ -378,6 +433,7 @@
       <model:mathml>&lt;mi&gt;cos&lt;/mi&gt;</model:mathml>
       <model:name>cos</model:name>
       <model:onscreen>cos</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.cosh -->
     <model:instance>
@@ -386,6 +442,7 @@
       <model:mathml>&lt;mi&gt;cosh&lt;/mi&gt;</model:mathml>
       <model:name>cosh</model:name>
       <model:onscreen>cosh</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.cot -->
     <model:instance>
@@ -394,6 +451,7 @@
       <model:mathml>&lt;mi&gt;cot&lt;/mi&gt;</model:mathml>
       <model:name>cot</model:name>
       <model:onscreen>cot</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.coth -->
     <model:instance>
@@ -402,6 +460,7 @@
       <model:mathml>&lt;mi&gt;coth&lt;/mi&gt;</model:mathml>
       <model:name>coth</model:name>
       <model:onscreen>coth</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.csc -->
     <model:instance>
@@ -410,6 +469,7 @@
       <model:mathml>&lt;mi&gt;csc&lt;/mi&gt;</model:mathml>
       <model:name>csc</model:name>
       <model:onscreen>csc</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.csch -->
     <model:instance>
@@ -418,6 +478,7 @@
       <model:mathml>&lt;mi&gt;csch&lt;/mi&gt;</model:mathml>
       <model:name>csch</model:name>
       <model:onscreen>csch</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.exp -->
     <model:instance>
@@ -426,6 +487,7 @@
       <model:mathml>&lt;mi&gt;exp&lt;/mi&gt;</model:mathml>
       <model:name>exp</model:name>
       <model:onscreen>exp</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.ln -->
     <model:instance>
@@ -434,6 +496,7 @@
       <model:mathml>&lt;mi&gt;ln&lt;/mi&gt;</model:mathml>
       <model:name>ln</model:name>
       <model:onscreen>ln</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.log -->
     <model:instance>
@@ -442,6 +505,7 @@
       <model:mathml>&lt;mi&gt;log&lt;/mi&gt;</model:mathml>
       <model:name>log</model:name>
       <model:onscreen>log</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.sec -->
     <model:instance>
@@ -450,6 +514,7 @@
       <model:mathml>&lt;mi&gt;sec&lt;/mi&gt;</model:mathml>
       <model:name>sec</model:name>
       <model:onscreen>sec</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.sech -->
     <model:instance>
@@ -458,6 +523,7 @@
       <model:mathml>&lt;mi&gt;sech&lt;/mi&gt;</model:mathml>
       <model:name>sech</model:name>
       <model:onscreen>sech</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.sin -->
     <model:instance>
@@ -466,6 +532,7 @@
       <model:mathml>&lt;mi&gt;sin&lt;/mi&gt;</model:mathml>
       <model:name>sin</model:name>
       <model:onscreen>sin</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.sinh -->
     <model:instance>
@@ -474,6 +541,7 @@
       <model:mathml>&lt;mi&gt;sinh&lt;/mi&gt;</model:mathml>
       <model:name>sinh</model:name>
       <model:onscreen>sinh</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.tan -->
     <model:instance>
@@ -482,6 +550,7 @@
       <model:mathml>&lt;mi&gt;tan&lt;/mi&gt;</model:mathml>
       <model:name>tan</model:name>
       <model:onscreen>tan</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- transc1.tanh -->
     <model:instance>
@@ -490,6 +559,7 @@
       <model:mathml>&lt;mi&gt;tanh&lt;/mi&gt;</model:mathml>
       <model:name>tanh</model:name>
       <model:onscreen>tanh</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
   </model:group>
 </model:list>

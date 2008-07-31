@@ -21,17 +21,17 @@ $main(function(){
 
       precedence : 150,
 
-      getPresentation : function() {
+      getPresentation : function(context) {
 
         with (org.mathdox.formulaeditor.presentation) {
           // add braces to base, if necessary
-          var base = this.operands[0].getPresentation();
+          var base = this.operands[0].getPresentation(context);
           if (base instanceof Row && base.children.length > 1) {
             base = new Row(new Symbol("("), base, new Symbol(")"));
           }
           return new Row(
             base,
-            new Superscript(this.operands[1].getPresentation())
+            new Superscript(this.operands[1].getPresentation(context))
           );
         }
 

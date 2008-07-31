@@ -30,13 +30,13 @@ $main(function(){
       mathml : "<model:mathml/>"
     };
     
-    org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] = new Keyword(cd, name, symbol);
+    org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] = new Keyword(cd, name, symbol, "<model:type/>");
   
     if ( "<model:keyword/>" != "<model:onscreen/>" ) {
-      org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:onscreen/>"] = new Keyword(cd, name, symbol);
+      org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:onscreen/>"] = new Keyword(cd, name, symbol, "<model:type/>");
     }
   
-    org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new Keyword(cd, name, symbol);
+    org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new Keyword(cd, name, symbol, "<model:type/>");
 
     if ( ! hasOnlyLetters("<model:onscreen/>") ) {
       newvars.push( "<model:onscreen/>" );

@@ -19,15 +19,16 @@ $require("org/mathdox/formulaeditor/modules/keywords.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
-$require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
+$require("org/mathdox/formulaeditor/modules/arith1/minus.js");
+$require("org/mathdox/formulaeditor/modules/arith1/plus.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/root.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
-//$require("org/mathdox/formulaeditor/modules/arithmetic/unaryminus.js");
-
 $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
+
+$require("org/mathdox/formulaeditor/modules/editor1/input_box.js");
+$require("org/mathdox/formulaeditor/modules/editor1/palette.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
@@ -37,16 +38,9 @@ $require("org/mathdox/formulaeditor/presentation/Root.js");
 
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
-//$require("org/mathdox/formulaeditor/modules/logic1/false.js");
 $require("org/mathdox/formulaeditor/modules/logic1/implies.js");
 $require("org/mathdox/formulaeditor/modules/logic1/not.js");
 $require("org/mathdox/formulaeditor/modules/logic1/or.js");
-//$require("org/mathdox/formulaeditor/modules/logic1/true.js");
-
-//$require("org/mathdox/formulaeditor/modules/nums1/e.js");
-//$require("org/mathdox/formulaeditor/modules/nums1/i.js");
-//$require("org/mathdox/formulaeditor/modules/nums1/infinity.js");
-//$require("org/mathdox/formulaeditor/modules/nums1/pi.js");
 
 $require("org/mathdox/formulaeditor/modules/relation1/approx.js");
 $require("org/mathdox/formulaeditor/modules/relation1/eq.js");
@@ -56,40 +50,6 @@ $require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/neq.js");
 $require("org/mathdox/formulaeditor/modules/relation2/eqs.js");
-
-/*$require("org/mathdox/formulaeditor/modules/relations/equality.js");*/
-
-//$require("org/mathdox/formulaeditor/modules/set1/emptyset.js");
-
-/*
-$require("org/mathdox/formulaeditor/modules/transc1/arccos.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arccosh.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arccot.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arccoth.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arccsc.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arccsch.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arcsec.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arcsech.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arcsin.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arcsinh.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arctan.js");
-$require("org/mathdox/formulaeditor/modules/transc1/arctanh.js");
-$require("org/mathdox/formulaeditor/modules/transc1/cos.js");
-$require("org/mathdox/formulaeditor/modules/transc1/cosh.js");
-$require("org/mathdox/formulaeditor/modules/transc1/cot.js");
-$require("org/mathdox/formulaeditor/modules/transc1/coth.js");
-$require("org/mathdox/formulaeditor/modules/transc1/csc.js");
-$require("org/mathdox/formulaeditor/modules/transc1/csch.js");
-$require("org/mathdox/formulaeditor/modules/transc1/exp.js");
-$require("org/mathdox/formulaeditor/modules/transc1/ln.js");
-$require("org/mathdox/formulaeditor/modules/transc1/log.js");
-$require("org/mathdox/formulaeditor/modules/transc1/sec.js");
-$require("org/mathdox/formulaeditor/modules/transc1/sech.js");
-$require("org/mathdox/formulaeditor/modules/transc1/sin.js");
-$require("org/mathdox/formulaeditor/modules/transc1/sinh.js");
-$require("org/mathdox/formulaeditor/modules/transc1/tan.js");
-$require("org/mathdox/formulaeditor/modules/transc1/tanh.js");
-*/
 
 $main(function(){
 
@@ -297,7 +257,7 @@ $main(function(){
       // read any OpenMath code that may be present in the textarea
       try {
         var parsed = new Parser().parse(this.textarea.value);
-        this.presentation = new Row(parsed.getPresentation());
+        this.presentation = new Row(parsed.getPresentation({}));
         this.presentation.flatten();
       }
       catch(exception) {
@@ -666,12 +626,68 @@ $main(function(){
       if (arguments.length > 0 ) { 
         this.canvas = new MathCanvas(canvas);
       }
+      // default presentation: empty
+      this.presentation = new org.mathdox.formulaeditor.presentation.Row();
+
+      var url="org/mathdox/formulaeditor/palette.xml";
+
+      if (!org.mathdox.formulaeditor.Palette.description) {
+        org.mathdox.formulaeditor.Palette.description = "loading";
+	var xmlhttp = null;
+
+        var onload = function() {
+	  if (xmlhttp.readyState!=4) {
+	    // only do something when fully loaded
+	    return;
+	  }
+
+          org.mathdox.formulaeditor.Palette.description = xmlhttp.responseText;
+            
+          /* update palettes */
+          for (var p=0; p<palettes.length; p++) {
+
+            palettes[p].presentation = palettes[p].parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
+            palettes[p].presentation.margin = 10.0;
+            palettes[p].draw();
+          }
+        }
+
+        /// XMLHttp request data from http://www.w3schools.com/dom/dom_http.asp
+        if (window.XMLHttpRequest) {
+          // code for Firefox, Opera, IE7, etc.
+          xmlhttp = new XMLHttpRequest();
+        } else {
+          // code for IE6, IE5
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        if (xmlhttp!=null) {
+          xmlhttp.onreadystatechange = onload;
+          xmlhttp.open("GET", url, true);
+          xmlhttp.send(null);
+        } else {
+          alert("Your browser does not support XMLHTTP.");
+        }
+      } else if (org.mathdox.formulaeditor.Palette.description != "loading") {
+        this.presentation = this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
+        this.presentation.margin = 10.0;
+        this.draw();
+      }
+    },
+    initialize2 : function(canvas) {
+      var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
+      if (arguments.length > 0 ) { 
+        this.canvas = new MathCanvas(canvas);
+      }
       with (org.mathdox.formulaeditor.presentation) {
         var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
         var semInteger = org.mathdox.formulaeditor.semantics.Integer;
 
-        var autocreate = function(createFun) {
-          var obj = createFun(); 
+        var autocreate = function (createFun) {
+          return autocreate2(createFun, createFun);
+        }
+        var autocreate2 = function(createFunDisplay,createFunInsert) {
+          var obj = createFunDisplay(); 
           if (obj instanceof Array) {
             // in case of an array put it in a row for the palette, and add the
             // items one by one in insertCopy
@@ -679,7 +695,12 @@ $main(function(){
             var row = new Row();
             row.initialize.apply(row, obj);
             row.insertCopy = function(position) {
-              var toInsert = createFun();
+              var toInsert = createFunInsert();
+              
+              if (toInsert == null) {
+                return; // nothing to insert
+              }
+
               var doinsert = function(node, removeEmpty) {
                 var moveright = 
                   position.row.insert(position.index, node, removeEmpty);
@@ -702,8 +723,14 @@ $main(function(){
             obj = row;
           } else {
             obj.insertCopy = function(position) {
+              var toInsert = createFunInsert();
+
+              if (toInsert == null) {
+                return; // nothing to insert
+              }
+
               var moveright = 
-                position.row.insert(position.index, createFun());
+                position.row.insert(position.index, toInsert);
               if (moveright) {
                 position.index++;
               }
@@ -718,13 +745,13 @@ $main(function(){
         };
         var autocreateOMA = function(cd, name) {
           var createFun = function() {
-            return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation(), new Symbol("("), null, new Symbol(")")];
+            return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation({}), new Symbol("("), null, new Symbol(")")];
           };
           return autocreate(createFun);
         };
         var autocreateOMS = function(cd, name) {
           var createFun = function() {
-            return org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation();
+            return org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation({});
           };
           return autocreate(createFun);
         };
@@ -785,6 +812,44 @@ $main(function(){
           }
           return obj;
         };
+        var autocreateFromOpenMath = function(str) {
+          var Parser    = 
+            org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
+          var Row       = org.mathdox.formulaeditor.presentation.Row;
+          var createFun = function(context) {
+            var presentation;
+            
+            // read any OpenMath code that may be present in str
+            //try {
+              var parsed = new Parser().parse(str);
+              presentation = parsed.getPresentation(context);
+              // XXX result is a row, get the children ?
+              // not for a vector !
+              if ((presentation instanceof 
+                org.mathdox.formulaeditor.presentation.Row) && 
+                presentation.children) {
+
+                presentation = presentation.children;
+              }
+            //}
+            //catch(exception) {
+            //  presentation = [null];
+            //}
+          
+            return presentation;
+          }
+          var createFunDisplay = function() {
+            return createFun({
+              inPalette:true  // inside a palette
+            });
+          }
+          var createFunInsert = function() {
+            return createFun({});
+          }
+
+          return autocreate2(createFunDisplay,createFunInsert);
+        }
+
         // create o/o 
         var createFrac = function() {
           return new Fraction(new Row(), new Row());
@@ -809,7 +874,7 @@ $main(function(){
           return [new Root(new Row(), new Row())];
         };
         var createRoot2 = function() { 
-          return [new Root(new Row(new Row()), new Row(new semInteger(2).getPresentation()))];
+          return [new Root(new Row(new Row()), new Row(new semInteger(2).getPresentation({})))];
         };
         var createList = function() { 
           return [new Symbol("{"), null, new Symbol("}")];
@@ -843,7 +908,7 @@ $main(function(){
             autocreateOMS("nums1","e"),
             autocreateOMS("nums1","i"),
             autocreateOMS("nums1","infinity"),
-            empty(),
+            autocreateFromOpenMath("<OMOBJ><OMS cd='editor1' name='input_box'/></OMOBJ>"),
             autocreateOMA("transc1", "tan"),
             autocreateMatrix(2,2),
             autocreate(createList)
@@ -861,7 +926,25 @@ $main(function(){
         this.presentation.margin = 10.0;
         this.draw();
       }
+    },
+    parseXMLPalette : function(XMLstr) {
+      var presentation;
+      var Parser    = org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
+      var Row       = org.mathdox.formulaeditor.presentation.Row;
+
+      // read any OpenMath code that may be present in the textarea
+      //try {
+        var parsed = new Parser().parse(XMLstr);
+        presentation = new Row(parsed.getPresentation({}));
+        presentation.flatten();
+      //}
+      //catch(exception) {
+      //  presentation = new Row();
+      //}
+
+      return presentation;
     }
+
   });
 
   /**

@@ -40,6 +40,10 @@ $main(function(){
      * <OMI> node is encountered, the handleOMI method is called.
      */
     handle: function(node) {
+      if (node.getLocalName()=="") {
+        // XML comment
+        return null;
+      }
 
       var handler = "handle" + node.getLocalName();
 
@@ -48,7 +52,7 @@ $main(function(){
       }
       else {
         throw new Error(
-          "OpenMathParser doesn't know how to handle this node: " + node
+          "OpenMathParser doesn't know how to handle this node: " + node +". INFO: 1."
         );
       }
 
@@ -97,19 +101,20 @@ $main(function(){
         if (handler in this) {
           return this[handler](node);
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
-	  /* return a FunctionApplication at the end */
+          /* return a FunctionApplication at the end */
           symbol = this.handleOMS(node.getFirstChild());
         } else {
             throw new Error(
-              "OpenMathParser doesn't know how to handle this node: " + node
+              "OpenMathParser doesn't know how to handle this node: " + node +
+              "INFO: no handler :"+handler+"."
             );
         }
 
-      } else if ("OMV" == node.getFirstChild().getLocalName()) {
-	/* return a FunctionApplication at the end */
+      } else if ("OMS" == node.getFirstChild().getLocalName()) {
+        /* return a FunctionApplication at the end */
         symbol = this.handleOMV(node.getFirstChild());
       } else {
-	throw new Error(
+        throw new Error(
           "OpenMathParser doesn't know how to handle an <OMA> that does " +
           "not have an <OMS/> or <OMV/> as first argument"
         );
@@ -118,15 +123,20 @@ $main(function(){
 
       if (symbol) {
         var children = node.getChildNodes();
-        var operands = new Array(children.getLength()-1);
+        var operands = new Array();
 
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i))
+          var child = this.handle(children.item(i));
+
+          if (child!=null) { 
+            // ignore comments
+            operands.push(child);
+          }
         }
         
         with(org.mathdox.formulaeditor.semantics) {
           return new FunctionApplication(symbol, operands);
-	}
+        }
       }
     },
 
@@ -154,8 +164,8 @@ $main(function(){
     handleOMF: function(node) {
 
       with(org.mathdox.formulaeditor.semantics) {
-	if (node.getAttribute("dec"))
-	  return new SemanticFloat(node.getAttribute("dec"));
+        if (node.getAttribute("dec"))
+          return new SemanticFloat(node.getAttribute("dec"));
       }
 
     },
@@ -176,9 +186,36 @@ $main(function(){
      */
     handleOMS: function(node) {
       var symbolname= node.getAttribute("cd") + "__" + node.getAttribute("name");
+      var keyword = org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname];
 
-      if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
-        return org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]
+      if (keyword!=null) {
+        if (keyword.type == "constant" || keyword.type == "function") {
+          return keyword;
+        } else if (keyword.type == "infix") {
+          //check if parent is palette_row
+          var error = false; // set to true if an error is found
+          var parentNode = node.getParentNode();
+          var omsNode = parentNode.getFirstChild();
+          if (omsNode.getLocalName()!="OMS") {
+            throw new Error(
+              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. First sibling is "+ omsNode.getLocalName()+"."
+            );
+          }
+          if (omsNode.getAttribute("cd")=="editor1" && 
+            omsNode.getAttribute("name")=="palette_row") {
+            // inside a palette_row -> return the found infix symbol
+            return keyword;
+          } else {
+            throw new Error(
+              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. INFO: was expecting symbol reference 'editor1.palette_row' instead found '"+omsNode.getAttribute("cd")+"."+omsNode.getAttribute("name")+"'."
+            );
+          }
+
+        } else {
+          throw new Error(
+            "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>."
+          );
+        }
       } else {
         throw new Error(
           "OpenMathParser doesn't know how to handle this node: " + node + " when it is not first in an <OMA>."

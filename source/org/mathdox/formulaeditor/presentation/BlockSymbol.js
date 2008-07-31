@@ -12,7 +12,8 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.presentation.Symbol, {
 
     initialize : function() {
-      this.value = null;
+      // U+25A1 white square
+      this.value = '□';
 
       if (arguments.length == 1) {
         this.onscreen = arguments[0];

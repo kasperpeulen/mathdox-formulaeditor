@@ -1,10 +1,17 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
-$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
+  var symbol = {
+    onscreen : "+",
+    openmath : null,
+    mathml   : "<mo>+</mo>"
+  };
 
   /**
    * Define a semantic tree node that represents a plus operation.
@@ -14,9 +21,9 @@ $main(function(){
 
       symbol : {
 
-        onscreen : "+",
+        onscreen : symbol.onscreen,
         openmath : "<OMS cd='arith1' name='plus'/>",
-        mathml   : "<mo>+</mo>"
+        mathml   : symbol.mathml
 
       },
 
@@ -86,5 +93,7 @@ $main(function(){
       });
 
   }}}
+
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__plus"] = new org.mathdox.formulaeditor.semantics.Keyword("arith1", "plus", symbol, "infix");
 
 });

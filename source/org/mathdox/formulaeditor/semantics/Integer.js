@@ -30,7 +30,7 @@ $main(function(){
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getPresentation
        */
-      getPresentation : function() {
+      getPresentation : function(context) {
         with (org.mathdox.formulaeditor.presentation) {
 
           var string = this.value.toString();

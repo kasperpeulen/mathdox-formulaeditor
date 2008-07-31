@@ -21,12 +21,12 @@ $main(function(){
 
       precedence : 160,
 
-      getPresentation : function() {
+      getPresentation : function(context) {
 
         with (org.mathdox.formulaeditor.presentation) {
           return new Row(new Fraction(
-            this.operands[0].getPresentation(),
-            this.operands[1].getPresentation()
+            this.operands[0].getPresentation(context),
+            this.operands[1].getPresentation(context)
           ));
         }
 

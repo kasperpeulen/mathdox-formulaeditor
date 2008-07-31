@@ -84,7 +84,11 @@ $main(function(){
         
         for (var row = 0; row < this.rows; row++) {
           for (var col = 0; col < this.columns; col++) {
-            this.entries[row][col].draw(canvas, 0, 0, true);
+	    if (this.entries[row][col] && this.entries[row][col].draw) {
+	      this.entries[row][col].draw(canvas, 0, 0, true);
+	    } else {
+	      alert("PArray could not draw row:"+row+", col:"+col+".");
+	    }
           }
         }
  

@@ -1,11 +1,19 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/minus.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
-$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
-
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
+
+  // how this symbol should be displayed 
+  var symbol = {
+    onscreen : "-",
+    openmath : null,
+    mathml   : "<mo>-</mo>"
+  };
 
   /**
    * Define a semantic tree node that represents a minus operation.
@@ -15,9 +23,9 @@ $main(function(){
 
       symbol : {
 
-        onscreen : "-",
+        onscreen : symbol.onscreen,
         openmath : "<OMS cd='arith1' name='minus'/>",
-        mathml   : "<mo>-</mo>"
+        mathml   : symbol.mathml
 
       },
 
@@ -84,4 +92,5 @@ $main(function(){
 
   }}}
 
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__minus"] = new org.mathdox.formulaeditor.semantics.Keyword("arith1", "minus", symbol, "infix");
 });

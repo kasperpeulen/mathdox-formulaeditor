@@ -1,0 +1,25 @@
+name: editor1
+symbols: input_box, palette, palette_row, palette_tab, palette_whitespace
+
+input_box: a symbol that is a placeholder (usually shown as a box) which
+  indicates that a subformula could be entered here.
+
+palette: an n-ary function indicating a palette for an input editor. It has as
+  arguments either only palette_tabs or only palette_rows. If palette_rows are
+  used as arguments, then they should have the same length.
+
+palette_row: an n-ary function describing the entries of a row in a palette for
+  an input editor. 
+
+palette_tab: an n-ary function describing a tab in a palette. The entries
+  should be palette_rows with the same number of arguments. [unused]
+
+palette_whitespace: a symbol indicating that there should be a placeholder in
+  the palette, that can not be used to input anything.
+
+
+other palette items:
+- using images or mathml to display the symbols (use a service once)
+- 'custom presentation' (mathml-like)
+- maximum size ?
+

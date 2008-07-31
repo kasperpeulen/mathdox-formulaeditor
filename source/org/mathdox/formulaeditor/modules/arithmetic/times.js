@@ -1,10 +1,22 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
-$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
+  /** 
+   * describe how this symbol should be presented
+   */
+  var symbol = {
+    // U+00B7 middle dot
+    onscreen : "·",
+    openmath : null,
+    // U+00B7 middle dot
+    mathml   : "<mo>·</mo>"
+  };
 
   /**
    * Defines a semantic tree node that represents a multiplication.
@@ -14,9 +26,9 @@ $main(function(){
 
       symbol : {
 
-        onscreen : "·",
+        onscreen : symbol.onscreen,
         openmath : "<OMS cd='arith1' name='times'/>",
-        mathml   : "<mo>·</mo>"
+        mathml   : symbol.mathml
 
       },
 
@@ -122,5 +134,7 @@ $main(function(){
       }
 
     });
+  
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__times"] = new org.mathdox.formulaeditor.semantics.Keyword("arith1", "times", symbol, "infix");
 
 });

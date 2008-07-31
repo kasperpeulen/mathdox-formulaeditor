@@ -54,9 +54,9 @@ $main(function(){
       },
 
       /**
-       * See org.mathdox.formulaeditor.semantics.Node.getPresentation()
+       * See org.mathdox.formulaeditor.semantics.Node.getPresentation(context)
        */
-      getPresentation : function() {
+      getPresentation : function(context) {
 
         with(org.mathdox.formulaeditor.presentation) {
 
@@ -78,11 +78,11 @@ $main(function(){
             }
             if (operand.precedence && operand.precedence < this.precedence) {
               array.push(new Symbol("("));
-              array.push(operand.getPresentation());
+              array.push(operand.getPresentation(context));
               array.push(new Symbol(")"));
             }
             else {
-              array.push(operand.getPresentation());
+              array.push(operand.getPresentation(context));
             }
           }
           if (this.symbol.onscreen instanceof Array) {

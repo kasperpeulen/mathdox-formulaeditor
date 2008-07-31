@@ -5,7 +5,6 @@ $require("org/mathdox/formulaeditor/presentation/Row.js")
 $require("org/mathdox/formulaeditor/presentation/Matrix.js")
 $require("org/mathdox/formulaeditor/presentation/Vector.js")
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js")
-//$require("org/mathdox/formulaeditor/presentation/Matrix.js")
 $require("org/mathdox/parsing/ParserGenerator.js")
 
 $main(function(){
@@ -26,15 +25,23 @@ $main(function(){
 
       precedence : 0,
 
-      getPresentation : function() {
+      getPresentation : function(context) {
         with(org.mathdox.formulaeditor.presentation) {
         
+	  // add inMatrix to a copy of the context
+	  // XXX see if an extend like function can be used
+	  var modifiedContext = new Object();
+	  for (var name in context) {
+	    modifiedContext[name] = context[name];
+	  }
+	  modifiedContext.inMatrix = true;
+
           var rows = new Array();
 
           for ( var row =0 ; row<this.operands.length ; row++) {
             var currentRow = new Array();
             for (var col = 0 ; col<this.operands[row].operands.length; col++) {
-              var entry = this.operands[row].operands[col].getPresentation();
+              var entry = this.operands[row].operands[col].getPresentation(modifiedContext);
               currentRow.push(entry);
             }
             rows[row] = currentRow;
@@ -65,13 +72,21 @@ $main(function(){
 
       precedence : 0,
 
-      getPresentation : function() {
+      getPresentation : function(context) {
         with(org.mathdox.formulaeditor.presentation) {
           var entries = new Array();
 	  var vector = new Vector();
 
+	  // add inVector to a copy of the context
+	  // XXX see if an extend like function can be used
+	  var modifiedContext = new Object();
+	  for (var name in context) {
+	    modifiedContext[name] = context[name];
+	  }
+	  modifiedContext.inVector = true;
+
           for (var i=0; i<this.operands.length; i++) {
-            entries.push(this.operands[i].getPresentation());
+            entries.push(this.operands[i].getPresentation(modifiedContext));
           }
          
 	  vector.initialize.apply(vector, entries);
@@ -135,13 +150,13 @@ $main(function(){
         var children = node.getChildNodes();
         var operands = new Array(children.getLength()-1);
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i))
+          operands[i-1] = this.handle(children.item(i));
         }
 
         // construct a Linalg2Vector object
-        var result = new org.mathdox.formulaeditor.semantics.Linalg2Vector()
-        result.initialize.apply(result, operands)
-        return result
+        var result = new org.mathdox.formulaeditor.semantics.Linalg2Vector();
+        result.initialize.apply(result, operands);
+        return result;
 
       }
 

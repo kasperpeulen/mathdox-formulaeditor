@@ -43,10 +43,20 @@ $main(function(){
 
       /**
        * Initializes the keyword using the specified arguments as operands.
+       * type should be one of the following strings:
+       *
+       * "constant" : constant like nums1.pi which probably cannot have
+       *    arguments 
+       * "function" : function like transc1.sin which probably should have
+       *    arguments
+       * "infix"    : infix operator like arith1.plus which can only occur
+       *    without arguments in special places like an editor1.palette_row
        */
-      initialize : function(cd,name,symbol) {
+      initialize : function(cd,name,symbol,type) {
         this.cd = cd;
         this.name = name;
+        this.type = type;
+
 	if (symbol) {
 	  this.symbol = new Object();
 	  if (symbol.onscreen) {
@@ -62,16 +72,35 @@ $main(function(){
       },
 
       /**
-       * See org.mathdox.formulaeditor.semantics.Node.getPresentation()
+       * See org.mathdox.formulaeditor.semantics.Node.getPresentation(context)
        */
 
-      getPresentation : function() {
+      getPresentation : function(context) {
         with (org.mathdox.formulaeditor.presentation) {
           var string;
 
+	  // XXX make case distinction for U+25A1 white square 
+	  // to become BlockSymbol
           if (this.symbol.onscreen != null) {
-            string = this.symbol.onscreen.toString();
-          } else {
+	    // U+25A1 white square
+	    if (this.symbol.onscreen == '□') {
+	      if (context.inPalette == true && 
+		(context.inMatrix == true || context.inVector == true)
+	      ) {
+		return new Row(new BlockSymbol(','));
+	      } else {
+		return new Row(new BlockSymbol());
+	      }
+	    } else if (this.symbol.onscreen == '') {
+	      if (context.inPalette == true) {
+	        string=" ";
+	      } else {
+		string=" ";
+	      }
+	    } else {
+	      string = this.symbol.onscreen.toString();
+	    }
+	  } else {
             string = (this.cd + "." + this.name).toString();
           }
   

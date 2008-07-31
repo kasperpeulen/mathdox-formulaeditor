@@ -21,20 +21,20 @@ $main(function(){
       // operand 0 : interval
       // operand 1 : lambda expression
     
-      getPresentation : function() {
+      getPresentation : function(context) {
       
         with(org.mathdox.formulaeditor.presentation) {
         
           return new Row(
             new Sum(
-              new Row(this.operands[0].operands[1].getPresentation()),
+              new Row(this.operands[0].operands[1].getPresentation(context)),
               new Row(
-                this.operands[1].operands[0].getPresentation(),
+                this.operands[1].operands[0].getPresentation(context),
                 new Symbol("="),
-                this.operands[0].operands[0].getPresentation()
+                this.operands[0].operands[0].getPresentation(context)
               )
             ),
-            this.operands[1].operands[1].getPresentation()
+            this.operands[1].operands[1].getPresentation(context)
           );
         
         }        

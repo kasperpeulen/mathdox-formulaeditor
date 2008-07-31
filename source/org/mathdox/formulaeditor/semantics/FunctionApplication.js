@@ -34,9 +34,9 @@ $main(function(){
       },
 
       /**
-       * See org.mathdox.formulaeditor.semantics.Node.getPresentation()
+       * See org.mathdox.formulaeditor.semantics.Node.getPresentation(context)
        */
-      getPresentation : function() {
+      getPresentation : function(context) {
 
         with(org.mathdox.formulaeditor.presentation) {
 
@@ -44,7 +44,7 @@ $main(function(){
           // with operator symbols
           var array = new Array();
 
-          array.push(this.symbol.getPresentation());
+          array.push(this.symbol.getPresentation(context));
 	  array.push(new Symbol("("));
           for (var i=0; i<this.operands.length; i++) {
             var operand = this.operands[i];
@@ -52,7 +52,13 @@ $main(function(){
               array.push(new Symbol(","));
             }
             
-            array.push(operand.getPresentation());
+	    if (!operand) {
+	      alert("symbol: "+this.symbol.symbol.onscreen);
+	      alert("operands.length: "+this.operands.length);
+	      alert("operands[0]: "+this.operands[0]);
+	      alert("operands[1]: "+this.operands[1]);
+	    }
+            array.push(operand.getPresentation(context));
 	
           }
           

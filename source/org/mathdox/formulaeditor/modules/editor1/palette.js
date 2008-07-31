@@ -2,7 +2,7 @@ $identify("org/mathdox/formulaeditor/modules/editor1/palette.js");
 
 $package("org.mathdox.formulaeditor.semantics");
 
-$require("org/mathdox/formulaeditor/presentation/PArray");
+$require("org/mathdox/formulaeditor/presentation/PArray.js");
 
 $main(function(){
   /**

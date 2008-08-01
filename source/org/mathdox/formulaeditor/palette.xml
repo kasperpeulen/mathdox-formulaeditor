@@ -91,7 +91,10 @@
         <OMS cd='arith1' name='abs'/>
         <OMS cd='editor1' name='input_box'/>
       </OMA>
-      <OMS cd='editor1' name='palette_whitespace'/>
+      <OMA>
+        <OMS cd='integer1' name='factorial'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
       <OMA>
         <OMS cd='arith1' name='power'/>
 	<OMS cd='nums1' name='e'/>

@@ -31,9 +31,27 @@
     <model:name>unary_minus</model:name>
     <model:precedence>140</model:precedence>
     <model:precedence2>150</model:precedence2>
-    <model:symbol_enter>-</model:symbol_enter>
-    <model:symbol_mathml>-</model:symbol_mathml>
-    <model:symbol_screen>-</model:symbol_screen>
+    <model:symbol_enter_pre>-</model:symbol_enter_pre>
+    <model:symbol_enter_post></model:symbol_enter_post>
+    <model:symbol_mathml_pre>-</model:symbol_mathml_pre>
+    <model:symbol_mathml_post></model:symbol_mathml_post>
+    <model:symbol_screen_pre>-</model:symbol_screen_pre>
+    <model:symbol_screen_post></model:symbol_screen_post>
+  </model:instance>
+  <!-- integer1.factorial -->
+  <model:instance model="models/unary.xml"
+    target="org/mathdox/formulaeditor/modules/integer1/factorial.js"
+  >
+    <model:cd>integer1</model:cd>
+    <model:name>factorial</model:name>
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter_pre></model:symbol_enter_pre>
+    <model:symbol_enter_post>!</model:symbol_enter_post>
+    <model:symbol_mathml_pre></model:symbol_mathml_pre>
+    <model:symbol_mathml_post>!</model:symbol_mathml_post>
+    <model:symbol_screen_pre></model:symbol_screen_pre>
+    <model:symbol_screen_post>!</model:symbol_screen_post>
   </model:instance>
   <!-- logic1.and -->
   <model:instance model="models/infix.xml"
@@ -85,11 +103,14 @@
     <model:name>not</model:name>
     <model:precedence>140</model:precedence>
     <model:precedence2>150</model:precedence2>
-    <model:symbol_enter>!</model:symbol_enter>
+    <model:symbol_enter_pre>!</model:symbol_enter_pre>
+    <model:symbol_enter_post></model:symbol_enter_post>
     <!-- U+00AC not sign -->
-    <model:symbol_mathml>&#x00AC;</model:symbol_mathml>
+    <model:symbol_mathml_pre>&#x00AC;</model:symbol_mathml_pre>
+    <model:symbol_mathml_post></model:symbol_mathml_post>
     <!-- U+00AC not sign -->
-    <model:symbol_screen>&#x00AC;</model:symbol_screen>
+    <model:symbol_screen_pre>&#x00AC;</model:symbol_screen_pre>
+    <model:symbol_screen_post></model:symbol_screen_post>
   </model:instance>
   <!-- logic1.or -->
   <model:instance model="models/infix.xml"

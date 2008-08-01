@@ -55,12 +55,13 @@
 	<li>symbols: support for \ and _</li>
 	<li>OM parser: support for (ignoring) comments</li>
 	<li>custom palette:communicating options</li>
-	<li>add integer.factorial support</li>
+	<li>add integer1.factorial support</li>
 	<li>fix bug with going left from a matrix</li>
 	<li>fix bug with going out of a vector</li>
       </ul>
       <h2>short term todo list</h2>
       <ul>
+	<li>automatically require all automatically generate files</li>
 	<li>--x doesn't parse... should this be fixed ? a--2 does parse ? is this desired</li>
 	<li>keywords slanted/italic</li>
 	<li>check slanted/italic symbols are described</li>
@@ -80,14 +81,12 @@
         <li>scalability: ctrl+, ctrl-</li>
         <li>palette: make palette floating with css</li>
         <li>palette: toggle button</li>
-        <li>palette: clean up palette code and add more documentation</li>
-        <li>palette: customizable with openmath input</li>
+        <li>palette: add documentation about the custom palette</li>
         <li>palette customization: depending on user ?</li>
         <li>palette customization: depending on page ?</li>
-        <li>palette customization: how to enter blanks </li>
         <li>extending: preference classes</li>
 	<li>extending: documentation</li>
-	<li>keywords: distinction between constants and applications (do not allow pi(a); maybe also disallow 1+sin;)</li>
+	<li>keywords: further distinction between constants and applications (do not allow pi(a); maybe also disallow 1+sin;) support already present in keyword, not used to check for pi(a)</li>
       </ul>
       <h2>mid term todo list</h2>
       <ul>
@@ -110,13 +109,15 @@
 	<li>selection</li>
 	<li>tooltips</li>
 	<li>partial copy/paste</li>
+	<li>displaying mathml presentation</li>
       </ul>
 
       <h2>items done</h2>
       <ul>
+        <li>custom palette: how to enter blanks : editor1.palette_whitespace</li>
 	<li>custom palette:parsing (infix) OMS symbols inside a paletterow: solved with support for keyword types: constant, function, infix</li>
 	<li>custom palette: changed margin back to 10.0</li>
-	<li>custom palette: now loading from org/mathdox/formulaeditor/palette.xml file</li>
+	<li>custom palette: now loading from org/mathdox/formulaeditor/palette.xml file (openmath input)</li>
 	<li>custom palette: solved blocksymbol different sizes problem: implemented context dependent presentation</li>
 	<li>custom palette: describing entries by openmath</li>
         <li>scalability: did enough of cmsy10 and &lt; &gt; pi</li>

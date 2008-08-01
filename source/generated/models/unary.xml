@@ -8,17 +8,27 @@ $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 
 $main(function(){
 
+  var mathmlSymbol= [ "", "", ""];
+  
+  if ("<model:symbol_mathml_pre/>" != "") {
+    mathmlSymbol[0] = "&lt;mo&gt;<model:symbol_mathml_pre/>&lt;/mo&gt;";
+  }
+  if ("<model:symbol_mathml_post/>" != "") {
+    mathmlSymbol[2] = "&lt;mo&gt;<model:symbol_mathml_post/>&lt;/mo&gt;";
+  }
+
   /**
    * Defines a semantic tree node that represents a unary minus.
    */
   org.mathdox.formulaeditor.semantics.<model:cd capitalize='true'/><model:name capitalize='true'/> =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+      
 
       symbol : {
 
-        onscreen : ["<model:symbol_screen/>","",""],
+        onscreen : ["<model:symbol_screen_pre/>","","<model:symbol_screen_post/>"],
         openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/&gt;",
-	mathml   : ["&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;","",""]
+        mathml   : mathmlSymbol
 
       },
 
@@ -49,9 +59,22 @@ $main(function(){
    */
   with( org.mathdox.formulaeditor.semantics          ) {
   with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var parserGenerator = new org.mathdox.parsing.ParserGenerator();
+  with( parserGenerator ) {
 
-  if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
+  var rulesEnter = new Array();
+  var positionEnter = 0;
+  if ("<model:symbol_enter_pre/>" != "") {
+    rulesEnter.push(literal("<model:symbol_enter_pre/>"));
+    positionEnter++;
+  }
+  rulesEnter.push(rule("expression<model:precedence2/>"));
+  if ("<model:symbol_enter_post/>" != "") {
+    rulesEnter.push(literal("<model:symbol_enter_post/>"));
+  }
+
+  if (( "<model:symbol_enter_pre/>"  == "<model:symbol_screen_pre/>"  ) &amp;&amp;
+      ( "<model:symbol_enter_post/>" == "<model:symbol_screen_post/>" )) {
     // only one expression, same on screen
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
@@ -65,20 +88,28 @@ $main(function(){
           ).apply(this, arguments);
         },
 
-        // <model:cd/><model:name/> = "<model:symbol_enter/>" expression<model:precedence2/>
+        // <model:cd/><model:name/> = "<model:symbol_enter_pre/>" expression<model:precedence2/> "<model:symbol_enter_post/>"
         <model:cd/><model:name/> :
           transform(
-            concatenation(
-              literal("<model:symbol_enter/>"),
-              rule("expression<model:precedence2/>")
-            ),
+            concatenation.apply(parserGenerator, rulesEnter),
             function(result) {
-              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
+              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
             }
           )
 
     });
   } else { // allow alternative as displayed on the screen
+    var rulesScreen = new Array();
+    var positionScreen = 0;
+    if ("<model:symbol_screen_pre/>" != "") {
+      rulesScreen.push(literal("<model:symbol_screen_pre/>"));
+      positionScreen++;
+    }
+    rulesScreen.push(rule("expression<model:precedence2/>"));
+    if ("<model:symbol_screen_post/>" != "") {
+      rulesScreen.push(literal("<model:symbol_screen_post/>"));
+    }
+  
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
@@ -92,27 +123,21 @@ $main(function(){
           ).apply(this, arguments);
         },
 
-        // <model:cd/><model:name/> = "<model:symbol_enter/>" expression<model:precedence2/>
+        // <model:cd/><model:name/> = "<model:symbol_enter_pre/>" expression<model:precedence2/> "<model:symbol_enter_post/>"
         <model:cd/><model:name/> :
           transform(
-            concatenation(
-              literal("<model:symbol_enter/>"),
-              rule("expression<model:precedence2/>")
-            ),
+            concatenation.apply(parserGenerator, rulesEnter),
             function(result) {
-              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
+              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
             }
           ),
 
-        // <model:cd/><model:name/>alt = "<model:symbol_screen/>" expression<model:precedence2/>
+        // <model:cd/><model:name/>alt = "<model:symbol_screen_pre/>" expression<model:precedence2/> "<model:symbol_screen_post/>"
         <model:cd/><model:name/>alt :
           transform(
-            concatenation(
-              literal("<model:symbol_screen/>"),
-              rule("expression<model:precedence2/>")
-            ),
+            concatenation.apply(parserGenerator, rulesScreen),
             function(result) {
-              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[1]);
+              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionScreen]);
             }
           )
      });

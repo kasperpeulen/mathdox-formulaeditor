@@ -103,12 +103,12 @@ $main(function(){
        */
       getOpenMath : function() {
 
-        var result = "<OMA>" + this.symbol.openmath
+        var result = "<OMA>" + this.symbol.openmath;
         for (var i=0; i<this.operands.length; i++) {
-          result = result + this.operands[i].getOpenMath()
+          result = result + this.operands[i].getOpenMath();
         }
-        result = result + "</OMA>"
-        return result
+        result = result + "</OMA>";
+        return result;
 
       },
 
@@ -119,24 +119,24 @@ $main(function(){
 
         var result = "<mrow>"
 
-	if (this.symbol.mathml instanceof Array) {
-	  result = result + this.symbol.mathml[0]
-	}
+        if (this.symbol.mathml instanceof Array) {
+          result = result + this.symbol.mathml[0]
+        }
 
         for (var i=0; i<this.operands.length; i++) {
           if (i>0) {
-	    if (this.symbol.mathml instanceof Array) {
-	      result = result + this.symbol.mathml[1]
-	    } else {
-	      result = result + this.symbol.mathml
-	    }
+            if (this.symbol.mathml instanceof Array) {
+              result = result + this.symbol.mathml[1]
+            } else {
+              result = result + this.symbol.mathml
+            }
           }
           result = result + this.operands[i].getMathML()
         }
 
-	if (this.symbol.mathml instanceof Array) {
-	  result = result + this.symbol.mathml[2]
-	}
+        if (this.symbol.mathml instanceof Array) {
+          result = result + this.symbol.mathml[2]
+        }
 
         result = result + "</mrow>"
         return result

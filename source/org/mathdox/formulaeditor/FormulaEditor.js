@@ -30,6 +30,8 @@ $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 $require("org/mathdox/formulaeditor/modules/editor1/input_box.js");
 $require("org/mathdox/formulaeditor/modules/editor1/palette.js");
 
+$require("org/mathdox/formulaeditor/modules/integer1/factorial.js");
+
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
 $require("org/mathdox/formulaeditor/modules/list1/list.js");

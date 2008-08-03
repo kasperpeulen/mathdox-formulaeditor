@@ -601,7 +601,7 @@ $main(function(){
         // we are clicked on
         var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
         if (editor) {
-          this.presentation.insertSymbolFromPalette(editor, 
+          this.insertSymbolFromPalette(editor, 
             mouseinfo.x, mouseinfo.y);
         } else {
           alert("No formulaeditor with focus. Please click on an editor\n"+
@@ -635,21 +635,20 @@ $main(function(){
 
       if (!org.mathdox.formulaeditor.Palette.description) {
         org.mathdox.formulaeditor.Palette.description = "loading";
-	var xmlhttp = null;
+        var xmlhttp = null;
 
         var onload = function() {
-	  if (xmlhttp.readyState!=4) {
-	    // only do something when fully loaded
-	    return;
-	  }
+          if (xmlhttp.readyState!=4) {
+            // only do something when fully loaded
+            return;
+          }
 
           org.mathdox.formulaeditor.Palette.description = xmlhttp.responseText;
             
           /* update palettes */
           for (var p=0; p<palettes.length; p++) {
 
-            palettes[p].presentation = palettes[p].parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
-            palettes[p].presentation.margin = 10.0;
+            palettes[p].parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
             palettes[p].draw();
           }
         }
@@ -671,8 +670,8 @@ $main(function(){
           alert("Your browser does not support XMLHTTP.");
         }
       } else if (org.mathdox.formulaeditor.Palette.description != "loading") {
-        this.presentation = this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
-        this.presentation.margin = 10.0;
+        // set presentation and semantics
+        this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
         this.draw();
       }
     },
@@ -825,7 +824,7 @@ $main(function(){
             //try {
               var parsed = new Parser().parse(str);
               presentation = parsed.getPresentation(context);
-              // XXX result is a row, get the children ?
+              // result is a row, get the children ?
               // not for a vector !
               if ((presentation instanceof 
                 org.mathdox.formulaeditor.presentation.Row) && 
@@ -929,6 +928,38 @@ $main(function(){
         this.draw();
       }
     },
+    insertSymbolFromPalette: function(editor,x,y) {
+      var position = editor.cursor.position;
+      var pArray = this.presentation.children[0];
+      var coords = pArray.getCoordinatesFromPosition(x,y);
+      var row = this.semantics.operands[coords.row].operands[coords.col];
+
+      with(org.mathdox.formulaeditor.presentation) {
+        var presentation = new Row(row.getPresentation({}));
+        presentation.flatten();
+
+        if (presentation.children) {
+          for (var i=0;i<presentation.children.length;i++) {
+            //alert("inserting: "+i+" : "+toInsert.children[i]);
+
+            var moveright = position.row.insert(position.index, 
+              presentation.children[i], (i==0));
+            if (moveright) {
+              position.index++;
+            }
+          }
+        } else {
+          var moveright = 
+            position.row.insert(position.index, presentation, true);
+
+          if (moveright) {
+            position.index++;
+          }
+        }
+      }
+      editor.redraw();
+      editor.save();
+    },
     parseXMLPalette : function(XMLstr) {
       var presentation;
       var Parser    = org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
@@ -936,9 +967,11 @@ $main(function(){
 
       // read any OpenMath code that may be present in the textarea
       //try {
-        var parsed = new Parser().parse(XMLstr);
-        presentation = new Row(parsed.getPresentation({}));
+        this.semantics = new Parser().parse(XMLstr);
+        presentation = new Row(this.semantics.getPresentation({}));
         presentation.flatten();
+        this.presentation = presentation;
+        this.presentation.margin = 10.0;
       //}
       //catch(exception) {
       //  presentation = new Row();

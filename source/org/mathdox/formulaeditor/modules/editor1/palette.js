@@ -30,20 +30,34 @@ $main(function(){
       for (var row=0;row<this.operands.length;row++) {
         var cols = new Array();
         for (var col=0;col<this.operands[row].operands.length;col++) {
-          var entry = this.operands[row].operands[col].getPresentation(
-            modifiedContext
-          );
+	  // semantic version of the entry
+          var semanticEntry = this.operands[row].operands[col];
+          
+	  // presentation for the palette
+	  var entry = semanticEntry.getPresentation(modifiedContext);
+	  entry.semanticEntry = semanticEntry;
+	  // add presentation to insert
+	  entry.insertablePresentation = function() { 
+	    return this.semanticEntry.getPresentation(context);
+	  }
+	  // add function to insert, XXX possibly add library function to
+	  // presentation node ?
           entry.insertCopy = function(position) {
-            var toInsert = entry.getPresentation(context);
 
-            if (toInsert == null) {
+            if (this.insertablePresentation == null) {
               return; // nothing to insert
             }
 
-            var moveright = 
-              position.row.insert(position.index, toInsert);
-            if (moveright) {
-              position.index++;
+	    var toInsert = this.insertablePresentation();
+
+            for (var i=0;i<toInsert.children.length;i++) {
+	      //alert("inserting: "+i+" : "+toInsert.children[i]);
+
+              var moveright = position.row.insert(position.index, 
+		toInsert.children[i], (i==0));
+              if (moveright) {
+                position.index++;
+	      }
             }
           }
 
@@ -53,10 +67,10 @@ $main(function(){
       }
       var numcols = rows[0].length;
       for (var row=1;row<rows.length;row++) {
-	if (rows[row].length!=numcols) {
-	  alert("ERROR: palette has rows of different length: first row has length "+numcols+" while row "+(1+row)+" has length "+rows[row].length+".");
-	  throw("ERROR: palette has rows of different length: first row has length "+numcols+" while row "+(1+row)+" has length "+rows[row].length+".");
-	}
+        if (rows[row].length!=numcols) {
+          alert("ERROR: palette has rows of different length: first row has length "+numcols+" while row "+(1+row)+" has length "+rows[row].length+".");
+          throw("ERROR: palette has rows of different length: first row has length "+numcols+" while row "+(1+row)+" has length "+rows[row].length+".");
+        }
       }
       
       var pArray = new org.mathdox.formulaeditor.presentation.PArray();

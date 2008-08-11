@@ -631,7 +631,7 @@ $main(function(){
       // default presentation: empty
       this.presentation = new org.mathdox.formulaeditor.presentation.Row();
 
-      var url="org/mathdox/formulaeditor/palette.xml";
+      var url=$baseurl+"org/mathdox/formulaeditor/palette.xml";
 
       if (!org.mathdox.formulaeditor.Palette.description) {
         org.mathdox.formulaeditor.Palette.description = "loading";

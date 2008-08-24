@@ -1,4 +1,6 @@
 $package("org.mathdox.formulaeditor");
+$identify("org/mathdox/formulaeditor/MathCanvasFill.js");
+
 $require("org/mathdox/formulaeditor/MathCanvas.js");
 
 $main(function(){

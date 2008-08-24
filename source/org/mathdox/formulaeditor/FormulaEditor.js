@@ -231,8 +231,10 @@ $main(function(){
           palettes.push(this.palette);
         }
 
-        // hide the textarea
-        textarea.style.display = "none";
+        // hide the textarea XXX
+        if (!this.checkClass(textarea.className, "mathdoxvisibletextarea")) {
+	  textarea.style.display = "none";
+	}
 
         // register the textarea and a new mathcanvas
         this.textarea = textarea;

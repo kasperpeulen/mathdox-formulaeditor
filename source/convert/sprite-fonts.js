@@ -52,6 +52,7 @@ var jsMath={
 };
 
 print("$package(\"org.mathdox.formulaeditor\");");
+print("$identify(\"org/mathdox/formulaeditor/MathCanvasFill.js\");");
 print("$require(\"org/mathdox/formulaeditor/MathCanvas.js\");");
 print("");
 print("$main(function(){");

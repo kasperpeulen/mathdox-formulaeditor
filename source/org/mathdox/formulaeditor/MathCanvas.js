@@ -89,7 +89,7 @@ $main(function(){
             width: symbolData.width + 2*symbolData.margin,
             height: symbolData.height,
             yadjust: symbolData.yadjust
-          }
+          };
         }
         var left   = x;
         var top    = y - symbolData.height + symbolData.yadjust;
@@ -428,11 +428,11 @@ $main(function(){
             y:symbolData.y,
             width:symbolData.width,
             height:symbolData.height,
-            yadjust:symbolData.yadjust,
-          }
+            yadjust:symbolData.yadjust
+          };
         } else if ((!symbol) || (symbol=='') || (symbol.charCodeAt(0)==0)) {
           return null;
-        }
+	}
 
       }
 

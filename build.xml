@@ -37,7 +37,7 @@
 
     <!-- copy javascript source -->
     <copy todir='build/javascript'>
-      <fileset dir='source'/>
+      <fileset dir='source' excludes='convert/**'/>
     </copy>
 
     <!-- unzip jsmath fonts -->

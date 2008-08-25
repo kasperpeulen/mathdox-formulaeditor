@@ -227,14 +227,16 @@ $main(function(){
           if (!palettes) {
             palettes = new Array();
           }
-          this.palette = new org.mathdox.formulaeditor.Palette(palcanvas);
+          this.palette = new org.mathdox.formulaeditor.Palette();
           palettes.push(this.palette);
+
+          this.palette.initialize(palcanvas);
         }
 
         // hide the textarea XXX
         if (!this.checkClass(textarea.className, "mathdoxvisibletextarea")) {
-	  textarea.style.display = "none";
-	}
+          textarea.style.display = "none";
+        }
 
         // register the textarea and a new mathcanvas
         this.textarea = textarea;
@@ -626,6 +628,11 @@ $main(function(){
     ,
     // todo onmousedown : function(event) { }
     initialize : function(canvas) {
+      if (!canvas) {
+        /* first initalization, do nothing yet */
+        return null;
+      }
+     
       var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
       if (arguments.length > 0 ) { 
         this.canvas = new MathCanvas(canvas);
@@ -649,7 +656,6 @@ $main(function(){
             
           /* update palettes */
           for (var p=0; p<palettes.length; p++) {
-
             palettes[p].parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
             palettes[p].draw();
           }

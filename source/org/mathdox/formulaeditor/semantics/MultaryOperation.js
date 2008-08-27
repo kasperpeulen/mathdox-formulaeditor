@@ -70,7 +70,9 @@ $main(function(){
             var operand = this.operands[i];
             if (i>0) {
               if (this.symbol.onscreen instanceof Array) {
-                array.push(new Row(this.symbol.onscreen[1]));
+                if (this.symbol.onscreen[1]!="") {
+                  array.push(new Row(this.symbol.onscreen[1]));
+                }
               }
               else {
                 array.push(new Row(this.symbol.onscreen));
@@ -86,7 +88,9 @@ $main(function(){
             }
           }
           if (this.symbol.onscreen instanceof Array) {
-            array.push(new Row(this.symbol.onscreen[2]));
+            if (this.symbol.onscreen[2]!="") {
+              array.push(new Row(this.symbol.onscreen[2]));
+            }
           }
 
           // create and return new presentation row using the constructed array

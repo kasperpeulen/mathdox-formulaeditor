@@ -92,9 +92,9 @@ $main(function(){
         };
 
 
-	if ((!invisible) && this.drawBox) {
-	  canvas.drawBox(this.dimensions,y);
-	}
+        if ((!invisible) && this.drawBox) {
+          canvas.drawBox(this.dimensions,y);
+        }
 
         return this.dimensions;
 
@@ -115,9 +115,9 @@ $main(function(){
        * See also Node.getFollowingCursorPosition(index).
        */
       getFollowingCursorPosition : function(index) {
+        var result = null;
 
         if (index == null) {
-          var result = null;
           var middle = Math.floor(this.children.length / 2);
           var i      = middle;
           while(result==null && 0<=i && i<this.children.length) {
@@ -129,14 +129,13 @@ $main(function(){
               i = 2*middle - i;
             }
           }
-          return result;
         }
 
-        if (this.parent != null) {
-          return this.parent.getFollowingCursorPosition(this.index, false);
+        if ((result == null) && (this.parent != null)) {
+          result =  this.parent.getFollowingCursorPosition(this.index, false);
         }
 
-        return null;
+        return result;
 
       },
 
@@ -159,7 +158,7 @@ $main(function(){
         }
 
         if (this.parent != null) {
-          return this.parent.getPrecedingCursorPosition(this.index+1, false);
+          return this.parent.getPrecedingCursorPosition(this.index, false);
         }
 
         return null;
@@ -194,6 +193,14 @@ $main(function(){
             arguments.callee.parent.getHigherCursorPosition(this, index, x);
           }
         }
+      },
+      initialize : function() {
+        if (arguments.length >0) {
+          this.children = Array.prototype.slice.call(arguments);
+        } else {
+          this.children = new Array();
+        }
+        this.updateChildren();
       }
 
     })

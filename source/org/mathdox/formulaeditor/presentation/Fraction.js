@@ -145,11 +145,11 @@ $main(function(){
             return this.children[1].getLowerCursorPosition(null, x);
           }
           else {
-	    if (this.parent != null ) {
-	      return this.parent.getLowerCursorPosition(this.index, x);
-	    } else {
-	      return null;
-	    }
+            if (this.parent != null ) {
+              return this.parent.getLowerCursorPosition(this.index, x);
+            } else {
+              return null;
+            }
           }
         }
       },

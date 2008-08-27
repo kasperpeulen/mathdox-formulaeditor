@@ -19,20 +19,15 @@ $main(function(){
 
       initialize : function () {
         with (org.mathdox.formulaeditor.presentation) {
-          this.leftBracket = new Bracket('(');
-          this.rightBracket = new Bracket(')');
+          var leftBracket = new Bracket('(');
+          var rightBracket = new Bracket(')');
 
           this.middle = new Column();
           this.middle.initialize.apply(this.middle,arguments);
           this.middle.margin = 10.0;
 
-	  // XXX it is nicer to use the parent's initialize but there's a
-	  // strange bug there
-          //arguments.callee.parent.initialize(leftBracket, column,
-          //  rightBracket);
-	  
-	  this.entries = Array.prototype.slice.call(arguments);
-	  this.updateChildren();
+          arguments.callee.parent.initialize.call(this, leftBracket, 
+            this.middle, rightBracket);
         }
       },
 
@@ -42,8 +37,8 @@ $main(function(){
 
         with (org.mathdox.formulaeditor.semantics) {
           semanticEntries = new Array();
-          for (var i=0;i<this.entries.length;i++) {
-            semanticEntries.push(this.entries[i].getSemantics().value);
+          for (var i=0;i<this.middle.children.length;i++) {
+            semanticEntries.push(this.middle.children[i].getSemantics().value);
           }
           vector = new Linalg2Vector();
           vector.initialize.apply(vector, semanticEntries);

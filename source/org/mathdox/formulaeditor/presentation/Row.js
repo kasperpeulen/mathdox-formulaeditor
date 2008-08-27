@@ -28,13 +28,13 @@ $main(function(){
           return arguments.callee.parent.initialize.apply(this, array);
         }
         else {
-	  var children = Array.prototype.slice.call(arguments);
-	  for (var i=0; i<children.length; i++) {
-	    // an "empty" box is a symbol with the empty string
-	    if (children[i]==null) {
-	      children[i] = new BlockSymbol();
-	    }
-	  }
+          var children = Array.prototype.slice.call(arguments);
+          for (var i=0; i<children.length; i++) {
+            // an "empty" box is a symbol with the empty string
+            if (children[i]==null) {
+              children[i] = new BlockSymbol();
+            }
+          }
           return arguments.callee.parent.initialize.apply(this, children);
         }
 
@@ -83,15 +83,15 @@ $main(function(){
 
         }
         else {
-	  this.dimensions = canvas.drawFBox(x, y, true);
+          this.dimensions = canvas.drawFBox(x, y, true);
 
           if (!invisible && this.parent) {
-	    canvas.drawFBox(x, y, invisible);
+            canvas.drawFBox(x, y, invisible);
           }
 
           return this.dimensions;
 
-	}
+        }
 
       },
 
@@ -400,31 +400,31 @@ $main(function(){
       insert : function(index, node, fillempty) {
         var BlockSymbol = org.mathdox.formulaeditor.presentation.BlockSymbol;
         var newindex = index;
-	var moveright = true;
+        var moveright = true;
 
         if (fillempty == null) {
           fillempty = true;
         }
-	if (node==null) {
-	  node = new BlockSymbol();
-	}
+        if (node==null) {
+          node = new BlockSymbol();
+        }
 
         if (fillempty && index<=this.children.length && 
           this.children[index] instanceof BlockSymbol
-	) {
+        ) {
           this.children.splice(index, 1, node);
         } else if (fillempty && index-1>=0 && 
             this.children[index-1] instanceof BlockSymbol
-	) {
+        ) {
           this.children.splice(index-1, 1, node);
           newindex = index - 1;
-	  moveright = false; // do not move right after inserting now
+          moveright = false; // do not move right after inserting now
         } else {
           this.children.splice(newindex, 0, node);
         }
         this.updateChildren(newindex);
 
-	return moveright;
+        return moveright;
       },
 
       replace : function(index, node) {

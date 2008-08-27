@@ -94,13 +94,13 @@ $main(function(){
 
       // flatten the child nodes
       for (var i=0; i<this.children.length; i++) {
-	if (! this.children[i]) {
-	  alert("no child at :"+i);
-	} else if (! this.children[i].flatten) {
-	  alert("no flatten in : "+i+".");
-	} else {
-	  this.children[i].flatten();
-	}
+        if (! this.children[i]) {
+          alert("no child at :"+i);
+        } else if (! this.children[i].flatten) {
+          alert("no flatten in : "+i+".");
+        } else {
+          this.children[i].flatten();
+        }
       }
 
     },
@@ -117,12 +117,12 @@ $main(function(){
         begin = 0;
       }
       for (var i=begin; i<this.children.length; i++) {
-	if (! this.children[i]) {
-	  alert("empty child : "+i+".");
-	} else {
-	  this.children[i].parent = this;
-	  this.children[i].index = i;
-	}
+        if (! this.children[i]) {
+          alert("empty child : "+i+".");
+        } else {
+          this.children[i].parent = this;
+          this.children[i].index = i;
+        }
       }
 
     },
@@ -224,17 +224,17 @@ $main(function(){
     },
     toString : function() {
       if (this.value) {
-	return this.value;
+        return this.value;
       } else if (this.children) {
-	var str = "[ ";
-	for (var i=0; i<this.children.length; i++) {
-	  str+=this.children[i];
-	  if (i<this.children.length-1) {
-	    str +=", ";
-	  }
-	}
-	str+=" ]";
-	return str;
+        var str = "[ ";
+        for (var i=0; i<this.children.length; i++) {
+          str+=this.children[i];
+          if (i<this.children.length-1) {
+            str +=", ";
+          }
+        }
+        str+=" ]";
+        return str;
       }
     }
 

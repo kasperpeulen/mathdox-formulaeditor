@@ -34,8 +34,8 @@ $main(function(){
         
         this.middle.draw(canvas, 0, 0, true);
 
-	// if the left and right symbols are brackets set the height
-	// XXX check if they are brackets
+        // if the left and right symbols are brackets set the height
+        // XXX check if they are brackets
         this.leftBracket.minimumHeight = 
           this.middle.dimensions.height;
         this.rightBracket.minimumHeight = 
@@ -79,7 +79,7 @@ $main(function(){
         this.leftBracket.draw(canvas, 
           x - this.leftBracket.dimensions.left, 
           this.dimensions.top + yAdjustBrackets - 
-	  this.leftBracket.dimensions.top, 
+          this.leftBracket.dimensions.top, 
           invisible);
 
         this.middle.draw(canvas, 
@@ -91,7 +91,7 @@ $main(function(){
           x + this.rightBracket.dimensions.width + 
             this.middle.dimensions.width - this.rightBracket.dimensions.left,
           this.dimensions.top + yAdjustBrackets - 
-	  this.rightBracket.dimensions.top, 
+          this.rightBracket.dimensions.top, 
           invisible);
         
         if ((!invisible) &&this.drawBox) {
@@ -189,15 +189,15 @@ $main(function(){
         return result;
       },
       initialize : function () {
-	if (arguments.length>0) {
-	  this.leftBracket = arguments[0];
-	  this.middle = arguments[1];
-	  this.rightBracket = arguments[2];
-	  this.children = new Array();
-	  this.children.push(this.middle);
-	} else {
-	  this.children = new Array();
-	}
+        if (arguments.length>0) {
+          this.leftBracket = arguments[0];
+          this.middle = arguments[1];
+          this.rightBracket = arguments[2];
+          this.children = new Array();
+          this.children.push(this.middle);
+        } else {
+          this.children = new Array();
+        }
 
         with (org.mathdox.formulaeditor.presentation) {
           /* copy the cursor/position functions from Row */
@@ -210,7 +210,7 @@ $main(function(){
                 row[ this.functionsFromRow[i] ];
             }
           }
-	  this.updateChildren();
+          this.updateChildren();
         }
       }
 

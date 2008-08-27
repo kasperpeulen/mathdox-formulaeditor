@@ -84,11 +84,11 @@ $main(function(){
       
       for (var row = 0; row < this.rows; row++) {
         for (var col = 0; col < this.columns; col++) {
-	    if (this.entries[row][col] && this.entries[row][col].draw) {
-	      this.entries[row][col].draw(canvas, 0, 0, true);
-	    } else {
-	      alert("PArray could not draw row:"+row+", col:"+col+".");
-	    }
+            if (this.entries[row][col] && this.entries[row][col].draw) {
+              this.entries[row][col].draw(canvas, 0, 0, true);
+            } else {
+              alert("PArray could not draw row:"+row+", col:"+col+".");
+            }
         }
       }
  
@@ -222,7 +222,7 @@ $main(function(){
       return {row:row, col:col};
     },
     getEntryFromPosition : function(x, y) {
-	var coords = this.getCoordinatesFromPosition(x,y);
+        var coords = this.getCoordinatesFromPosition(x,y);
       return this.entries[coords.row][coords.col];
     },
     getCursorPosition : function(x, y) {
@@ -287,8 +287,8 @@ $main(function(){
       }
 
       if (index>0) {
-        var row = Math.floor(index / this.columns);
-        var col = index % this.columns;
+        var row = Math.floor(index / this.columns);
+        var col = index % this.columns;
         if (col>0) {
           result = this.entries[row][col-1].getLastCursorPosition();
         } 
@@ -346,19 +346,19 @@ $main(function(){
     initialize : function() {
       this.rowInfo = new Array();
       this.colInfo = new Array();
-      if (arguments.length >0) {
-        this.entries = Array.prototype.slice.call(arguments);
-        this.rows = this.entries.length;
-        this.columns = this.entries[0].length;
-      }
-      this.children = new Array();
+      if (arguments.length >0) {
+        this.entries = Array.prototype.slice.call(arguments);
+        this.rows = this.entries.length;
+        this.columns = this.entries[0].length;
+      }
+      this.children = new Array();
 
       for (var row = 0; row < this.rows; row++) {
         for (var col = 0; col < this.columns; col++) {
           this.children.push(this.entries[row][col]);
         }
       }
-      this.updateChildren();
+      this.updateChildren();
     }
   })
 });

@@ -25,6 +25,15 @@ $main(function(){
     parse: function(xml) {
 
       var rootnode = new DOMImplementation().loadXML(xml).getDocumentElement();
+
+      /* remove comment nodes, since we don't want to parse them */
+      if (rootnode != null) {
+        this.removeComments(rootnode);
+      } else {
+        return null;
+      }
+      
+      /* do the actual parsing */
       if (rootnode != null) {
         return this.handle(rootnode);
       }
@@ -42,6 +51,7 @@ $main(function(){
     handle: function(node) {
       if (node.getLocalName()=="") {
         // XML comment
+        alert("found comment");
         return null;
       }
 
@@ -232,6 +242,24 @@ $main(function(){
         return new Variable(node.getAttribute("name"));
       }
 
+    },
+    /**
+     * Removes all comment nodes from a DOM XML tree
+     */
+    removeComments: function(node) {
+      var children = node.getChildNodes();
+
+      for (var i=children.length - 1; i>=0; i--) {
+        var child = children.item(i);
+
+        if (child) {
+          if (child.getNodeType() == DOMNode.COMMENT_NODE) {
+            node.removeChild(child);
+          } else if (child.hasChildNodes()) {
+            this.removeComments(child);
+          }
+        }
+      }
     }
 
   })

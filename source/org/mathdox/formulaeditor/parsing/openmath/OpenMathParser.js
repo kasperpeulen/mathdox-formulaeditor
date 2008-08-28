@@ -51,7 +51,6 @@ $main(function(){
     handle: function(node) {
       if (node.getLocalName()=="") {
         // XML comment
-        alert("found comment");
         return null;
       }
 
@@ -114,10 +113,16 @@ $main(function(){
           /* return a FunctionApplication at the end */
           symbol = this.handleOMS(node.getFirstChild());
         } else {
-            throw new Error(
-              "OpenMathParser doesn't know how to handle this node: " + node +
-              "INFO: no handler :"+handler+"."
-            );
+          with(org.mathdox.formulaeditor.semantics) {
+            var cd = node.getFirstChild().getAttribute("cd");
+            var name = node.getFirstChild().getAttribute("name");
+            var keywordsymbol = {
+              onscreen : null,
+              openmath : null,
+              mathml: "<mi>"+cd+"."+name+"</mi>"
+            };
+            symbol = new Keyword(cd, name, keywordsymbol, "function");
+          }
         }
 
       } else if ("OMS" == node.getFirstChild().getLocalName()) {
@@ -227,9 +232,16 @@ $main(function(){
           );
         }
       } else {
-        throw new Error(
-          "OpenMathParser doesn't know how to handle this node: " + node + " when it is not first in an <OMA>."
-        );
+        with(org.mathdox.formulaeditor.semantics) {
+          var cd = node.getAttribute("cd");
+          var name = node.getAttribute("name");
+          var keywordsymbol = {
+            onscreen : null,
+            openmath : null,
+            mathml: "<mi>"+cd+"."+name+"</mi>"
+          };
+          return new Keyword(cd, name, keywordsymbol, "constant");
+        }
       }
     },
 

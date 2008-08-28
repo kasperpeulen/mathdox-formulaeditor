@@ -58,7 +58,8 @@ $main(function(){
             rule("braces"),
             rule("parseNumber"),
             rule("func"),
-            rule("variable")
+            rule("variable"),
+            rule("omSymbol")
           ),
 
         // integer = [0..9]+
@@ -121,6 +122,54 @@ $main(function(){
               }
             }
           ),
+
+        // omSymbol = ([a..z]|[A..Z]) ([a..z]|[A..Z]|[0..9]|'_')* '.' ([a..z]|[A..Z])([a..z]|[A..Z]|[0..9]|_)*
+	omSymbol:
+	  transform(
+	    concatenation(
+              alternation(
+                range('a','z'),
+                range('A','Z')
+              ),
+	      repetition(
+		alternation(
+		  range('a','z'),
+		  range('A','Z'),
+		  range('0','9'),
+		  literal('_')
+		)
+	      ),
+	      literal('.'),
+              alternation(
+                range('a','z'),
+                range('A','Z')
+              ),
+	      repetition(
+		alternation(
+		  range('a','z'),
+		  range('A','Z'),
+		  range('0','9'),
+		  literal('_')
+		)
+	      )
+	    ),
+
+	    /* 
+	     * XXX: hard to check whether something is a constant or a function
+	     */
+	    function(result) {
+	      var symbolinfo = result.join("").split('.');
+	      var cd=symbolinfo[0];
+	      var name=symbolinfo[1];
+
+	      var symbol = {
+		onscreen: null,
+		openmath: null,
+		mathml: "&lt;mi&gt;"+cd+"."+name+"&lt;/mi&gt;"
+	      }
+	      return new Keyword(cd,name,symbol,"constant");
+	    }
+	  ),
 
         // braces = '(' expression ')'
         braces :

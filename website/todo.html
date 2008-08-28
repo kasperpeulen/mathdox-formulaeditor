@@ -34,15 +34,16 @@
 
       <h4>Demo</h4>
 
-      <textarea id='formula2' class='mathdoxformula mathdoxpalette' style='margin-right: 2em'>
+      <textarea id='formula1' class='mathdoxformula mathdoxpalette' style='margin-right: 2em'>
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
-          &lt;OMS cd='editor1' name='input_box'/&gt;
+	  &lt;!-- comments now allowed --&gt;
+          &lt;OMS cd='test1' name='nieuw'/&gt;
         &lt;/OMOBJ&gt;
 
       </textarea>
 
-      <textarea id='formula1' class='mathdoxformula mathdoxpalette'>
+      <textarea id='formula2' class='mathdoxformula mathdoxpalette'>
 
         &lt;OMOBJ>
           &lt;OMI>-2&lt;/OMI>
@@ -52,23 +53,24 @@
 
       <h2>really short term todo list</h2>
       <ul>
+	<li>more space around cdot, -, +</li>
+	<li>-,cdot larger</li>
+	<li>1/2*3/4 (not as expected, but correct)</li>
+	<li>1/2-3/4 (incorrect)</li>
 	<li>symbols: support for \ and _</li>
-	<li>OM parser: support for (ignoring) comments</li>
 	<li>custom palette:communicating options</li>
-	<li>fix bug with going left from a matrix</li>
-	<li>fix bug with going out of a vector</li>
 	<li>install formulaeditor separately on dam02</li>
-	<li>describe editor1.input_box</li>
 	<li>support for cd.name (from and to openmath)</li>
-	<li>fix palette on IE (not always showing)</li>
-	<li>create about popup with version</li>
 	<li>create fairly empty webpage with OpenMath conversion</li>
 	<li>create fairly empty webpage with MathML conversion</li>
-	<li>check/update (really short) todo list</li>
+	<li>create about popup with version</li>
+	<li>document editor1.input_box/editor1.*</li>
 	<li>document classnames</li>
+	<li>check/update (really short) todo list</li>
       </ul>
       <h2>short term todo list</h2>
       <ul>
+	<li>vertical align 1/2*3/2</li>
 	<li>automatically require all automatically generate files</li>
 	<li>--x doesn't parse... should this be fixed ? a--2 does parse ? is this desired</li>
 	<li>keywords slanted/italic</li>
@@ -122,6 +124,10 @@
 
       <h2>items done</h2>
       <ul>
+	<li>fixed palette on IE (race condition, which should only occur very rarely now, instead of everything palette.xml could be retrieved from cache)</li>
+	<li>fixed a bug with navigating out of a vector with the cursor</li>
+	<li>going left from a matrix: seems to work now</li>
+	<li>OM parser: xml comment <q>support</q> (all are ignored)</li>
 	<li>added working integer1.factorial</li>
         <li>custom palette: how to enter blanks : editor1.palette_whitespace</li>
 	<li>custom palette:parsing (infix) OMS symbols inside a paletterow: solved with support for keyword types: constant, function, infix</li>

@@ -188,7 +188,10 @@ $main(function(){
         func :
           transform(
             concatenation(
-              rule("variable"),
+	      alternation(
+		rule("variable"),
+		rule("omSymbol")
+	      ),
               literal('('),
               rule("expression"),
               repetition(

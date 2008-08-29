@@ -1,0 +1,73 @@
+<html>
+
+  <head>
+
+    <title>MathDox formula editor: OpenMath conversion</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+    </script>
+    <script type='text/javascript'>
+      updateMathML = function() {
+	var mathml = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").getMathML();
+
+	var textarea = document.getElementById("mathml1");
+
+	textarea.value = mathml;
+      }
+    </script>
+
+    <style type='text/css'>
+
+      #main {
+        background-color:#FFF;
+        width:50em;
+        font-family:sans-serif;
+      }
+
+      .code {
+        padding-left:2em;
+        font-family:monospace;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id='main'>
+
+      <h3>MathDox formula editor</h3>
+
+      <p>
+	This page shows the <a href='index.html'>mathdox formulaeditor</a> with
+	a visible textarea (usually hidden), that will show the OpenMath (and
+	presentation MathML) output for the current expression. Not all
+	supported symbols are shown in the palette (transc1 is completely
+	supported). Furthermore it is possible to add additional OpenMath
+	symbols in prefix notation: <code>private.fun(private.cons)</code>
+      </p>
+
+      <h4>OpenMath conversion</h4>
+
+      <textarea id='formula1' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' style='margin-right: 2em' rows='10' cols='80'>
+
+        &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
+	  &lt;!-- comments now allowed --&gt;
+	  &lt;OMS cd='editor1' name='input_box'/&gt;
+        &lt;/OMOBJ&gt;
+
+      </textarea>
+      <button type="button" name="MathML" value='MathML' onclick='updateMathML()'>
+	Update MathML
+      </button>
+      <textarea id='mathml1' style='margin-right: 2em' rows='10' cols='80'>
+      </textarea>
+
+    </div>
+
+  </body>
+
+</html>

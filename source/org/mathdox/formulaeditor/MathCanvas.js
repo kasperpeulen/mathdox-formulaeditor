@@ -83,13 +83,10 @@ $main(function(){
         
         // calculate the position of the topleft corner, the width and the height
         if (symbolData.margin) {
-          symbolData = {
+          symbolData = this.extendObject(symbolData, {
             x: symbolData.x - symbolData.margin,
-            y: symbolData.y,
             width: symbolData.width + 2*symbolData.margin,
-            height: symbolData.height,
-            yadjust: symbolData.yadjust
-          };
+	  });
         }
         var left   = x;
         var top    = y - symbolData.height + symbolData.yadjust;
@@ -413,27 +410,65 @@ $main(function(){
 
     },
 
+    /**
+     * copy an old object, replacing only a few attributes
+     */
+    extendObject: function(oldObj, replace) {
+      var newObj = new Object();
+      for (var name in oldObj) {
+	newObj[name] = oldObj[name];
+      }
+      for (var name in replace) {
+	newObj[name] = replace[name];
+      }
+
+      return newObj;
+    },
+
     getSymbolData : function(symbol) {
       // retrieve font and symbol data
       var font = this.fonts[this.fontName];
-      var symbolData ;
+      var symbolData;
  
-      symbolData = this.getSymbolDataByPosition(symbol);
+      /* some special cases */
+      if (symbol==' ') {
+        symbolData = this.getSymbolDataByPosition(',');
+        if (symbolData) {
+          symbolData = this.extendObject(symbolData, {
+	    x:symbolData.x+symbolData.width+1
+	  });
+        }
+      } else if (symbol == '_' ) { 
+        symbolData = this.getSymbolDataByPosition('-');
+        if (symbolData) {
+          symbolData = this.extendObject(symbolData, { 
+	    yadjust: 0 + symbolData.height 
+	  });
+        }
+      } else {
+        /* generic case */
+        symbolData = this.getSymbolDataByPosition(symbol);
+      }
+
+      /* some margins, '-', '+', middle dot */
+      if (symbol == '-') {
+        symbolData = this.extendObject(symbolData, { 
+	  margin: 2
+	});
+      } else if (symbol == '+') { 
+        symbolData = this.extendObject(symbolData, { 
+	  margin: 2
+	});
+      } else if (symbol == '·') { // U+00B7 middle dot
+        symbolData = this.extendObject(symbolData, { 
+	  margin: 2
+	});
+      }
 
       if (!symbolData) {
-        if (symbol==' ') {
-          symbolData = this.getSymbolDataByPosition(',');
-          symbolData = {
-            x:symbolData.x+symbolData.width+1,
-            y:symbolData.y,
-            width:symbolData.width,
-            height:symbolData.height,
-            yadjust:symbolData.yadjust
-          };
-        } else if ((!symbol) || (symbol=='') || (symbol.charCodeAt(0)==0)) {
+        if ((!symbol) || (symbol=='') || (symbol.charCodeAt(0)==0)) {
           return null;
-	}
-
+        }
       }
 
       if (!symbolData) {
@@ -444,19 +479,13 @@ $main(function(){
 
       if (symbolData) {
         if (symbolData.margin) {
-          symbolData = {
+          symbolData = this.extendObject(symbolData, {
             x: symbolData.x - symbolData.margin,
-            y: symbolData.y,
             width: symbolData.width + 2*symbolData.margin,
-            height: symbolData.height,
-            yadjust: symbolData.yadjust
-          };
+	  });
         }
         // return symboldata
-        if (!symbolData.font) {
-          //XXX fix this
-          symbolData.font = font[this.fontSize];
-        }
+	
         return symbolData;
       }
       else {
@@ -680,7 +709,7 @@ $main(function(){
             // fake ' ', like ',', 4 pixes to the right
             ' ' : { x:308, y:71,  width:3,  height:7,  yadjust:4  },
 
-            '-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3, margin:2 },
+            //'-' : { x:327, y:69,  width:6,  height:2,  yadjust:-3, margin:2 },
             '.' : { x:353, y:71,  width:3,  height:3,  yadjust:0  },
             '/' : { x:378, y:59,  width:8,  height:20, yadjust:5  },
             '0' : { x:8,   y:84,  width:10, height:15, yadjust:1  },
@@ -945,7 +974,7 @@ $main(function(){
       // U+00D8 Latin capital letter o with stroke
          '¸',  'ß',  'æ',  'œ',  'ø',  'Æ',  'Œ',  'Ø'],
       [ null,  '!',  '"',  '#',  '$',  '%',  '&', '\'',
-         '(',  ')',  '*',  '+',  ',',  '-',  '.',  '/'],
+         '(',  ')',  '*',  '+',  ',', null,  '.',  '/'],
       [  '0',  '1',  '2',  '3',  '4',  '5',  '6',  '7',
       // U+00A1 inverted exclamation mark
       // U+00BF inverted question mark
@@ -1085,7 +1114,7 @@ $main(function(){
     ],
     cmsy10: [
       // U+00B7 middle dot
-      [ null,  '·', null, null, null, null, null, null,
+      [  '-',  '·', null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ],
       // U+2264 less than or equal to
       // U+2265 greater than or equal to
@@ -1108,7 +1137,7 @@ $main(function(){
       [ null, null, null, null, null, null, null, null,
         null, null, null, null, null, null,  '∧',  '∨' ],
       [ null, null, null, null, null, null,  '{',  '}',
-        null, null,  '|', null, null, null, null, null ],
+        null, null,  '|', null, null, null, '\\', null ],
       [ null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ]
     ]

@@ -38,7 +38,10 @@
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
 	  &lt;!-- comments now allowed --&gt;
-          &lt;OMS cd='test1' name='nieuw'/&gt;
+	  &lt;OMA&gt;
+	    &lt;OMS cd='test1' name='f'/&gt;
+	    &lt;OMS cd='test1' name='c'/&gt;
+	  &lt;/OMA&gt;
         &lt;/OMOBJ&gt;
 
       </textarea>
@@ -53,14 +56,11 @@
 
       <h2>really short term todo list</h2>
       <ul>
-	<li>more space around cdot, -, +</li>
-	<li>-,cdot larger</li>
+	<li>-,cdot larger (check if still needed)</li>
 	<li>1/2*3/4 (not as expected, but correct)</li>
 	<li>1/2-3/4 (incorrect)</li>
-	<li>symbols: support for \ and _</li>
 	<li>custom palette:communicating options</li>
 	<li>install formulaeditor separately on dam02</li>
-	<li>support for cd.name (from and to openmath)</li>
 	<li>create fairly empty webpage with OpenMath conversion</li>
 	<li>create fairly empty webpage with MathML conversion</li>
 	<li>create about popup with version</li>
@@ -124,6 +124,9 @@
 
       <h2>items done</h2>
       <ul>
+	<li>added support for generic cd.name (from and to openmath)</li>
+	<li>added more space around cdot, -, +</li>
+	<li>added symbols support for \ and _</li>
 	<li>fixed palette on IE (race condition, which should only occur very rarely now, instead of everything palette.xml could be retrieved from cache)</li>
 	<li>fixed a bug with navigating out of a vector with the cursor</li>
 	<li>going left from a matrix: seems to work now</li>

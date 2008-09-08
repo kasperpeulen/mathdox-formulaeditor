@@ -37,11 +37,11 @@
       <textarea id='formula1' class='mathdoxformula mathdoxpalette' style='margin-right: 2em'>
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
-	  &lt;!-- comments now allowed --&gt;
-	  &lt;OMA&gt;
-	    &lt;OMS cd='test1' name='f'/&gt;
-	    &lt;OMS cd='test1' name='c'/&gt;
-	  &lt;/OMA&gt;
+          &lt;!-- comments now allowed --&gt;
+          &lt;OMA&gt;
+            &lt;OMS cd='test1' name='f'/&gt;
+            &lt;OMS cd='test1' name='c'/&gt;
+          &lt;/OMA&gt;
         &lt;/OMOBJ&gt;
 
       </textarea>
@@ -56,30 +56,30 @@
 
       <h2>really short term todo list</h2>
       <ul>
-	<li>-,cdot larger (check if still needed)</li>
-	<li>1/2*3/4 (not as expected, but correct)</li>
-	<li>1/2-3/4 (incorrect)</li>
-	<li>custom palette:communicating options</li>
-	<li>install formulaeditor separately on dam02</li>
-	<li>create fairly empty webpage with OpenMath conversion</li>
-	<li>create fairly empty webpage with MathML conversion</li>
-	<li>create about popup with version</li>
-	<li>document editor1.input_box/editor1.*</li>
-	<li>document classnames</li>
-	<li>check/update (really short) todo list</li>
+        <li>1/2*3/4 (not as expected, but correct)</li>
+        <li>1/2-3/4 (incorrect)</li>
+        <li>custom palette:communicating options</li>
+        <li>install formulaeditor separately on dam02</li>
+        <li>create about popup with version</li>
+        <li>document editor1.input_box/editor1.*</li>
+        <li>document classnames</li>
+        <li>check/update really short todo list</li>
       </ul>
       <h2>short term todo list</h2>
       <ul>
-	<li>vertical align 1/2*3/2</li>
-	<li>automatically require all automatically generate files</li>
-	<li>--x doesn't parse... should this be fixed ? a--2 does parse ? is this desired</li>
-	<li>keywords slanted/italic</li>
-	<li>check slanted/italic symbols are described</li>
-	<li>list symbols available, add more symbols</li>
-	<li>look into extending with symbols not yet in sprite fonts (how)</li>
+        <li>reorganize short term todo list</li>
+	<li>add support for all mathml symbols, add support for generic mathml
+	  described constructs</li>
+        <li>vertical align 1/2*3/2</li>
+        <li>automatically require all automatically generate files</li>
+        <li>--x doesn't parse... should this be fixed ? a--2 does parse ? is this desired</li>
+        <li>keywords slanted/italic</li>
+        <li>check slanted/italic symbols are described</li>
+        <li>list symbols available, add more symbols</li>
+        <li>look into extending with symbols not yet in sprite fonts (how)</li>
         <li>formulate challenges</li>
-	<li>continual error indication (something red)</li>
-	<li>multiple objects in one formulaeditor using enter/newlines (as a list ?)</li>
+        <li>continual error indication (something red)</li>
+        <li>multiple objects in one formulaeditor using enter/newlines (as a list ?)</li>
         <li>use classnames for formulaeditor html elements: mathdoxeditor
         mathdoxtextarea mathdoxinput, ...</li>
         <li>extra symbols: arith1.root: baselining (nicer display) </li>
@@ -95,15 +95,15 @@
         <li>palette customization: depending on user ?</li>
         <li>palette customization: depending on page ?</li>
         <li>extending: preference classes</li>
-	<li>extending: documentation</li>
-	<li>keywords: further distinction between constants and applications (do not allow pi(a); maybe also disallow 1+sin;) support already present in keyword, not used to check for pi(a)</li>
+        <li>extending: documentation</li>
+        <li>keywords: further distinction between constants and applications (do not allow pi(a); maybe also disallow 1+sin;) support already present in keyword, not used to check for pi(a)</li>
         <li>implement growing/shrinking matrices, vectors, lists, .... Idea: usepalette for growing/shrinking, as well as shortcuts</li>
       </ul>
       <h2>mid term todo list</h2>
       <ul>
-	<li>show formulaeditor contents when printing</li>
-	<li>moving fe around (hans has an url ?)</li>
-	<li>option: placing the formulaeditor to the left</li>
+        <li>show formulaeditor contents when printing</li>
+        <li>moving fe around (hans has an url ?)</li>
+        <li>option: placing the formulaeditor to the left</li>
         <li>use variable size brackets for abs and list</li>
         <li>getOpenMath/getMathML button</li>
         <li>list of all supported symbols</li>
@@ -113,41 +113,42 @@
         <li>some symbols in blue: keywords/parentheses</li>
         <li>reload button</li>
         <li>add != (neq) symbol</li>
-	<li>3x</li>
-	<li>idea: backspace inside a fraction or a sqrt: quick delete</li>
-	<li>adding units (like keywords):harder because of prefixes and m/s (which is one symbol)</li>
-	<li>selection</li>
-	<li>tooltips</li>
-	<li>partial copy/paste</li>
-	<li>displaying mathml presentation</li>
+        <li>3x</li>
+        <li>idea: backspace inside a fraction or a sqrt: quick delete</li>
+        <li>adding units (like keywords):harder because of prefixes and m/s (which is one symbol)</li>
+        <li>selection</li>
+        <li>tooltips</li>
+        <li>partial copy/paste</li>
+        <li>displaying mathml presentation</li>
       </ul>
 
       <h2>items done</h2>
       <ul>
-	<li>added support for generic cd.name (from and to openmath)</li>
-	<li>added more space around cdot, -, +</li>
-	<li>added symbols support for \ and _</li>
-	<li>fixed palette on IE (race condition, which should only occur very rarely now, instead of everything palette.xml could be retrieved from cache)</li>
-	<li>fixed a bug with navigating out of a vector with the cursor</li>
-	<li>going left from a matrix: seems to work now</li>
-	<li>OM parser: xml comment <q>support</q> (all are ignored)</li>
-	<li>added working integer1.factorial</li>
+        <li>created first version of the conversion page: <a href='openmath.html'>openmath.html</a></li>
+        <li>added support for generic cd.name (from and to openmath)</li>
+        <li>added more space around cdot, -, + (no longer needed to make them larger)</li>
+        <li>added symbols support for \ and _</li>
+        <li>fixed palette on IE (race condition, which should only occur very rarely now, instead of everything palette.xml could be retrieved from cache)</li>
+        <li>fixed a bug with navigating out of a vector with the cursor</li>
+        <li>going left from a matrix: seems to work now</li>
+        <li>OM parser: xml comment <q>support</q> (all are ignored)</li>
+        <li>added working integer1.factorial</li>
         <li>custom palette: how to enter blanks : editor1.palette_whitespace</li>
-	<li>custom palette:parsing (infix) OMS symbols inside a paletterow: solved with support for keyword types: constant, function, infix</li>
-	<li>custom palette: changed margin back to 10.0</li>
-	<li>custom palette: now loading from org/mathdox/formulaeditor/palette.xml file (openmath input)</li>
-	<li>custom palette: solved blocksymbol different sizes problem: implemented context dependent presentation</li>
-	<li>custom palette: describing entries by openmath</li>
+        <li>custom palette:parsing (infix) OMS symbols inside a paletterow: solved with support for keyword types: constant, function, infix</li>
+        <li>custom palette: changed margin back to 10.0</li>
+        <li>custom palette: now loading from org/mathdox/formulaeditor/palette.xml file (openmath input)</li>
+        <li>custom palette: solved blocksymbol different sizes problem: implemented context dependent presentation</li>
+        <li>custom palette: describing entries by openmath</li>
         <li>scalability: did enough of cmsy10 and &lt; &gt; pi</li>
         <li>palette: make showing palette optional</li>
-	<li>now loading only a small number of files</li>
-	<li>automatic versioning from build.xml</li>
+        <li>now loading only a small number of files</li>
+        <li>automatic versioning from build.xml</li>
         <li>no longer slow with multiple fields, see wortel: books/differentieren/exams/nl/exam1.xml</li>
         <li>fix race condition in main.js (only start loading after main.js)</li>
         <li>document.body.attachEvent race condition fixed (now setting a timeout if document.body does not exist yet)</li>
         <li>ORBEON field update only on blur</li>
-	<li>sensible margin for palette/input canvas on mathdoxplayer</li>
-	<li>allow toggling palette on/of from mathdoxplayer</li>
+        <li>sensible margin for palette/input canvas on mathdoxplayer</li>
+        <li>allow toggling palette on/of from mathdoxplayer</li>
         <li>toggling palette on/off (per textarea)</li>
         <li>MS IE: fixed problem with ORBEON forms updating </li>
         <li>sqrt(x,2) when added from palette: problem with filling blue field, problem with clicking with sqrt(x,2)</li>

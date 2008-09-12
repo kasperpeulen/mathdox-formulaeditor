@@ -37,7 +37,16 @@
 
     <!-- copy javascript source -->
     <copy todir='build/javascript'>
-      <fileset dir='source' excludes='convert/**'/>
+      <fileset dir='source' excludes='convert/**,**/version*'/>
+    </copy>
+
+    <!-- copy files with version info with filter -->
+    <filter token='version' value='${version}'/>
+    <copy 
+      todir='build/javascript'
+      filtering='true'
+    >
+      <fileset dir='source' includes='**/version*' excludes='convert/**' />
     </copy>
 
     <!-- unzip jsmath fonts -->

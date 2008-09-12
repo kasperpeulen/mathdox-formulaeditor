@@ -13,7 +13,7 @@ $main(function(){
      */
     showAboutPopup: function() {
       alert("MathDox Formulaeditor\n"+
-	    "version "+this.toString()+"\n"
+	    "version: "+this.toString()+"\n"+
 	    "http://mathdox.org/formulaeditor/\n"+
 	    "info@mathdox.org");
     },
@@ -28,4 +28,4 @@ $main(function(){
      */
     versionInfo: "@version@"
   }
-}
+});

@@ -481,7 +481,7 @@ $main(function(){
         if (symbolData.margin) {
           symbolData = this.extendObject(symbolData, {
             x: symbolData.x - symbolData.margin,
-            width: symbolData.width + 2*symbolData.margin,
+            width: symbolData.width + 2*symbolData.margin
 	  });
         }
         // return symboldata

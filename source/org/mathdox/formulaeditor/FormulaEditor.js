@@ -13,6 +13,8 @@ $require("org/mathdox/formulaeditor/MathCanvasFill.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
 
+$require("org/mathdox/formulaeditor/version.js");
+
 //$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
 //$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
 $require("org/mathdox/formulaeditor/modules/keywords.js");

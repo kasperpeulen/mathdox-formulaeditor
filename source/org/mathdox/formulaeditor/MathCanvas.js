@@ -1114,13 +1114,37 @@ $main(function(){
     ],
     cmsy10: [
       // U+00B7 middle dot
-      [  '-',  '·', null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ],
+      // U+00D7 multiplication sign
+      // U+00F7 division sign
+      // U+22C4 diamond operator 
+      // U+00B1 plus-minus sign
+      // U+2213 minus-or-plus sign
+      [  '-',  '·',  '×',  '*',  '÷',  '⋄',  '±',  '∓',
+      // U+2295 circled plus
+      // U+2296 circled minus
+      // U+2297 circled times
+      // U+2298 circled division slash
+      // U+2299 circled dot operator
+      // U+25CB white circle
+      // U+2218 ring operator
+      // U+2219 bullet operator
+         '⊕',  '⊖',  '⊗',  '⊘',  '⊙',  '○',  '∘',  '∙' ],
+      // U+224D equivalent to
+      // U+2261 identical to
+      // U+2286 subset of or equal to
+      // U+2287 superset of or equal to
       // U+2264 less than or equal to
       // U+2265 greater than or equal to
-      [ null, null, null, null,  '≤',  '≥', null, null,
+      // U+227C precedes or equal to
+      // U+227D succeeds or equal to
+      [  '≍',  '≡',  '⊆',  '⊇',  '≤',  '≥',  '≼',  '≽',
+      // U+223C tilde operator
       // U+2248 almost equal to
-        null,  '≈', null, null, null, null, null, null ],
+      // U+2282 subset of
+      // U+2283 superset of
+      // U+226A much less-than
+      // U+226B much greater-than
+         '∼',  '≈',  '⊂',  '⊃',  '≪',  '≫', null, null ],
       [ null, null, null, null, null, null, null, null,
       // U+21D0 leftwards double arrow
       // U+21D2 rightwards double arrow

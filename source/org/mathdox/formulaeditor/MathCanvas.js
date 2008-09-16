@@ -1144,17 +1144,45 @@ $main(function(){
       // U+2283 superset of
       // U+226A much less-than
       // U+226B much greater-than
-         '∼',  '≈',  '⊂',  '⊃',  '≪',  '≫', null, null ],
-      [ null, null, null, null, null, null, null, null,
+      // U+227A precedes
+      // U+227B succeeds
+	 '∼',  '≈',  '⊂',  '⊃',  '≪',  '≫',  '≺',  '≻' ],
+      // U+2190 leftwards arrow
+      // U+2192 rightwards arrow
+      // U+2191 upwards arrow
+      // U+2193 downwards arrow
+      // U+2194 left right arrow
+      // U+2197 north east arrow
+      // U+2198 south east arrow
+      // U+2243 asymptotically equal to
+      [  '←',  '→',  '↑',  '↓',  '↔',  '↗',  '↘',  '≃',
       // U+21D0 leftwards double arrow
       // U+21D2 rightwards double arrow
+      // U+21D1 upwards double arrow
+      // U+21D3 downwards double arrow
       // U+21D4 left right double arrow
-         '⇐',  '⇒', null, null,  '⇔', null, null, null ],
+      // U+2196 north west arrow
+      // U+2199 south west arrow
+      // U+221D proportional to
+	 '⇐',  '⇒',  '⇑',  '⇓',  '⇔',  '↖',  '↙',  '∝' ],
       // U+221E infinity
-      [ null,  '∞', null, null, null, null, null, null,
+      // U+2208 element of
+      // U+220B contains as member
+      // U+2206 increment
+      // U+2207 nabla
+      // U+2215 division slash
+      [ null,  '∞',  '∈',  '∋',  '∆',  '∇',  '∕', null,
+      // U+2200 for all
+      // U+2203 there exists
       // U+00AC not sign
-        null, null,  '¬', null, null, null, null, null ],
-      [ null, null, null, null, null, null, null, null,
+      // U+2205 empty set
+      // U+211C black-letter capital r
+      // U+2111 black-letter capital i
+      // U+22A4 down tack
+      // U+22A5 up tack
+	 '∀',  '∃',  '¬',  '∅',  'ℜ',  'ℑ',  '⊤', '⊥' ],
+      // U+2135 alef symbol
+      [  'ℵ', null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ],
       // U+2227 logical and
       // U+2228 logical or

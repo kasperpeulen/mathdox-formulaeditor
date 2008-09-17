@@ -1168,10 +1168,10 @@ $main(function(){
       // U+221E infinity
       // U+2208 element of
       // U+220B contains as member
-      // U+2206 increment
-      // U+2207 nabla
+      // U+25B3 white up-pointing triangle
+      // U+25BD white down-pointing triangle
       // U+2215 division slash
-      [ null,  '∞',  '∈',  '∋',  '∆',  '∇',  '∕', null,
+      [ null,  '∞',  '∈',  '∋',  '△',  '▽',  '∕', null,
       // U+2200 for all
       // U+2203 there exists
       // U+00AC not sign
@@ -1184,14 +1184,43 @@ $main(function(){
       // U+2135 alef symbol
       [  'ℵ', null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null, null,
+      // U+222A union
+      // U+2229 intersection
       // U+2227 logical and
       // U+2228 logical or
-      [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null,  '∧',  '∨' ],
-      [ null, null, null, null, null, null,  '{',  '}',
-        null, null,  '|', null, null, null, '\\', null ],
-      [ null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null ]
+      // U+228E multiset union
+	null, null, null,  '∪',  '∩',  '⊎',  '∧',  '∨' ],
+      // U+22A2 right tack
+      // U+22A3 left tack
+      // U+230A left floor
+      // U+230B right floor
+      [  '⊢',  '⊣',  '⌊',  '⌋',  '⌈',  '⌉',  '{',  '}',
+      // U+27E8 mathematical left angle bracket
+      // U+27E9 mathematical right angle bracket
+      // U+2225 parallel to
+      // U+2195 up down arrow
+      // U+21D5 up down double arrow
+      // U+2240 wreath product
+	 '⟨',  '⟩',  '|',  '∥',  '↕',  '⇕', '\\',  '≀' ],
+      // U+221A square root
+      // U+2210 n-ary coproduct
+      // U+2207 nabla
+      // U+222B integral
+      // U+2294 square cup
+      // U+2293 square cap
+      // U+2291 square image of or equal to
+      // U+2292 square original of or equal to
+      [  '√',  '∐',  '∇',  '∫',  '⊔',  '⊓',  '⊑',  '⊒',
+      // U+00A7 section sign
+      // U+2020 dagger
+      // U+2021 double dagger
+      // U+00B6 pilcrow sign
+      // U+2663 black club suit
+      // U+2662 white diamond suit
+      // U+2661 white heart suit
+      // U+2660 black spade suit
+	 '§',  '†',  '‡',  '¶',  '♣',  '♢',  '♡',  '♠' ]
     ]
   };
 

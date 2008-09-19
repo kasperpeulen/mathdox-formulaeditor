@@ -270,6 +270,15 @@
       <model:onscreen> </model:onscreen>
       <model:type>constant</model:type>
     </model:instance>
+    <!-- linalg1.determinant -->
+    <model:instance>
+      <model:cd>linalg1</model:cd>
+      <model:keyword>det</model:keyword>
+      <model:mathml>&lt;mi&gt;det&lt;/mi&gt;</model:mathml>
+      <model:name>determinant</model:name>
+      <model:onscreen>det</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
     <!-- logic1.false -->
     <model:instance>
       <model:cd>logic1</model:cd>

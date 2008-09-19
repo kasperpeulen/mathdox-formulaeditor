@@ -18,11 +18,6 @@
         <OMI>2</OMI>
       </OMA>
       <OMA>
-        <OMS cd='linalg2' name='vector'/>
-        <OMS cd='editor1' name='input_box'/>
-        <OMS cd='editor1' name='input_box'/>
-      </OMA>
-      <OMA>
         <OMS cd="calculus1" name="int"/>
         <OMBIND>
           <OMS cd="fns1" name="lambda"/>
@@ -32,6 +27,22 @@
           <OMS cd='editor1' name='input_box'/>
         </OMBIND>
       </OMA>
+      <OMA>
+        <OMS cd="calculus1" name="defint"/>
+        <OMA>
+          <OMS cd="interval1" name="interval"/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMBIND>
+          <OMS cd="fns1" name="lambda"/>
+          <OMBVAR>
+            <OMV name="x"/>
+          </OMBVAR>
+          <OMS cd='editor1' name='input_box'/>
+        </OMBIND>
+      </OMA>
+      <OMS cd='editor1' name='palette_whitespace'/>
     </OMA>
     <OMA>
       <OMS cd='editor1' name='palette_row'/>
@@ -50,25 +61,38 @@
         <OMS cd='editor1' name='input_box'/>
       </OMA>
       <OMA>
-        <OMS cd='linalg2' name='vector'/>
-        <OMS cd='editor1' name='input_box'/>
-        <OMS cd='editor1' name='input_box'/>
-        <OMS cd='editor1' name='input_box'/>
-      </OMA>
-      <OMA>
-        <OMS cd="calculus1" name="defint"/>
+        <OMS cd="arith1" name="product"/>
         <OMA>
-          <OMS cd="interval1" name="interval"/>
+          <OMS cd="interval1" name="integer_interval"/>
           <OMS cd='editor1' name='input_box'/>
           <OMS cd='editor1' name='input_box'/>
         </OMA>
         <OMBIND>
           <OMS cd="fns1" name="lambda"/>
           <OMBVAR>
-            <OMV name="x"/>
+            <OMV name="n"/>
           </OMBVAR>
           <OMS cd='editor1' name='input_box'/>
         </OMBIND>
+      </OMA>
+      <OMA>
+        <OMS cd="arith1" name="sum"/>
+          <OMA>
+            <OMS cd="interval1" name="integer_interval"/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+        <OMBIND>
+          <OMS cd="fns1" name="lambda"/>
+          <OMBVAR>
+            <OMV name="n"/>
+          </OMBVAR>
+          <OMS cd='editor1' name='input_box'/>
+        </OMBIND>
+      </OMA>
+      <OMA>
+        <OMS cd='linalg1' name='determinant'/>
+	<OMS cd='editor1' name='input_box'/>
       </OMA>
     </OMA>
     <OMA>
@@ -87,6 +111,11 @@
         <OMS cd='editor1' name='input_box'/>
       </OMA>
       <OMA>
+        <OMS cd='linalg2' name='vector'/>
+        <OMS cd='editor1' name='input_box'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+      <OMA>
         <OMS cd='linalg2' name='matrix'/>
         <OMA>
           <OMS cd='linalg2' name='matrixrow'/>
@@ -100,19 +129,19 @@
         </OMA>
       </OMA>
       <OMA>
-        <OMS cd="arith1" name="product"/>
+        <OMS cd='linalg2' name='matrix'/>
         <OMA>
-          <OMS cd="interval1" name="integer_interval"/>
+          <OMS cd='linalg2' name='matrixrow'/>
+          <OMS cd='editor1' name='input_box'/>
           <OMS cd='editor1' name='input_box'/>
           <OMS cd='editor1' name='input_box'/>
         </OMA>
-        <OMBIND>
-          <OMS cd="fns1" name="lambda"/>
-          <OMBVAR>
-            <OMV name="n"/>
-          </OMBVAR>
+        <OMA>
+          <OMS cd='linalg2' name='matrixrow'/>
           <OMS cd='editor1' name='input_box'/>
-        </OMBIND>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
       </OMA>
     </OMA>
     <OMA>
@@ -150,6 +179,30 @@
         <OMS cd='editor1' name='input_box'/>
       </OMA>
       <OMA>
+        <OMS cd='linalg2' name='vector'/>
+        <OMS cd='editor1' name='input_box'/>
+        <OMS cd='editor1' name='input_box'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+      <OMA>
+        <OMS cd='linalg2' name='matrix'/>
+        <OMA>
+          <OMS cd='linalg2' name='matrixrow'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='matrixrow'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='matrixrow'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
         <OMS cd='linalg2' name='matrix'/>
         <OMA>
           <OMS cd='linalg2' name='matrixrow'/>
@@ -163,21 +216,12 @@
           <OMS cd='editor1' name='input_box'/>
           <OMS cd='editor1' name='input_box'/>
         </OMA>
-      </OMA>
-      <OMA>
-        <OMS cd="arith1" name="sum"/>
-          <OMA>
-            <OMS cd="interval1" name="integer_interval"/>
-            <OMS cd='editor1' name='input_box'/>
-            <OMS cd='editor1' name='input_box'/>
-          </OMA>
-        <OMBIND>
-          <OMS cd="fns1" name="lambda"/>
-          <OMBVAR>
-            <OMV name="n"/>
-          </OMBVAR>
+        <OMA>
+          <OMS cd='linalg2' name='matrixrow'/>
           <OMS cd='editor1' name='input_box'/>
-        </OMBIND>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
       </OMA>
     </OMA>
   </OMA>

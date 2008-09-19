@@ -1,4 +1,6 @@
-$identify("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
+$package("org.mathdox.formulaeditor.modules.calculus1");
+
+$identify("org/mathdox/formulaeditor/modules/calculus1/defint.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -13,9 +15,9 @@ $require("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
 $main(function(){
 
   /**
-   * Defines a semantic tree node that represents a sum.
+   * Defines a semantic tree node that represents a definite integration.
    */
-  org.mathdox.formulaeditor.semantics.Sum =
+  org.mathdox.formulaeditor.semantics.Defint =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       // operand 0 : interval
@@ -26,17 +28,14 @@ $main(function(){
         with(org.mathdox.formulaeditor.presentation) {
         
           return new Row(
-            new Sum(
+            new Defint(
               new Row(this.operands[0].operands[1].getPresentation(context)),
-              new Row(
-                this.operands[1].operands[0].getPresentation(context),
-                new Symbol("="),
-                this.operands[0].operands[0].getPresentation(context)
-              )
+              new Row(this.operands[0].operands[0].getPresentation(context))
             ),
-            this.operands[1].operands[1].getPresentation(context)
+            this.operands[1].operands[1].getPresentation(context),
+            new Symbol("d"),
+            this.operands[1].operands[0].getPresentation(context)
           );
-        
         }        
       
       },
@@ -44,7 +43,7 @@ $main(function(){
       getOpenMath : function() {
       
         return "<OMA>" +
-          "<OMS cd='arith1' name='sum'/>" +
+          "<OMS cd='calculus1' name='defint'/>" +
           this.operands[0].getOpenMath() +
           this.operands[1].getOpenMath() +
         "</OMA>";
@@ -54,17 +53,17 @@ $main(function(){
     });
 
   /**
-   * Defines an on-screen sum.
+   * Defines an on-screen (definite) integral.
    */
-  org.mathdox.formulaeditor.presentation.Sum =
+  org.mathdox.formulaeditor.presentation.Defint =
     $extend(org.mathdox.formulaeditor.presentation.Column, {
 
       initialize : function(above, below) {
 
         var parent = arguments.callee.parent;
-	// U+03A3 greek capital letter sigma
-	var sigma  = new org.mathdox.formulaeditor.presentation.Symbol("Σ");
-        return parent.initialize.call(this, above, sigma, below);
+	// U+222B integral
+	var defint  = new org.mathdox.formulaeditor.presentation.Symbol("∫");
+        return parent.initialize.call(this, above, defint, below);
 
       },
 
@@ -75,18 +74,9 @@ $main(function(){
           var above = this.children[0].getSemantics().value;
           var below = this.children[2].getSemantics().value;
 
-          if (below instanceof Relation1Eq) {
-
-            return {
-              value : [below.operands[1], above, below.operands[0]],
-              rule  : "sum"
-            }
-
-          }
-          else {
-
-            return null;
-
+          return {
+            value : [above, below],
+            rule  : "defint"
           }
 
         }
@@ -96,7 +86,7 @@ $main(function(){
   });
 
   /**
-   * Extend the OpenMathParser object with parsing code for arith1.sum.
+   * Extend the OpenMathParser object with parsing code for calculus1.defint.
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
@@ -104,13 +94,13 @@ $main(function(){
       /**
        * Returns a Sum object based on the OpenMath node.
        */
-      handleArith1Sum : function(node) {
+      handleCalculus1Defint : function(node) {
 
         var children = node.getChildNodes();
         var interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
 
-        return new org.mathdox.formulaeditor.semantics.Sum(interval, lambda);
+        return new org.mathdox.formulaeditor.semantics.Defint(interval, lambda);
 
       }
 
@@ -118,7 +108,7 @@ $main(function(){
 
 
   /**
-   * Extend the ExpressionParser object with parsing code for sums.
+   * Extend the ExpressionParser object with parsing code for definite integrals.
    */
   with( org.mathdox.formulaeditor.semantics          ) {
   with( org.mathdox.formulaeditor.parsing.expression ) {
@@ -127,20 +117,22 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression150 = sum expression130 | super.expression150
+        // expression150 = defint expression 'd' variable | super.expression150
         expression150 : function() {
           var parent = arguments.callee.parent;
           alternation(
             transform(
               concatenation(
-                rule("sum"),
-                rule("expression130")
+                rule("defint"),
+                rule("expression"),
+                literal("d"),
+		rule("variable")
               ),
               function(result) {
 
-                return new Sum(
+                return new Defint(
                   new Interval(result[0][0], result[0][1]),
-                  new Lambda(result[0][2], result[1])
+                  new Lambda(result[3], result[1])
                 );
 
               }
@@ -149,8 +141,8 @@ $main(function(){
           ).apply(this, arguments);
         },
 
-        // sum = never
-        sum : never
+        // defint = never
+        defint : never
 
     });
 

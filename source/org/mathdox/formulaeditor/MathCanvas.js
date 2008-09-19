@@ -1115,11 +1115,12 @@ $main(function(){
     cmsy10: [
       // U+00B7 middle dot
       // U+00D7 multiplication sign
+      // U+204E low asterisk
       // U+00F7 division sign
       // U+22C4 diamond operator 
       // U+00B1 plus-minus sign
       // U+2213 minus-or-plus sign
-      [  '-',  '·',  '×',  '*',  '÷',  '⋄',  '±',  '∓',
+      [  '-',  '·',  '×',  '⁎',  '÷',  '⋄',  '±',  '∓',
       // U+2295 circled plus
       // U+2296 circled minus
       // U+2297 circled times

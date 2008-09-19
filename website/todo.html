@@ -36,13 +36,27 @@
 
       <textarea id='formula1' class='mathdoxformula mathdoxpalette' style='margin-right: 2em'>
 
-        &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
-          &lt;!-- comments now allowed --&gt;
-          &lt;OMA&gt;
-            &lt;OMS cd='test1' name='f'/&gt;
-            &lt;OMS cd='test1' name='c'/&gt;
-          &lt;/OMA&gt;
-        &lt;/OMOBJ&gt;
+&lt;OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0" cdbase="http://www.openmath.org/cd"&gt;
+  &lt;OMA&gt;
+    &lt;OMS cd="calculus1" name="defint"/&gt;
+    &lt;OMA&gt;
+      &lt;OMS cd="interval1" name="interval"/&gt;
+      &lt;OMF dec="-1.0"/&gt;
+      &lt;OMF dec="1.0"/&gt;
+    &lt;/OMA&gt;
+    &lt;OMBIND&gt;
+      &lt;OMS cd="fns1" name="lambda"/&gt;
+      &lt;OMBVAR&gt;
+        &lt;OMV name="x"/&gt;
+      &lt;/OMBVAR&gt;
+      &lt;OMA&gt;
+         &lt;OMS cd="transc1" name="sin"/&gt;
+	&lt;OMV name="x"/&gt;
+      &lt;/OMA&gt;
+    &lt;/OMBIND&gt;
+  &lt;/OMA&gt;
+&lt;/OMOBJ&gt;
+
 
       </textarea>
 

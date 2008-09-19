@@ -158,7 +158,7 @@ $main(function(){
         }
 
         if (this.parent != null) {
-          return this.parent.getPrecedingCursorPosition(this.index, false);
+          return this.parent.getPrecedingCursorPosition(this.index+1, false);
         }
 
         return null;

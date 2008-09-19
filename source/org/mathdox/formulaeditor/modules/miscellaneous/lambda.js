@@ -23,7 +23,7 @@ $main(function(){
       getOpenMath : function() {
 
         return "<OMBIND>" +
-          "<OMS cd='fns1' name='lambda'>" +
+          "<OMS cd='fns1' name='lambda'/>" +
           "<OMBVAR>" +
             this.operands[0].getOpenMath() +
           "</OMBVAR>" +

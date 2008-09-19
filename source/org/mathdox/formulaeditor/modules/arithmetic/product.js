@@ -1,4 +1,4 @@
-$identify("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
+$identify("org/mathdox/formulaeditor/modules/arithmetic/product.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -13,9 +13,9 @@ $require("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
 $main(function(){
 
   /**
-   * Defines a semantic tree node that represents a sum.
+   * Defines a semantic tree node that represents a product.
    */
-  org.mathdox.formulaeditor.semantics.Sum =
+  org.mathdox.formulaeditor.semantics.Product =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       // operand 0 : interval
@@ -26,7 +26,7 @@ $main(function(){
         with(org.mathdox.formulaeditor.presentation) {
         
           return new Row(
-            new Sum(
+            new Product(
               new Row(this.operands[0].operands[1].getPresentation(context)),
               new Row(
                 this.operands[1].operands[0].getPresentation(context),
@@ -44,7 +44,7 @@ $main(function(){
       getOpenMath : function() {
       
         return "<OMA>" +
-          "<OMS cd='arith1' name='sum'/>" +
+          "<OMS cd='arith1' name='product'/>" +
           this.operands[0].getOpenMath() +
           this.operands[1].getOpenMath() +
         "</OMA>";
@@ -54,17 +54,17 @@ $main(function(){
     });
 
   /**
-   * Defines an on-screen sum.
+   * Defines an on-screen product.
    */
-  org.mathdox.formulaeditor.presentation.Sum =
+  org.mathdox.formulaeditor.presentation.Product =
     $extend(org.mathdox.formulaeditor.presentation.Column, {
 
       initialize : function(above, below) {
 
         var parent = arguments.callee.parent;
-	// U+03A3 greek capital letter sigma
-	var sigma  = new org.mathdox.formulaeditor.presentation.Symbol("Σ");
-        return parent.initialize.call(this, above, sigma, below);
+        // U+03A0 greek capital letter pi
+	var pi  = new org.mathdox.formulaeditor.presentation.Symbol("Π");
+        return parent.initialize.call(this, above, pi, below);
 
       },
 
@@ -79,7 +79,7 @@ $main(function(){
 
             return {
               value : [below.operands[1], above, below.operands[0]],
-              rule  : "sum"
+              rule  : "product"
             }
 
           }
@@ -96,21 +96,21 @@ $main(function(){
   });
 
   /**
-   * Extend the OpenMathParser object with parsing code for arith1.sum.
+   * Extend the OpenMathParser object with parsing code for arith1.product.
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
 
       /**
-       * Returns a Sum object based on the OpenMath node.
+       * Returns a Product object based on the OpenMath node.
        */
-      handleArith1Sum : function(node) {
+      handleArith1Product : function(node) {
 
         var children = node.getChildNodes();
         var interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
 
-        return new org.mathdox.formulaeditor.semantics.Sum(interval, lambda);
+        return new org.mathdox.formulaeditor.semantics.Product(interval, lambda);
 
       }
 
@@ -118,7 +118,7 @@ $main(function(){
 
 
   /**
-   * Extend the ExpressionParser object with parsing code for sums.
+   * Extend the ExpressionParser object with parsing code for products.
    */
   with( org.mathdox.formulaeditor.semantics          ) {
   with( org.mathdox.formulaeditor.parsing.expression ) {
@@ -127,18 +127,18 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression150 = sum expression130 | super.expression150
+        // expression150 = product expression130 | super.expression150
         expression150 : function() {
           var parent = arguments.callee.parent;
           alternation(
             transform(
               concatenation(
-                rule("sum"),
+                rule("product"),
                 rule("expression130")
               ),
               function(result) {
 
-                return new Sum(
+                return new Product(
                   new Interval(result[0][0], result[0][1]),
                   new Lambda(result[0][2], result[1])
                 );
@@ -149,8 +149,8 @@ $main(function(){
           ).apply(this, arguments);
         },
 
-        // sum = never
-        sum : never
+        // product = never
+        product : never
 
     });
 

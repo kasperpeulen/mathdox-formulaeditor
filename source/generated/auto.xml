@@ -261,6 +261,18 @@
       <model:onscreen>rt</model:onscreen>
       <model:type>function</model:type>
     </model:instance>
+    <!-- editor1.input_box -->
+    <model:instance>
+      <model:cd>editor1</model:cd>
+      // U+25A1 white square
+      <model:keyword>□</model:keyword>
+      // U+25A1 white square
+      <model:mathml>&lt;mi&gt;□&lt;/mi&gt;</model:mathml>
+      <model:name>input_box</model:name>
+      // U+25A1 white square
+      <model:onscreen>□</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
     <!-- editor1.palette_whitespace -->
     <model:instance>
       <model:cd>editor1</model:cd>

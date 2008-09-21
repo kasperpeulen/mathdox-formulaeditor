@@ -33,7 +33,6 @@ $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/defint.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/int.js");
 
-$require("org/mathdox/formulaeditor/modules/editor1/input_box.js");
 $require("org/mathdox/formulaeditor/modules/editor1/palette.js");
 
 $require("org/mathdox/formulaeditor/modules/integer1/factorial.js");

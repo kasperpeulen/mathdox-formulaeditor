@@ -21,6 +21,11 @@ $main(function(){
        * A string representation of the symbol for on the screen
        */
       onscreen : null,
+      /**
+       * The type (currently supported: math, which means display as slanted if
+       * possible)
+       */
+      type : null,
 
       /**
        * Initializes a Symbol node in the presentation tree using the specified
@@ -29,10 +34,16 @@ $main(function(){
       initialize : function() {
         
         if (arguments.length > 0) {
-          this.value = arguments[0];
+          if (arguments[0] instanceof Array) {
+            if (arguments[0].length > 1) {
+              this.onscreen = arguments[0][1];
+            }
+          } else {
+            this.value = arguments[0];
+          }
         }
         if (arguments.length > 1) {
-          this.onscreen = arguments[1];
+          this.type = arguments[1];
         }
 
       },
@@ -47,9 +58,9 @@ $main(function(){
         if (this.onscreen != null) {
           symbol = this.onscreen
         }
-        
+       
         this.dimensions = canvas.drawSymbol(
-          symbol, Math.round(x), Math.round(y), invisible
+          symbol, Math.round(x), Math.round(y), invisible, this.type
         );
 
         return this.dimensions;

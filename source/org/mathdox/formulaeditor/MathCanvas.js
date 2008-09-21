@@ -86,7 +86,7 @@ $main(function(){
           symbolData = this.extendObject(symbolData, {
             x: symbolData.x - symbolData.margin,
             width: symbolData.width + 2*symbolData.margin
-	  });
+          });
         }
         var left   = x;
         var top    = y - symbolData.height + symbolData.yadjust;
@@ -319,12 +319,15 @@ $main(function(){
      * The optional parameter 'invisible' determines whether or not the symbol
      * should be drawn to the canvas. By default this parameter is 'false'.
      * Setting this parameter to 'true' can be used to obtain information about
-     * the dimensions of the drawn symbol, without actually drawing on the canvas.
+     * the dimensions of the drawn symbol, without actually drawing on the
+     * canvas.
+     * If the typeface is "math" a slanted/italic symbol will be drawn if
+     * possible.
      */
-    drawSymbol : function(symbol, x, y, invisible) {
+    drawSymbol : function(symbol, x, y, invisible, typeface) {
 
       // retrieve font and symbol data
-      var symbolData = this.getSymbolData(symbol);
+      var symbolData = this.getSymbolData(symbol, typeface);
       var font = symbolData.font;
 
       // calculate the position of the topleft corner, the width and the height
@@ -416,34 +419,43 @@ $main(function(){
     extendObject: function(oldObj, replace) {
       var newObj = new Object();
       for (var name in oldObj) {
-	newObj[name] = oldObj[name];
+        newObj[name] = oldObj[name];
       }
       for (var name in replace) {
-	newObj[name] = replace[name];
+        newObj[name] = replace[name];
       }
 
       return newObj;
     },
 
     getSymbolData : function(symbol) {
+      var typeface = null;
+      if (arguments.length>1) {
+        typeface = arguments[1];
+      }
       // retrieve font and symbol data
       var font = this.fonts[this.fontName];
       var symbolData;
- 
+
       /* some special cases */
       if (symbol==' ') {
         symbolData = this.getSymbolDataByPosition(',');
         if (symbolData) {
           symbolData = this.extendObject(symbolData, {
-	    x:symbolData.x+symbolData.width+1
-	  });
+            x:symbolData.x+symbolData.width+1
+          });
         }
       } else if (symbol == '_' ) { 
         symbolData = this.getSymbolDataByPosition('-');
         if (symbolData) {
           symbolData = this.extendObject(symbolData, { 
-	    yadjust: 0 + symbolData.height 
-	  });
+            yadjust: 0 + symbolData.height 
+          });
+        }
+      } else if (typeface == 'math') {
+        symbolData = this.getSymbolDataByPosition("m"+ symbol);
+        if (! symbolData) {
+          symbolData = this.getSymbolDataByPosition(symbol);
         }
       } else {
         /* generic case */
@@ -453,16 +465,16 @@ $main(function(){
       /* some margins, '-', '+', middle dot */
       if (symbol == '-') {
         symbolData = this.extendObject(symbolData, { 
-	  margin: 2
-	});
+          margin: 2
+        });
       } else if (symbol == '+') { 
         symbolData = this.extendObject(symbolData, { 
-	  margin: 2
-	});
+          margin: 2
+        });
       } else if (symbol == '·') { // U+00B7 middle dot
         symbolData = this.extendObject(symbolData, { 
-	  margin: 2
-	});
+          margin: 2
+        });
       }
 
       if (!symbolData) {
@@ -482,10 +494,10 @@ $main(function(){
           symbolData = this.extendObject(symbolData, {
             x: symbolData.x - symbolData.margin,
             width: symbolData.width + 2*symbolData.margin
-	  });
+          });
         }
         // return symboldata
-	
+        
         return symbolData;
       }
       else {
@@ -1147,7 +1159,7 @@ $main(function(){
       // U+226B much greater-than
       // U+227A precedes
       // U+227B succeeds
-	 '∼',  '≈',  '⊂',  '⊃',  '≪',  '≫',  '≺',  '≻' ],
+         '∼',  '≈',  '⊂',  '⊃',  '≪',  '≫',  '≺',  '≻' ],
       // U+2190 leftwards arrow
       // U+2192 rightwards arrow
       // U+2191 upwards arrow
@@ -1165,7 +1177,7 @@ $main(function(){
       // U+2196 north west arrow
       // U+2199 south west arrow
       // U+221D proportional to
-	 '⇐',  '⇒',  '⇑',  '⇓',  '⇔',  '↖',  '↙',  '∝' ],
+         '⇐',  '⇒',  '⇑',  '⇓',  '⇔',  '↖',  '↙',  '∝' ],
       // U+221E infinity
       // U+2208 element of
       // U+220B contains as member
@@ -1181,7 +1193,7 @@ $main(function(){
       // U+2111 black-letter capital i
       // U+22A4 down tack
       // U+22A5 up tack
-	 '∀',  '∃',  '¬',  '∅',  'ℜ',  'ℑ',  '⊤', '⊥' ],
+         '∀',  '∃',  '¬',  '∅',  'ℜ',  'ℑ',  '⊤', '⊥' ],
       // U+2135 alef symbol
       [  'ℵ', null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null ],
@@ -1191,7 +1203,7 @@ $main(function(){
       // U+2227 logical and
       // U+2228 logical or
       // U+228E multiset union
-	null, null, null,  '∪',  '∩',  '⊎',  '∧',  '∨' ],
+        null, null, null,  '∪',  '∩',  '⊎',  '∧',  '∨' ],
       // U+22A2 right tack
       // U+22A3 left tack
       // U+230A left floor
@@ -1203,7 +1215,7 @@ $main(function(){
       // U+2195 up down arrow
       // U+21D5 up down double arrow
       // U+2240 wreath product
-	 '⟨',  '⟩',  '|',  '∥',  '↕',  '⇕', '\\',  '≀' ],
+         '⟨',  '⟩',  '|',  '∥',  '↕',  '⇕', '\\',  '≀' ],
       // U+221A square root
       // U+2210 n-ary coproduct
       // U+2207 nabla
@@ -1221,7 +1233,7 @@ $main(function(){
       // U+2662 white diamond suit
       // U+2661 white heart suit
       // U+2660 black spade suit
-	 '§',  '†',  '‡',  '¶',  '♣',  '♢',  '♡',  '♠' ]
+         '§',  '†',  '‡',  '¶',  '♣',  '♢',  '♡',  '♠' ]
     ]
   };
 

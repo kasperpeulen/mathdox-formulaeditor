@@ -36,7 +36,7 @@ $main(function(){
           var symbols = [];
 
           for (var i=0; i<string.length; i++) {
-            symbols[i] = new Symbol(string.charAt(i));
+            symbols[i] = new Symbol(string.charAt(i), "math");
           }
 
           var result = new Row();

@@ -155,11 +155,16 @@ $main(function(){
             var Row   = org.mathdox.formulaeditor.presentation.Row;
 
             // insert the character into the row, and move the cursor
-            if (character != " ") {
-              this.insert(editor.cursor.position.index, new Symbol(character));
-            } else {
+            if (character == " ") {
               // spaces do not have a value
-              this.insert(editor.cursor.position.index, new Symbol(""," "));
+              this.insert(editor.cursor.position.index, new Symbol([""," "]));
+            } else if (((character >= 'a') && (character <='z'))||
+                       ((character >= 'A') && (character <='Z'))) {
+              this.insert(editor.cursor.position.index, new Symbol(character, 
+                "math"
+              ));
+            } else {
+              this.insert(editor.cursor.position.index, new Symbol(character));
             }
             editor.cursor.moveRight();
 

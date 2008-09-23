@@ -29,8 +29,8 @@ $main(function(){
         
           return new Row(
             new Defint(
-              new Row(this.operands[0].operands[1].getPresentation(context)),
-              new Row(this.operands[0].operands[0].getPresentation(context))
+              new Row(this.operands[0].operands[0].getPresentation(context)),
+              new Row(this.operands[0].operands[1].getPresentation(context))
             ),
             this.operands[1].operands[1].getPresentation(context),
             new Symbol("d"),

@@ -27,9 +27,9 @@ $main(function(){
           return new Row(
             // U+222B integral
             new Symbol('∫'),
-            this.operands[0].operands[0].getPresentation(context),
+            this.operands[0].operands[1].getPresentation(context),
             new Symbol("d"),
-            this.operands[0].operands[1].getPresentation(context)
+            this.operands[0].operands[0].getPresentation(context)
           );
         
         }        

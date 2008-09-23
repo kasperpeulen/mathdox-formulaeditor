@@ -153,20 +153,24 @@ $main(function(){
 
             var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
             var Row   = org.mathdox.formulaeditor.presentation.Row;
+            var moveright;
 
             // insert the character into the row, and move the cursor
             if (character == " ") {
               // spaces do not have a value
-              this.insert(editor.cursor.position.index, new Symbol([""," "]));
+              moveright = this.insert(editor.cursor.position.index, 
+              	new Symbol([""," "]));
             } else if (((character >= 'a') && (character <='z'))||
                        ((character >= 'A') && (character <='Z'))) {
-              this.insert(editor.cursor.position.index, new Symbol(character, 
-                "math"
-              ));
+              moveright = this.insert(editor.cursor.position.index, 
+              	new Symbol(character, "math"));
             } else {
-              this.insert(editor.cursor.position.index, new Symbol(character));
+              moveright = this.insert(editor.cursor.position.index, 
+              	new Symbol(character));
             }
-            editor.cursor.moveRight();
+            if (moveright) {
+              editor.cursor.moveRight();
+            }
 
             editor.redraw();
             editor.save();
@@ -429,6 +433,7 @@ $main(function(){
         }
         this.updateChildren(newindex);
 
+        //alert("index:"+index+" -> "+newindex+"\nmoveright: "+moveright);
         return moveright;
       },
 

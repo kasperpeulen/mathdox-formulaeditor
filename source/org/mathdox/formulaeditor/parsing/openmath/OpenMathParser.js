@@ -125,7 +125,7 @@ $main(function(){
           }
         }
 
-      } else if ("OMS" == node.getFirstChild().getLocalName()) {
+      } else if ("OMV" == node.getFirstChild().getLocalName()) {
         /* return a FunctionApplication at the end */
         symbol = this.handleOMV(node.getFirstChild());
       } else {

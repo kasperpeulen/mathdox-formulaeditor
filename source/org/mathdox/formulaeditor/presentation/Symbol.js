@@ -22,10 +22,10 @@ $main(function(){
        */
       onscreen : null,
       /**
-       * The type (currently supported: math, which means display as slanted if
-       * possible)
+       * The typeface (currently supported: math, which means display as
+       * slanted if possible)
        */
-      type : null,
+      typeface : null,
 
       /**
        * Initializes a Symbol node in the presentation tree using the specified
@@ -35,6 +35,7 @@ $main(function(){
         
         if (arguments.length > 0) {
           if (arguments[0] instanceof Array) {
+            this.value = arguments[0][0];
             if (arguments[0].length > 1) {
               this.onscreen = arguments[0][1];
             }
@@ -43,9 +44,8 @@ $main(function(){
           }
         }
         if (arguments.length > 1) {
-          this.type = arguments[1];
+          this.typeface = arguments[1];
         }
-
       },
 
       /**
@@ -60,7 +60,7 @@ $main(function(){
         }
        
         this.dimensions = canvas.drawSymbol(
-          symbol, Math.round(x), Math.round(y), invisible, this.type
+          symbol, Math.round(x), Math.round(y), invisible, this.typeface
         );
 
         return this.dimensions;

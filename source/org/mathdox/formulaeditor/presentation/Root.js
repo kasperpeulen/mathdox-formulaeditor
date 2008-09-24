@@ -63,7 +63,7 @@ $main(function(){
         if (drawBase) {
           this.base.draw(canvas, 0, 0, true);
           baseheight = this.base.dimensions.height;
-          vlheight = canvas.drawSymbol("vl", 0, 0, true).height;
+          vlheight = canvas.drawSymbol("vl", 0, 0, true, null).height;
         }
 
         // if the left and right symbols are brackets set the height

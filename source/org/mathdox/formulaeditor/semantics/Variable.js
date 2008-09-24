@@ -32,11 +32,11 @@ $main(function(){
       getPresentation : function(context) {
         with (org.mathdox.formulaeditor.presentation) {
 
-          var string = this.name.toString();
+          var str = this.name.toString();
           var symbols = [];
 
-          for (var i=0; i<string.length; i++) {
-            symbols[i] = new Symbol(string.charAt(i), "math");
+          for (var i=0; i<str.length; i++) {
+            symbols[i] = new Symbol(str.charAt(i), "math");
           }
 
           var result = new Row();

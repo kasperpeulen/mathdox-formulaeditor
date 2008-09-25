@@ -34,7 +34,9 @@ $main(function(){
                 this.operands[0].operands[0].getPresentation(context)
               )
             ),
-            this.operands[1].operands[1].getPresentation(context)
+	    new Symbol("("),
+            this.operands[1].operands[1].getPresentation(context),
+	    new Symbol(")")
           );
         
         }        

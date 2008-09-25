@@ -129,14 +129,14 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression150 = sum expression130 | super.expression150
+        // expression150 = sum expression150 | super.expression150
         expression150 : function() {
           var parent = arguments.callee.parent;
           alternation(
             transform(
               concatenation(
                 rule("sum"),
-                rule("expression130")
+                rule("expression150")
               ),
               function(result) {
 

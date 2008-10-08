@@ -8,6 +8,7 @@ var $contains;
 var $main;
 var $extend;
 var $baseurl;
+var $setOptions;
 
 /**
  * Enter a private variable context, so that variables declared below are not
@@ -299,6 +300,15 @@ var $baseurl;
   $contains = function(url) {
     loadingurls[url] = true;
     loading += 1;
+  }
+
+  $setOptions = function(prefix, optionList) {
+    var options = $package(prefix);
+    var optionName;
+    for (optionName in optionList) {
+      options[optionName] = optionList[optionName];
+    }
+    return options;
   }
 
   /**

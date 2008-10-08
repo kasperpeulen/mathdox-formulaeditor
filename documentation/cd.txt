@@ -17,9 +17,9 @@ palette_tab: an n-ary function describing a tab in a palette. The entries
 palette_whitespace: a symbol indicating that there should be a placeholder in
   the palette, that can not be used to input anything.
 
-
 other palette items:
 - using images or mathml to display the symbols (use a service once)
 - 'custom presentation' (mathml-like)
 - maximum size ?
+- function 
 

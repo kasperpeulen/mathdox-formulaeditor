@@ -15,8 +15,8 @@ $require("org/mathdox/formulaeditor/EventHandler.js");
 
 $require("org/mathdox/formulaeditor/version.js");
 
-//$require("org/mathdox/formulaeditor/modules/arith1/gcd.js");
-//$require("org/mathdox/formulaeditor/modules/arith1/lcm.js");
+$require("org/mathdox/formulaeditor/Options.js");
+
 $require("org/mathdox/formulaeditor/modules/keywords.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
@@ -183,21 +183,6 @@ $main(function(){
             !palettes)
           );
         if (this.showPalette) { 
-          /*
-          var ec = new com.oreilly.javascript.tdg.ElementCreation;
-          var table = ec.maker("table");
-          var tr = ec.maker("tr");
-          var td = ec.maker("td");
-          var span = ec.maker("span");
-
-          palette = ec.make("div", { class: "formulaeditor_palette" }, 
-            table({},[
-              tr({},[ td({}, span({class:"math"}, "\\pi")) ])
-            ])
-          );
-
-          palette.style.border = "solid";
-          */
           //canvas.parentNode.insertBefore(palette, canvas);
           var palcanvas = document.createElement("canvas");
 
@@ -343,6 +328,39 @@ $main(function(){
         return this.cursor.onkeydown(event, this);
       }
 
+    }, 
+    decreaseSizes : function() {
+      var i;
+      for (i =0;i<palettes.length;i++) {
+        if(palettes[i].canvas) {
+          palettes[i].canvas.decreaseSize();
+          palettes[i].redraw();
+        }
+      }
+      for (i =0;i<editors.length;i++) {
+        if(editors[i].canvas) {
+          editors[i].canvas.decreaseSize();
+          editors[i].redraw();
+        }
+      }
+      return true;
+    },
+  
+    increaseSizes : function() {
+      var i;
+      for (i=0;i<editors.length;i++) {
+        if(editors[i].canvas) {
+          editors[i].canvas.increaseSize();
+          editors[i].redraw();
+        }
+      }
+      for (i=0;i<palettes.length;i++) {
+        if(palettes[i].canvas) {
+          palettes[i].canvas.increaseSize();
+          palettes[i].redraw();
+        }
+      }
+      return true;
     },
 
     /**
@@ -354,8 +372,26 @@ $main(function(){
 
       // forward the event to the cursor object when we have the focus
       if (this.hasFocus) {
+        var result = true;
+        if (event.ctrlKey) {
+          switch(event.charCode) {
+            case 43: // '+' larger
+              this.increaseSizes();
+              result = false;
+              break;
+            case 45: // '-' smaller
+              this.decreaseSizes();
+              result = false;
+              break;
+          }
+        }
+  
         this.focus(); // TODO: only necessary for crappy blinker implementation
-        return this.cursor.onkeypress(event, this);
+	if (result) {
+	  result = this.cursor.onkeypress(event, this);
+	}
+
+	return result;
       }
 
     },
@@ -593,13 +629,28 @@ $main(function(){
   org.mathdox.formulaeditor.Palette = $extend(
     org.mathdox.formulaeditor.FormulaEditor, {
 
-    // do nothing with a keypress
+    // do nothing with a keydown
     onkeydown : function(event) {
       return true; 
     },
-    // do nothing with a keypress
+    // check for keypress (currently: zoom)
     onkeypress : function(event) {
-      return true; 
+      var result = true;
+
+      if (event.ctrlKey) {
+        switch(event.charCode) {
+          case 43: // '+' larger
+            this.increaseSizes();
+            result = false;
+            break;
+          case 45: // '-' smaller
+            this.decreaseSizes();
+            result = false;
+            break;
+        }
+      }
+
+      return result; 
     },
     // handle a mouseclick
     onmousedown: function(event) {
@@ -645,7 +696,12 @@ $main(function(){
       // default presentation: empty
       this.presentation = new org.mathdox.formulaeditor.presentation.Row();
 
-      var url=$baseurl+"org/mathdox/formulaeditor/palette.xml";
+      var url;
+      if (org.mathdox.formulaeditor.options.paletteURL) {
+        url = org.mathdox.formulaeditor.options.paletteURL;
+      } else {
+      	url = $baseurl+"org/mathdox/formulaeditor/palette.xml";
+      }
 
       if (!org.mathdox.formulaeditor.Palette.description) {
         org.mathdox.formulaeditor.Palette.description = "loading";
@@ -1043,6 +1099,7 @@ $main(function(){
 
       onkeypress : function(event) {
         var result = true;
+
         for (var i=0; i<editors.length; i++) {
           var intermediate = editors[i].onkeypress(event);
           if (intermediate != null && intermediate == false) {
@@ -1073,7 +1130,6 @@ $main(function(){
           return result;
         }
       }
-
     });
     new Handler();
 

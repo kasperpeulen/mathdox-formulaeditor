@@ -5,6 +5,7 @@ $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 
 $main(function(){
   /** 
@@ -77,10 +78,27 @@ $main(function(){
         expression130 : function() {
           var parent = arguments.callee.parent;
           alternation(
+            rule("invisibletimes"),
             rule("times"),
             parent.expression130
           ).apply(this, arguments);
         },
+
+	// invisibletimes = number variable
+	invisibletimes:
+	  transform(
+	    concatenation(
+	      rule("parseNumber"),
+	      alternation(
+	        rule("variable"),
+		rule("power"),
+		rule("func")
+	      )
+	    ),
+	    function(result) {
+	      return new Times(result[0], result[1]);
+	    }
+	  ),
 
         // times = expression130 "·" expression140
         times :

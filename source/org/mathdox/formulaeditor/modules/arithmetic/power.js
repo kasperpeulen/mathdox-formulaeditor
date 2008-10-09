@@ -102,6 +102,19 @@ $main(function(){
             }
           ),
 
+	// useful for invisible multiplication (should not start with a number)
+        // restrictedpower = restrictedexpression160 superscript
+        restrictedpower :
+          transform(
+            concatenation(
+              rule("restrictedexpression160"),
+              rule("superscript")
+            ),
+            function(result) {
+              return new Power(result[0], result[1]);
+            }
+          ),
+
         // superscript = 0
         superscript : never
 

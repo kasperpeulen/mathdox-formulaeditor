@@ -62,6 +62,16 @@ $main(function(){
             rule("omSymbol")
           ),
 
+        // restrictedexpression160 = braces | variable | func
+	// no number allowed, for silent multiplication
+        restrictedexpression160 :
+          alternation(
+            rule("braces"),
+            rule("func"),
+            rule("variable"),
+            rule("omSymbol")
+          ),
+
         // integer = [0..9]+
         integer :
           transform(

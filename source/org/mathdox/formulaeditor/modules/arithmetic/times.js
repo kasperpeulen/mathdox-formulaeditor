@@ -78,9 +78,17 @@ $main(function(){
         expression130 : function() {
           var parent = arguments.callee.parent;
           alternation(
-            rule("invisibletimes"),
             rule("times"),
             parent.expression130
+          ).apply(this, arguments);
+        },
+
+        // expression150 = times | super.expression150
+        expression150 : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("invisibletimes"),
+            parent.expression150
           ).apply(this, arguments);
         },
 
@@ -90,9 +98,8 @@ $main(function(){
 	    concatenation(
 	      rule("parseNumber"),
 	      alternation(
-	        rule("variable"),
-		rule("power"),
-		rule("func")
+		rule("restrictedexpression160"),
+		rule("restrictedpower")
 	      )
 	    ),
 	    function(result) {

@@ -63,5 +63,6 @@ load("fonts-sprite/cmmi10/font.js");
 load("fonts-sprite/cmr10/font.js");
 load("fonts-sprite/cmsy10/font.js");
 load("fonts-sprite/cmti10/font.js");
+load("fonts-sprite/bbold10/font.js");
 
 print("});");

@@ -40,11 +40,11 @@ $main(function(){
       this.imageCache = new Object();
       if (org.mathdox.formulaeditor.options.fontSize) {
         var i = 0;
-	while (i<this.fontSizes.length - 1 && 
-	  this.fontSizes[i]<org.mathdox.formulaeditor.options.fontSize) {
-	  i++;
-	}
-	this.fontSizeIdx = i;
+        while (i<this.fontSizes.length - 1 && 
+          this.fontSizes[i]<org.mathdox.formulaeditor.options.fontSize) {
+          i++;
+        }
+        this.fontSizeIdx = i;
       }
     },
 
@@ -609,6 +609,36 @@ $main(function(){
   // emptyset vs o with stroke) ?
   // XXX: which symbols to choose for ',`,"
   org.mathdox.formulaeditor.MathCanvas.symbolsInFont = {
+    bbold10: [
+	// U+213E double-struck capital gamma
+	// U+213F double-struck capital pi
+	// U+2140 double-struck n-ary summation
+      [  'ℾ', null, null, null, null,  'ℿ',  '⅀', null,
+	// U+213D double-struck small gamma
+	null, null, null, null, null,  'ℽ', null, null],
+      [ null, null, null, null, null, null, null, null,
+	// U+213C double-struck small pi
+	null,  'ℼ', null, null, null, null, null, null],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null],
+        // U+2102 double-struck capital c
+        // U+210D double-struck capital h
+      [ null, null, null,  'ℂ', null, null, null,  'ℍ',
+        // U+2115 double-struck capital n
+        null, null, null, null, null, null,  'ℕ', null],
+        // U+2119 double-struck capital p
+        // U+211A double-struck capital q
+        // U+211D double-struck capital r
+      [  'ℙ',  'ℚ',  'ℝ', null, null, null, null, null,
+        // U+2124 double-struck capital z
+        null, null,  'ℤ', null, null, null, null, null],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null],
+      [ null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null]
+    ],
     cmr10: [
       // U+0393 Greek capital letter gamma
       // U+0349 Greek capital letter delta

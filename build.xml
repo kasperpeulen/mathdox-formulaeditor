@@ -53,6 +53,9 @@
     <unzip dest='build/temporary/jsmath'>
       <fileset dir='libraries' includes='jsMath-fonts-sprite-*.zip'/>
     </unzip>
+    <unzip dest='build/temporary/jsmath/fonts-sprite/'>
+      <fileset dir='libraries' includes='bbold10-sprite.zip'/>
+    </unzip>
 
     <!-- unzip xmljs -->
     <untar dest='build/temporary/xmljs' compression='gzip'>

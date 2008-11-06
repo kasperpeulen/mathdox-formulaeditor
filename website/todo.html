@@ -78,10 +78,12 @@
       <ul>
         <li>parsing: 1/2*3/4 (not as expected, but correct)</li>
         <li>parsing: 1/2-3/4 (incorrect)</li>
-        <li>parsing: sum/product 2*sum(2*n)</li>
-        <li>custom palette:communicating options</li>
         <li>install formulaeditor separately on dam02</li>
         <li>check/update really short todo list</li>
+        <li>displaying mathml presentation in the page</li>
+	<li>xsl transformation using js or web service to product gap/...
+	output</li>
+        <li>look into integration with tinyMCE</li>
       </ul>
       <h2>short term todo list</h2>
       <ul>
@@ -96,6 +98,7 @@
 	support</li>
 	<li>manual: describe support we offer (what do people have to do before
 	asking us)</li>
+        <li>think about generic function application: (f+g)(x) (problem: (x+1)(x+2) )</li>
         <li>reorganize short term todo list</li>
 	<li>add support for all mathml symbols, add support for generic mathml
 	  described constructs</li>
@@ -116,7 +119,6 @@
         <li>key repetition (key stays pressed, count as multiple inputs?, does not seem to be a problem under windows)</li>
         <li>speed up: code cleanup : move method to cache symbols/drawImage to
         a function</li>
-        <li>scalability: ctrl+, ctrl-</li>
         <li>palette: make palette floating with css</li>
         <li>palette: toggle button</li>
         <li>palette: add documentation about the custom palette</li>
@@ -142,17 +144,19 @@
         <li>some symbols in blue: keywords/parentheses</li>
         <li>reload button</li>
         <li>add != (neq) symbol</li>
-        <li>3x</li>
         <li>idea: backspace inside a fraction or a sqrt: quick delete</li>
         <li>adding units (like keywords):harder because of prefixes and m/s (which is one symbol)</li>
         <li>selection</li>
         <li>tooltips</li>
         <li>partial copy/paste</li>
-        <li>displaying mathml presentation</li>
       </ul>
 
       <h2>items done</h2>
       <ul>
+	<li>added options: size (and scaling with ctrl +/-), palette.xml
+	origin (must be on the same site as the javascript)</li>
+        <li>added sum, product, integral</li>
+        <li>silent multiplication 3x becomes 3*x</li>
         <li>automatically require all automatically generate files</li>
         <li>create about popup with version</li>
         <li>created first version of the conversion page: <a href='openmath.html'>openmath.html</a></li>

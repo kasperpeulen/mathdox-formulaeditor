@@ -352,7 +352,7 @@
     <!-- setname1.C -->
     <model:instance>
       <model:cd>setname1</model:cd>
-      <model:keyword>C</model:keyword>
+      <model:keyword>CC</model:keyword>
       <!-- U+2102 double-struck capital c -->
       <model:mathml>&lt;mi&gt;&#x2102;&lt;/mi&gt;</model:mathml>
       <model:name>C</model:name>
@@ -363,7 +363,7 @@
     <!-- setname1.N -->
     <model:instance>
       <model:cd>setname1</model:cd>
-      <model:keyword>N</model:keyword>
+      <model:keyword>NN</model:keyword>
       <!-- U+2115 double-struck capital n -->
       <model:mathml>&lt;mi&gt;&#x2115;&lt;/mi&gt;</model:mathml>
       <model:name>N</model:name>
@@ -374,7 +374,7 @@
     <!-- setname1.P -->
     <model:instance>
       <model:cd>setname1</model:cd>
-      <model:keyword>P</model:keyword>
+      <model:keyword>PP</model:keyword>
       <!-- U+2119 double-struck capital p -->
       <model:mathml>&lt;mi&gt;&#x2119;&lt;/mi&gt;</model:mathml>
       <model:name>P</model:name>
@@ -385,7 +385,7 @@
     <!-- setname1.Q -->
     <model:instance>
       <model:cd>setname1</model:cd>
-      <model:keyword>Q</model:keyword>
+      <model:keyword>QQ</model:keyword>
       <!-- U+211A double-struck capital q -->
       <model:mathml>&lt;mi&gt;&#x211A;&lt;/mi&gt;</model:mathml>
       <model:name>Q</model:name>
@@ -396,7 +396,7 @@
     <!-- setname1.R -->
     <model:instance>
       <model:cd>setname1</model:cd>
-      <model:keyword>R</model:keyword>
+      <model:keyword>RR</model:keyword>
       <!-- U+211D double-struck capital r -->
       <model:mathml>&lt;mi&gt;&#x211D;&lt;/mi&gt;</model:mathml>
       <model:name>R</model:name>
@@ -407,7 +407,7 @@
     <!-- setname1.Z -->
     <model:instance>
       <model:cd>setname1</model:cd>
-      <model:keyword>Z</model:keyword>
+      <model:keyword>ZZ</model:keyword>
       <!-- U+2124 double-struck capital z -->
       <model:mathml>&lt;mi&gt;&#x2124;&lt;/mi&gt;</model:mathml>
       <model:name>Z</model:name>

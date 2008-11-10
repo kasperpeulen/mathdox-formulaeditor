@@ -58,7 +58,7 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Defint =
     $extend(org.mathdox.formulaeditor.presentation.Column, {
 
-      initialize : function(above, below) {
+      initialize : function(below, above) {
 
         var parent = arguments.callee.parent;
 	// U+222B integral
@@ -75,7 +75,7 @@ $main(function(){
           var below = this.children[2].getSemantics().value;
 
           return {
-            value : [above, below],
+            value : [below, above],
             rule  : "defint"
           }
 

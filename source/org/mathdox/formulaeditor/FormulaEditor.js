@@ -157,13 +157,24 @@ $main(function(){
             }
           }
 
-          // set the style attributes that determine the look of the editor
-          canvas.style.border        = "1px solid #99F";
-          canvas.style.verticalAlign = "middle";
-          canvas.style.cursor        = "text";
-          canvas.style.padding       = "0px";
-
           canvas.className           = "formulaeditorinput";
+
+          // set the style attributes that determine the look of the editor
+	  if (textarea.hasAttributes() && textarea.attributes["style"]) {
+	    // same style as the textarea
+	    canvas.setAttribute("style", textarea.getAttribute("style"));
+	  } else if (org.mathdox.formulaeditor.options.inputStyle) {
+	    // textarea has no style use inputStyle option if available
+	    canvas.setAttribute("style",
+	    	org.mathdox.formulaeditor.options.inputStyle);
+	  } else {
+	    // textarea has no style and no inputStyle option available
+	    // set default style
+            canvas.style.border        = "1px solid #99F";
+            canvas.style.verticalAlign = "middle";
+            canvas.style.cursor        = "text";
+            canvas.style.padding       = "0px";
+	  }
 
           // insert canvas in the document before the textarea 
           textarea.parentNode.insertBefore(canvas, textarea);
@@ -196,11 +207,18 @@ $main(function(){
             }
           }
 
-          // set the style attributes that determine the look of the editor
-          palcanvas.style.border        = "2px solid #99F";
-          palcanvas.style.verticalAlign = "middle";
-          palcanvas.style.cursor        = "text";
-          palcanvas.style.padding       = "0px";
+          // set the style attributes that determine the look of the palette
+	  if (org.mathdox.formulaeditor.options.paletteStyle) {
+	    // use paletteStyle option if available
+	    palcanvas.setAttribute("style",
+	    	org.mathdox.formulaeditor.options.paletteStyle);
+	  } else {
+	    // no paletteStyle option available -> set default style
+            palcanvas.style.border        = "2px solid #99F";
+            palcanvas.style.verticalAlign = "middle";
+            palcanvas.style.cursor        = "text";
+            palcanvas.style.padding       = "0px";
+	  }
 
           // set a classname so the user can extend the style
           palcanvas.className           = "formulaeditorpalette";

@@ -625,7 +625,9 @@ $main(function(){
       var doIndent = function() {
         var i;
 
-        buffer.push("\n");
+        if (buffer.length>0) {
+	  buffer.push("\n");
+	}
         for (i=indent;i>0;i--) {
           buffer.push(indentstr);
         }

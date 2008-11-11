@@ -287,7 +287,12 @@ $main(function(){
       var openmathInfo = this.getOpenMath(true);
 
       // update the textarea
-      textarea.value = openmathInfo.value;
+      if (org.mathdox.formulaeditor.options.indentXML && 
+        org.mathdox.formulaeditor.options.indentXML == true) {
+        textarea.value = this.indentXML(openmathInfo.value);
+      } else {
+        textarea.value = openmathInfo.value;
+      }
 
       return { 
         success: openmathInfo.success,
@@ -604,6 +609,107 @@ $main(function(){
       } else {
         return omstring;
       }
+    },
+    indentXML : function(str) {
+      var buffer=[];
+      var oldpos,pos,l;
+      var indent=0;
+      var indentstr="  ";
+      var doIndent = function() {
+        var i;
+
+        buffer.push("\n");
+        for (i=indent;i>0;i--) {
+          buffer.push(indentstr);
+        }
+      }
+
+
+      l=str.length;
+
+      oldpos=0;
+
+      while ((pos = str.indexOf('<',oldpos))>=0) {
+        if (pos>oldpos) {
+          doIndent();
+          buffer.push(str.substr(oldpos,pos-oldpos));
+          oldpos=pos;
+        }
+
+        pos++;
+        c = str[pos];
+        switch(c) {
+          case '/': // closing tag
+            indent -= 1;
+            if (indent<0) {
+              // shouldn't happen
+              indent=0;
+            }
+            doIndent();
+            pos = str.indexOf('>',pos);
+            if (pos<0) {
+	      //alert("couldn't find closing >");
+              return buffer.join("")+str.substr(oldpos);
+            }
+            pos+=1;
+            break;
+          case '!': // comment or CDATA
+            pos++;
+            c = str[pos];
+            switch(c) {
+              case '[' : // CDATA 
+                pos = str.indexOf(']]>',pos);
+                if (pos<0) {
+	          //alert("couldn't find closing ]]>");
+                  return buffer.join("")+str.substr(oldpos);
+                }
+                pos+=3;
+
+                doIndent();
+
+                break;
+              case '-' : // XML Comment
+                pos = str.indexOf('-->',pos);
+                if (pos<0) {
+	          //alert("couldn't find closing -->");
+                  return buffer.join("")+str.substr(oldpos);
+                }
+                pos+=3;
+
+                doIndent();
+
+                break;
+              default: // failure to parse the string
+	        //alert("couldn't parse");
+                return buffer.join("")+str.substr(oldpos);
+            }
+            break;
+
+          default: // opening tag or directly closed tag
+            pos = str.indexOf('>',pos);
+            if (pos<0) {
+	      //alert("couldn't find >, was expecting one though");
+              return buffer.join("")+str.substr(oldpos);
+            }
+
+            doIndent();
+            
+            // in case of an opening tag, increase indenting
+            if (str[pos-1] !='/') {
+              indent += 1;
+            }
+            pos+=1;
+            break;
+        }
+        buffer.push(str.substr(oldpos,pos-oldpos));
+        oldpos = pos;
+        
+      }
+      if (oldpos<str.length) {
+        buffer.push(str.substr(oldpos));
+      }
+      
+      return buffer.join("");
     }
 
   });

@@ -611,10 +611,17 @@ $main(function(){
       }
     },
     indentXML : function(str) {
-      var buffer=[];
-      var oldpos,pos,l;
-      var indent=0;
-      var indentstr="  ";
+      var buffer=[];     // buffer to prevent slow string concatenation
+      var oldpos;        // old position in string (written up till here)
+      var pos;		 // current position in string
+      var l;		 // length
+      var indent=0;	 // current indenting
+      var indentstr="  ";// indenting done for each step
+      var child;	 // true if a child tag exists inside this one
+      			 // set to true if a tag is closed
+			 // set to false if a tag is opened
+
+      // help function that does the indenting
       var doIndent = function() {
         var i;
 
@@ -624,15 +631,19 @@ $main(function(){
         }
       }
 
+      l=str.length; // store the length in l;
 
-      l=str.length;
-
-      oldpos=0;
+      oldpos=0; // written up to 0
 
       while ((pos = str.indexOf('<',oldpos))>=0) {
         if (pos>oldpos) {
-          doIndent();
-          buffer.push(str.substr(oldpos,pos-oldpos));
+          /* 
+	    indenting is not desired for text inside tags, unless after a child
+	  */
+          if (child==true) {
+	    doIndent();
+	  }
+	  buffer.push(str.substr(oldpos,pos-oldpos));
           oldpos=pos;
         }
 
@@ -645,19 +656,27 @@ $main(function(){
               // shouldn't happen
               indent=0;
             }
-            doIndent();
+	    /*
+	     * don't indent if the tag only contains text (so no other tags, no
+	     * comments and no CDATA)
+	     */
+            if (child==true) {
+	      doIndent();
+	    }
             pos = str.indexOf('>',pos);
             if (pos<0) {
 	      //alert("couldn't find closing >");
               return buffer.join("")+str.substr(oldpos);
             }
             pos+=1;
+	    child = true;
             break;
           case '!': // comment or CDATA
             pos++;
             c = str[pos];
             switch(c) {
               case '[' : // CDATA 
+	        child = true;
                 pos = str.indexOf(']]>',pos);
                 if (pos<0) {
 	          //alert("couldn't find closing ]]>");
@@ -669,6 +688,7 @@ $main(function(){
 
                 break;
               case '-' : // XML Comment
+	        child = true;
                 pos = str.indexOf('-->',pos);
                 if (pos<0) {
 	          //alert("couldn't find closing -->");
@@ -696,8 +716,11 @@ $main(function(){
             
             // in case of an opening tag, increase indenting
             if (str[pos-1] !='/') {
+	      child = false;
               indent += 1;
-            }
+            } else {
+	      child = true;
+	    }
             pos+=1;
             break;
         }

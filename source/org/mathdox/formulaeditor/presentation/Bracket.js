@@ -34,13 +34,13 @@ $main(function(){
       initialize : function() {
 
         if (arguments.length > 0) {
-          this.value = arguments[0]
+          this.value = arguments[0];
         }
         if (arguments.length > 1) {
-          this.minimumHeight = arguments[1]
+          this.minimumHeight = arguments[1];
         }
         if (arguments.length > 2) {
-          this.onscreen = arguments[2]
+          this.onscreen = arguments[2];
         }
 
       },
@@ -51,19 +51,18 @@ $main(function(){
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
       draw : function(canvas, x, y, invisible) {
-        var symbol = this.value
-        if (this.onscreen != null) {
-          symbol = this.onscreen
+        var symbol = this.value;
+        if (this.onscreen !== null) {
+          symbol = this.onscreen;
         }
 
         this.dimensions = canvas.drawBracket(
-          symbol, Math.round(x), Math.round(y), this.minimumHeight, invisible
-        );
+          symbol, Math.round(x), Math.round(y), this.minimumHeight, invisible);
 
         return this.dimensions;
 
       }
 
-    })
+    });
 
 });

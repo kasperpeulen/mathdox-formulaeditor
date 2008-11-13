@@ -107,7 +107,7 @@ $main(function(){
       },
 
       getFollowingCursorPosition : function(index) {
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.children[0].getFollowingCursorPosition();
         }
         else {
@@ -121,7 +121,7 @@ $main(function(){
       },
 
       getPrecedingCursorPosition : function(index) {
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.children[0].getPrecedingCursorPosition();
         }
         else {
@@ -136,7 +136,7 @@ $main(function(){
 
       // TODO: something fishy when moving through 2/3/4
       getLowerCursorPosition : function(index, x) {
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.children[0].getLowerCursorPosition(null, x);
         }
         else {
@@ -154,7 +154,7 @@ $main(function(){
       },
 
       getHigherCursorPosition : function(index, x) {
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.children[1].getHigherCursorPosition(null, x);
         }
         else {

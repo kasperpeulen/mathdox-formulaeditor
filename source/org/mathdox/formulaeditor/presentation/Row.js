@@ -18,20 +18,21 @@ $main(function(){
 
         var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
         var BlockSymbol = org.mathdox.formulaeditor.presentation.BlockSymbol;
+        var i; // counter
 
         if (arguments.length == 1 && typeof(arguments[0]) == "string") {
           var string = arguments[0];
-          var array = new Array();
-          for (var i=0; i<string.length; i++) {
+          var array = [];
+          for (i=0; i<string.length; i++) {
             array.push(new Symbol(string.charAt(i)));
           }
           return arguments.callee.parent.initialize.apply(this, array);
         }
         else {
           var children = Array.prototype.slice.call(arguments);
-          for (var i=0; i<children.length; i++) {
+          for (i=0; i<children.length; i++) {
             // an "empty" box is a symbol with the empty string
-            if (children[i]==null) {
+            if ((children[i] === null) || (children[i] === undefined)) {
               children[i] = new BlockSymbol();
             }
           }
@@ -50,24 +51,24 @@ $main(function(){
         if (this.children.length > 0) {
 
           // use following variables to maintain track of the bounding rectangle
-          var left   = x
-          var top    = y
-          var right  = x
-          var bottom = y
+          var left   = x;
+          var top    = y;
+          var right  = x;
+          var bottom = y;
 
           // go through all child nodes in the row
           for (var i=0; i<this.children.length; i++) {
 
-            var child = this.children[i]
+            var child = this.children[i];
 
             // draw the current child node
-            var dimensions = child.draw(canvas, right, y, invisible)
+            var dimensions = child.draw(canvas, right, y, invisible);
 
             // update the dimensions of the bounding rectangle
-            left   = Math.min(left, dimensions.left)
-            top    = Math.min(top, dimensions.top)
-            right  = Math.max(right, dimensions.left + dimensions.width)
-            bottom = Math.max(bottom, dimensions.top + dimensions.height)
+            left   = Math.min(left, dimensions.left);
+            top    = Math.min(top, dimensions.top);
+            right  = Math.max(right, dimensions.left + dimensions.width);
+            bottom = Math.max(bottom, dimensions.top + dimensions.height);
 
           }
 
@@ -159,14 +160,14 @@ $main(function(){
             if (character == " ") {
               // spaces do not have a value
               moveright = this.insert(editor.cursor.position.index, 
-              	new Symbol([""," "]));
+                new Symbol([""," "]));
             } else if (((character >= 'a') && (character <='z'))||
                        ((character >= 'A') && (character <='Z'))) {
               moveright = this.insert(editor.cursor.position.index, 
-              	new Symbol(character, "math"));
+                new Symbol(character, "math"));
             } else {
               moveright = this.insert(editor.cursor.position.index, 
-              	new Symbol(character));
+                new Symbol(character));
             }
             if (moveright) {
               editor.cursor.moveRight();
@@ -227,11 +228,11 @@ $main(function(){
       },
 
       getFirstCursorPosition : function(index) {
-        if (index == null || index > 0) {
+        if (index === null || index === undefined || index > 0) {
           return this.getFollowingCursorPosition();
         }
         else {
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return this.parent.getFirstCursorPosition();
           }
           else {
@@ -241,10 +242,11 @@ $main(function(){
       },
 
       getLastCursorPosition : function(index) {
-        if (index == null | index < this.children.length) {
+        if (index === null || index === undefined || 
+            index < this.children.length) {
           return this.getPrecedingCursorPosition();
         }
-        if (this.parent != null) {
+        if (this.parent !== null) {
           return this.parent.getLastCursorPosition();
         }
         else {
@@ -259,12 +261,12 @@ $main(function(){
       getFollowingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend == null) {
+        if (descend === null || descend === undefined) {
           descend = true;
         }
 
         // when index is not specified, return the first position in this row
-        if (index == null) {
+        if (index === null || index === undefined) {
           return { row : this, index : 0 };
         }
 
@@ -274,7 +276,7 @@ $main(function(){
           if (descend) {
             result = this.children[index].getFollowingCursorPosition();
           }
-          if (result == null) {
+          if (result === null) {
             // when the child can not provide a cursor position, shift the
             // cursor one position in this row
             result = { row : this, index : index + 1 };
@@ -284,7 +286,7 @@ $main(function(){
 
         // when we're at the end of the row, ask the parent of the row for the
         // position following this row
-        if (this.parent != null) {
+        if (this.parent !== null) {
           return this.parent.getFollowingCursorPosition(this.index, false);
         }
 
@@ -296,12 +298,12 @@ $main(function(){
       getPrecedingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend == null) {
+        if (descend === null || descend === undefined) {
           descend = true;
         }
 
         // when index is not specified, return the last position in this row
-        if (index == null) {
+        if (index === null || index === undefined) {
           return { row : this, index : this.children.length };
         }
 
@@ -311,7 +313,7 @@ $main(function(){
           if (descend) {
             result = this.children[index-1].getPrecedingCursorPosition();
           }
-          if (result == null) {
+          if (result === null) {
             // when the child can not provide a cursor position, shift the
             // cursor one position in this row
             result = { row : this, index : index - 1 };
@@ -321,7 +323,7 @@ $main(function(){
 
         // when we're at the beginning of the row, ask the parent of the row for
         // the position preceding this row
-        if (this.parent != null) {
+        if (this.parent !== null) {
           return this.parent.getPrecedingCursorPosition(this.index, false);
         }
 
@@ -331,7 +333,7 @@ $main(function(){
       },
 
       getLowerCursorPosition : function(index, x) {
-        if (index == null) {
+        if (index === null || index === undefined) {
           var minimumDistance = null;
           var bestIndex = 0;
           for (var i=0; i<=this.children.length; i++) {
@@ -349,12 +351,13 @@ $main(function(){
               }
             }
             var distance = Math.abs(left-x);
-            if (minimumDistance == null || distance < minimumDistance) {
+            if (minimumDistance === null || distance < minimumDistance) {
               minimumDistance = distance;
               bestIndex = i;
             }
           }
-          if (this.children[bestIndex] != null) {
+          if (this.children[bestIndex] !== null && 
+	    this.children[bestIndex] !== undefined) {
             return this.children[bestIndex].getLowerCursorPosition(null, x);
           }
           else {
@@ -367,7 +370,7 @@ $main(function(){
       },
 
       getHigherCursorPosition : function(index, x) {
-        if (index == null) {
+        if (index === null || index === undefined) {
           var minimumDistance = null;
           var bestIndex = 0;
           for (var i=0; i<=this.children.length; i++) {
@@ -385,12 +388,13 @@ $main(function(){
               }
             }
             var distance = Math.abs(left-x);
-            if (minimumDistance == null || distance < minimumDistance) {
+            if (minimumDistance === null || distance < minimumDistance) {
               minimumDistance = distance;
               bestIndex = i;
             }
           }
-          if (this.children[bestIndex] != null) {
+          if (this.children[bestIndex] !== null && 
+	    this.children[bestIndex] !== undefined) {
             return this.children[bestIndex].getHigherCursorPosition(null, x);
           }
           else {
@@ -403,7 +407,7 @@ $main(function(){
       },
 
       isEmpty : function() {
-        return (this.children.length == 0);
+        return (this.children.length === 0);
       },
 
       insert : function(index, node, fillempty) {
@@ -411,20 +415,18 @@ $main(function(){
         var newindex = index;
         var moveright = true;
 
-        if (fillempty == null) {
+        if ((fillempty === null) || (fillempty === undefined)) {
           fillempty = true;
         }
-        if (node==null) {
+        if ((node === null) || (node === undefined)) {
           node = new BlockSymbol();
         }
 
         if (fillempty && index<=this.children.length && 
-          this.children[index] instanceof BlockSymbol
-        ) {
+          this.children[index] instanceof BlockSymbol) {
           this.children.splice(index, 1, node);
         } else if (fillempty && index-1>=0 && 
-            this.children[index-1] instanceof BlockSymbol
-        ) {
+            this.children[index-1] instanceof BlockSymbol) {
           this.children.splice(index-1, 1, node);
           newindex = index - 1;
           moveright = false; // do not move right after inserting now
@@ -443,14 +445,15 @@ $main(function(){
       },
 
       remove : function(begin, end) {
-        if (end == null) {
-          var result = this.children[begin];
+        var result;
+        if (end === null || end === undefined) {
+          result = this.children[begin];
           this.children.splice(begin, 1);
           this.updateChildren(begin);
           return result;
         }
         else {
-          var result = new org.mathdox.formulaeditor.presentation.Row();
+          result = new org.mathdox.formulaeditor.presentation.Row();
           result.initialize.apply(result, this.children.splice(begin, end-begin));
           this.updateChildren(begin);
           return result;
@@ -460,10 +463,18 @@ $main(function(){
       getSemantics : function(begin, end, start, backward) {
 
         // assign default values to parameters
-        if (begin    == null) { begin    = 0;                    }
-        if (end      == null) { end      = this.children.length; }
-        if (start    == null) { start    = "start";              }
-        if (backward == null) { backward = false;                }
+        if (begin    === null || begin    === undefined ) { 
+          begin    = 0;
+        }
+        if (end      === null || end      === undefined ) { 
+          end      = this.children.length; 
+        }
+        if (start    === null || start    === undefined) { 
+          start    = "start";
+        }
+        if (backward === null || backward === undefined) { 
+          backward = false;
+        }
 
         // use the expressionparser to parse the elements of the row
         var Parser;
@@ -516,7 +527,7 @@ $main(function(){
                     parent[semantics.rule](context, index, result, continuation);
                   }
 
-                }
+                };
 
               Parser = $extend(Parser, extension);
 
@@ -541,6 +552,6 @@ $main(function(){
 
       }
 
-    })
+    });
 
 });

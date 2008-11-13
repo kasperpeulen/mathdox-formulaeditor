@@ -24,11 +24,10 @@ $main(function(){
 
     draw : function(canvas, x, y, invisible) {
       this.dimensions = canvas.drawFBox(
-        Math.round(x), Math.round(y), invisible, this.onscreen
-      );
+        Math.round(x), Math.round(y), invisible, this.onscreen);
 
       return this.dimensions;
     }
-  })
+  });
 
 });

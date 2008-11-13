@@ -33,7 +33,7 @@ $main(function(){
 
         // the amount of space between the column elements
         var margin = this.margin;
-        var rowInfo = new Array();
+        var rowInfo = [];
 
         // determine the dimensions of the children, and the maximum width
         var maxWidth = 0;
@@ -47,7 +47,7 @@ $main(function(){
 
           maxWidth = Math.max(maxWidth, dimensions.width);
           height = dimensions.height;
-          if (i == 0) {
+          if (i === 0) {
             baseline = 0;
             top = baseline + dimensions.top;
             totalHeight += height;
@@ -69,7 +69,8 @@ $main(function(){
         
         var usedBaseline = rowInfo[Math.floor(this.children.length/2)].baseline;
 
-        for (var row = 0; row < this.children.length; row++) {
+	var row; // counter
+        for (row = 0; row < this.children.length; row++) {
           rowInfo[row].top -= usedBaseline;
           rowInfo[row].baseline -= usedBaseline;
         }
@@ -77,11 +78,10 @@ $main(function(){
         // center of the column
         var center = x + maxWidth/2;
 
-        for (var row = 0; row < this.children.length; row++) {
+        for (row = 0; row < this.children.length; row++) {
           var childLeft = center - this.children[row].dimensions.width/2;
           this.children[row].draw(canvas, childLeft, y + rowInfo[row].baseline, 
-            invisible
-          );
+            invisible);
         }
 
         this.dimensions = {
@@ -117,10 +117,10 @@ $main(function(){
       getFollowingCursorPosition : function(index) {
         var result = null;
 
-        if (index == null) {
+        if (index === null|| index === undefined) {
           var middle = Math.floor(this.children.length / 2);
           var i      = middle;
-          while(result==null && 0<=i && i<this.children.length) {
+          while(result === null && 0<=i && i<this.children.length) {
             result = this.children[i].getFollowingCursorPosition();
             if (i>=middle) {
               i = 2*middle - i - 1;
@@ -131,7 +131,7 @@ $main(function(){
           }
         }
 
-        if ((result == null) && (this.parent != null)) {
+        if ((result === null) && (this.parent !== null)) {
           result =  this.parent.getFollowingCursorPosition(this.index, false);
         }
 
@@ -141,11 +141,11 @@ $main(function(){
 
       getPrecedingCursorPosition : function(index) {
 
-        if (index == null) {
+        if (index === null || index === undefined) {
           var result = null;
           var middle = Math.floor(this.children.length / 2);
           var i      = middle;
-          while(result==null && 0<=i && i<this.children.length) {
+          while(result === null && 0<=i && i<this.children.length) {
             result = this.children[i].getPrecedingCursorPosition();
             if (i>=middle) {
               i = 2*middle - i - 1;
@@ -157,7 +157,7 @@ $main(function(){
           return result;
         }
 
-        if (this.parent != null) {
+        if (this.parent !== null) {
           return this.parent.getPrecedingCursorPosition(this.index+1, false);
         }
 
@@ -167,7 +167,7 @@ $main(function(){
 
       getLowerCursorPosition : function(index, x) {
         var last = this.children.length - 1;
-        if (index == null) {
+        if (index === null || index === undefined) {
           return this.children[0].getLowerCursorPosition(null, x);
         }
         else {
@@ -182,7 +182,7 @@ $main(function(){
 
       getHigherCursorPosition : function(index, x) {
         var last = this.children.length - 1;
-        if (index == null) {
+        if (index === null || index === undefined) {
           return this.children[last].getHigherCursorPosition(null, x);
         }
         else {
@@ -198,11 +198,11 @@ $main(function(){
         if (arguments.length >0) {
           this.children = Array.prototype.slice.call(arguments);
         } else {
-          this.children = new Array();
+          this.children = [];
         }
         this.updateChildren();
       }
 
-    })
+    });
 
 });

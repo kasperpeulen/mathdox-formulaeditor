@@ -188,7 +188,8 @@ $main(function(){
       var presentation = org.mathdox.formulaeditor.presentation;
 
       if (this.parent !== null) {
-        if (index === null && this.parent instanceof presentation.Row) {
+        if ((index === null || index === undefined) && 
+	    this.parent instanceof presentation.Row) {
           return { row: this.parent, index: this.index };
         }
         else {
@@ -206,7 +207,8 @@ $main(function(){
       var presentation = org.mathdox.formulaeditor.presentation;
 
       if (this.parent !== null) {
-        if (index === null && this.parent instanceof presentation.Row) {
+        if ((index === null || index === undefined) && 
+	    this.parent instanceof presentation.Row) {
           return { row: this.parent, index: this.index };
         } else {
           return this.parent.getHigherCursorPosition(this.index, x);

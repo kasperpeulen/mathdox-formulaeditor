@@ -54,19 +54,18 @@ $main(function(){
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
       draw : function(canvas, x, y, invisible) {
-        var symbol = this.value
-        if (this.onscreen != null) {
-          symbol = this.onscreen
+        var symbol = this.value;
+        if (this.onscreen !== null) {
+          symbol = this.onscreen;
         }
        
         this.dimensions = canvas.drawSymbol(
-          symbol, Math.round(x), Math.round(y), invisible, this.typeface
-        );
+          symbol, Math.round(x), Math.round(y), invisible, this.typeface);
 
         return this.dimensions;
 
       }
 
-    })
+    });
 
 });

@@ -58,7 +58,7 @@ $main(function(){
       },
 
       getFollowingCursorPosition : function(index) {
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.children[0].getFollowingCursorPosition();
         }
         else {
@@ -72,7 +72,7 @@ $main(function(){
       },
 
       getPrecedingCursorPosition : function(index) {
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.children[0].getPrecedingCursorPosition();
         }
         else {

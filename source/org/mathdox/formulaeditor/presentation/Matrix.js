@@ -19,18 +19,17 @@ $main(function(){
       pArray : null,
 
       initialize : function () {
-        with (org.mathdox.formulaeditor.presentation) {
-          var leftBracket = new Bracket('(');
-          var rightBracket = new Bracket(')');
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var leftBracket = new presentation.Bracket('(');
+        var rightBracket = new presentation.Bracket(')');
 
-          this.pArray = new PArray();
+        this.pArray = new presentation.PArray();
           
-          this.pArray.initialize.apply(this.pArray,arguments);
-          this.pArray.margin = 10.0;
+        this.pArray.initialize.apply(this.pArray,arguments);
+        this.pArray.margin = 10.0;
 
-          arguments.callee.parent.initialize.call(this, leftBracket,
-            this.pArray, rightBracket);
-        }
+        arguments.callee.parent.initialize.call(this, leftBracket,
+          this.pArray, rightBracket);
       },
 
       getSemantics : function() {
@@ -38,28 +37,28 @@ $main(function(){
         var semanticRows;
         var matrix;
 
-        with (org.mathdox.formulaeditor.semantics) {
-          semanticRows = new Array();
-          for (var i=0;i<rows.length;i++) {
-            var semanticRowEntries;
-  
-            semanticRowEntries= new Array();
-            for (var j=0; j<rows[i].length;j++) {
-              semanticRowEntries.push(rows[i][j].getSemantics().value);
-            }
-            var semanticRow = new Linalg2Matrixrow();
-            semanticRow.initialize.apply(semanticRow, semanticRowEntries);
-            semanticRows.push(semanticRow);
+        var semantics = org.mathdox.formulaeditor.semantics;
+        semanticRows = [];
+        for (var i=0;i<rows.length;i++) {
+          var semanticRowEntries;
+
+          semanticRowEntries = [];
+          for (var j=0; j<rows[i].length;j++) {
+            semanticRowEntries.push(rows[i][j].getSemantics().value);
           }
-          matrix = new Linalg2Matrix();
-          matrix.initialize.apply(matrix, semanticRows);
+          var semanticRow = new semantics.Linalg2Matrixrow();
+          semanticRow.initialize.apply(semanticRow, semanticRowEntries);
+          semanticRows.push(semanticRow);
         }
+        matrix = new semantics.Linalg2Matrix();
+        matrix.initialize.apply(matrix, semanticRows);
+
         return {
           value : matrix,
           rule  : "braces"
-        }
+        };
       }
 
-    })
+    });
 
 });

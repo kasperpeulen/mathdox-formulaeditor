@@ -18,37 +18,36 @@ $main(function(){
       entries : null,
 
       initialize : function () {
-        with (org.mathdox.formulaeditor.presentation) {
-          var leftBracket = new Bracket('(');
-          var rightBracket = new Bracket(')');
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var leftBracket = new presentation.Bracket('(');
+        var rightBracket = new presentation.Bracket(')');
 
-          this.middle = new Column();
-          this.middle.initialize.apply(this.middle,arguments);
-          this.middle.margin = 10.0;
+        this.middle = new presentation.Column();
+        this.middle.initialize.apply(this.middle,arguments);
+        this.middle.margin = 10.0;
 
-          arguments.callee.parent.initialize.call(this, leftBracket, 
-            this.middle, rightBracket);
-        }
+        arguments.callee.parent.initialize.call(this, leftBracket, 
+          this.middle, rightBracket);
       },
 
       getSemantics : function() {
         var semanticEntries;
         var vector;
 
-        with (org.mathdox.formulaeditor.semantics) {
-          semanticEntries = new Array();
-          for (var i=0;i<this.middle.children.length;i++) {
-            semanticEntries.push(this.middle.children[i].getSemantics().value);
-          }
-          vector = new Linalg2Vector();
-          vector.initialize.apply(vector, semanticEntries);
+        var semantics = org.mathdox.formulaeditor.semantics;
+        semanticEntries = [];
+        for (var i=0;i<this.middle.children.length;i++) {
+          semanticEntries.push(this.middle.children[i].getSemantics().value);
         }
+        vector = new semantics.Linalg2Vector();
+        vector.initialize.apply(vector, semanticEntries);
+
         return {
           value : vector,
           rule  : "braces"
-        }
+        };
       }
 
-    })
+    });
 
 });

@@ -48,8 +48,7 @@ $main(function(){
         height = Math.max(
             this.leftBracket.dimensions.height,
             this.middle.dimensions.height,
-            this.rightBracket.dimensions.height
-          );
+            this.rightBracket.dimensions.height);
 
         var yAdjust = 0;
         var yAdjustBrackets = 0;
@@ -73,7 +72,7 @@ $main(function(){
             this.rightBracket.dimensions.width,
           left : x,
           top : y + this.middle.dimensions.top - yAdjust
-        }
+        };
         
         this.leftBracket.minimumHeight = this.middle.dimensions.height;
         this.leftBracket.draw(canvas, 
@@ -111,8 +110,8 @@ $main(function(){
 
         dimensions = this.leftBracket.dimensions;
         if (x < dimensions.left + dimensions.width) {
-          if (this.parent != null) {
-            return result = { row: this.parent, index: this.index };
+          if (this.parent !== null) {
+            return { row: this.parent, index: this.index };
           } else {
             return null;
           }
@@ -122,8 +121,8 @@ $main(function(){
         if (x < dimensions.left + dimensions.width) {
           return this.middle.getCursorPosition(x,y);
         }
-        if (this.parent != null) {
-          return result = { row: this.parent, index: this.index+1 };
+        if (this.parent !== null) {
+          return { row: this.parent, index: this.index+1 };
         } else {
           return this.getPrecedingCursorPosition();
         }
@@ -131,27 +130,27 @@ $main(function(){
       getFollowingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend == null) {
+        if (descend === null) {
           descend = true;
         }
 
         // when index is not specified, return the first position in the array
-        if (index == null) {
+        if (index === null) {
           return this.middle.getFollowingCursorPosition();
         }
         
         var result = null;
 
-        if (index == 0) {
+        if (index === 0) {
           if (descend) {
             result = this.middle.getFollowingCursorPosition();
           }
         }
 
-        if (result == null) {
+        if (result === null) {
           // when we're at the end of the matrix, ask the parent of the matrix
           // for the position following this matrix
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return this.parent.getFollowingCursorPosition(this.index, false);
           }
         }
@@ -161,12 +160,12 @@ $main(function(){
       getPrecedingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend == null) {
+        if (descend === null) {
           descend = true;
         }
 
         // when index is not specified, return the first position in the array
-        if (index == null) {
+        if (index === null) {
           return this.middle.getPrecedingCursorPosition();
         }
         
@@ -178,10 +177,10 @@ $main(function(){
           }
         }
 
-        if (result == null) {
+        if (result === null) {
           // when we're at the beginning of the matrix, ask the parent of the
           // matrix for the position before this matrix
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return this.parent.getPrecedingCursorPosition(this.index+1, false);
           }
         }
@@ -193,27 +192,26 @@ $main(function(){
           this.leftBracket = arguments[0];
           this.middle = arguments[1];
           this.rightBracket = arguments[2];
-          this.children = new Array();
+          this.children = [];
           this.children.push(this.middle);
         } else {
-          this.children = new Array();
+          this.children = [];
         }
 
-        with (org.mathdox.formulaeditor.presentation) {
-          /* copy the cursor/position functions from Row */
+        var presentation = org.mathdox.formulaeditor.presentation;
+        /* copy the cursor/position functions from Row */
 
-          var row = new Row(); // only an instance has the functions
+        var row = new presentation.Row(); // only an instance has the functions
 
-          for (var i=this.functionsFromRow.length - 1; i>=0; i--) {
-            if (! this[this.functionsFromRow[i]] ) {
-              this[this.functionsFromRow[i]] = 
-                row[ this.functionsFromRow[i] ];
-            }
+        for (var i=this.functionsFromRow.length - 1; i>=0; i--) {
+          if (! this[this.functionsFromRow[i]] ) {
+            this[this.functionsFromRow[i]] = 
+              row[ this.functionsFromRow[i] ];
           }
-          this.updateChildren();
         }
+        this.updateChildren();
       }
 
-    })
+    });
 
 });

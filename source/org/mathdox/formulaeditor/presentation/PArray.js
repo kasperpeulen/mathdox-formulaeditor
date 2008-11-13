@@ -63,11 +63,11 @@ $main(function(){
      * usage getMaxWidth(column) : max width of a column
      */
     getMaxWidth : function(col) {
-      var maxWidth = 0
+      var maxWidth = 0;
       for (var row=0; row<this.rows; row++) {
-        maxWidth = Math.max(maxWidth, this.entries[row][col].dimensions.width)
+        maxWidth = Math.max(maxWidth, this.entries[row][col].dimensions.width);
       }
-      return maxWidth
+      return maxWidth;
     },
 
     /**
@@ -82,8 +82,10 @@ $main(function(){
       
       // fake drawing of children to set sizes
       
-      for (var row = 0; row < this.rows; row++) {
-        for (var col = 0; col < this.columns; col++) {
+      var row; // row counter
+      var col; // column counter
+      for (row = 0; row < this.rows; row++) {
+        for (col = 0; col < this.columns; col++) {
             if (this.entries[row][col] && this.entries[row][col].draw) {
               this.entries[row][col].draw(canvas, 0, 0, true);
             } else {
@@ -92,22 +94,22 @@ $main(function(){
         }
       }
  
-      for (var row = 0; row < this.rows; row++) {
+      for (row = 0; row < this.rows; row++) {
         var heightInfo = this.getMaxHeight(row);
         var rowHeight = heightInfo.height;
         var rowTop;
         var rowCenter;
         var rowBaseline;
-        if (row == 0 ) {
+        if (row === 0 ) {
           rowBaseline = 0;
           rowTop = rowBaseline + heightInfo.top;
           totalHeight += rowHeight;
         } else {
-          rowTop = this.rowInfo[row-1].top + this.rowInfo[row-1].height
-            + this.margin;
+          rowTop = this.rowInfo[row-1].top + this.rowInfo[row-1].height + 
+	    this.margin;
           rowBaseline = rowTop - heightInfo.top;
           totalHeight += rowHeight + this.margin;
-        };
+        }
         this.rowInfo[row] = {
           height : rowHeight,
           top : rowTop,
@@ -119,7 +121,7 @@ $main(function(){
       var usedBaseline = this.rowInfo[Math.floor((this.rows)/2)].baseline;
 
       // adjust rows for total height
-      for (var row = 0; row < this.rows; row++) {
+      for (row = 0; row < this.rows; row++) {
         this.rowInfo[row].top -= usedBaseline;
         this.rowInfo[row].baseline -= usedBaseline;
       }
@@ -129,15 +131,15 @@ $main(function(){
       // total width
       var totalWidth = 0;
 
-      for (var col = 0; col < this.columns; col++) {
+      for (col = 0; col < this.columns; col++) {
         var colWidth = this.getMaxWidth(col);
-        if (col ==0 ) {
+        if (col === 0 ) {
           colCenter = colWidth/2;
           totalWidth += colWidth;
         } else {
           colCenter = this.colInfo[col-1].center +this.colInfo[col-1].width/2+ this.margin + colWidth/2;
           totalWidth += colWidth + this.margin;
-        };
+        }
         this.colInfo[col] = {
           width  : colWidth,
           center : colCenter
@@ -145,14 +147,14 @@ $main(function(){
       }
 
       // adjust columns for total width
-      for (var col = 0; col < this.columns; col++) {
+      for (col = 0; col < this.columns; col++) {
         //this.colInfo[col].center += width/2
       }
 
       // draw all entries
       if (! invisible) {
-        for (var row=0; row<this.rows; row++) {
-          for (var col=0; col<this.columns; col++) {
+        for (row=0; row<this.rows; row++) {
+          for (col=0; col<this.columns; col++) {
             var entry       = this.entries[row][col];
             var entryWidth  = entry.dimensions.width;
             var entryHeight = entry.dimensions.height;
@@ -162,8 +164,7 @@ $main(function(){
               x + this.colInfo[col].center - (entryWidth/2), 
                     // horizontally centered in column
               y + this.rowInfo[row].baseline,
-              invisible
-            );
+              invisible);
             if ((!invisible) && this.drawBox) {
               canvas.drawBox(entry.dimensions, y + 
                 this.rowInfo[row].baseline);
@@ -176,7 +177,7 @@ $main(function(){
         left   : x,
         width  : totalWidth,
         height : totalHeight
-      }
+      };
       if ((!invisible) && this.drawBox) {
         canvas.drawBox(this.dimensions, y);
       }
@@ -238,10 +239,10 @@ $main(function(){
       var result = null;
       var row, col;
 
-      if (index == null) {
+      if (index === null) {
         middle = Math.floor(this.rows / 2);
         row    = middle;
-        while(result==null && 0<=row && row < this.rows) {
+        while(result === null && 0<=row && row < this.rows) {
           result = this.entries[row][0].getFollowingCursorPosition();
           if (row>=middle) {
             row = 2*middle - row - 1;
@@ -259,7 +260,7 @@ $main(function(){
         result = this.entries[row][col+1].getFirstCursorPosition();
       }
 
-      if ((result == null) && (this.parent != null)) {
+      if ((result === null) && (this.parent !== null)) {
         result = this.parent.getFollowingCursorPosition(this.index, false);
       }
       return result;
@@ -268,12 +269,13 @@ $main(function(){
 
     getPrecedingCursorPosition : function(index) {
       var result=null;
+      var row = null;
+      var col = null;
 
-      if (index == null) {
-        var row = null;
+      if (index === null) {
         var middle = Math.floor(this.rows / 2);
-        var row    = middle;
-        while(result==null && 0<=row && row < this.rows) {
+        row    = middle;
+        while(result === null && 0<=row && row < this.rows) {
           col = this.entries[row].length - 1;
           result = this.entries[row][col].getPrecedingCursorPosition();
           if (row>=middle) {
@@ -287,71 +289,71 @@ $main(function(){
       }
 
       if (index>0) {
-        var row = Math.floor(index / this.columns);
-        var col = index % this.columns;
+        row = Math.floor(index / this.columns);
+        col = index % this.columns;
         if (col>0) {
           result = this.entries[row][col-1].getLastCursorPosition();
         } 
       }
 
-      if ((result == null) && (this.parent != null)) {
-        result = this.parent.getPrecedingCursorPosition(this.index, false)
+      if ((result === null) && (this.parent !== null)) {
+        result = this.parent.getPrecedingCursorPosition(this.index, false);
       }
-      return result
+      return result;
     },
 
     getLowerCursorPosition : function(index, x) {
       
-      if (index == null) {
-        return this.entries[0][0].getLowerCursorPosition(null, x)
+      if (index === null) {
+        return this.entries[0][0].getLowerCursorPosition(null, x);
       }
 
       if (index<this.children.length) {
-        var row = Math.floor(index / this.columns)
-        var col = index % this.columns
-        var result 
+        var row = Math.floor(index / this.columns);
+        var col = index % this.columns;
+        var result;
         if (row+1<this.rows) {
           result = this.entries[row+1][col].getLowerCursorPosition(null, x);
         } 
-        if ((result == null) && (this.parent != null)) {
-          result = this.parent.getLowerCursorPosition(this.index, x)
+        if ((result === null) && (this.parent !== null)) {
+          result = this.parent.getLowerCursorPosition(this.index, x);
         }
-        return result
+        return result;
       }
 
-      return null
+      return null;
     },
 
     getHigherCursorPosition : function(index, x) {
       
-      if (index == null) {
-        return this.entries[0][0].getLowerCursorPosition(null, x)
+      if (index === null) {
+        return this.entries[0][0].getLowerCursorPosition(null, x);
       }
 
       if (index<this.children.length) {
-        var row = Math.floor(index / this.columns)
-        var col = index % this.columns
-        var result 
+        var row = Math.floor(index / this.columns);
+        var col = index % this.columns;
+        var result;
         if (row>0) {
           result = this.entries[row-1][col].getLowerCursorPosition(null, x);
         } 
-        if ((result == null) && (this.parent != null)) {
-          result = this.parent.getHigherCursorPosition(this.index, x)
+        if ((result === null) && (this.parent !== null)) {
+          result = this.parent.getHigherCursorPosition(this.index, x);
         }
-        return result
+        return result;
       }
 
-      return null
+      return null;
     },
     initialize : function() {
-      this.rowInfo = new Array();
-      this.colInfo = new Array();
+      this.rowInfo = [];
+      this.colInfo = [];
       if (arguments.length >0) {
         this.entries = Array.prototype.slice.call(arguments);
         this.rows = this.entries.length;
         this.columns = this.entries[0].length;
       }
-      this.children = new Array();
+      this.children = [];
 
       for (var row = 0; row < this.rows; row++) {
         for (var col = 0; col < this.columns; col++) {
@@ -360,5 +362,5 @@ $main(function(){
       }
       this.updateChildren();
     }
-  })
+  });
 });

@@ -59,7 +59,7 @@ $main(function(){
      */
     draw : function(context, x, y, invisible) {
 
-      throw new Error("abstract method called")
+      throw new Error("abstract method called");
 
     },
 
@@ -69,7 +69,7 @@ $main(function(){
      */
     onchange : function(node) {
 
-      if (this.parent != null) {
+      if (this.parent !== null) {
         this.parent.onchange(this);
       }
 
@@ -113,7 +113,7 @@ $main(function(){
      */
     updateChildren : function(begin) {
 
-      if (begin == null) {
+      if ((begin === null) || (begin === undefined)) {
         begin = 0;
       }
       for (var i=begin; i<this.children.length; i++) {
@@ -133,7 +133,7 @@ $main(function(){
      */
     getCursorPosition : function(x, y) {
 
-      if (this.parent != null) {
+      if (this.parent !== null) {
         if (x < this.dimensions.left + this.dimensions.width / 2) {
           return this.parent.getPrecedingCursorPosition(this.index+1,false);
         }
@@ -148,7 +148,7 @@ $main(function(){
     },
 
     getFirstCursorPosition : function(index) {
-      if (this.parent != null) {
+      if (this.parent !== null) {
         return this.parent.getFirstCursorPosition();
       }
       else {
@@ -157,7 +157,7 @@ $main(function(){
     },
 
     getLastCursorPosition : function(index) {
-      if (this.parent != null) {
+      if (this.parent !== null) {
         return this.parent.getLastCursorPosition();
       }
       else {
@@ -185,40 +185,34 @@ $main(function(){
 
     getLowerCursorPosition : function(index, x) {
 
-      with(org.mathdox.formulaeditor.presentation) {
+      var presentation = org.mathdox.formulaeditor.presentation;
 
-        if (this.parent != null) {
-          if (index == null && this.parent instanceof Row) {
-            return { row: this.parent, index: this.index };
-          }
-          else {
-            return this.parent.getLowerCursorPosition(this.index, x);
-          }
+      if (this.parent !== null) {
+        if (index === null && this.parent instanceof presentation.Row) {
+          return { row: this.parent, index: this.index };
         }
         else {
-          return null;
+          return this.parent.getLowerCursorPosition(this.index, x);
         }
-
+      }
+      else {
+        return null;
       }
 
     },
 
     getHigherCursorPosition : function(index, x) {
 
-      with(org.mathdox.formulaeditor.presentation) {
+      var presentation = org.mathdox.formulaeditor.presentation;
 
-        if (this.parent != null) {
-          if (index == null && this.parent instanceof Row) {
-            return { row: this.parent, index: this.index };
-          }
-          else {
-            return this.parent.getHigherCursorPosition(this.index, x);
-          }
+      if (this.parent !== null) {
+        if (index === null && this.parent instanceof presentation.Row) {
+          return { row: this.parent, index: this.index };
+        } else {
+          return this.parent.getHigherCursorPosition(this.index, x);
         }
-        else {
-          return null;
-        }
-
+      } else {
+        return null;
       }
 
     },
@@ -238,6 +232,6 @@ $main(function(){
       }
     }
 
-  })
+  });
 
 });

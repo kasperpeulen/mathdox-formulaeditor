@@ -17,14 +17,14 @@ $main(function(){
         var superscript = this.children[0];
 
         var dim0;
-        with(org.mathdox.formulaeditor.presentation) {
-          if (this.parent instanceof Row && this.index > 0) {
-            dim0 = this.parent.children[this.index - 1].dimensions;
-          }
-          else {
-            dim0 = new Symbol("x").draw(context,x,y,true);
-            dim0.left = x - dim0.width;
-          }
+        var presentation = org.mathdox.formulaeditor.presentation;
+
+        if (this.parent instanceof presentation.Row && this.index > 0) {
+          dim0 = this.parent.children[this.index - 1].dimensions;
+        }
+        else {
+          dim0 = new presentation.Symbol("x").draw(context,x,y,true);
+          dim0.left = x - dim0.width;
         }
 
         var tmp = superscript.draw(context,0,0,true);
@@ -33,8 +33,7 @@ $main(function(){
           context,
           dim0.left + dim0.width,
           dim0.top - (tmp.height + tmp.top),
-          invisible
-        );
+          invisible);
 
         var left   = dim1.left;
         var top    = Math.min(dim0.top,  dim1.top );
@@ -59,11 +58,11 @@ $main(function(){
       },
 
       getFollowingCursorPosition : function(index) {
-        if (index == null) {
+        if (index === null) {
           return this.children[0].getFollowingCursorPosition();
         }
         else {
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return { row : this.parent, index: this.index + 1 };
           }
           else {
@@ -73,11 +72,11 @@ $main(function(){
       },
 
       getPrecedingCursorPosition : function(index) {
-        if (index == null) {
+        if (index === null) {
           return this.children[0].getPrecedingCursorPosition();
         }
         else {
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return { row : this.parent, index: this.index };
           }
           else {
@@ -90,9 +89,9 @@ $main(function(){
         return {
           value : this.children[0].getSemantics().value,
           rule  : "superscript"
-        }
+        };
       }
 
-    })
+    });
 
 });

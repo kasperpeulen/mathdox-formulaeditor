@@ -106,7 +106,7 @@ $main(function(){
             this.middle.dimensions.width - baseXAdjust + this.margin,
           left : x,
           top : y - this.leftBracket.dimensions.height + yAdjust/2 
-        }
+        };
      
         if (drawBase) {
           this.base.draw(canvas,
@@ -126,9 +126,8 @@ $main(function(){
         this.middle.draw(canvas, 
           x - baseXAdjust + this.leftBracket.dimensions.width -
           this.middle.dimensions.left + this.margin , 
-          y - (this.middle.dimensions.top+this.middle.dimensions.height) 
-          - this.margin,
-          invisible);
+          y - (this.middle.dimensions.top+this.middle.dimensions.height) - 
+	  this.margin, invisible);
 
         if (!invisible) {
           // draw line
@@ -186,12 +185,12 @@ $main(function(){
       getFollowingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend == null) {
+        if (descend === null) {
           descend = true;
         }
 
         // when index is not specified, return the first position in the array
-        if (index == null) {
+        if (index === null) {
           if (this.drawBaseQ()) {
             return this.base.getFollowingCursorPosition();
           } else {
@@ -201,7 +200,7 @@ $main(function(){
         
         var result = null;
 
-        if (index == 0) {
+        if (index === 0) {
           if (descend) {
             if (this.drawBaseQ()) {
               result = this.base.getFollowingCursorPosition();
@@ -209,15 +208,15 @@ $main(function(){
               return this.middle.getFollowingCursorPosition();
             }
           }
-          if (result == null) {
+          if (result === null) {
             result = this.middle.getFollowingCursorPosition();
           }
         }
 
-        if (result == null) {
+        if (result === null) {
           // when we're at the end of the matrix, ask the parent of the matrix
           // for the position following this matrix
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return this.parent.getFollowingCursorPosition(this.index, false);
           }
         }
@@ -227,12 +226,12 @@ $main(function(){
       getPrecedingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend == null) {
+        if (descend === null) {
           descend = true;
         }
 
         // when index is not specified, return the first position in the array
-        if (index == null) {
+        if (index === null) {
           return this.middle.getPrecedingCursorPosition();
         }
         
@@ -242,17 +241,17 @@ $main(function(){
           if (descend) {
             result = this.middle.getPrecedingCursorPosition();
           }
-          if (result == null) {
+          if (result === null) {
             if (this.drawBaseQ()) {
               result = this.base.getPrecedingCursorPosition();
             }
           }
         }
 
-        if (result == null) {
+        if (result === null) {
           // when we're at the beginning of the matrix, ask the parent of the
           // matrix for the position before this matrix
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return { row: this.parent, index: this.index };
           }
         }
@@ -265,42 +264,40 @@ $main(function(){
             new org.mathdox.formulaeditor.presentation.Bracket("v");
           this.middle = arguments[0];
           this.base = arguments[1];
-          this.children = new Array();
+          this.children = [];
           this.children.push(this.base);
           this.children.push(this.middle);
         } else {
-          this.children = new Array();
+          this.children = [];
         }
 
-        with (org.mathdox.formulaeditor.presentation) {
-          /* copy the cursor/position functions from Row */
+        var presentation = org.mathdox.formulaeditor.presentation;
+        /* copy the cursor/position functions from Row */
 
-          var row = new Row(); // only an instance has the functions
+        var row = new presentation.Row(); // only an instance has the functions
 
-          for (var i=this.functionsFromRow.length - 1; i>=0; i--) {
-            if (! this[this.functionsFromRow[i]] ) {
-              this[this.functionsFromRow[i]] = 
-                row[ this.functionsFromRow[i] ];
-            }
+        for (var i=this.functionsFromRow.length - 1; i>=0; i--) {
+          if (! this[this.functionsFromRow[i]] ) {
+            this[this.functionsFromRow[i]] = 
+              row[ this.functionsFromRow[i] ];
           }
-          this.updateChildren();
         }
+        this.updateChildren();
       },
 
       getSemantics : function() {
         var root;
 
-        with (org.mathdox.formulaeditor.semantics) {
-          root = new Arith1Root(this.middle.getSemantics().value, 
-            this.base.getSemantics().value);
-        }
+        var presentation = org.mathdox.formulaeditor.semantics;
+        root = new presentation.Arith1Root(this.middle.getSemantics().value, 
+          this.base.getSemantics().value);
         return {
           value : root,
           rule  : "braces"
-        }
+        };
       }
 
 
-    })
+    });
 
 });

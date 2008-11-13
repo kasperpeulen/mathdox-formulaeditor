@@ -23,13 +23,12 @@ $main(function(){
       draw : function(canvas, x, y, invisible) {
 
         var dim0;
-        with(org.mathdox.formulaeditor.presentation) {
-          if (this.parent instanceof Row && this.index > 0) {
-            dim0 = this.parent.children[this.index - 1].dimensions;
-          }
-          else {
-            dim0 = new Symbol("x").draw(canvas,x,y,true);
-          }
+        var presentation = org.mathdox.formulaeditor.presentation;
+        if (this.parent instanceof presentation.Row && this.index > 0) {
+          dim0 = this.parent.children[this.index - 1].dimensions;
+        }
+        else {
+          dim0 = new presentation.Symbol("x").draw(canvas,x,y,true);
         }
 
         y = dim0.top + (dim0.height/2);
@@ -40,37 +39,38 @@ $main(function(){
         var upper = this.children[0];
         var lower = this.children[1];
 
-        var margin = 2.0
-        var lineWidth = 1.0
+        var margin = 2.0;
+        var lineWidth = 1.0;
 
-        var upperDimensions = upper.draw(canvas, 0, 0, true)
-        var lowerDimensions = lower.draw(canvas, 0, 0, true)
+        var upperDimensions = upper.draw(canvas, 0, 0, true);
+        var lowerDimensions = lower.draw(canvas, 0, 0, true);
 
-        var left   = x + Math.min(upperDimensions.left, lowerDimensions.left)
-        var top    = y - upperDimensions.height - margin
-        var width  = Math.max(upperDimensions.width, lowerDimensions.width) + 2 * margin
-        var height = upperDimensions.height + lowerDimensions.height + 2 * margin + lineWidth
+        var left   = x + Math.min(upperDimensions.left, lowerDimensions.left);
+        var top    = y - upperDimensions.height - margin;
+        var width  = Math.max(upperDimensions.width, lowerDimensions.width) + 
+	  2 * margin;
+        var height = upperDimensions.height + lowerDimensions.height + 
+	  2 * margin + lineWidth;
 
         // draw upper part
         upper.draw(
           canvas,
           x + (width/2) - (upperDimensions.width/2),
           top - upperDimensions.top,
-          invisible
-        )
+          invisible);
 
         if (!invisible) {
 
           // draw line
           var context = canvas.getContext();
-          context.save()
-          context.lineWidth = lineWidth
-          context.beginPath()
-          context.moveTo(x,y)
-          context.lineTo(x+width,y)
-          context.stroke()
-          context.closePath()
-          context.restore()
+          context.save();
+          context.lineWidth = lineWidth;
+          context.beginPath();
+          context.moveTo(x,y);
+          context.lineTo(x+width,y);
+          context.stroke();
+          context.closePath();
+          context.restore();
 
         }
 
@@ -79,8 +79,7 @@ $main(function(){
           canvas,
           x + (width/2) - (lowerDimensions.width/2),
           y + margin - lowerDimensions.top + 1,
-          invisible
-        )
+          invisible);
 
         this.dimensions = {
           left   : left,
@@ -108,11 +107,11 @@ $main(function(){
       },
 
       getFollowingCursorPosition : function(index) {
-        if (index == null) {
+        if (index === null) {
           return this.children[0].getFollowingCursorPosition();
         }
         else {
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return { row: this.parent, index: this.index + 1 };
           }
           else {
@@ -122,11 +121,11 @@ $main(function(){
       },
 
       getPrecedingCursorPosition : function(index) {
-        if (index == null) {
+        if (index === null) {
           return this.children[0].getPrecedingCursorPosition();
         }
         else {
-          if (this.parent != null) {
+          if (this.parent !== null) {
             return { row: this.parent, index: this.index };
           }
           else {
@@ -137,15 +136,15 @@ $main(function(){
 
       // TODO: something fishy when moving through 2/3/4
       getLowerCursorPosition : function(index, x) {
-        if (index == null) {
+        if (index === null) {
           return this.children[0].getLowerCursorPosition(null, x);
         }
         else {
-          if (index == 0) {
+          if (index === 0) {
             return this.children[1].getLowerCursorPosition(null, x);
           }
           else {
-            if (this.parent != null ) {
+            if (this.parent !== null ) {
               return this.parent.getLowerCursorPosition(this.index, x);
             } else {
               return null;
@@ -155,7 +154,7 @@ $main(function(){
       },
 
       getHigherCursorPosition : function(index, x) {
-        if (index == null) {
+        if (index === null) {
           return this.children[1].getHigherCursorPosition(null, x);
         }
         else {
@@ -163,7 +162,7 @@ $main(function(){
             return this.children[0].getHigherCursorPosition(null, x);
           }
           else {
-            if (this.parent != null) {
+            if (this.parent !== null) {
               return this.parent.getHigherCursorPosition(this.index, x);
             }
             else {
@@ -177,12 +176,11 @@ $main(function(){
         return {
           value : new org.mathdox.formulaeditor.semantics.Divide(
                     this.children[0].getSemantics().value,
-                    this.children[1].getSemantics().value
-                  ),
+                    this.children[1].getSemantics().value),
           rule  : "braces"
-        }
+        };
       }
 
-    })
+    });
 
 });

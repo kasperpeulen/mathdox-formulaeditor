@@ -10,10 +10,10 @@ $main(function(){
 
   var mathmlSymbol= [ "", "", ""];
   
-  if ("<model:symbol_mathml_pre/>" != "") {
+  if ("<model:symbol_mathml_pre/>" !== "") {
     mathmlSymbol[0] = "&lt;mo&gt;<model:symbol_mathml_pre/>&lt;/mo&gt;";
   }
-  if ("<model:symbol_mathml_post/>" != "") {
+  if ("<model:symbol_mathml_post/>" !== "") {
     mathmlSymbol[2] = "&lt;mo&gt;<model:symbol_mathml_post/>&lt;/mo&gt;";
   }
 
@@ -57,24 +57,22 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for unary minus.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  var parserGenerator = new org.mathdox.parsing.ParserGenerator();
-  with( parserGenerator ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-  var rulesEnter = new Array();
+  var rulesEnter = [];
   var positionEnter = 0;
-  if ("<model:symbol_enter_pre/>" != "") {
-    rulesEnter.push(literal("<model:symbol_enter_pre/>"));
+  if ("<model:symbol_enter_pre/>" !== "") {
+    rulesEnter.push(pG.literal("<model:symbol_enter_pre/>"));
     positionEnter++;
   }
-  rulesEnter.push(rule("expression<model:precedence2/>"));
-  if ("<model:symbol_enter_post/>" != "") {
-    rulesEnter.push(literal("<model:symbol_enter_post/>"));
+  rulesEnter.push(pG.rule("expression<model:precedence2/>"));
+  if ("<model:symbol_enter_post/>" !== "") {
+    rulesEnter.push(pG.literal("<model:symbol_enter_post/>"));
   }
 
-  if (( "<model:symbol_enter_pre/>"  == "<model:symbol_screen_pre/>"  ) &amp;&amp;
-      ( "<model:symbol_enter_post/>" == "<model:symbol_screen_post/>" )) {
+  if (( "<model:symbol_enter_pre/>"  === "<model:symbol_screen_pre/>"  ) &amp;&amp;
+      ( "<model:symbol_enter_post/>" === "<model:symbol_screen_post/>" )) {
     // only one expression, same on screen
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
@@ -82,32 +80,31 @@ $main(function(){
         // expression<model:precedence/> = <model:cd/><model:name/> | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
-          alternation(
-            rule("<model:cd/><model:name/>"),
-            parent.expression<model:precedence/>
-          ).apply(this, arguments);
+          pG.alternation(
+            pG.rule("<model:cd/><model:name/>"),
+            parent.expression<model:precedence/>).apply(this, arguments);
         },
 
         // <model:cd/><model:name/> = "<model:symbol_enter_pre/>" expression<model:precedence2/> "<model:symbol_enter_post/>"
         <model:cd/><model:name/> :
-          transform(
-            concatenation.apply(parserGenerator, rulesEnter),
+          pG.transform(
+            pG.concatenation.apply(pG, rulesEnter),
             function(result) {
-              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
+              return new semantics.<model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
             }
           )
 
     });
   } else { // allow alternative as displayed on the screen
-    var rulesScreen = new Array();
+    var rulesScreen = [];
     var positionScreen = 0;
-    if ("<model:symbol_screen_pre/>" != "") {
-      rulesScreen.push(literal("<model:symbol_screen_pre/>"));
+    if ("<model:symbol_screen_pre/>" !== "") {
+      rulesScreen.push(pG.literal("<model:symbol_screen_pre/>"));
       positionScreen++;
     }
-    rulesScreen.push(rule("expression<model:precedence2/>"));
-    if ("<model:symbol_screen_post/>" != "") {
-      rulesScreen.push(literal("<model:symbol_screen_post/>"));
+    rulesScreen.push(pG.rule("expression<model:precedence2/>"));
+    if ("<model:symbol_screen_post/>" !== "") {
+      rulesScreen.push(pG.literal("<model:symbol_screen_post/>"));
     }
   
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
@@ -116,33 +113,31 @@ $main(function(){
         // expression<model:precedence/> = <model:cd/><model:name/> | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
-          alternation(
-            rule("<model:cd/><model:name/>"),
-            rule("<model:cd/><model:name/>alt"),
-            parent.expression<model:precedence/>
-          ).apply(this, arguments);
+          pG.alternation(
+            pG.rule("<model:cd/><model:name/>"),
+            pG.rule("<model:cd/><model:name/>alt"),
+            parent.expression<model:precedence/>).apply(this, arguments);
         },
 
         // <model:cd/><model:name/> = "<model:symbol_enter_pre/>" expression<model:precedence2/> "<model:symbol_enter_post/>"
         <model:cd/><model:name/> :
-          transform(
-            concatenation.apply(parserGenerator, rulesEnter),
+          pG.transform(
+            pG.concatenation.apply(pG, rulesEnter),
             function(result) {
-              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
+              return new semantics.<model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
             }
           ),
 
         // <model:cd/><model:name/>alt = "<model:symbol_screen_pre/>" expression<model:precedence2/> "<model:symbol_screen_post/>"
         <model:cd/><model:name/>alt :
-          transform(
-            concatenation.apply(parserGenerator, rulesScreen),
+          pG.transform(
+            pG.concatenation.apply(pG, rulesScreen),
             function(result) {
-              return new <model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionScreen]);
+              return new semantics.<model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionScreen]);
             }
           )
      });
    }
-  }}}
 
 });
 </model:model>

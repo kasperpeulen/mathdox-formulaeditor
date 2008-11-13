@@ -44,9 +44,9 @@ $main(function(){
 
         // parse the children of the OMA
         var children = node.getChildNodes();
-        var operands = new Array(children.getLength()-1);
+        var operands = [];
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i))
+          operands.push(this.handle(children.item(i)));
         }
 
         // construct a Plus object
@@ -61,38 +61,34 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for plus operations.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics ;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression120 = plus | super.expression120
-        expression120 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("plus"),
-            parent.expression120
-          ).apply(this, arguments);
-        },
+      // expression120 = plus | super.expression120
+      expression120 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("plus"),
+          parent.expression120).apply(this, arguments);
+      },
 
-        // plus = expression120 "+" expression130
-        plus :
-          transform(
-            concatenation(
-              rule("expression120"),
-              literal("+"),
-              rule("expression130")
-            ),
-            function(result) {
-              return new Plus(result[0], result[2]);
-            }
-          )
+      // plus = expression120 "+" expression130
+      plus :
+        pG.transform(
+          pG.concatenation(
+            pG.rule("expression120"),
+            pG.literal("+"),
+            pG.rule("expression130")
+          ),
+          function(result) {
+            return new semantics.Plus(result[0], result[2]);
+          }
+        )
 
-      });
-
-  }}}
+    });
 
   org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__plus"] = new org.mathdox.formulaeditor.semantics.Keyword("arith1", "plus", symbol, "infix");
 

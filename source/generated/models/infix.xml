@@ -31,7 +31,7 @@ $main(function(){
 
       precedence : <model:precedence/>
 
-    })
+    });
   
   /**
    * Extend the OpenMathParser object with parsing code for <model:cd/>.<model:name/>.
@@ -46,9 +46,9 @@ $main(function(){
 
       // parse the children of the OMA
       var children = node.getChildNodes();
-      var operands = new Array(children.getLength()-1);
+      var operands = [];
       for (var i=1; i&lt;children.length; i++) {
-        operands[i-1] = this.handle(children.item(i))
+        operands.push = this.handle(children.item(i));
       }
 
       // construct the corresponding object
@@ -65,9 +65,8 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for the equality sign.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
   if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
       // only one expression, same on screen
@@ -77,27 +76,26 @@ $main(function(){
         // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
-          alternation(
-            rule("<model:cd/><model:name/>"),
-            parent.expression<model:precedence/>
-          ).apply(this, arguments);
+          pG.alternation(
+            pG.rule("<model:cd/><model:name/>"),
+            parent.expression<model:precedence/>).apply(this, arguments);
         },
 
         // <model:cd/><model:name/> = 
 	//    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
         <model:cd/><model:name/> :
-          transform(
-            concatenation(
-              rule("expression<model:precedence/>"),
-              literal("<model:symbol_enter/>"),
-              rule("expression<model:precedence2/>")
+          pG.transform(
+            pG.concatenation(
+              pG.rule("expression<model:precedence/>"),
+              pG.literal("<model:symbol_enter/>"),
+              pG.rule("expression<model:precedence2/>")
             ),
             function(result) {
-              return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
+              return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
             }
           )
 
-      })
+      });
     } else { // allow alternative as displayed on the screen
       org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
 	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
@@ -106,45 +104,42 @@ $main(function(){
 	//   <model:cd/><model:name/>alt | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
-          alternation(
-            rule("<model:cd/><model:name/>"),
-            rule("<model:cd/><model:name/>alt"),
-            parent.expression<model:precedence/>
-          ).apply(this, arguments);
+          pG.alternation(
+            pG.rule("<model:cd/><model:name/>"),
+            pG.rule("<model:cd/><model:name/>alt"),
+            parent.expression<model:precedence/>).apply(this, arguments);
         },
 
         // <model:cd/><model:name/> = 
 	//    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
         <model:cd/><model:name/> :
-          transform(
-            concatenation(
-              rule("expression<model:precedence/>"),
-              literal("<model:symbol_enter/>"),
-              rule("expression<model:precedence2/>")
+          pG.transform(
+            pG.concatenation(
+              pG.rule("expression<model:precedence/>"),
+              pG.literal("<model:symbol_enter/>"),
+              pG.rule("expression<model:precedence2/>")
             ),
             function(result) {
-              return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
+              return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
             }
           ),
 
         // <model:cd/><model:name/>alt = 
 	//    expression<model:precedence/> "<model:symbol_screen/>" expression<model:precedence2/>
         <model:cd/><model:name/>alt :
-          transform(
-            concatenation(
-              rule("expression<model:precedence/>"),
-              literal("<model:symbol_screen/>"),
-              rule("expression<model:precedence2/>")
+          pG.transform(
+            pG.concatenation(
+              pG.rule("expression<model:precedence/>"),
+              pG.literal("<model:symbol_screen/>"),
+              pG.rule("expression<model:precedence2/>")
             ),
             function(result) {
-              return new <model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
+              return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
             }
           )
 
-      })
+      });
     }
-  }}}
-
 
 });
 </model:model>

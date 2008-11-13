@@ -59,38 +59,34 @@ $main(function(){
   /**
   * Extend the ExpressionParser object with parsing code for minus operations.
   */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression120 = minus | super.expression120
-        expression120 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("minus"),
-            parent.expression120
-          ).apply(this, arguments);
-        },
+      // expression120 = minus | super.expression120
+      expression120 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("minus"),
+          parent.expression120).apply(this, arguments);
+      },
 
-        // minus = expression120 "+" expression130
-        minus :
-          transform(
-            concatenation(
-              rule("expression120"),
-              literal("-"),
-              rule("expression130")
-            ),
-            function(result) {
-              return new Minus(result[0], result[2]);
-            }
-          )
+      // minus = expression120 "+" expression130
+      minus :
+        pG.transform(
+          pG.concatenation(
+            pG.rule("expression120"),
+            pG.literal("-"),
+            pG.rule("expression130")
+          ),
+          function(result) {
+            return new semantics.Minus(result[0], result[2]);
+          }
+        )
 
-      });
-
-  }}}
+    });
 
   org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__minus"] = new org.mathdox.formulaeditor.semantics.Keyword("arith1", "minus", symbol, "infix");
 });

@@ -22,18 +22,16 @@ $main(function(){
     
       getPresentation : function(context) {
       
-        with(org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
         
-          return new Row(
-            // U+222B integral
-            new Symbol('∫'),
-            this.operands[0].operands[1].getPresentation(context),
-            new Symbol("d"),
-            this.operands[0].operands[0].getPresentation(context)
-          );
+        return new presentation.Row(
+          // U+222B integral
+          new presentation.Symbol('∫'),
+          this.operands[0].operands[1].getPresentation(context),
+          new presentation.Symbol("d"),
+          this.operands[0].operands[0].getPresentation(context)
+        );
         
-        }        
-      
       },
       
       getOpenMath : function() {
@@ -71,41 +69,37 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for integrals.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression150 = calculus1int | super.expression150
-        expression150 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-	    rule("calculus1int"),
-            parent.expression150
-          ).apply(this, arguments);
-        },
-        // U+222B integral
-	// calculus1int '∫' expression 'd' variable 
-        calculus1int: 
-	  transform(
-            concatenation(
-              // U+222B integral
-              literal("∫"),
-              rule("expression"),
-              literal("d"),
-              rule("variable")
-            ),
-            function(result) {
-              return new Integration(
-                new Lambda(result[3], result[1])
-              );
-            }
-          )
-    });
-
-  }}}
+      // expression150 = calculus1int | super.expression150
+      expression150 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("calculus1int"),
+          parent.expression150).apply(this, arguments);
+      },
+      // U+222B integral
+      // calculus1int '∫' expression 'd' variable 
+      calculus1int: 
+        pG.transform(
+          pG.concatenation(
+            // U+222B integral
+            pG.literal("∫"),
+            pG.rule("expression"),
+            pG.literal("d"),
+            pG.rule("variable")
+          ),
+          function(result) {
+            return new semantics.Integration(
+              new semantics.Lambda(result[3], result[1])
+            );
+          }
+        )
+  });
 
 
 });

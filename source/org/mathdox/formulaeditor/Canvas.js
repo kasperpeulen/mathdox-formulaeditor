@@ -7,8 +7,7 @@ if (!window.CanvasRenderingContext2D) {
 
   $require(
     "com/google/code/excanvas/excanvas.js",
-    function() { return window.CanvasRenderingContext2D }
-  );
+    function() { return window.CanvasRenderingContext2D });
 
   $main(function(){
 
@@ -44,7 +43,7 @@ if (!window.CanvasRenderingContext2D) {
 
         return element;
 
-    }
+    };
 
     /**
      * Because the script tag that references excanvas.js file is dynamically

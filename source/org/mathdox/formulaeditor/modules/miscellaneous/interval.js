@@ -21,7 +21,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for
@@ -43,7 +43,7 @@ $main(function(){
 
       }
 
-    })
+    });
   
 
 });

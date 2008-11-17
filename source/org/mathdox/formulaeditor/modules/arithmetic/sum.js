@@ -23,23 +23,23 @@ $main(function(){
     
       getPresentation : function(context) {
       
-        with(org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
         
-          return new Row(
-            new Sum(
-              new Row(this.operands[0].operands[1].getPresentation(context)),
-              new Row(
-                this.operands[1].operands[0].getPresentation(context),
-                new Symbol("="),
-                this.operands[0].operands[0].getPresentation(context)
-              )
-            ),
-	    new Symbol("("),
-            this.operands[1].operands[1].getPresentation(context),
-	    new Symbol(")")
-          );
-        
-        }        
+        return new presentation.Row(
+          new presentation.Sum(
+            new presentation.Row(
+              this.operands[0].operands[1].getPresentation(context)),
+            new presentation.Row(
+              this.operands[1].operands[0].getPresentation(context),
+              new presentation.Symbol("="),
+              this.operands[0].operands[0].getPresentation(context)
+            )
+          ),
+          new presentation.Symbol("("),
+          this.operands[1].operands[1].getPresentation(context),
+          new presentation.Symbol(")")
+        );
+      
       
       },
       
@@ -61,35 +61,33 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Sum =
     $extend(org.mathdox.formulaeditor.presentation.Column, {
 
-      initialize : function(above, below) {
+    initialize : function(above, below) {
 
-        var parent = arguments.callee.parent;
-	// U+03A3 greek capital letter sigma
-	var sigma  = new org.mathdox.formulaeditor.presentation.Symbol("Σ");
-        return parent.initialize.call(this, above, sigma, below);
+      var parent = arguments.callee.parent;
+      // U+03A3 greek capital letter sigma
+      var sigma  = new org.mathdox.formulaeditor.presentation.Symbol("Σ");
+      return parent.initialize.call(this, above, sigma, below);
 
-      },
+    },
 
-      getSemantics : function() {
+    getSemantics : function() {
 
-        with(org.mathdox.formulaeditor.semantics) {
+      var semantics = org.mathdox.formulaeditor.semantics;
 
-          var above = this.children[0].getSemantics().value;
-          var below = this.children[2].getSemantics().value;
+        var above = this.children[0].getSemantics().value;
+        var below = this.children[2].getSemantics().value;
 
-          if (below instanceof Relation1Eq) {
+        if (below instanceof semantics.Relation1Eq) {
 
-            return {
-              value : [below.operands[1], above, below.operands[0]],
-              rule  : "sum"
-            }
+          return {
+            value : [below.operands[1], above, below.operands[0]],
+            rule  : "sum"
+          };
 
-          }
-          else {
+        }
+        else {
 
-            return null;
-
-          }
+          return null;
 
         }
 
@@ -122,9 +120,8 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for sums.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
@@ -132,31 +129,27 @@ $main(function(){
         // expression150 = sum expression150 | super.expression150
         expression150 : function() {
           var parent = arguments.callee.parent;
-          alternation(
-            transform(
-              concatenation(
-                rule("sum"),
-                rule("expression150")
+          pG.alternation(
+            pG.transform(
+              pG.concatenation(
+                pG.rule("sum"),
+                pG.rule("expression150")
               ),
               function(result) {
 
-                return new Sum(
-                  new Interval(result[0][0], result[0][1]),
-                  new Lambda(result[0][2], result[1])
+                return new semantics.Sum(
+                  new semantics.Interval(result[0][0], result[0][1]),
+                  new semantics.Lambda(result[0][2], result[1])
                 );
 
               }
             ),
-            parent.expression150
-          ).apply(this, arguments);
+            parent.expression150).apply(this, arguments);
         },
 
         // sum = never
-        sum : never
+        sum : pG.never
 
     });
-
-  }}}
-
 
 });

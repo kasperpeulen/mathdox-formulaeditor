@@ -27,14 +27,14 @@ $main(function(){
       var rootnode = new DOMImplementation().loadXML(xml).getDocumentElement();
 
       /* remove comment nodes, since we don't want to parse them */
-      if (rootnode != null) {
+      if (rootnode !== null) {
         this.removeComments(rootnode);
       } else {
         return null;
       }
       
       /* do the actual parsing */
-      if (rootnode != null) {
+      if (rootnode !== null) {
         return this.handle(rootnode);
       }
       else {
@@ -49,7 +49,7 @@ $main(function(){
      * <OMI> node is encountered, the handleOMI method is called.
      */
     handle: function(node) {
-      if (node.getLocalName()=="") {
+      if (node.getLocalName()==="") {
         // XML comment
         return null;
       }
@@ -60,9 +60,8 @@ $main(function(){
         return this[handler](node);
       }
       else {
-        throw new Error(
-          "OpenMathParser doesn't know how to handle this node: " + node +". INFO: 1."
-        );
+        throw new Error( "OpenMathParser doesn't know how to handle this "+
+            "node: " + node +". INFO: 1.");
       }
 
     },
@@ -73,7 +72,7 @@ $main(function(){
     handleOMOBJ: function(node) {
 
       var child = node.getFirstChild();
-      if (child != null) {
+      if (child !== null) {
         return this.handle(child);
       }
       else {
@@ -87,6 +86,7 @@ $main(function(){
      */
     handleOMA: function(node) {
       var symbol;
+      var semantics = org.mathdox.formulaeditor.semantics;
 
       // handle <OMA>'s with as first argument an <OMS/>
       if ("OMS" == node.getFirstChild().getLocalName()) {
@@ -94,7 +94,7 @@ $main(function(){
         // helper function that uppercases first character of provided string
         var uppercase = function(string) {
             return string.substring(0,1).toUpperCase() + string.substring(1);
-        }
+        };
 
         // figure out which handler method to call; for instance, for handling 
         // an <OMA> with as first argument <OMS cd='arith1' name='plus'/>, the
@@ -109,20 +109,18 @@ $main(function(){
         // call the handler method
         if (handler in this) {
           return this[handler](node);
-        } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname]!=null) {
+        } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== null && org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== undefined) {
           /* return a FunctionApplication at the end */
           symbol = this.handleOMS(node.getFirstChild());
         } else {
-          with(org.mathdox.formulaeditor.semantics) {
-            var cd = node.getFirstChild().getAttribute("cd");
-            var name = node.getFirstChild().getAttribute("name");
-            var keywordsymbol = {
-              onscreen : null,
-              openmath : null,
-              mathml: "<mi>"+cd+"."+name+"</mi>"
-            };
-            symbol = new Keyword(cd, name, keywordsymbol, "function");
-          }
+          var cd = node.getFirstChild().getAttribute("cd");
+          var name = node.getFirstChild().getAttribute("name");
+          var keywordsymbol = {
+            onscreen : null,
+            openmath : null,
+            mathml: "<mi>"+cd+"."+name+"</mi>"
+          };
+          symbol = new semantics.Keyword(cd, name, keywordsymbol, "function");
         }
 
       } else if ("OMV" == node.getFirstChild().getLocalName()) {
@@ -131,27 +129,24 @@ $main(function(){
       } else {
         throw new Error(
           "OpenMathParser doesn't know how to handle an <OMA> that does " +
-          "not have an <OMS/> or <OMV/> as first argument"
-        );
+          "not have an <OMS/> or <OMV/> as first argument");
 
       }
 
       if (symbol) {
         var children = node.getChildNodes();
-        var operands = new Array();
+        var operands = [];
 
         for (var i=1; i<children.length; i++) {
           var child = this.handle(children.item(i));
 
-          if (child!=null) { 
+          if (child !== null) { 
             // ignore comments
             operands.push(child);
           }
         }
         
-        with(org.mathdox.formulaeditor.semantics) {
-          return new FunctionApplication(symbol, operands);
-        }
+        return new semantics.FunctionApplication(symbol, operands);
       }
     },
 
@@ -178,9 +173,9 @@ $main(function(){
      */
     handleOMF: function(node) {
 
-      with(org.mathdox.formulaeditor.semantics) {
-        if (node.getAttribute("dec"))
-          return new SemanticFloat(node.getAttribute("dec"));
+      var semantics = org.mathdox.formulaeditor.semantics;
+      if (node.getAttribute("dec")) {
+        return new semantics.SemanticFloat(node.getAttribute("dec"));
       }
 
     },
@@ -190,9 +185,8 @@ $main(function(){
      */
     handleOMI: function(node) {
 
-      with(org.mathdox.formulaeditor.semantics) {
-        return new Integer(node.getFirstChild().getNodeValue());
-      }
+      var semantics = org.mathdox.formulaeditor.semantics;
+      return new semantics.Integer(node.getFirstChild().getNodeValue());
 
     },
 
@@ -203,7 +197,7 @@ $main(function(){
       var symbolname= node.getAttribute("cd") + "__" + node.getAttribute("name");
       var keyword = org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname];
 
-      if (keyword!=null) {
+      if (keyword !== null && keyword !== undefined) {
         if (keyword.type == "constant" || keyword.type == "function") {
           return keyword;
         } else if (keyword.type == "infix") {
@@ -213,8 +207,7 @@ $main(function(){
           var omsNode = parentNode.getFirstChild();
           if (omsNode.getLocalName()!="OMS") {
             throw new Error(
-              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. First sibling is "+ omsNode.getLocalName()+"."
-            );
+              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. First sibling is "+ omsNode.getLocalName()+".");
           }
           if (omsNode.getAttribute("cd")=="editor1" && 
             omsNode.getAttribute("name")=="palette_row") {
@@ -222,26 +215,23 @@ $main(function(){
             return keyword;
           } else {
             throw new Error(
-              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. INFO: was expecting symbol reference 'editor1.palette_row' instead found '"+omsNode.getAttribute("cd")+"."+omsNode.getAttribute("name")+"'."
-            );
+              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. INFO: was expecting symbol reference 'editor1.palette_row' instead found '"+omsNode.getAttribute("cd")+"."+omsNode.getAttribute("name")+"'.");
           }
 
         } else {
           throw new Error(
-            "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>."
-          );
+            "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>.");
         }
       } else {
-        with(org.mathdox.formulaeditor.semantics) {
-          var cd = node.getAttribute("cd");
-          var name = node.getAttribute("name");
-          var keywordsymbol = {
-            onscreen : null,
-            openmath : null,
-            mathml: "<mi>"+cd+"."+name+"</mi>"
-          };
-          return new Keyword(cd, name, keywordsymbol, "constant");
-        }
+        var semantics = org.mathdox.formulaeditor.semantics;
+        var cd = node.getAttribute("cd");
+        var name = node.getAttribute("name");
+        var keywordsymbol = {
+          onscreen : null,
+          openmath : null,
+          mathml: "<mi>"+cd+"."+name+"</mi>"
+        };
+        return new semantics.Keyword(cd, name, keywordsymbol, "constant");
       }
     },
 
@@ -250,9 +240,9 @@ $main(function(){
      */
     handleOMV: function(node) {
 
-      with(org.mathdox.formulaeditor.semantics) {
-        return new Variable(node.getAttribute("name"));
-      }
+      var semantics = org.mathdox.formulaeditor.semantics;
+
+      return new semantics.Variable(node.getAttribute("name"));
 
     },
     /**
@@ -274,6 +264,6 @@ $main(function(){
       }
     }
 
-  })
+  });
 
 });

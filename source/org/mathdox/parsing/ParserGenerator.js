@@ -125,35 +125,30 @@ $main(function(){
     },
 
     repetition : function(operand) {
+      var pG = this;
 
-      with(this) {
-
-        return alternation(
-          empty,
-          repetitionplus(operand)
-        );
-
-      }
+      return pG.alternation(
+        pG.empty,
+        pG.repetitionplus(operand)
+      );
 
     },
 
     repetitionplus : function(operand) {
 
-      with(this) {
+      var pG = this;
 
-        return function(context, index, result, continuation) {
+      return function(context, index, result, continuation) {
 
-          alternation(
+        pG.alternation(
+          operand,
+          pG.concatenation(
             operand,
-            concatenation(
-              operand,
-              repetitionplus(operand)
-            )
-          )(context, index, result, continuation);
+            pG.repetitionplus(operand)
+          )
+        )(context, index, result, continuation);
 
-        }
-
-      }
+      };
 
     },
 
@@ -163,7 +158,7 @@ $main(function(){
 
         context.parser[name](context, index, result, continuation);
 
-      }
+      };
 
     },
 
@@ -176,21 +171,22 @@ $main(function(){
           index,
           result,
           function(newindex, newresult) {
+	    var sliced;
             if (context.backward) {
-              var sliced = newresult.slice(0, newresult.length - result.length);
+              sliced = newresult.slice(0, newresult.length - result.length);
               continuation(newindex,[transform(sliced)].concat(result));
             }
             else {
-              var sliced = newresult.slice(result.length);
+              sliced = newresult.slice(result.length);
               continuation(newindex, result.concat([transform(sliced)]));
             }
           }
         );
 
-      }
+      };
 
     }
-  })
+  });
 
 
   /**
@@ -370,6 +366,6 @@ $main(function(){
 
       }
 
-    })
+    });
 
-})
+});

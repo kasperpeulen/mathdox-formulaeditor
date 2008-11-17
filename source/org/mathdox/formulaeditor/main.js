@@ -9,7 +9,7 @@
   for (var i=0; i<scripts.length; i++) {
     var url = scripts[i].src;
     var match = url.match(scriptfinder1) || url.match(scriptfinder2);
-    if (match != null) {
+    if (match !== null) {
       baseurl = match[1];
       lastadded = scripts[i];
       break;
@@ -22,9 +22,9 @@
     script.src = baseurl + url;
     lastadded.parentNode.insertBefore(script, lastadded.nextSibling);
     lastadded = script;
-  }
+  };
 
   addScript("org/mathdox/javascript/core.js");
   addScript("org/mathdox/formulaeditor/OrbeonFormsConcat.js");
 
-})()
+})();

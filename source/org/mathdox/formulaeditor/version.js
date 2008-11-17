@@ -27,5 +27,5 @@ $main(function(){
      * variable containing the version information
      */
     versionInfo: "@version@"
-  }
+  };
 });

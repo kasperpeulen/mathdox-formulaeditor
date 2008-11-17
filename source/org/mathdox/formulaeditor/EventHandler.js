@@ -23,7 +23,7 @@ $main(function(){
 
           return handler.onkeydown(event) && saved1 && saved1(event);
 
-        }
+        };
 
       }
 
@@ -43,7 +43,7 @@ $main(function(){
 
           return handler.onkeypress(event) && saved2 && saved2(event);
 
-        }
+        };
 
       }
 
@@ -59,7 +59,7 @@ $main(function(){
 
           return handler.onmousedown(event) && saved3 && saved3(event);
 
-        }
+        };
 
       }
 

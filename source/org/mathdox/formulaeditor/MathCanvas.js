@@ -37,7 +37,7 @@ $main(function(){
      * draw mathematics on. */ 
     initialize : function(canvas) {
       this.canvas = canvas;
-      this.imageCache = new Object();
+      this.imageCache = {};
       if (org.mathdox.formulaeditor.options.fontSize) {
         var i = 0;
         while (i<this.fontSizes.length - 1 && 
@@ -87,6 +87,9 @@ $main(function(){
           symbolData = tmpData;
         }
       }
+ 
+      // variables used in both if and else clauses, declare them before the if
+      var left, height, top, width, font, canvas, cache, drawImage, image;
 
       if (symbolData) {
         // draw a symbol 
@@ -98,29 +101,28 @@ $main(function(){
             width: symbolData.width + 2*symbolData.margin
           });
         }
-        var left   = x;
-        var top    = y - symbolData.height + symbolData.yadjust;
-        var width  = symbolData.width;
-        var height = symbolData.height;
-        var font = symbolData.font;
+        left   = x;
+        top    = y - symbolData.height + symbolData.yadjust;
+        width  = symbolData.width;
+        height = symbolData.height;
+        font = symbolData.font;
   
         // draw that part of the font image which contains the symbol
         if (!invisible) {
   
-          var canvas = this.canvas;
-          var cache  = this.imageCache;
+          canvas = this.canvas;
+          cache  = this.imageCache;
   
-          var drawImage = function() {
+          drawImage = function() {
             canvas.getContext("2d").drawImage(
               cache[font.image],
               symbolData.x, symbolData.y, symbolData.width, symbolData.height,
-              left, top, width, height
-            );
+              left, top, width, height);
           };
 
           /* warning code used in both drawSymbol and drawBracket */
-          if (cache[font.image] == null) {
-            var image = new Image();
+          if (cache[font.image] === null || cache[font.image] === undefined) {
+            image = new Image();
             image.onload = function() {
               if (cache[font.image] instanceof Array) {
                 var todo = cache[font.image];
@@ -131,8 +133,8 @@ $main(function(){
                   todo[i](); // call stored drawImage functions
                 }
               }
-            }
-            cache[font.image] = new Array();
+            };
+            cache[font.image] = [];
   
             cache[font.image].push(drawImage);
   
@@ -151,7 +153,7 @@ $main(function(){
           top:    top,
           width:  width,
           height: height
-        }
+        };
       } else {
         // construct a symbol
         var topSymbol = this.getSymbolDataByPosition(bracket+"u");
@@ -176,23 +178,23 @@ $main(function(){
           bottomSymbol.y += 1;
         }
 
-        var left = x;
-        var height = Math.max(minimumHeight,
+        left = x;
+        height = Math.max(minimumHeight,
           topSymbol.height + bottomSymbol.height);
-        var top = y - height + bottomSymbol.yadjust;
-        var width = Math.max(topSymbol.width, connection.width,
+        top = y - height + bottomSymbol.yadjust;
+        width = Math.max(topSymbol.width, connection.width,
           bottomSymbol.width);
 
-        var font = topSymbol.font;
+        font = topSymbol.font;
 
         if (!invisible) {
   
-          var canvas = this.canvas;
-          var cache  = this.imageCache;
+          canvas = this.canvas;
+          cache  = this.imageCache;
   
-          var drawImage = function() {
+          drawImage = function() {
             var minXadjust = Math.min(topSymbol.xadjust,
-              bottomSymbol.xadjust, connection.xadjust)
+              bottomSymbol.xadjust, connection.xadjust);
             var topPos = { 
               left: left + topSymbol.xadjust - minXadjust,
               top: top,
@@ -217,8 +219,7 @@ $main(function(){
               cache[font.image],
               topSymbol.x, topSymbol.y, topSymbol.width, topSymbol.height,
               topPos.left, topPos.top, topPos.width, 
-              topPos.height
-            );
+              topPos.height);
             if (connPos.height>0) {
               canvas.getContext("2d").drawImage(
                 cache[font.image],
@@ -230,13 +231,12 @@ $main(function(){
               cache[font.image],
               bottomSymbol.x, bottomSymbol.y, bottomSymbol.width, 
               bottomSymbol.height, bottomPos.left, 
-              bottomPos.top, bottomPos.width, bottomPos.height
-            );
+              bottomPos.top, bottomPos.width, bottomPos.height);
           };
           
           /* warning code used in both drawSymbol and drawBracket */
-          if (cache[font.image] == null) {
-            var image = new Image();
+          if (cache[font.image] === null || cahce[font.image] === undefined) {
+            image = new Image();
             image.onload = function() {
               if (cache[font.image] instanceof Array) {
                 var todo = cache[font.image];
@@ -247,8 +247,8 @@ $main(function(){
                   todo[i](); // call stored drawImage functions
                 }
               }
-            }
-            cache[font.image] = new Array();
+            };
+            cache[font.image] = [];
   
             cache[font.image].push(drawImage);
   
@@ -267,8 +267,8 @@ $main(function(){
           top:    top,
           width:  width,
           height: height
-        }
-       }
+        };
+      }
     },
 
     /**
@@ -299,22 +299,22 @@ $main(function(){
     // draw a box the size of the symbol of the letter 'f' 
     drawFBox : function(x, y, invisible, letter) {
       var dim;
-      if (letter == null) {
+      if (letter === null || letter === undefined) {
         letter = "f";
       }
-      with(org.mathdox.formulaeditor.presentation) {
-        dim= new Symbol(letter).draw(this,x,y,true);
+      var presentation = org.mathdox.formulaeditor.presentation;
 
-        if (!invisible) {
-          var context = this.getContext();
-          context.save();
-          context.fillStyle = "#DDF";
-          context.fillRect(dim.left, dim.top, dim.width, dim.height);
-          context.restore();
-        }
+      dim = new presentation.Symbol(letter).draw(this,x,y,true);
 
-        return dim;
+      if (!invisible) {
+        var context = this.getContext();
+        context.save();
+        context.fillStyle = "#DDF";
+        context.fillRect(dim.left, dim.top, dim.width, dim.height);
+        context.restore();
       }
+
+      return dim;
 
     },
 
@@ -356,12 +356,11 @@ $main(function(){
           canvas.getContext("2d").drawImage(
             cache[font.image],
             symbolData.x, symbolData.y, symbolData.width, symbolData.height,
-            left, top, width, height
-          );
+            left, top, width, height);
         };
 
         /* warning code used in both drawSymbol and drawBracket */
-        if (cache[font.image] == null) {
+        if (cache[font.image] === null || cache[font.image] === undefined) {
           var image = new Image();
           image.onload = function() {
             if (cache[font.image] instanceof Array) {
@@ -373,8 +372,8 @@ $main(function(){
                 todo[i](); // call stored drawImage functions
               }
             }
-          }
-          cache[font.image] = new Array();
+          };
+          cache[font.image] = [];
 
           cache[font.image].push(drawImage);
 
@@ -392,7 +391,7 @@ $main(function(){
         top:    top,
         width:  width,
         height: height
-      }
+      };
 
     },
 
@@ -400,11 +399,12 @@ $main(function(){
      * copy an old object, replacing only a few attributes
      */
     extendObject: function(oldObj, replace) {
-      var newObj = new Object();
-      for (var name in oldObj) {
+      var newObj = {};
+      var name; // index variable
+      for (name in oldObj) {
         newObj[name] = oldObj[name];
       }
-      for (var name in replace) {
+      for (name in replace) {
         newObj[name] = replace[name];
       }
 
@@ -460,7 +460,7 @@ $main(function(){
       }
 
       if (!symbolData) {
-        if ((!symbol) || (symbol=='') || (symbol.charCodeAt(0)==0)) {
+        if ((!symbol) || (symbol === '') || (symbol.charCodeAt(0) === 0)) {
           return null;
         }
       }
@@ -570,7 +570,7 @@ $main(function(){
           fontName + "/" + fontSize + ".png"};
 
       if (!fBPN[fontSize]) {
-        fBPN[fontSize] = new Array();
+        fBPN[fontSize] = [];
       }
       var fontInfo = fBPN[fontSize];
       var length = fontInput.length;
@@ -603,22 +603,22 @@ $main(function(){
         }
       }
     }
-  }
+  };
 
   // XXX: how to multiple alternatives for symbols (capital pi vs product,
   // emptyset vs o with stroke) ?
   // XXX: which symbols to choose for ',`,"
   org.mathdox.formulaeditor.MathCanvas.symbolsInFont = {
     bbold10: [
-	// U+213E double-struck capital gamma
-	// U+213F double-struck capital pi
-	// U+2140 double-struck n-ary summation
+        // U+213E double-struck capital gamma
+        // U+213F double-struck capital pi
+        // U+2140 double-struck n-ary summation
       [  'ℾ', null, null, null, null,  'ℿ',  '⅀', null,
-	// U+213D double-struck small gamma
-	null, null, null, null, null,  'ℽ', null, null],
+        // U+213D double-struck small gamma
+        null, null, null, null, null,  'ℽ', null, null],
       [ null, null, null, null, null, null, null, null,
-	// U+213C double-struck small pi
-	null,  'ℼ', null, null, null, null, null, null],
+        // U+213C double-struck small pi
+        null,  'ℼ', null, null, null, null, null, null],
       [ null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null],
       [ null, null, null, null, null, null, null, null,
@@ -930,7 +930,7 @@ $main(function(){
       for (var row = 0; row<symbolsArray.length; row++) {
         for (var col = 0; col<symbolsArray[row].length; col++) {
           var symbol = symbolsArray[row][col];
-          if (symbol != null) {
+          if (symbol !== null && symbol !== undefined) {
             if (symbol in sp) {
               alert("duplicate entry for \""+symbol+"\"\n"+sp[symbol].font+
                 ": ("+sp[symbol].row+", "+sp[symbol].col+")\n"+

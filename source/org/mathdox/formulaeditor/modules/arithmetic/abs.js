@@ -46,9 +46,8 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for absolute values.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
@@ -56,27 +55,24 @@ $main(function(){
         // expression160 = abs | super.expression160
         expression160 : function() {
           var parent = arguments.callee.parent;
-          alternation(
-            rule("abs"),
-            parent.expression160
-          ).apply(this, arguments);
+          pG.alternation(
+            pG.rule("abs"),
+            parent.expression160).apply(this, arguments);
         },
 
         // abs = "|" expression "|"
         abs :
-          transform(
-            concatenation(
-              literal("|"),
-              rule("expression"),
-              literal("|")
+          pG.transform(
+            pG.concatenation(
+              pG.literal("|"),
+              pG.rule("expression"),
+              pG.literal("|")
             ),
             function(result) {
-              return new Abs(result[1]);
+              return new semantics.Abs(result[1]);
             }
           )
 
       });
-
-  }}}
 
 });

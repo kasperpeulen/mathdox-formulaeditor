@@ -20,16 +20,18 @@ $main(function(){
     precedence : 0,
 
     getPresentation : function(context) {
-      var modifiedContext = new Object();
+      var modifiedContext = {};
       for (var name in context) {
         modifiedContext[name] = context[name];
       }
       modifiedContext.inPalette = true;
 
-      var rows = new Array();
-      for (var row=0;row<this.operands.length;row++) {
-        var cols = new Array();
-        for (var col=0;col<this.operands[row].operands.length;col++) {
+      var rows = [];
+      var row; // counter
+      var col; // counter
+      for (row=0;row<this.operands.length;row++) {
+        var cols = [];
+        for (col=0;col<this.operands[row].operands.length;col++) {
 	  // semantic version of the entry
           var semanticEntry = this.operands[row].operands[col];
           
@@ -39,12 +41,13 @@ $main(function(){
 	  // add presentation to insert
 	  entry.insertablePresentation = function() { 
 	    return this.semanticEntry.getPresentation(context);
-	  }
+	  };
 	  // add function to insert, XXX possibly add library function to
 	  // presentation node ?
           entry.insertCopy = function(position) {
 
-            if (this.insertablePresentation == null) {
+            if (this.insertablePresentation === null || 
+	        this.insertablePresentation === undefined ) {
               return; // nothing to insert
             }
 
@@ -54,19 +57,19 @@ $main(function(){
 	      //alert("inserting: "+i+" : "+toInsert.children[i]);
 
               var moveright = position.row.insert(position.index, 
-		toInsert.children[i], (i==0));
+		toInsert.children[i], (i === 0));
               if (moveright) {
                 position.index++;
 	      }
             }
-          }
+          };
 
           cols.push(entry);
         }
         rows.push(cols);  
       }
       var numcols = rows[0].length;
-      for (var row=1;row<rows.length;row++) {
+      for (row=1;row<rows.length;row++) {
         if (rows[row].length!=numcols) {
           alert("ERROR: palette has rows of different length: first row has length "+numcols+" while row "+(1+row)+" has length "+rows[row].length+".");
           throw("ERROR: palette has rows of different length: first row has length "+numcols+" while row "+(1+row)+" has length "+rows[row].length+".");
@@ -108,10 +111,10 @@ $main(function(){
 
       // parse the operands of the OMA
       var children = node.getChildNodes();
-      var operands = new Array();
+      var operands = [];
       for (var i=1; i<children.length; i++) {
         child = this.handle(children.item(i));
-        if (child != null) {
+        if (child !== null) {
           // not a comment
           operands.push(child);
         }
@@ -131,15 +134,15 @@ $main(function(){
 
       // parse the children of the OMA
       var children = node.getChildNodes();
-      var operands = new Array(children.getLength()-1);
+      var operands = [];
       for (var i=1; i<children.length; i++) {
-        operands[i-1] = this.handle(children.item(i));
+        operands.push(this.handle(children.item(i)));
       }
 
       // construct a Editor1Palette_row object
       var result = new org.mathdox.formulaeditor.semantics.Editor1Palette_row();
       result.initialize.apply(result,operands);
-      return result
+      return result;
 
     }
 

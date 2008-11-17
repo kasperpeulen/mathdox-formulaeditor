@@ -10,13 +10,13 @@ $main(function(){
 
     parse : function(string, index, backward, start) {
 
-      if (index == null) {
+      if (index === null || index === undefined) {
         index = 0;
       }
-      if (backward == null) {
+      if (backward === null || backward === undefined) {
         backward = false;
       }
-      if (start == null) {
+      if (start === null || start === undefined) {
         start = "start";
       }
 
@@ -25,20 +25,20 @@ $main(function(){
         backward : backward,
         parser   : this,
         cache    : {}
-      }
+      };
 
       var endIndex  = null;
       var endResult = null;
 
       var continuation = function(newIndex, newResult) {
         if (context.backward) {
-          if (endIndex == null || newIndex < endIndex) {
+          if (endIndex === null || newIndex < endIndex) {
             endIndex  = newIndex;
             endResult = newResult;
           }
         }
         else {
-          if (endIndex == null || newIndex > endIndex) {
+          if (endIndex === null || newIndex > endIndex) {
             endIndex  = newIndex;
             endResult = newResult;
           }
@@ -47,7 +47,7 @@ $main(function(){
 
       this[start](context, index, [], continuation);
 
-      if (endResult != null && endResult.length == 1) {
+      if (endResult !== null && endResult.length == 1) {
         endResult = endResult[0];
       }
 
@@ -55,6 +55,6 @@ $main(function(){
 
     }
 
-  })
+  });
 
-})
+});

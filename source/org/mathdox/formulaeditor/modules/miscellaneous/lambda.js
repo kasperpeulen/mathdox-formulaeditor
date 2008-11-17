@@ -32,7 +32,7 @@ $main(function(){
 
       }
 
-    })
+    });
 
   /**
    * Extend the OpenMathParser object with parsing code for fns1.lambda.
@@ -49,13 +49,12 @@ $main(function(){
         var variable   = this.handle(children.item(1));
         var expression = this.handle(children.item(2));
 
-        with(org.mathdox.formulaeditor.semantics) {
-          return new Lambda(variable, expression);
-        }
+        semantics = org.mathdox.formulaeditor.semantics;
+        return new semantics.Lambda(variable, expression);
 
       }
 
-    })
+    });
   
 
 });

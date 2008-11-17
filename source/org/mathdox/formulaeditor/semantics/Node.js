@@ -20,7 +20,7 @@ $main(function(){
      * or copied and then extended or modified.
      */
     getPresentation : function(context) {
-      throw new Error("abstract method called")
+      throw new Error("abstract method called");
     },
 
     /**
@@ -28,7 +28,7 @@ $main(function(){
      * method, so it is expected that subclasses will override this method.
      */
     getOpenMath : function() {
-      throw new Error("abstract method called")
+      throw new Error("abstract method called");
     },
 
     /**
@@ -36,9 +36,9 @@ $main(function(){
      * so it is expected that subclasses will override this method.
      */
     getMathML : function() {
-      throw new Error("abstract method called")
+      throw new Error("abstract method called");
     }
 
-  })
+  });
 
 });

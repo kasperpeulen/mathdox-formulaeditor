@@ -23,12 +23,11 @@ $main(function(){
 
       getPresentation : function(context) {
 
-        with (org.mathdox.formulaeditor.presentation) {
-          return new Row(new Fraction(
-            this.operands[0].getPresentation(context),
-            this.operands[1].getPresentation(context)
-          ));
-        }
+        var presentation = org.mathdox.formulaeditor.presentation;
+        return new presentation.Row(new presentation.Fraction(
+          this.operands[0].getPresentation(context),
+          this.operands[1].getPresentation(context)
+        ));
 
       },
 
@@ -69,28 +68,24 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for division.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression160 = divide | super.expression160
-        expression160 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("divide"),
-            parent.expression160
-          ).apply(this, arguments);
-        },
+      // expression160 = divide | super.expression160
+      expression160 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("divide"),
+          parent.expression160).apply(this, arguments);
+      },
 
-        // divide = never
-        divide : never
+      // divide = never
+      divide : pG.never
 
-    });
+  });
 
-  }}}
 
   /**
    * Add a key handler for the '/' key.

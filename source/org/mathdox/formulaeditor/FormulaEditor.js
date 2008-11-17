@@ -160,7 +160,8 @@ $main(function(){
           canvas.className           = "formulaeditorinput";
 
           // set the style attributes that determine the look of the editor
-	  if (textarea.hasAttributes() && textarea.attributes["style"]) {
+	  if (textarea.hasAttributes() && textarea.attributes.style !== null &&
+	      textarea.attributes.style !== undefined) {
 	    // same style as the textarea
 	    canvas.setAttribute("style", textarea.getAttribute("style"));
 	  } else if (org.mathdox.formulaeditor.options.inputStyle) {
@@ -233,7 +234,7 @@ $main(function(){
           }
 
           if (!palettes) {
-            palettes = new Array();
+            palettes = [];
           }
           this.palette = new org.mathdox.formulaeditor.Palette();
           palettes.push(this.palette);
@@ -288,7 +289,7 @@ $main(function(){
 
       // update the textarea
       if (org.mathdox.formulaeditor.options.indentXML && 
-        org.mathdox.formulaeditor.options.indentXML == true) {
+        org.mathdox.formulaeditor.options.indentXML === true) {
         textarea.value = this.indentXML(openmathInfo.value);
       } else {
         textarea.value = openmathInfo.value;
@@ -327,26 +328,24 @@ $main(function(){
       // forward the event to the cursor object when we have the focus
       if(this.hasFocus) {
         // handle some events here
-        switch (event.keyCode) {
-          case 116: // F5
-            var Cursor    = org.mathdox.formulaeditor.Cursor;
+        if (event.keyCode == 116) {
+          var Cursor    = org.mathdox.formulaeditor.Cursor;
 
-            var saveResult = this.save();
-            if (saveResult.success) {
-              // formula can be parsed and transformed to OpenMath
-              this.load();
-              this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
-              this.focus(); // XXX is this necessary ?
-              this.redraw();
-            } else {
-              // formula cannot be parsed and transformed to OpenMath
-              alert("The formula could not be interpreted correctly. "+
-                "The error message was:\n"+saveResult.errorString
-              );
-            }
+          var saveResult = this.save();
+          if (saveResult.success) {
+            // formula can be parsed and transformed to OpenMath
+            this.load();
+            this.cursor = new Cursor(this.presentation.getFollowingCursorPosition());
+            this.focus(); // XXX is this necessary ?
+            this.redraw();
+          } else {
+            // formula cannot be parsed and transformed to OpenMath
+            alert("The formula could not be interpreted correctly. "+
+              "The error message was:\n"+saveResult.errorString);
+          }
 
-            return false;
-        }
+          return false;
+	}
         this.focus(); // TODO: only necessary for crappy blinker implementation
         return this.cursor.onkeydown(event, this);
       }
@@ -435,9 +434,10 @@ $main(function(){
       var pageXOffset = window.pageXOffset;
       var pageYOffset = window.pageYOffset;
 
+      var element;
       // MSIE provides the page offset in a different way *sigh*
-      if (pageXOffset == null) {
-        var element = document.documentElement;
+      if (pageXOffset === null || pageXOffset === undefined) {
+        element = document.documentElement;
         if (!element || !element.scrollLeft) {
           element = document.body;
         }
@@ -450,7 +450,7 @@ $main(function(){
       mouseY += pageYOffset;
 
       // calculate the document coordinates of the canvas element
-      var element = this.canvas.canvas;
+      element = this.canvas.canvas;
       var x      = 0;
       var y      = 0;
       var width  = element.offsetWidth;
@@ -516,14 +516,14 @@ $main(function(){
           editor.redraw();
           window.setTimeout(blinkoff, 600);
         }
-      }
+      };
       blinkoff = function() {
         if (editor.hasFocus && (blinker == editor.blinker)) {
           editor.cursor.visible = false;
           editor.redraw();
           window.setTimeout(blinkon, 400);
         }
-      }
+      };
       blinkon();
 
     },
@@ -533,7 +533,7 @@ $main(function(){
         // on losing focus save changes to ORBEON if ORBEON is around
         if (ORBEON) {
           ORBEON.xforms.Document.setValue(this.textarea.id, 
-            new String(this.textarea.value));
+            this.textarea.value);
         }
       }
       this.hasFocus = false;
@@ -572,7 +572,7 @@ $main(function(){
       var errorInfo;
       var success;
 
-      if (returnErrorInfo == null) {
+      if (returnErrorInfo === null || returnErrorInfo === undefined) {
         returnErrorInfo = false;
       }
 
@@ -631,7 +631,7 @@ $main(function(){
         for (i=indent;i>0;i--) {
           buffer.push(indentstr);
         }
-      }
+      };
 
       l=str.length; // store the length in l;
 
@@ -642,7 +642,7 @@ $main(function(){
           /* 
 	    indenting is not desired for text inside tags, unless after a child
 	  */
-          if (child==true) {
+          if (child === true) {
 	    doIndent();
 	  }
 	  buffer.push(str.substr(oldpos,pos-oldpos));
@@ -662,7 +662,7 @@ $main(function(){
 	     * don't indent if the tag only contains text (so no other tags, no
 	     * comments and no CDATA)
 	     */
-            if (child==true) {
+            if (child === true) {
 	      doIndent();
 	    }
             pos = str.indexOf('>',pos);
@@ -753,7 +753,7 @@ $main(function(){
     }
     return null;
 
-  }
+  };
 
   /**
    * Add the static getFocusedEditor() method, that returns the formula editor
@@ -769,7 +769,7 @@ $main(function(){
     }
     return null;
 
-  }
+  };
 
 
   /**
@@ -869,7 +869,7 @@ $main(function(){
             palettes[p].parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
             palettes[p].draw();
           }
-        }
+        };
 
         /// XMLHttp request data from http://www.w3schools.com/dom/dom_http.asp
         if (window.XMLHttpRequest) {
@@ -880,7 +880,7 @@ $main(function(){
           xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
-        if (xmlhttp!=null) {
+        if (xmlhttp!==null) {
           xmlhttp.onreadystatechange = onload;
           xmlhttp.open("GET", url, true);
           xmlhttp.send(null);
@@ -898,253 +898,260 @@ $main(function(){
       if (arguments.length > 0 ) { 
         this.canvas = new MathCanvas(canvas);
       }
-      with (org.mathdox.formulaeditor.presentation) {
-        var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
-        var semInteger = org.mathdox.formulaeditor.semantics.Integer;
+      var presentation = org.mathdox.formulaeditor.presentation;
+      var pi = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__pi"];
+      var semantics = org.mathdox.formulaeditor.semantics;
 
-        var autocreate = function (createFun) {
-          return autocreate2(createFun, createFun);
-        }
-        var autocreate2 = function(createFunDisplay,createFunInsert) {
-          var obj = createFunDisplay(); 
-          if (obj instanceof Array) {
-            // in case of an array put it in a row for the palette, and add the
-            // items one by one in insertCopy
+      var autocreate = function (createFun) {
+        return autocreate2(createFun, createFun);
+      };
+      var autocreate2 = function(createFunDisplay,createFunInsert) {
+        var obj = createFunDisplay(); 
+        if (obj instanceof Array) {
+          // in case of an array put it in a row for the palette, and add the
+          // items one by one in insertCopy
+          
+          var row = new presentation.Row();
+          row.initialize.apply(row, obj);
+          row.insertCopy = function(position) {
+            var toInsert = createFunInsert();
             
-            var row = new Row();
-            row.initialize.apply(row, obj);
-            row.insertCopy = function(position) {
-              var toInsert = createFunInsert();
-              
-              if (toInsert == null) {
-                return; // nothing to insert
-              }
-
-              var doinsert = function(node, removeEmpty) {
-                var moveright = 
-                  position.row.insert(position.index, node, removeEmpty);
-                if (moveright) {
-                  position.index++;
-                }
-              }
-              var i;
-
-              for (i=0;i<toInsert.length;i++) {
-                if (toInsert[i] instanceof Row) {
-                  for (var j=0; j<toInsert[i].children.length; j++) {
-                    doinsert(toInsert[i].children[j], ((i==0) && (j==0)) );
-                  }
-                } else {
-                  doinsert(toInsert[i], (i==0) );
-                }
-              };
+            if (toInsert === null) {
+              return; // nothing to insert
             }
-            obj = row;
-          } else {
-            obj.insertCopy = function(position) {
-              var toInsert = createFunInsert();
 
-              if (toInsert == null) {
-                return; // nothing to insert
-              }
-
+            var doinsert = function(node, removeEmpty) {
               var moveright = 
-                position.row.insert(position.index, toInsert);
+                position.row.insert(position.index, node, removeEmpty);
               if (moveright) {
                 position.index++;
               }
             };
-          }
-          return obj;
+            var i;
+
+            for (i=0;i<toInsert.length;i++) {
+              if (toInsert[i] instanceof Row) {
+                for (var j=0; j<toInsert[i].children.length; j++) {
+                  doinsert(toInsert[i].children[j], ((i===0) && (j===0)) );
+                }
+              } else {
+                doinsert(toInsert[i], (i === 0) );
+              }
+            }
+          };
+          obj = row;
+        } else {
+          obj.insertCopy = function(position) {
+            var toInsert = createFunInsert();
+
+            if (toInsert === null) {
+              return; // nothing to insert
+            }
+
+            var moveright = 
+              position.row.insert(position.index, toInsert);
+            if (moveright) {
+              position.index++;
+            }
+          };
         }
-        var empty = function() {
-          var obj = new Symbol(" ");
-          obj.insertCopy = function(position) { };
-          return obj;
+        return obj;
+      };
+      var empty = function() {
+        var obj = new presentation.Symbol(" ");
+        obj.insertCopy = function(position) { };
+        return obj;
+      };
+      var autocreateOMA = function(cd, name) {
+        var createFun = function() {
+          return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation({}), new presentation.Symbol("("), null, 
+            new presentation.Symbol(")")];
         };
-        var autocreateOMA = function(cd, name) {
-          var createFun = function() {
-            return [ org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation({}), new Symbol("("), null, new Symbol(")")];
-          };
-          return autocreate(createFun);
+        return autocreate(createFun);
+      };
+      var autocreateOMS = function(cd, name) {
+        var createFun = function() {
+          return org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation({});
         };
-        var autocreateOMS = function(cd, name) {
-          var createFun = function() {
-            return org.mathdox.formulaeditor.parsing.openmath.KeywordList[cd+"__"+name].getPresentation({});
-          };
-          return autocreate(createFun);
+        return autocreate(createFun);
+      };
+      var autocreateSymbol = function(symbol) {
+        var createFun = function() {
+          return new presentation.Symbol(symbol);
         };
-        var autocreateSymbol = function(symbol) {
-          var createFun = function() {
-            return new Symbol(symbol);
+        return autocreate(createFun);
+      };
+      var autocreateMatrix = function(n,m) {
+        var rows = [];
+        var i,j;
+        for (i=0;i<n;i++) {
+          var row = [];
+          for (j=0;j<m;j++) {
+            row.push(new presentation.Row(new presentation.BlockSymbol(",")));
           }
-          return autocreate(createFun);
-        };
-        var autocreateMatrix = function(n,m) {
-          var rows = new Array();
+          rows.push(row);
+        }
+        var obj = new presentation.Matrix();
+        obj.initialize.apply(obj, rows);
+
+        obj.insertCopy = function(position) {
+          var rows = [];
           var i,j;
           for (i=0;i<n;i++) {
-            var row = new Array();
+            var row = [];
             for (j=0;j<m;j++) {
-              row.push(new Row(new BlockSymbol(",")));
+              row.push(new presentation.Row());
             }
             rows.push(row);
           }
-          var obj = new Matrix();
-          obj.initialize.apply(obj, rows);
-
-          obj.insertCopy = function(position) {
-            var rows = new Array();
-            var i,j;
-            for (i=0;i<n;i++) {
-              var row = new Array();
-              for (j=0;j<m;j++) {
-                row.push(new Row());
-              }
-              rows.push(row);
-            }
-            var mat = new Matrix();
-            mat.initialize.apply(mat,rows);
-            position.row.insert(position.index, mat);
-            position.index++;
-          }
-          return obj;
+          var mat = new presentation.Matrix();
+          mat.initialize.apply(mat,rows);
+          position.row.insert(position.index, mat);
+          position.index++;
         };
-        var autocreateVector = function(size) {
-          var i;
-          var entries = new Array();
-          for (i=0;i<size;i++) {
-            entries.push(new Row(new BlockSymbol(",")));
-          }
-          var obj = new Vector();
-          obj.initialize.apply(obj, entries);
-          obj.insertCopy = function(position) {
-            var entries = new Array();
-            var i;
-            for (i=0;i<size;i++) {
-              entries.push(new Row());
-            }
-            var v = new Vector();
-            v.initialize.apply(v,entries);
-            position.row.insert(position.index, v);
-            position.index++;
-          }
-          return obj;
-        };
-        var autocreateFromOpenMath = function(str) {
-          var Parser    = 
-            org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
-          var Row       = org.mathdox.formulaeditor.presentation.Row;
-          var createFun = function(context) {
-            var presentation;
-            
-            // read any OpenMath code that may be present in str
-            //try {
-              var parsed = new Parser().parse(str);
-              presentation = parsed.getPresentation(context);
-              // result is a row, get the children ?
-              // not for a vector !
-              if ((presentation instanceof 
-                org.mathdox.formulaeditor.presentation.Row) && 
-                presentation.children) {
-
-                presentation = presentation.children;
-              }
-            //}
-            //catch(exception) {
-            //  presentation = [null];
-            //}
-          
-            return presentation;
-          }
-          var createFunDisplay = function() {
-            return createFun({
-              inPalette:true  // inside a palette
-            });
-          }
-          var createFunInsert = function() {
-            return createFun({});
-          }
-
-          return autocreate2(createFunDisplay,createFunInsert);
+        return obj;
+      };
+      var autocreateVector = function(size) {
+        var i;
+        var entries = [];
+        for (i=0;i<size;i++) {
+          entries.push(new presentation.Row(new presentation.BlockSymbol(",")));
         }
+        var obj = new presentation.Vector();
+        obj.initialize.apply(obj, entries);
+        obj.insertCopy = function(position) {
+          var entries = [];
+          var i;
+          for (i=0;i<size;i++) {
+            entries.push(new presentation.Row());
+          }
+          var v = new presentation.Vector();
+          v.initialize.apply(v,entries);
+          position.row.insert(position.index, v);
+          position.index++;
+        };
+        return obj;
+      };
+      var autocreateFromOpenMath = function(str) {
+        var Parser    = 
+          org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
+        var Row       = org.mathdox.formulaeditor.presentation.Row;
+        var createFun = function(context) {
+          var presentation;
+          
+          // read any OpenMath code that may be present in str
+          //try {
+            var parsed = new Parser().parse(str);
+            presentation = parsed.getPresentation(context);
+            // result is a row, get the children ?
+            // not for a vector !
+            if ((presentation instanceof 
+              org.mathdox.formulaeditor.presentation.Row) && 
+              presentation.children) {
 
-        // create o/o 
-        var createFrac = function() {
-          return new Fraction(new Row(), new Row());
+              presentation = presentation.children;
+            }
+          //}
+          //catch(exception) {
+          //  presentation = [null];
+          //}
+        
+          return presentation;
         };
-        // create o^o
-        var createPower = function() {
-          return [null, new Superscript(new Row())];
+        var createFunDisplay = function() {
+          return createFun({
+            inPalette:true  // inside a palette
+          });
         };
-        // create |o|
-        var createAbs = function() {
-          return [new Symbol("|"), null, new Symbol("|")];
+        var createFunInsert = function() {
+          return createFun({});
         };
-        // create o!
-        var createFac = function() {
-          return [null, new Symbol("!")];
-        };
-        // create e^o
-        var createEPower = function() {
-          return [autocreateOMS("nums1","e"), new Superscript(new Row())];
-        };
-        var createRoot = function() { 
-          return [new Root(new Row(), new Row())];
-        };
-        var createRoot2 = function() { 
-          return [new Root(new Row(new Row()), new Row(new semInteger(2).getPresentation({})))];
-        };
-        var createList = function() { 
-          return [new Symbol("{"), null, new Symbol("}")];
-        };
-        // create a PArray
-        this.presentation = new PArray(
-          [ autocreateSymbol("+"), 
-            autocreateSymbol("-"), 
-            // U+00B7 middle dot
-            autocreateSymbol("·"),
-            // U+2227 logical and
-            autocreateSymbol("∧"),
-            // U+2228 logical or
-            autocreateSymbol("∨"),
-            autocreateOMA("transc1", "cos"),
-            autocreateVector(2),
-            autocreate(createRoot2)
-          ],
-          [ autocreateSymbol("<"), 
-            // U+2264 less-than or equal to 
-            autocreateSymbol("≤"),
-            autocreateSymbol("="),
-            // U+2265 greater-than or equal to 
-            autocreateSymbol("≥"), 
-            autocreateSymbol(">"),
-            autocreateOMA("transc1", "sin"),
-            autocreateVector(3),
-            autocreate(createRoot)
-          ],
-          [ autocreateOMS("nums1","pi"),
-            autocreateOMS("nums1","e"),
-            autocreateOMS("nums1","i"),
-            autocreateOMS("nums1","infinity"),
-            autocreateFromOpenMath("<OMOBJ><OMS cd='editor1' name='input_box'/></OMOBJ>"),
-            autocreateOMA("transc1", "tan"),
-            autocreateMatrix(2,2),
-            autocreate(createList)
-          ],
-          [ autocreate(createFrac), 
-            autocreate(createPower),
-            autocreate(createAbs),
-            autocreate(createFac),
-            autocreate(createEPower),
-            autocreateOMA("transc1", "ln"),
-            autocreateMatrix(2,3),
-            empty()
-          ]
-        );
-        this.presentation.margin = 10.0;
-        this.draw();
-      }
+
+        return autocreate2(createFunDisplay,createFunInsert);
+      };
+
+      // create o/o 
+      var createFrac = function() {
+        return new presentation.Fraction(new presentation.Row(), 
+          new presentation.Row());
+      };
+      // create o^o
+      var createPower = function() {
+        return [null, new presentation.Superscript(new presentation.Row())];
+      };
+      // create |o|
+      var createAbs = function() {
+        return [new presentation.Symbol("|"), null, 
+          new presentation.Symbol("|")];
+      };
+      // create o!
+      var createFac = function() {
+        return [null, new presentation.Symbol("!")];
+      };
+      // create e^o
+      var createEPower = function() {
+        return [autocreateOMS("nums1","e"), new presentation.Superscript(
+          new presentation.Row())];
+      };
+      var createRoot = function() { 
+        return [new presentation.Root(new presentation.Row(), 
+          new presentation.Row())];
+      };
+      var createRoot2 = function() { 
+        return [new presentation.Root(new presentation.Row(
+          new presentation.Row()), new presentation.Row(
+            new semantics.Integer(2).getPresentation({})))];
+      };
+      var createList = function() { 
+        return [new presentation.Symbol("{"), null, 
+          new presentation.Symbol("}")];
+      };
+      // create a PArray
+      this.presentation = new presentation.PArray(
+        [ autocreateSymbol("+"), 
+          autocreateSymbol("-"), 
+          // U+00B7 middle dot
+          autocreateSymbol("·"),
+          // U+2227 logical and
+          autocreateSymbol("∧"),
+          // U+2228 logical or
+          autocreateSymbol("∨"),
+          autocreateOMA("transc1", "cos"),
+          autocreateVector(2),
+          autocreate(createRoot2)
+        ],
+        [ autocreateSymbol("<"), 
+          // U+2264 less-than or equal to 
+          autocreateSymbol("≤"),
+          autocreateSymbol("="),
+          // U+2265 greater-than or equal to 
+          autocreateSymbol("≥"), 
+          autocreateSymbol(">"),
+          autocreateOMA("transc1", "sin"),
+          autocreateVector(3),
+          autocreate(createRoot)
+        ],
+        [ autocreateOMS("nums1","pi"),
+          autocreateOMS("nums1","e"),
+          autocreateOMS("nums1","i"),
+          autocreateOMS("nums1","infinity"),
+          autocreateFromOpenMath("<OMOBJ><OMS cd='editor1' name='input_box'/></OMOBJ>"),
+          autocreateOMA("transc1", "tan"),
+          autocreateMatrix(2,2),
+          autocreate(createList)
+        ],
+        [ autocreate(createFrac), 
+          autocreate(createPower),
+          autocreate(createAbs),
+          autocreate(createFac),
+          autocreate(createEPower),
+          autocreateOMA("transc1", "ln"),
+          autocreateMatrix(2,3),
+          empty()
+        ]
+      );
+      this.presentation.margin = 10.0;
+      this.draw();
     },
     insertSymbolFromPalette: function(editor,x,y) {
       var position = editor.cursor.position;
@@ -1152,27 +1159,27 @@ $main(function(){
       var coords = pArray.getCoordinatesFromPosition(x,y);
       var row = this.semantics.operands[coords.row].operands[coords.col];
 
-      with(org.mathdox.formulaeditor.presentation) {
-        var presentation = new Row(row.getPresentation({}));
-        presentation.flatten();
+      var presentation = org.mathdox.formulaeditor.presentation;
+      var rowPresentation = new presentation.Row(row.getPresentation({}));
+      rowPresentation.flatten();
 
-        if (presentation.children) {
-          for (var i=0;i<presentation.children.length;i++) {
-            //alert("inserting: "+i+" : "+toInsert.children[i]);
+      var moveright;
+      if (rowPresentation.children) {
+        for (var i=0;i<rowPresentation.children.length;i++) {
+          //alert("inserting: "+i+" : "+toInsert.children[i]);
 
-            var moveright = position.row.insert(position.index, 
-              presentation.children[i], (i==0));
-            if (moveright) {
-              position.index++;
-            }
-          }
-        } else {
-          var moveright = 
-            position.row.insert(position.index, presentation, true);
-
+          moveright = position.row.insert(position.index, 
+            rowPresentation.children[i], (i === 0));
           if (moveright) {
             position.index++;
           }
+        }
+      } else {
+        moveright = position.row.insert(
+	  position.index, rowPresentation, true);
+
+        if (moveright) {
+          position.index++;
         }
       }
       editor.redraw();
@@ -1209,7 +1216,7 @@ $main(function(){
   var onload = function() {
 
     // replace all textarea's of class 'mathdoxformula' with editors
-    var textareas = document.getElementsByTagName("textarea")
+    var textareas = document.getElementsByTagName("textarea");
     for (var i=0; i<textareas.length; i++) {
       var textarea = textareas[i];
 
@@ -1226,7 +1233,7 @@ $main(function(){
       if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
 
         // replace the textarea by a formula editor
-        new org.mathdox.formulaeditor.FormulaEditor(textarea);
+        var editor = new org.mathdox.formulaeditor.FormulaEditor(textarea);
 
       }
 
@@ -1239,7 +1246,8 @@ $main(function(){
         var result = true;
         for (var i=0; i<editors.length; i++) {
           var intermediate = editors[i].onkeydown(event);
-          if (intermediate != null && intermediate == false) {
+          if (intermediate !== null && intermediate !== undefined &&
+	      intermediate === false) {
             result = false;
           }
         }
@@ -1251,7 +1259,8 @@ $main(function(){
 
         for (var i=0; i<editors.length; i++) {
           var intermediate = editors[i].onkeypress(event);
-          if (intermediate != null && intermediate == false) {
+          if (intermediate !== null && intermediate !== undefined && 
+	      intermediate === false) {
             result = false;
           }
         }
@@ -1260,8 +1269,8 @@ $main(function(){
 
       onmousedown : function(event) {
         var result = true;
+        var i; // counter
         if (palettes) {
-          var i;
           for (i=0;i<palettes.length;i++) {
             if (result) {
               result = result && palettes[i].onmousedown(event);
@@ -1270,9 +1279,10 @@ $main(function(){
         }
         if (result) {
           // if not handled by palettes, then continue
-          for (var i=0; i<editors.length; i++) {
+          for (i=0; i<editors.length; i++) {
             var intermediate = editors[i].onmousedown(event);
-            if (intermediate != null && intermediate == false) {
+            if (intermediate !== null && intermediate !== undefined &&
+	        intermediate === false) {
               result = false;
             }
           }
@@ -1280,9 +1290,8 @@ $main(function(){
         }
       }
     });
-    new Handler();
-
-  }
+    var handler = new Handler();
+  };
 
   // register the onload function as an event handler
   if (window.addEventListener) {
@@ -1313,7 +1322,7 @@ $main(function(){
           }
         } 
       }
-    }
+    };
     bodyChecker();
   }
 
@@ -1324,7 +1333,7 @@ org.mathdox.formulaeditor.hasLoaded = false;
 if (window.addEventListener) {
   var setLoaded = function() {
     org.mathdox.formulaeditor.hasLoaded = true;
-  }
+  };
 
   // use the W3C standard way of registering event handlers
   window.addEventListener("load", setLoaded, false);

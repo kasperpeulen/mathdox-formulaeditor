@@ -25,18 +25,19 @@ $main(function(){
     
       getPresentation : function(context) {
       
-        with(org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
         
-          return new Row(
-            new Defint(
-              new Row(this.operands[0].operands[0].getPresentation(context)),
-              new Row(this.operands[0].operands[1].getPresentation(context))
-            ),
-            this.operands[1].operands[1].getPresentation(context),
-            new Symbol("d"),
-            this.operands[1].operands[0].getPresentation(context)
-          );
-        }        
+        return new presentation.Row(
+          new presentation.Defint(
+            new presentation.Row(
+              this.operands[0].operands[0].getPresentation(context)),
+            new presentation.Row(
+              this.operands[0].operands[1].getPresentation(context))
+          ),
+          this.operands[1].operands[1].getPresentation(context),
+          new presentation.Symbol("d"),
+          this.operands[1].operands[0].getPresentation(context)
+        );
       
       },
       
@@ -61,25 +62,21 @@ $main(function(){
       initialize : function(below, above) {
 
         var parent = arguments.callee.parent;
-	// U+222B integral
-	var defint  = new org.mathdox.formulaeditor.presentation.Symbol("∫");
+        // U+222B integral
+        var defint  = new org.mathdox.formulaeditor.presentation.Symbol("∫");
         return parent.initialize.call(this, above, defint, below);
 
       },
 
       getSemantics : function() {
 
-        with(org.mathdox.formulaeditor.semantics) {
+        var above = this.children[0].getSemantics().value;
+        var below = this.children[2].getSemantics().value;
 
-          var above = this.children[0].getSemantics().value;
-          var below = this.children[2].getSemantics().value;
-
-          return {
-            value : [below, above],
-            rule  : "defint"
-          }
-
-        }
+        return {
+          value : [below, above],
+          rule  : "defint"
+        };
 
       }
 
@@ -108,45 +105,41 @@ $main(function(){
 
 
   /**
-   * Extend the ExpressionParser object with parsing code for definite integrals.
+   * Extend the ExpressionParser object with parsing code for definite
+   * integrals.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression150 = defint expression 'd' variable | super.expression150
-        expression150 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            transform(
-              concatenation(
-                rule("defint"),
-                rule("expression"),
-                literal("d"),
-		rule("variable")
-              ),
-              function(result) {
-
-                return new Defint(
-                  new Interval(result[0][0], result[0][1]),
-                  new Lambda(result[3], result[1])
-                );
-
-              }
+      // expression150 = defint expression 'd' variable | super.expression150
+      expression150 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.transform(
+            pG.concatenation(
+              pG.rule("defint"),
+              pG.rule("expression"),
+              pG.literal("d"),
+              pG.rule("variable")
             ),
-            parent.expression150
-          ).apply(this, arguments);
-        },
+            function(result) {
 
-        // defint = never
-        defint : never
+              return new semantics.Defint(
+                new semantics.Interval(result[0][0], result[0][1]),
+                new semantics.Lambda(result[3], result[1])
+              );
 
-    });
+            }
+          ),
+          parent.expression150).apply(this, arguments);
+      },
 
-  }}}
+      // defint = never
+      defint : pG.never
 
+  });
 
 });

@@ -23,18 +23,18 @@ $main(function(){
 
       getPresentation : function(context) {
 
-        with (org.mathdox.formulaeditor.presentation) {
-          // add braces to base, if necessary
-          var base = this.operands[0].getPresentation(context);
-          if (base instanceof Row && base.children.length > 1) {
-            base = new Row(new Symbol("("), base, new Symbol(")"));
-          }
-          return new Row(
-            base,
-            new Superscript(this.operands[1].getPresentation(context))
-          );
+        var presentation = org.mathdox.formulaeditor.presentation;
+        // add braces to base, if necessary
+        var base = this.operands[0].getPresentation(context);
+        if (base instanceof presentation.Row && base.children.length > 1) {
+          base = new presentation.Row(new presentation.Symbol("("), base, 
+            new presentation.Symbol(")"));
         }
-
+        return new presentation.Row(
+          base,
+          new presentation.Superscript(
+            this.operands[1].getPresentation(context))
+        );
       },
 
       getMathML : function() {
@@ -74,53 +74,49 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for power operations.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression150 = power | super.expression150
-        expression150 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("power"),
-            parent.expression150
-          ).apply(this, arguments);
-        },
+      // expression150 = power | super.expression150
+      expression150 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("power"),
+          parent.expression150).apply(this, arguments);
+      },
 
-        // power = expression160 superscript
-        power :
-          transform(
-            concatenation(
-              rule("expression160"),
-              rule("superscript")
-            ),
-            function(result) {
-              return new Power(result[0], result[1]);
-            }
+      // power = expression160 superscript
+      power :
+        pG.transform(
+          pG.concatenation(
+            pG.rule("expression160"),
+            pG.rule("superscript")
           ),
+          function(result) {
+            return new semantics.Power(result[0], result[1]);
+          }
+        ),
 
-	// useful for invisible multiplication (should not start with a number)
-        // restrictedpower = restrictedexpression160 superscript
-        restrictedpower :
-          transform(
-            concatenation(
-              rule("restrictedexpression160"),
-              rule("superscript")
-            ),
-            function(result) {
-              return new Power(result[0], result[1]);
-            }
+      // useful for invisible multiplication (should not start with a number)
+      // restrictedpower = restrictedexpression160 superscript
+      restrictedpower :
+        pG.transform(
+          pG.concatenation(
+            pG.rule("restrictedexpression160"),
+            pG.rule("superscript")
           ),
+          function(result) {
+            return new semantics.Power(result[0], result[1]);
+          }
+        ),
 
-        // superscript = 0
-        superscript : never
+      // superscript = 0
+      superscript : pG.never
 
-      });
-
-  }}}
+    });
 
   /**
    * Add a key handler for the '^' key.

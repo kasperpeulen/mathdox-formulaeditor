@@ -7,67 +7,63 @@ $require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
 
-  with (org.mathdox.formulaeditor.semantics) {
-    var cd;
-    var name;
-    var symbol;
-    var newvars = new Array();
-    var regex = /^[A-Za-z]*$/;
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var cd;
+  var name;
+  var symbol;
+  var newvars = [];
+  var regex = /^[A-Za-z]*$/;
 
-    var hasOnlyLetters = function(s) {
-      return regex.test(s);
-    }
+  var hasOnlyLetters = function(s) {
+    return regex.test(s);
+  };
 
-    <model:groupmember>
-    /**
-     * Define the <model:cd/>.<model:name/> keyword.
-     */
-    cd = "<model:cd/>";
-    name = "<model:name/>";
-    symbol = { 
-      onscreen: "<model:onscreen/>", 
-      openmath : null, // use default with model:cd and model:name
-      mathml : "<model:mathml/>"
-    };
-    
-    org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] = new Keyword(cd, name, symbol, "<model:type/>");
+  <model:groupmember>
+  /**
+   * Define the <model:cd/>.<model:name/> keyword.
+   */
+  cd = "<model:cd/>";
+  name = "<model:name/>";
+  symbol = { 
+    onscreen: "<model:onscreen/>", 
+    openmath : null, // use default with model:cd and model:name
+    mathml : "<model:mathml/>"
+  };
   
-    if ( "<model:keyword/>" != "<model:onscreen/>" ) {
-      org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:onscreen/>"] = new Keyword(cd, name, symbol, "<model:type/>");
-    }
-  
-    org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new Keyword(cd, name, symbol, "<model:type/>");
+  org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] = new semantics.Keyword(cd, name, symbol, "<model:type/>");
 
-    if ( ! hasOnlyLetters("<model:onscreen/>") ) {
-      newvars.push( "<model:onscreen/>" );
-    }
+  if ( "<model:keyword/>" !== "<model:onscreen/>" ) {
+    org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:onscreen/>"] = new semantics.Keyword(cd, name, symbol, "<model:type/>");
+  }
+
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new semantics.Keyword(cd, name, symbol, "<model:type/>");
+
+  if ( ! hasOnlyLetters("<model:onscreen/>") ) {
+    newvars.push( "<model:onscreen/>" );
+  }
   </model:groupmember>
-    with( new org.mathdox.parsing.ParserGenerator() ) {
-      if(newvars.length &gt; 0) {
-        var args = new Array();
-        pg = new org.mathdox.parsing.ParserGenerator();
-        for (var i=0;i &lt; newvars.length; i++) {
-	  args.push(literal(newvars[i]));
-	}
-        org.mathdox.formulaeditor.parsing.expression.ExpressionParser = $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
-            variable : function() {
-	      var parent = arguments.callee.parent;
-	      alternation(
-	        transform(
-		  alternation.apply(this, args),
-		  function(result) {
-		    var result_joined = result.join("");
-
-		    // this should be in the keywordlist
-		    return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
-		  }
-		),
-	        parent.variable
-	      ).apply(this, arguments);
-            }
-        });
-      }
+  var pG = new org.mathdox.parsing.ParserGenerator();
+  if(newvars.length &gt; 0) {
+    var args = [];
+    for (var i=0;i &lt; newvars.length; i++) {
+      args.push(pG.literal(newvars[i]));
     }
+    org.mathdox.formulaeditor.parsing.expression.ExpressionParser = $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+        variable : function() {
+          var parent = arguments.callee.parent;
+          pG.alternation(
+            pG.transform(
+              pG.alternation.apply(this, args),
+              function(result) {
+                var result_joined = result.join("");
+
+                // this should be in the keywordlist
+                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
+              }
+            ),
+            parent.variable).apply(this, arguments);
+        }
+    });
   }
 });
 </model:model>

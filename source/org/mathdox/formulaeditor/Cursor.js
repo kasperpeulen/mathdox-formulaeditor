@@ -99,7 +99,7 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getFollowingCursorPosition(index);
-      if (newPosition != null) {
+      if (newPosition !== null) {
         this.position = newPosition;
       }
 
@@ -111,7 +111,7 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getPrecedingCursorPosition(index);
-      if (newPosition != null) {
+      if (newPosition !== null) {
         this.position = newPosition;
       }
 
@@ -123,7 +123,7 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getLowerCursorPosition(index, this.getX());
-      if (newPosition != null) {
+      if (newPosition !== null) {
         this.position = newPosition;
       }
 
@@ -135,7 +135,7 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getHigherCursorPosition(index, this.getX());
-      if (newPosition != null) {
+      if (newPosition !== null) {
         this.position = newPosition;
       }
 
@@ -147,7 +147,7 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getFirstCursorPosition(index);
-      if (newPosition != null) {
+      if (newPosition !== null) {
         this.position = newPosition;
       }
 
@@ -159,7 +159,7 @@ $main(function(){
       var index = this.position.index;
 
       var newPosition = row.getLastCursorPosition(index);
-      if (newPosition != null) {
+      if (newPosition !== null) {
         this.position = newPosition;
       }
 
@@ -174,13 +174,13 @@ $main(function(){
       var dim0 = row.children[index-1] ? row.children[index - 1].dimensions : null;
       var dim1 = row.children[index]   ? row.children[index].dimensions     : null;
 
-      if (dim0 == null && dim1 == null) {
+      if (dim0 === null && dim1 === null) {
         dim1 = row.dimensions;
       }
-      if (dim0 == null && dim1 != null) {
+      if (dim0 === null && dim1 !== null) {
         dim0 = { left: row.dimensions.left, top: dim1.top, width:0, height: dim1.height };
       }
-      if (dim1 == null && dim0 != null) {
+      if (dim1 === null && dim0 !== null) {
         dim1 = { left: dim0.left + dim0.width, top: dim0.top, width:0, height: dim0.height };
       }
 
@@ -202,13 +202,13 @@ $main(function(){
         var dim0 = row.children[index-1] ? row.children[index - 1].dimensions : null;
         var dim1 = row.children[index]   ? row.children[index].dimensions     : null;
 
-        if (dim0 == null && dim1 == null) {
+        if (dim0 === null && dim1 === null) {
           dim1 = row.dimensions;
         }
-        if (dim0 == null && dim1 != null) {
+        if (dim0 === null && dim1 !== null) {
           dim0 = { left: row.dimensions.left, top: dim1.top, width:0, height: dim1.height };
         }
-        if (dim1 == null && dim0 != null) {
+        if (dim1 === null && dim0 !== null) {
           dim1 = { left: dim0.left + dim0.width, top: dim0.top, width:0, height: dim0.height };
         }
 

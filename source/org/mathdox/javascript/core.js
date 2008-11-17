@@ -44,7 +44,7 @@ var $setOptions;
   /**
    * A list of scripts already added
    */
-  var loadingurls = new Object();
+  var loadingurls = {};
 
   /**
    * Holds a reference to the script tag that was last added to the document by
@@ -76,7 +76,7 @@ var $setOptions;
     }
     return parent;
 
-  }
+  };
 
   /**
    * url of the currently procressed file 
@@ -88,7 +88,7 @@ var $setOptions;
    */
   $identify = function(name) {
     current.url = name;
-  }
+  };
 
   var execute_with_requirements = function(url) {
     if (executed.urls[url]) {
@@ -109,7 +109,7 @@ var $setOptions;
     //alert("executing: "+url);
     waiting.urls[url].continuation();
     executed.urls[url] = true;
-  }
+  };
 
   /**
    * When a script has been loaded, this function will check whether all
@@ -118,7 +118,7 @@ var $setOptions;
   var onload = function() {
 
     loading = loading - 1;
-    if (loading == 0) {
+    if (loading === 0) {
       while (waiting.nourl.length > 0) {
 	var nourl = waiting.nourl.pop();
 	var urlobj;
@@ -138,7 +138,7 @@ var $setOptions;
       }
     }
 
-  }
+  };
 
   /**
    * Ensures that the script at the specified url is loaded before the main
@@ -157,7 +157,7 @@ var $setOptions;
       current.requirements = new Array();
     }
     current.requirements.push( { url:url, ready:ready } );
-  }
+  };
 
   var require_action = function(url, ready) {
     // already being loaded
@@ -192,11 +192,11 @@ var $setOptions;
         else {
           setTimeout(wait, 100);
         }
-      }
+      };
       wait();
     }
 
-  }
+  };
 
   /**
    * Calls the continuation function that is specified as a parameter when all
@@ -233,7 +233,7 @@ var $setOptions;
     }
     /* call onload function */
     onload();
-  }
+  };
 
   /**
    * Returns a new class that adds the specified properties to the specified
@@ -257,7 +257,7 @@ var $setOptions;
       if (this.initialize instanceof Function) {
         this.initialize.apply(this, arguments);
       }
-    }
+    };
 
     // copy any static class properties of the parent to the new class
     if (parent instanceof Function) {
@@ -291,7 +291,7 @@ var $setOptions;
     // return new class constructor
     return constructor;
 
-  }
+  };
 
   /*
    * Help function to indicate that more files are concatenated and do not
@@ -300,7 +300,7 @@ var $setOptions;
   $contains = function(url) {
     loadingurls[url] = true;
     loading += 1;
-  }
+  };
 
   $setOptions = function(prefix, optionList) {
     var options = $package(prefix);
@@ -309,7 +309,7 @@ var $setOptions;
       options[optionName] = optionList[optionName];
     }
     return options;
-  }
+  };
 
   /**
    * Find the script tag that was used to load this script, and use it to
@@ -319,10 +319,10 @@ var $setOptions;
   var scriptfinder = /(.*)org\/mathdox\/javascript\/core\.js$/;
   for (var i=0; i<scripts.length; i++) {
     var match = scripts[i].src.match(scriptfinder);
-    if (match != null) {
+    if (match !== null) {
       lastadded = scripts[i];
       $baseurl = match[1];
     }
   }
 
-})()
+})();

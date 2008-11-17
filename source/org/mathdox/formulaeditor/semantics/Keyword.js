@@ -57,18 +57,18 @@ $main(function(){
         this.name = name;
         this.type = type;
 
-	if (symbol) {
-	  this.symbol = new Object();
-	  if (symbol.onscreen) {
-	    this.symbol.onscreen = symbol.onscreen;
-	  }
-	  if (symbol.openmath) {
-	    this.symbol.openmath = symbol.openmath;
-	  }
-	  if (symbol.mathml) {
-	    this.symbol.mathml = symbol.mathml;
-	  }
-	}
+        if (symbol) {
+          this.symbol = {};
+          if (symbol.onscreen) {
+            this.symbol.onscreen = symbol.onscreen;
+          }
+          if (symbol.openmath) {
+            this.symbol.openmath = symbol.openmath;
+          }
+          if (symbol.mathml) {
+            this.symbol.mathml = symbol.mathml;
+          }
+        }
       },
 
       /**
@@ -76,44 +76,43 @@ $main(function(){
        */
 
       getPresentation : function(context) {
-        with (org.mathdox.formulaeditor.presentation) {
-          var string;
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var string;
 
-	  // XXX make case distinction for U+25A1 white square 
-	  // to become BlockSymbol
-          if (this.symbol.onscreen != null) {
-	    // U+25A1 white square
-	    if (this.symbol.onscreen == '□') {
-	      if (context.inPalette == true && 
-		(context.inMatrix == true || context.inVector == true)
-	      ) {
-		return new Row(new BlockSymbol(','));
-	      } else {
-		return new Row(new BlockSymbol());
-	      }
-	    } else if (this.symbol.onscreen == '') {
-	      if (context.inPalette == true) {
-	        string=" ";
-	      } else {
-		string=" ";
-	      }
-	    } else {
-	      string = this.symbol.onscreen.toString();
-	    }
-	  } else {
-            string = (this.cd + "." + this.name).toString();
+        // XXX make case distinction for U+25A1 white square 
+        // to become BlockSymbol
+        if (this.symbol.onscreen !== null) {
+          // U+25A1 white square
+          if (this.symbol.onscreen == '□') {
+            if (context.inPalette === true && 
+              (context.inMatrix === true || context.inVector === true)
+            ) {
+              return new presentation.Row(new presentation.BlockSymbol(','));
+            } else {
+              return new presentation.Row(new presentation.BlockSymbol());
+            }
+          } else if (this.symbol.onscreen === '') {
+            if (context.inPalette === true) {
+              string=" ";
+            } else {
+              string=" ";
+            }
+          } else {
+            string = this.symbol.onscreen.toString();
           }
-  
-          var symbols = [];
-  
-          for (var i=0; i<string.length; i++) {
-            symbols[i] = new Symbol(string.charAt(i));
-          }
-  
-          var result = new Row();
-          result.initialize.apply(result, symbols);
-          return result;
-	}
+        } else {
+          string = (this.cd + "." + this.name).toString();
+        }
+
+        var symbols = [];
+
+        for (var i=0; i<string.length; i++) {
+          symbols[i] = new presentation.Symbol(string.charAt(i));
+        }
+
+        var result = new presentation.Row();
+        result.initialize.apply(result, symbols);
+        return result;
       },
 
       /**
@@ -121,13 +120,14 @@ $main(function(){
        */
       getOpenMath : function() {
         var result;
-	
-	if (this.symbol.openmath!=null) {
-	  result = this.symbol.openmath;
-	} else {
-	  result = "<OMS cd='" + this.cd + "' name='" + this.name + "'/>"
-	}
-        return result
+        
+        if (this.symbol.openmath !== null 
+	    && this.symbol.openmath !== undefined) {
+          result = this.symbol.openmath;
+        } else {
+          result = "<OMS cd='" + this.cd + "' name='" + this.name + "'/>";
+        }
+        return result;
       },
 
       /**
@@ -135,18 +135,18 @@ $main(function(){
        */
       getMathML : function() {
         var result;
-	
-	if (this.symbol.mathml!=null) {
-	  result = this.symbol.mathml;
-	} else if (this.symbol.onscreen!=null) {
-	  result = "<mi>" + this.symbol.onscreen + "</mi>"
-	} else {
-	  result = "<mi>" + this.cd + "." + this.name + "</mi>"
-	}
+        
+        if (this.symbol.mathml !== null) {
+          result = this.symbol.mathml;
+        } else if (this.symbol.onscreen !== null) {
+          result = "<mi>" + this.symbol.onscreen + "</mi>";
+        } else {
+          result = "<mi>" + this.cd + "." + this.name + "</mi>";
+        }
 
-        return result
+        return result;
       }
 
-    })
+    });
 
 });

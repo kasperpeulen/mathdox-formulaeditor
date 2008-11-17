@@ -50,7 +50,7 @@ $main(function(){
        * Initializes the operation using the specified arguments as operands.
        */
       initialize : function() {
-        this.operands = arguments
+        this.operands = arguments;
       },
 
       /**
@@ -58,47 +58,45 @@ $main(function(){
        */
       getPresentation : function(context) {
 
-        with(org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
 
-          // construct an array of the presentation of operand nodes interleaved
-          // with operator symbols
-          var array = new Array();
-          if (this.symbol.onscreen instanceof Array) {
-            array.push(new Row(this.symbol.onscreen[0]));
-          }
-          for (var i=0; i<this.operands.length; i++) {
-            var operand = this.operands[i];
-            if (i>0) {
-              if (this.symbol.onscreen instanceof Array) {
-                if (this.symbol.onscreen[1]!="") {
-                  array.push(new Row(this.symbol.onscreen[1]));
-                }
+        // construct an array of the presentation of operand nodes interleaved
+        // with operator symbols
+        var array = [];
+        if (this.symbol.onscreen instanceof Array) {
+          array.push(new presentation.Row(this.symbol.onscreen[0]));
+        }
+        for (var i=0; i<this.operands.length; i++) {
+          var operand = this.operands[i];
+          if (i>0) {
+            if (this.symbol.onscreen instanceof Array) {
+              if (this.symbol.onscreen[1]!=="") {
+                array.push(new presentation.Row(this.symbol.onscreen[1]));
               }
-              else {
-                array.push(new Row(this.symbol.onscreen));
-              }
-            }
-            if (operand.precedence && operand.precedence < this.precedence) {
-              array.push(new Symbol("("));
-              array.push(operand.getPresentation(context));
-              array.push(new Symbol(")"));
             }
             else {
-              array.push(operand.getPresentation(context));
+              array.push(new presentation.Row(this.symbol.onscreen));
             }
           }
-          if (this.symbol.onscreen instanceof Array) {
-            if (this.symbol.onscreen[2]!="") {
-              array.push(new Row(this.symbol.onscreen[2]));
-            }
+          if (operand.precedence && operand.precedence < this.precedence) {
+            array.push(new presentation.Symbol("("));
+            array.push(operand.getPresentation(context));
+            array.push(new presentation.Symbol(")"));
           }
-
-          // create and return new presentation row using the constructed array
-          var result = new Row();
-          result.initialize.apply(result, array);
-          return result;
-
+          else {
+            array.push(operand.getPresentation(context));
+          }
         }
+        if (this.symbol.onscreen instanceof Array) {
+          if (this.symbol.onscreen[2]!=="") {
+            array.push(new presentation.Row(this.symbol.onscreen[2]));
+          }
+        }
+
+        // create and return new presentation row using the constructed array
+        var result = new presentation.Row();
+        result.initialize.apply(result, array);
+        return result;
 
       },
 
@@ -121,32 +119,32 @@ $main(function(){
        */
       getMathML : function() {
 
-        var result = "<mrow>"
+        var result = "<mrow>";
 
         if (this.symbol.mathml instanceof Array) {
-          result = result + this.symbol.mathml[0]
+          result = result + this.symbol.mathml[0];
         }
 
         for (var i=0; i<this.operands.length; i++) {
           if (i>0) {
             if (this.symbol.mathml instanceof Array) {
-              result = result + this.symbol.mathml[1]
+              result = result + this.symbol.mathml[1];
             } else {
-              result = result + this.symbol.mathml
+              result = result + this.symbol.mathml;
             }
           }
-          result = result + this.operands[i].getMathML()
+          result = result + this.operands[i].getMathML();
         }
 
         if (this.symbol.mathml instanceof Array) {
-          result = result + this.symbol.mathml[2]
+          result = result + this.symbol.mathml[2];
         }
 
-        result = result + "</mrow>"
-        return result
+        result = result + "</mrow>";
+        return result;
 
       }
 
-    })
+    });
 
 });

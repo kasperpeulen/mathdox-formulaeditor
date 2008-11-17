@@ -25,43 +25,42 @@ $main(function(){
        * specified value.
        */
       initialize : function(value) {
-        this.value = value
+        this.value = value;
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getPresentation
        */
       getPresentation : function(context) {
-        with (org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
 
-          var string = this.value.toString();
-          var symbols = [];
+        var string = this.value.toString();
+        var symbols = [];
 
-          for (var i=0; i<string.length; i++) {
-            symbols[i] = new Symbol(string.charAt(i));
-          }
-
-          var result = new Row();
-          result.initialize.apply(result, symbols);
-          return result;
-
+        for (var i=0; i<string.length; i++) {
+          symbols[i] = new presentation.Symbol(string.charAt(i));
         }
+
+        var result = new presentation.Row();
+        result.initialize.apply(result, symbols);
+        return result;
+
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMF dec=\"" + this.value + "\"/>"
+        return "<OMF dec=\"" + this.value + "\"/>";
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
       getMathML : function() {
-        return "<mn>" + this.value + "</mn>"
+        return "<mn>" + this.value + "</mn>";
       }
 
-    })
+    });
 
 });

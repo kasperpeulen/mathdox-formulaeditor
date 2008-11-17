@@ -1,11 +1,11 @@
 $identify("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
-$require("org/mathdox/formulaeditor/presentation/Node.js")
-$require("org/mathdox/formulaeditor/presentation/Row.js")
-$require("org/mathdox/formulaeditor/presentation/Matrix.js")
-$require("org/mathdox/formulaeditor/presentation/Vector.js")
-$require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js")
-$require("org/mathdox/parsing/ParserGenerator.js")
+$require("org/mathdox/formulaeditor/presentation/Node.js");
+$require("org/mathdox/formulaeditor/presentation/Row.js");
+$require("org/mathdox/formulaeditor/presentation/Matrix.js");
+$require("org/mathdox/formulaeditor/presentation/Vector.js");
+$require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
 
@@ -26,33 +26,33 @@ $main(function(){
       precedence : 0,
 
       getPresentation : function(context) {
-        with(org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
         
-	  // add inMatrix to a copy of the context
-	  // XXX see if an extend like function can be used
-	  var modifiedContext = new Object();
-	  for (var name in context) {
-	    modifiedContext[name] = context[name];
-	  }
-	  modifiedContext.inMatrix = true;
-
-          var rows = new Array();
-
-          for ( var row =0 ; row<this.operands.length ; row++) {
-            var currentRow = new Array();
-            for (var col = 0 ; col<this.operands[row].operands.length; col++) {
-              var entry = this.operands[row].operands[col].getPresentation(modifiedContext);
-              currentRow.push(entry);
-            }
-            rows[row] = currentRow;
-          }
-
-          var result = new Matrix();
-          result.initialize.apply(result,rows);
-         
-          return result;
+        // add inMatrix to a copy of the context
+        // XXX see if an extend like function can be used
+        var modifiedContext = {};
+        for (var name in context) {
+          modifiedContext[name] = context[name];
         }
-      } 
+        modifiedContext.inMatrix = true;
+
+        var rows = [];
+
+        for ( var row =0 ; row<this.operands.length ; row++) {
+          var currentRow = [];
+          for (var col = 0 ; col<this.operands[row].operands.length; col++) {
+            var entry = this.operands[row].operands[col].getPresentation(
+              modifiedContext);
+            currentRow.push(entry);
+          }
+          rows[row] = currentRow;
+        }
+
+        var result = new presentation.Matrix();
+        result.initialize.apply(result,rows);
+       
+        return result;
+      }
 
     });
 
@@ -73,26 +73,25 @@ $main(function(){
       precedence : 0,
 
       getPresentation : function(context) {
-        with(org.mathdox.formulaeditor.presentation) {
-          var entries = new Array();
-	  var vector = new Vector();
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var entries = [];
+        var vector = new presentation.Vector();
 
-	  // add inVector to a copy of the context
-	  // XXX see if an extend like function can be used
-	  var modifiedContext = new Object();
-	  for (var name in context) {
-	    modifiedContext[name] = context[name];
-	  }
-	  modifiedContext.inVector = true;
-
-          for (var i=0; i<this.operands.length; i++) {
-            entries.push(this.operands[i].getPresentation(modifiedContext));
-          }
-         
-	  vector.initialize.apply(vector, entries);
-
-	  return vector;
+        // add inVector to a copy of the context
+        // XXX see if an extend like function can be used
+        var modifiedContext = {};
+        for (var name in context) {
+          modifiedContext[name] = context[name];
         }
+        modifiedContext.inVector = true;
+
+        for (var i=0; i<this.operands.length; i++) {
+          entries.push(this.operands[i].getPresentation(modifiedContext));
+        }
+       
+        vector.initialize.apply(vector, entries);
+
+        return vector;
       }
 
     });
@@ -110,9 +109,9 @@ $main(function(){
 
         // parse the children of the OMA
         var children = node.getChildNodes();
-        var operands = new Array()
+        var operands = [];
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i))
+          operands.push(this.handle(children.item(i)));
         }
 
         // construct a Linalg2Matrix object
@@ -129,15 +128,15 @@ $main(function(){
 
         // parse the children of the OMA
         var children = node.getChildNodes();
-        var operands = new Array(children.getLength()-1);
+        var operands = [];
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i));
+          operands.push(this.handle(children.item(i)));
         }
 
         // construct a Linalg2Matrixrow object
         var result = new org.mathdox.formulaeditor.semantics.Linalg2Matrixrow();
         result.initialize.apply(result,operands);
-        return result
+        return result;
 
       },
 
@@ -148,9 +147,9 @@ $main(function(){
 
         // parse the children of the OMA
         var children = node.getChildNodes();
-        var operands = new Array(children.getLength()-1);
+        var operands = [];
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i));
+          operands.push(this.handle(children.item(i)));
         }
 
         // construct a Linalg2Vector object
@@ -165,71 +164,68 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for Matrixrow.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression160 = Linalg2Matrixlike | super.expression160
-        expression160 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("Linalg2Matrixlike"),
-            parent.expression160
-          ).apply(this, arguments);
-        },
+      // expression160 = Linalg2Matrixlike | super.expression160
+      expression160 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("Linalg2Matrixlike"),
+          parent.expression160).apply(this, arguments);
+      },
 
-        // Linalg2Matrixrow = "[" expression ("," expression)* "]"
-        Linalg2Matrixlike :
-          transform(
-            concatenation(
-              literal("["),
-              rule("expression"),
-              repetition(
-                concatenation(
-                  literal(","),
-                  rule("expression")
-                )
-              ),
-              literal("]")
+      // Linalg2Matrixrow = "[" expression ("," expression)* "]"
+      Linalg2Matrixlike :
+        pG.transform(
+          pG.concatenation(
+            pG.literal("["),
+            pG.rule("expression"),
+            pG.repetition(
+              pG.concatenation(
+                pG.literal(","),
+                pG.rule("expression")
+              )
             ),
-            function(result) {
-              var array = new Array();
-              for (var i=1; i+1<result.length; i=i+2) {
-                array.push(result[i]);
-              }
-              var matrixLike;
-              var allvector = true;
-              for (var i=0; i<array.length; i++) {
-                allvector = allvector && array[i] instanceof Linalg2Vector
-              }
-              if (allvector) {
-                /*
-                 * convert vectors in array to matrixrows
-                 */
-                var matrixRows = new Array()
-                for (var i=0; i<array.length; i++) {
-                  var row = new Linalg2Matrixrow()
-                  row.initialize.apply(row, array[i].operands)
-                  matrixRows.push(row)
-                }
-                // create a new matrix
-                matrixLike = new Linalg2Matrix()
-                matrixLike.initialize.apply(matrixLike, matrixRows)
-              } else {
-                // create a vector 
-                matrixLike = new Linalg2Vector()
-                matrixLike.initialize.apply(matrixLike, array)
-              }
-              return matrixLike
+            pG.literal("]")
+          ),
+          function(result) {
+            var array = [];
+	    var i; // counter
+            for (i=1; i+1<result.length; i=i+2) {
+              array.push(result[i]);
             }
-          )
+            var matrixLike;
+            var allvector = true;
+            for (i=0; i<array.length; i++) {
+              allvector = allvector && 
+                array[i] instanceof semantics.Linalg2Vector;
+            }
+            if (allvector) {
+              /*
+               * convert vectors in array to matrixrows
+               */
+              var matrixRows = [];
+              for (i=0; i<array.length; i++) {
+                var row = new semantics.Linalg2Matrixrow();
+                row.initialize.apply(row, array[i].operands);
+                matrixRows.push(row);
+              }
+              // create a new matrix
+              matrixLike = new semantics.Linalg2Matrix();
+              matrixLike.initialize.apply(matrixLike, matrixRows);
+            } else {
+              // create a vector 
+              matrixLike = new semantics.Linalg2Vector();
+              matrixLike.initialize.apply(matrixLike, array);
+            }
+            return matrixLike;
+          }
+        )
 
-      });
-
-  }}}
-
+    });
 
 });

@@ -48,11 +48,11 @@ $main(function(){
       var children = node.getChildNodes();
       var operands = [];
       for (var i=1; i&lt;children.length; i++) {
-        operands.push = this.handle(children.item(i));
+        operands.push(this.handle(children.item(i)));
       }
 
       // construct the corresponding object
-	var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
+      var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
       result.initialize.apply(result, operands);
       return result;
 
@@ -69,39 +69,39 @@ $main(function(){
   var pG = new org.mathdox.parsing.ParserGenerator();
 
   if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
-      // only one expression, same on screen
-      org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+    // only one expression, same on screen
+    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
-        expression<model:precedence/> : function() {
-          var parent = arguments.callee.parent;
-          pG.alternation(
-            pG.rule("<model:cd/><model:name/>"),
-            parent.expression<model:precedence/>).apply(this, arguments);
-        },
+      // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
+      expression<model:precedence/> : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("<model:cd/><model:name/>"),
+          parent.expression<model:precedence/>).apply(this, arguments);
+      },
 
-        // <model:cd/><model:name/> = 
-	//    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
-        <model:cd/><model:name/> :
-          pG.transform(
-            pG.concatenation(
-              pG.rule("expression<model:precedence/>"),
-              pG.literal("<model:symbol_enter/>"),
-              pG.rule("expression<model:precedence2/>")
-            ),
-            function(result) {
-              return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
-            }
-          )
+      // <model:cd/><model:name/> = 
+      //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
+      <model:cd/><model:name/> :
+        pG.transform(
+          pG.concatenation(
+            pG.rule("expression<model:precedence/>"),
+            pG.literal("<model:symbol_enter/>"),
+            pG.rule("expression<model:precedence2/>")
+          ),
+          function(result) {
+            return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
+          }
+        )
 
       });
     } else { // allow alternative as displayed on the screen
       org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-	$extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+        $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-	// expression<model:precedence/> = <model:cd/><model:name/> | 
-	//   <model:cd/><model:name/>alt | super.expression<model:precedence/>
+        // expression<model:precedence/> = <model:cd/><model:name/> | 
+        //   <model:cd/><model:name/>alt | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
           var parent = arguments.callee.parent;
           pG.alternation(
@@ -111,7 +111,7 @@ $main(function(){
         },
 
         // <model:cd/><model:name/> = 
-	//    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
+        //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
         <model:cd/><model:name/> :
           pG.transform(
             pG.concatenation(
@@ -125,7 +125,7 @@ $main(function(){
           ),
 
         // <model:cd/><model:name/>alt = 
-	//    expression<model:precedence/> "<model:symbol_screen/>" expression<model:precedence2/>
+        //    expression<model:precedence/> "<model:symbol_screen/>" expression<model:precedence2/>
         <model:cd/><model:name/>alt :
           pG.transform(
             pG.concatenation(

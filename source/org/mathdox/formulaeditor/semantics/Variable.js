@@ -23,43 +23,42 @@ $main(function(){
        * specified name.
        */
       initialize : function(name) {
-        this.name = name
+        this.name = name;
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getPresentation
        */
       getPresentation : function(context) {
-        with (org.mathdox.formulaeditor.presentation) {
+        var presentation = org.mathdox.formulaeditor.presentation;
 
-          var str = this.name.toString();
-          var symbols = [];
+        var str = this.name.toString();
+        var symbols = [];
 
-          for (var i=0; i<str.length; i++) {
-            symbols[i] = new Symbol(str.charAt(i), "math");
-          }
-
-          var result = new Row();
-          result.initialize.apply(result, symbols);
-          return result;
-
+        for (var i=0; i<str.length; i++) {
+          symbols[i] = new presentation.Symbol(str.charAt(i), "math");
         }
+
+        var result = new presentation.Row();
+        result.initialize.apply(result, symbols);
+        return result;
+
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMV name='" + this.name + "'/>"
+        return "<OMV name='" + this.name + "'/>";
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
       getMathML : function() {
-        return "<mi>" + this.name + "</mi>"
+        return "<mi>" + this.name + "</mi>";
       }
 
-    })
+    });
 
 });

@@ -50,9 +50,9 @@ $main(function(){
 
         // parse the children of the OMA
         var children = node.getChildNodes();
-        var operands = new Array(children.getLength()-1);
+        var operands = [];
         for (var i=1; i<children.length; i++) {
-          operands[i-1] = this.handle(children.item(i))
+          operands.push(this.handle(children.item(i)));
         }
 
         // construct a Times object
@@ -67,62 +67,57 @@ $main(function(){
   /**
    * Extend the ExpressionParser object with parsing code for multiplication.
    */
-  with( org.mathdox.formulaeditor.semantics          ) {
-  with( org.mathdox.formulaeditor.parsing.expression ) {
-  with( new org.mathdox.parsing.ParserGenerator()    ) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-        // expression130 = times | super.expression130
-        expression130 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("times"),
-            parent.expression130
-          ).apply(this, arguments);
-        },
+      // expression130 = times | super.expression130
+      expression130 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("times"),
+          parent.expression130).apply(this, arguments);
+      },
 
-        // expression150 = times | super.expression150
-        expression150 : function() {
-          var parent = arguments.callee.parent;
-          alternation(
-            rule("invisibletimes"),
-            parent.expression150
-          ).apply(this, arguments);
-        },
+      // expression150 = times | super.expression150
+      expression150 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("invisibletimes"),
+          parent.expression150).apply(this, arguments);
+      },
 
-	// invisibletimes = number variable
-	invisibletimes:
-	  transform(
-	    concatenation(
-	      rule("parseNumber"),
-	      alternation(
-		rule("restrictedexpression160"),
-		rule("restrictedpower")
-	      )
-	    ),
-	    function(result) {
-	      return new Times(result[0], result[1]);
-	    }
-	  ),
+      // invisibletimes = number variable
+      invisibletimes:
+        pG.transform(
+          pG.concatenation(
+            pG.rule("parseNumber"),
+            pG.alternation(
+              pG.rule("restrictedexpression160"),
+              pG.rule("restrictedpower")
+            )
+          ),
+          function(result) {
+            return new semantics.Times(result[0], result[1]);
+          }
+        ),
 
-        // times = expression130 "·" expression140
-        times :
-          transform(
-            concatenation(
-              rule("expression130"),
-              literal("·"),
-              rule("expression140")
-            ),
-            function(result) {
-              return new Times(result[0], result[2]);
-            }
-          )
+      // times = expression130 "·" expression140
+      times :
+        pG.transform(
+          pG.concatenation(
+            pG.rule("expression130"),
+            pG.literal("·"),
+            pG.rule("expression140")
+          ),
+          function(result) {
+            return new semantics.Times(result[0], result[2]);
+          }
+        )
 
-      });
-
-  }}}
+    });
 
   /**
    * Add a key handler for the '*' key.

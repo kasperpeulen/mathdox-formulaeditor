@@ -75,7 +75,7 @@ $main(function(){
 
       }
       
-    }
+    };
     
     if (xformsHandleResponse) {
       xformsHandleResponse = newXformsHandleResponse;

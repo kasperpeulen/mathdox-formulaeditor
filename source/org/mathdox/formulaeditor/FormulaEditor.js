@@ -160,8 +160,8 @@ $main(function(){
           canvas.className           = "formulaeditorinput";
 
           // set the style attributes that determine the look of the editor
-	  if (textarea.hasAttributes() && textarea.attributes.style !== null &&
-	      textarea.attributes.style !== undefined) {
+	  if (textarea.getAttribute("style") !== null && 
+	       textarea.getAttribute("style") !== undefined) {
 	    // same style as the textarea
 	    canvas.setAttribute("style", textarea.getAttribute("style"));
 	  } else if (org.mathdox.formulaeditor.options.inputStyle) {

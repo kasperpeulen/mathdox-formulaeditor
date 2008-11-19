@@ -235,7 +235,7 @@ $main(function(){
           };
           
           /* warning code used in both drawSymbol and drawBracket */
-          if (cache[font.image] === null || cahce[font.image] === undefined) {
+          if (cache[font.image] === null || cache[font.image] === undefined) {
             image = new Image();
             image.onload = function() {
               if (cache[font.image] instanceof Array) {

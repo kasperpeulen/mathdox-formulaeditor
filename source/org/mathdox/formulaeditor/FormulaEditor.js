@@ -160,22 +160,22 @@ $main(function(){
           canvas.className           = "formulaeditorinput";
 
           // set the style attributes that determine the look of the editor
-	  if (textarea.getAttribute("style") !== null && 
-	       textarea.getAttribute("style") !== undefined) {
-	    // same style as the textarea
-	    canvas.setAttribute("style", textarea.getAttribute("style"));
-	  } else if (org.mathdox.formulaeditor.options.inputStyle) {
-	    // textarea has no style use inputStyle option if available
-	    canvas.setAttribute("style",
-	    	org.mathdox.formulaeditor.options.inputStyle);
-	  } else {
-	    // textarea has no style and no inputStyle option available
-	    // set default style
+          if (textarea.getAttribute("style") !== null && 
+               textarea.getAttribute("style") !== undefined) {
+            // same style as the textarea
+            canvas.setAttribute("style", textarea.getAttribute("style"));
+          } else if (org.mathdox.formulaeditor.options.inputStyle) {
+            // textarea has no style use inputStyle option if available
+            canvas.setAttribute("style",
+                    org.mathdox.formulaeditor.options.inputStyle);
+          } else {
+            // textarea has no style and no inputStyle option available
+            // set default style
             canvas.style.border        = "1px solid #99F";
             canvas.style.verticalAlign = "middle";
             canvas.style.cursor        = "text";
             canvas.style.padding       = "0px";
-	  }
+          }
 
           // insert canvas in the document before the textarea 
           textarea.parentNode.insertBefore(canvas, textarea);
@@ -209,17 +209,17 @@ $main(function(){
           }
 
           // set the style attributes that determine the look of the palette
-	  if (org.mathdox.formulaeditor.options.paletteStyle) {
-	    // use paletteStyle option if available
-	    palcanvas.setAttribute("style",
-	    	org.mathdox.formulaeditor.options.paletteStyle);
-	  } else {
-	    // no paletteStyle option available -> set default style
+          if (org.mathdox.formulaeditor.options.paletteStyle) {
+            // use paletteStyle option if available
+            palcanvas.setAttribute("style",
+                    org.mathdox.formulaeditor.options.paletteStyle);
+          } else {
+            // no paletteStyle option available -> set default style
             palcanvas.style.border        = "2px solid #99F";
             palcanvas.style.verticalAlign = "middle";
             palcanvas.style.cursor        = "text";
             palcanvas.style.padding       = "0px";
-	  }
+          }
 
           // set a classname so the user can extend the style
           palcanvas.className           = "formulaeditorpalette";
@@ -345,7 +345,7 @@ $main(function(){
           }
 
           return false;
-	}
+        }
         this.focus(); // TODO: only necessary for crappy blinker implementation
         return this.cursor.onkeydown(event, this);
       }
@@ -409,11 +409,11 @@ $main(function(){
         }
   
         this.focus(); // TODO: only necessary for crappy blinker implementation
-	if (result) {
-	  result = this.cursor.onkeypress(event, this);
-	}
+        if (result) {
+          result = this.cursor.onkeypress(event, this);
+        }
 
-	return result;
+        return result;
       }
 
     },
@@ -543,10 +543,13 @@ $main(function(){
     getMathML : function() {
       var mmlstring;
       try {
-        mmlstring = this.presentation.getSemantics().value.getMathML();
+        mmlstring = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">"+
+          this.presentation.getSemantics().value.getMathML()+
+          "</math>";
       }
       catch(exception) {
-        mmlstring = exception.toString();
+        mmlstring = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">"+
+          "<mtext>"+exception.toString()+"</mtext></math>";
       }
 
       return mmlstring;
@@ -613,21 +616,21 @@ $main(function(){
     indentXML : function(str) {
       var buffer=[];     // buffer to prevent slow string concatenation
       var oldpos;        // old position in string (written up till here)
-      var pos;		 // current position in string
-      var l;		 // length
-      var indent=0;	 // current indenting
+      var pos;                 // current position in string
+      var l;                 // length
+      var indent=0;         // current indenting
       var indentstr="  ";// indenting done for each step
-      var child;	 // true if a child tag exists inside this one
-      			 // set to true if a tag is closed
-			 // set to false if a tag is opened
+      var child;         // true if a child tag exists inside this one
+                               // set to true if a tag is closed
+                         // set to false if a tag is opened
 
       // help function that does the indenting
       var doIndent = function() {
         var i;
 
         if (buffer.length>0) {
-	  buffer.push("\n");
-	}
+          buffer.push("\n");
+        }
         for (i=indent;i>0;i--) {
           buffer.push(indentstr);
         }
@@ -640,12 +643,12 @@ $main(function(){
       while ((pos = str.indexOf('<',oldpos))>=0) {
         if (pos>oldpos) {
           /* 
-	    indenting is not desired for text inside tags, unless after a child
-	  */
+            indenting is not desired for text inside tags, unless after a child
+          */
           if (child === true) {
-	    doIndent();
-	  }
-	  buffer.push(str.substr(oldpos,pos-oldpos));
+            doIndent();
+          }
+          buffer.push(str.substr(oldpos,pos-oldpos));
           oldpos=pos;
         }
 
@@ -658,30 +661,30 @@ $main(function(){
               // shouldn't happen
               indent=0;
             }
-	    /*
-	     * don't indent if the tag only contains text (so no other tags, no
-	     * comments and no CDATA)
-	     */
+            /*
+             * don't indent if the tag only contains text (so no other tags, no
+             * comments and no CDATA)
+             */
             if (child === true) {
-	      doIndent();
-	    }
+              doIndent();
+            }
             pos = str.indexOf('>',pos);
             if (pos<0) {
-	      //alert("couldn't find closing >");
+              //alert("couldn't find closing >");
               return buffer.join("")+str.substr(oldpos);
             }
             pos+=1;
-	    child = true;
+            child = true;
             break;
           case '!': // comment or CDATA
             pos++;
             c = str[pos];
             switch(c) {
               case '[' : // CDATA 
-	        child = true;
+                child = true;
                 pos = str.indexOf(']]>',pos);
                 if (pos<0) {
-	          //alert("couldn't find closing ]]>");
+                  //alert("couldn't find closing ]]>");
                   return buffer.join("")+str.substr(oldpos);
                 }
                 pos+=3;
@@ -690,10 +693,10 @@ $main(function(){
 
                 break;
               case '-' : // XML Comment
-	        child = true;
+                child = true;
                 pos = str.indexOf('-->',pos);
                 if (pos<0) {
-	          //alert("couldn't find closing -->");
+                  //alert("couldn't find closing -->");
                   return buffer.join("")+str.substr(oldpos);
                 }
                 pos+=3;
@@ -702,7 +705,7 @@ $main(function(){
 
                 break;
               default: // failure to parse the string
-	        //alert("couldn't parse");
+                //alert("couldn't parse");
                 return buffer.join("")+str.substr(oldpos);
             }
             break;
@@ -710,7 +713,7 @@ $main(function(){
           default: // opening tag or directly closed tag
             pos = str.indexOf('>',pos);
             if (pos<0) {
-	      //alert("couldn't find >, was expecting one though");
+              //alert("couldn't find >, was expecting one though");
               return buffer.join("")+str.substr(oldpos);
             }
 
@@ -718,11 +721,11 @@ $main(function(){
             
             // in case of an opening tag, increase indenting
             if (str[pos-1] !='/') {
-	      child = false;
+              child = false;
               indent += 1;
             } else {
-	      child = true;
-	    }
+              child = true;
+            }
             pos+=1;
             break;
         }
@@ -849,7 +852,7 @@ $main(function(){
       if (org.mathdox.formulaeditor.options.paletteURL) {
         url = org.mathdox.formulaeditor.options.paletteURL;
       } else {
-      	url = $baseurl+"org/mathdox/formulaeditor/palette.xml";
+              url = $baseurl+"org/mathdox/formulaeditor/palette.xml";
       }
 
       if (!org.mathdox.formulaeditor.Palette.description) {
@@ -1176,7 +1179,7 @@ $main(function(){
         }
       } else {
         moveright = position.row.insert(
-	  position.index, rowPresentation, true);
+          position.index, rowPresentation, true);
 
         if (moveright) {
           position.index++;
@@ -1247,7 +1250,7 @@ $main(function(){
         for (var i=0; i<editors.length; i++) {
           var intermediate = editors[i].onkeydown(event);
           if (intermediate !== null && intermediate !== undefined &&
-	      intermediate === false) {
+              intermediate === false) {
             result = false;
           }
         }
@@ -1260,7 +1263,7 @@ $main(function(){
         for (var i=0; i<editors.length; i++) {
           var intermediate = editors[i].onkeypress(event);
           if (intermediate !== null && intermediate !== undefined && 
-	      intermediate === false) {
+              intermediate === false) {
             result = false;
           }
         }
@@ -1282,7 +1285,7 @@ $main(function(){
           for (i=0; i<editors.length; i++) {
             var intermediate = editors[i].onmousedown(event);
             if (intermediate !== null && intermediate !== undefined &&
-	        intermediate === false) {
+                intermediate === false) {
               result = false;
             }
           }

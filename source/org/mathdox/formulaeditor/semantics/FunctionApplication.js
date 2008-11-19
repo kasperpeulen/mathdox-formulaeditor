@@ -19,7 +19,12 @@ $main(function(){
        * The operands of the operation.
        */
       operands: null,
-
+      
+      /**
+       * Information about the style
+       * style="sub" means presentation should be subscript
+       */
+      style: null,
       /**
        * Information about the symbol that is used to represent this operation.
        */
@@ -28,9 +33,12 @@ $main(function(){
       /**
        * Initializes the operation using the specified arguments as operands.
        */
-      initialize : function(symbol, operands) {
+      initialize : function(symbol, operands, style) {
         this.symbol = symbol;
         this.operands = operands;
+        if (style !== undefined) {
+          this.style = style;
+        }
       },
 
       /**
@@ -43,13 +51,25 @@ $main(function(){
         // construct an array of the presentation of operand nodes interleaved
         // with operator symbols
         var array = [];
+        var pres;
 
         array.push(this.symbol.getPresentation(context));
-        array.push(new presentation.Symbol("("));
+        if (this.style != "sub") {
+          // no brackets in subscript style "sub"
+          array.push(new presentation.Symbol("("));
+        }
         for (var i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
           if (i>0) {
-            array.push(new presentation.Symbol(","));
+            pres = new presentation.Symbol(",");
+            if (this.style == "sub") {
+              // subscript style
+              array.push(new presentation.Subscript(pres));
+            } else {
+              // normal style
+              array.push(pres);
+            }
+
           }
           
           if (!operand) {
@@ -58,11 +78,20 @@ $main(function(){
             alert("operands[0]: "+this.operands[0]);
             alert("operands[1]: "+this.operands[1]);
           }
-          array.push(operand.getPresentation(context));
-      
+          pres = operand.getPresentation(context);
+          if (this.style == "sub") {
+            // subscript style
+            array.push(new presentation.Subscript(pres));
+          } else {
+            // normal style
+            array.push(pres);
+          }
         }
         
-        array.push(new presentation.Symbol(")"));
+        if (this.style != "sub") {
+          // no brackets in subscript style "sub"
+          array.push(new presentation.Symbol(")"));
+        }
 
         // create and return new presentation row using the constructed array
         var result = new presentation.Row();
@@ -77,7 +106,15 @@ $main(function(){
        */
       getOpenMath : function() {
 
-        var result = "<OMA>" + this.symbol.getOpenMath();
+        var result;
+	
+	if (this.style !== null) {
+	  result = "<OMA style=\""+this.style+"\">";
+	} else {
+	  result = "<OMA>";
+	}
+
+	result += this.symbol.getOpenMath();
         for (var i=0; i<this.operands.length; i++) {
           result = result + this.operands[i].getOpenMath();
         }

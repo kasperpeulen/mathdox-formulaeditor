@@ -5,6 +5,7 @@ $identify("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/parsing/Parser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/presentation/Subscript.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
@@ -58,16 +59,19 @@ $main(function(){
             rule("braces"),
             rule("parseNumber"),
             rule("func"),
+            rule("func_sub"),
             rule("variable"),
-            rule("omSymbol")
+            rule("omSymbol"),
+            rule("omString")
           ),
 
         // restrictedexpression160 = braces | variable | func
-	// no number allowed, for silent multiplication
+        // no number allowed, for silent multiplication
         restrictedexpression160 :
           alternation(
             rule("braces"),
             rule("func"),
+            rule("func_sub"),
             rule("variable"),
             rule("omSymbol")
           ),
@@ -107,13 +111,20 @@ $main(function(){
             rule("integer")
           ),
 
-        // variable = ([a..z]|[A..Z])+
+        // variable = ([a..z]|[A..Z]) ([a..z]|[A..Z]|[0..9])*
         variable :
           transform(
-            repetitionplus(
+            concatenation(
               alternation(
                 range('a','z'),
                 range('A','Z')
+              ),
+              repetition(
+                alternation(
+                  range('a','z'),
+                  range('A','Z'),
+                  range('0','9')
+                )
               )
             ),
             function(result) {
@@ -132,54 +143,77 @@ $main(function(){
               }
             }
           ),
-
+        // omString = "([a..z]|[A..Z]|[0..9]|' _.-')*"
+        // TODO: maybe add more symbols
+        omString:
+          transform(
+            concatenation(
+              literal('"'),
+              repetitionplus( 
+                alternation(
+                  range('a','z'),
+                  range('A','Z'),
+                  range('0','9'),
+                  literal(' '),
+                  literal('_'),
+                  literal('.'),
+                  literal('-')
+                )
+              ),
+              literal('"')
+            ),
+            function(result) {
+              return new SString(result.slice(1,result.length-1).join(""));
+            }
+          ),
+        
         // omSymbol = ([a..z]|[A..Z]) ([a..z]|[A..Z]|[0..9]|'_')* '.' ([a..z]|[A..Z])([a..z]|[A..Z]|[0..9]|_)*
-	omSymbol:
-	  transform(
-	    concatenation(
+        omSymbol:
+          transform(
+            concatenation(
               alternation(
                 range('a','z'),
                 range('A','Z')
               ),
-	      repetition(
-		alternation(
-		  range('a','z'),
-		  range('A','Z'),
-		  range('0','9'),
-		  literal('_')
-		)
-	      ),
-	      literal('.'),
+              repetition(
+                alternation(
+                  range('a','z'),
+                  range('A','Z'),
+                  range('0','9'),
+                  literal('_')
+                )
+              ),
+              literal('.'),
               alternation(
                 range('a','z'),
                 range('A','Z')
               ),
-	      repetition(
-		alternation(
-		  range('a','z'),
-		  range('A','Z'),
-		  range('0','9'),
-		  literal('_')
-		)
-	      )
-	    ),
+              repetition(
+                alternation(
+                  range('a','z'),
+                  range('A','Z'),
+                  range('0','9'),
+                  literal('_')
+                )
+              )
+            ),
 
-	    /* 
-	     * XXX: hard to check whether something is a constant or a function
-	     */
-	    function(result) {
-	      var symbolinfo = result.join("").split('.');
-	      var cd=symbolinfo[0];
-	      var name=symbolinfo[1];
+            /* 
+             * XXX: hard to check whether something is a constant or a function
+             */
+            function(result) {
+              var symbolinfo = result.join("").split('.');
+              var cd=symbolinfo[0];
+              var name=symbolinfo[1];
 
-	      var symbol = {
-		onscreen: null,
-		openmath: null,
-		mathml: "&lt;mi&gt;"+cd+"."+name+"&lt;/mi&gt;"
-	      }
-	      return new Keyword(cd,name,symbol,"constant");
-	    }
-	  ),
+              var symbol = {
+                onscreen: null,
+                openmath: null,
+                mathml: "&lt;mi&gt;"+cd+"."+name+"&lt;/mi&gt;"
+              }
+              return new Keyword(cd,name,symbol,"constant");
+            }
+          ),
 
         // braces = '(' expression ')'
         braces :
@@ -198,33 +232,141 @@ $main(function(){
         func :
           transform(
             concatenation(
-	      alternation(
-		rule("variable"),
-		rule("omSymbol")
-	      ),
-              literal('('),
-              rule("expression"),
-              repetition(
-                concatenation(
-                  literal(","),
-                  rule("expression")
-                )
+              alternation(
+                rule("variable"),
+                rule("omSymbol"),
+                rule("braces"),
+                rule("func_sub")
               ),
-              literal(')')
+              repetitionplus(
+                concatenation(
+                  literal('('),
+                  rule("expression"),
+                  repetition(
+                    concatenation(
+                      literal(","),
+                      rule("expression")
+                    )
+                  ),
+                  literal(')')
+                )
+              )
             ),
             function(result) {
-              var array = new Array();
+              var array;
+              var i,j; // counters
+              
+              var oper = result[0];
+              var str;
 
-              for (var i=2; i+1<result.length; i=i+2) {
-                array.push(result[i]);
+              i=1;
+              while (i < result.length) {
+                // current position = '('
+                array = [];
+                i++;
+                // current position should be a variable
+                while (i<result.length && result[i] != ')') {
+                  // function argument
+                  array.push(result[i]);
+                  i++;
+
+                  if (i<result.length && result[i]==',') {
+                    // comma -> skip
+                    i++;
+                  }
+                }
+                // current position should be ')'
+                oper = new org.mathdox.formulaeditor.semantics.FunctionApplication(oper, array);
+
+                i++;
               }
-
-              var oper = new 
-                org.mathdox.formulaeditor.semantics.FunctionApplication(result[0], array);
 
               return oper;
             }
-          )
+          ),
+        func_sub:
+          transform(
+            concatenation(
+              alternation(
+                rule("variable"),
+                rule("omSymbol"),
+                rule("braces")
+              ),
+              repetitionplus(
+                alternation(
+                  concatenation(
+                    literal('_'),
+                    alternation(
+                      rule("variable"),
+                      rule("omSymbol"),
+                      rule("integer"),
+                      concatenation(
+                        literal('{'),
+                        rule("expression"),
+                        //repetition(
+                        //  concatenation(
+                        //    literal(","),
+                        //    rule("expression")
+                        //  )
+                        //),
+                        literal('}')
+                      )
+                    )
+                  ),
+                  rule("subscript")
+                )
+              )
+            ),
+            function(result) {
+              var array;
+              var i,j; // counters
+              var semantics = org.mathdox.formulaeditor.semantics;
+              
+              var oper = result[0];
+              var str;
+
+              i=1;
+              while (i < result.length) {
+                // current position == '_' (or subscript)
+                if (result[i]== "_") {
+                  // current position == '_'
+                  i++;
+                }
+
+                if (i<result.length && result[i] != '{') {
+                  // simple argument
+                  oper = new semantics.FunctionApplication(oper, [result[i]], 
+                    "sub");
+                  i++;
+                  // current position == '_', subscript or end
+                } else {
+                  i++;
+                  // current position: first argument
+                  array = [];
+                  // current position should be an argument
+                  while (i<result.length && result[i] != '}') {
+                    // function argument
+                    array.push(result[i]);
+                    i++;
+
+                    if (i<result.length && result[i]==',') {
+                      // comma -> skip
+                      i++;
+                    }
+                  }
+                  // current position should be '}'
+                  oper = new semantics.FunctionApplication(oper, array, "sub");
+
+                  i++;
+                  // current position == '_', subscript or end
+                }
+              }
+
+              return oper;
+            }
+          ),
+          // subscript : rule only occurs from presentation
+          subscript: never
         
       })
 

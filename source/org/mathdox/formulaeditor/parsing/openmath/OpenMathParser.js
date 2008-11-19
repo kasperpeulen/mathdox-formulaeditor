@@ -6,6 +6,7 @@ $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
+$require("org/mathdox/formulaeditor/semantics/String.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
 var SAXDriver;
@@ -88,6 +89,8 @@ $main(function(){
       var symbol;
       var semantics = org.mathdox.formulaeditor.semantics;
 
+      var style = node.getAttribute("style");
+
       // handle <OMA>'s with as first argument an <OMS/>
       if ("OMS" == node.getFirstChild().getLocalName()) {
 
@@ -126,6 +129,8 @@ $main(function(){
       } else if ("OMV" == node.getFirstChild().getLocalName()) {
         /* return a FunctionApplication at the end */
         symbol = this.handleOMV(node.getFirstChild());
+      } else if ("OMA" == node.getFirstChild().getLocalName()) {
+        symbol = this.handleOMA(node.getFirstChild());
       } else {
         throw new Error(
           "OpenMathParser doesn't know how to handle an <OMA> that does " +
@@ -145,8 +150,12 @@ $main(function(){
             operands.push(child);
           }
         }
-        
-        return new semantics.FunctionApplication(symbol, operands);
+       
+        if (style !== "" && style !== null) {
+          return new semantics.FunctionApplication(symbol, operands, style);
+        } else {
+          return new semantics.FunctionApplication(symbol, operands);
+        }
       }
     },
 
@@ -235,6 +244,23 @@ $main(function(){
       }
     },
 
+    /**
+     * Handles an <OMSTR> node.
+     */
+    handleOMSTR: function(node) {
+      var semantics = org.mathdox.formulaeditor.semantics;
+      var children = [];
+      var name="";
+      var i;
+      var child
+      for (i=0;i<node.childNodes.length; i++) {
+	child = node.childNodes.item(i);
+        if (child.nodeType == 3) { // Node.TEXT_NODE
+	  children.push(child.nodeValue);
+	}
+      }
+      return new semantics.SString(children.join(""));
+    },
     /**
      * Handles an <OMV> node.
      */

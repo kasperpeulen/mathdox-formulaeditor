@@ -132,6 +132,9 @@ $main(function(){
         var result = "<mrow>" + this.symbol.getMathML() + "<mo>(</mo>";
 
         for (var i=0; i<this.operands.length; i++) {
+	  if (i>0) {
+	    result = result + "<mo>,</mo>";
+	  }
           result = result + this.operands[i].getMathML();
         }
         result = result + "<mo>)</mo>" + "</mrow>";

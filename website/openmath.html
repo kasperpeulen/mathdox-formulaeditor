@@ -6,20 +6,26 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
-    </script>
     <script type='text/javascript'>
+      if (org) {
+        alert("org already defined, could not set options");
+      } else {
+        var org = { mathdox: { formulaeditor: { options: {
+	  indentXML : true
+	}}}};
+      }
+
       updateMathML = function() {
-	var mathml = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").getMathML();
+	var mathml = new org.mathdox.formulaeditor.FormulaEditor().indentXML(
+	  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
+	    "formula1").getMathML());
 
 	var textarea = document.getElementById("mathml1");
 
 	textarea.value = mathml;
-      }
-
-      $setOptions("org.mathdox.formulaeditor.options", { 
-	indentXML : true
-      });
+      };
+    </script>
+    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
     </script>
 
     <style type='text/css'>
@@ -56,7 +62,7 @@
 
       <h4>OpenMath conversion</h4>
 
-      <textarea id='formula1' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' style='margin-right: 2em' rows='10' cols='80'>
+      <textarea id='formula1' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80'>
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
 	  &lt;!-- comments now allowed --&gt;

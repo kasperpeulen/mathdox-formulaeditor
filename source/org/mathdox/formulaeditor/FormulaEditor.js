@@ -49,6 +49,8 @@ $require("org/mathdox/formulaeditor/modules/logic1/implies.js");
 $require("org/mathdox/formulaeditor/modules/logic1/not.js");
 $require("org/mathdox/formulaeditor/modules/logic1/or.js");
 
+$require("org/mathdox/formulaeditor/modules/permutation1/permutation.js");
+
 $require("org/mathdox/formulaeditor/modules/relation1/approx.js");
 $require("org/mathdox/formulaeditor/modules/relation1/eq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/geq.js");

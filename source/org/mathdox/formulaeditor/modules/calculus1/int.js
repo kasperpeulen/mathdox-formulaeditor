@@ -8,7 +8,7 @@ $require("org/mathdox/formulaeditor/presentation/Column.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
-$require("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
+$require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
 
 $main(function(){
 
@@ -27,9 +27,9 @@ $main(function(){
         return new presentation.Row(
           // U+222B integral
           new presentation.Symbol('∫'),
-          this.operands[0].operands[1].getPresentation(context),
+          this.operands[0].expression.getPresentation(context),
           new presentation.Symbol("d"),
-          this.operands[0].operands[0].getPresentation(context)
+          this.operands[0].variables[0].getPresentation(context)
         );
         
       },
@@ -58,6 +58,11 @@ $main(function(){
 
         var children = node.getChildNodes();
         var lambda   = this.handle(children.item(1));
+
+	if (lambda === null || lambda.variables.length === 0) {
+	  alert("calculus1.int needs a nonempty OMBVAR");
+	  return null;
+	}
 
         return new org.mathdox.formulaeditor.semantics.Integration(lambda);
 

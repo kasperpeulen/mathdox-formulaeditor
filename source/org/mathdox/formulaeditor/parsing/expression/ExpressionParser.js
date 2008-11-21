@@ -257,6 +257,7 @@ $main(function(){
               var i,j; // counters
               
               var oper = result[0];
+              
               var str;
 
               i=1;
@@ -276,7 +277,12 @@ $main(function(){
                   }
                 }
                 // current position should be ')'
-                oper = new org.mathdox.formulaeditor.semantics.FunctionApplication(oper, array);
+                if (oper.parseResultFun !== undefined) {
+                  // special case: result function in operation
+                  oper = oper.parseResultFun(oper, array);
+                } else {
+                  oper = new org.mathdox.formulaeditor.semantics.FunctionApplication(oper, array);
+                }
 
                 i++;
               }

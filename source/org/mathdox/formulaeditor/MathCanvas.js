@@ -772,7 +772,7 @@ $main(function(){
       // U+03BB Greek small letter lamda
       // U+03BC Greek small letter mu
       // U+03BD Greek small letter nu
-      [ 'mζ', 'mη', 'mθ', 'mι', 'mκ', 'mλ', 'mμ', 'mν',
+      [ 'mζ', 'mη', 'mθ', 'mι', 'mκ', 'λ', 'mμ', 'mν',
       // U+03BE Greek small letter xi
       // U+03C0 Greek small letter pi
       // U+03C1 Greek small letter rho

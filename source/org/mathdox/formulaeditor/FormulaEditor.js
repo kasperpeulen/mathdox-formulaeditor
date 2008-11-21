@@ -35,6 +35,8 @@ $require("org/mathdox/formulaeditor/modules/calculus1/int.js");
 
 $require("org/mathdox/formulaeditor/modules/editor1/palette.js");
 
+$require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
+
 $require("org/mathdox/formulaeditor/modules/integer1/factorial.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");

@@ -8,7 +8,7 @@ $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/formulaeditor/modules/relation1/eq.js");
 $require("org/mathdox/formulaeditor/modules/miscellaneous/interval.js");
-$require("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
+$require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
 
 $main(function(){
 
@@ -30,16 +30,15 @@ $main(function(){
             new presentation.Row(
               this.operands[0].operands[1].getPresentation(context)),
             new presentation.Row(
-              this.operands[1].operands[0].getPresentation(context),
+              this.operands[1].variables[0].getPresentation(context),
               new presentation.Symbol("="),
               this.operands[0].operands[0].getPresentation(context)
             )
           ),
           new presentation.Symbol("("),
-          this.operands[1].operands[1].getPresentation(context),
+          this.operands[1].expression.getPresentation(context),
           new presentation.Symbol(")")
         );
-      
       
       },
       
@@ -110,6 +109,11 @@ $main(function(){
         var interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
 
+	if (lambda.variables.length === 0) {
+	  alert("arith1.sum needs a nonempty OMBVAR");
+	  return null;
+	}
+
         return new org.mathdox.formulaeditor.semantics.Sum(interval, lambda);
 
       }
@@ -139,7 +143,7 @@ $main(function(){
 
                 return new semantics.Sum(
                   new semantics.Interval(result[0][0], result[0][1]),
-                  new semantics.Lambda(result[0][2], result[1])
+                  new semantics.Lambda([result[0][2]], result[1])
                 );
 
               }

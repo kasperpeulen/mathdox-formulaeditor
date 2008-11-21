@@ -10,7 +10,7 @@ $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/formulaeditor/modules/relation1/eq.js");
 $require("org/mathdox/formulaeditor/modules/miscellaneous/interval.js");
-$require("org/mathdox/formulaeditor/modules/miscellaneous/lambda.js");
+$require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
 
 $main(function(){
 
@@ -34,9 +34,9 @@ $main(function(){
             new presentation.Row(
               this.operands[0].operands[1].getPresentation(context))
           ),
-          this.operands[1].operands[1].getPresentation(context),
+          this.operands[1].expression.getPresentation(context),
           new presentation.Symbol("d"),
-          this.operands[1].operands[0].getPresentation(context)
+          this.operands[1].variables[0].getPresentation(context)
         );
       
       },
@@ -96,6 +96,11 @@ $main(function(){
         var children = node.getChildNodes();
         var interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
+
+	if (lambda === null || lambda.variables.length === 0) {
+	  alert("calculus1.defint needs a nonempty OMBVAR");
+	  return null;
+	}
 
         return new org.mathdox.formulaeditor.semantics.Defint(interval, lambda);
 

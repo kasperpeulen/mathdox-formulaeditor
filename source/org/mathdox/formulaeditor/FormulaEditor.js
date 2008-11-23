@@ -5,6 +5,9 @@ $identify("org/mathdox/formulaeditor/FormulaEditor.js");
 // load make/maker functions
 $require("com/oreilly/javascript/tdg/make.js");
 
+var Drag;
+$require("net/youngpup/dom-drag/dom-drag.js", function() { return Drag; });
+
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
@@ -228,8 +231,41 @@ $main(function(){
           // set a classname so the user can extend the style
           palcanvas.className           = "formulaeditorpalette";
 
-          // insert canvas in the document before the textarea 
-          textarea.parentNode.insertBefore(palcanvas, textarea);
+          // special case: dragable canvas TODO
+          if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
+            org.mathdox.formulaeditor.options.dragPalette === true) {
+            // create root 
+            var root = document.createElement("div");
+            root.style.left = "50px";
+            root.style.top = "50px";
+            root.style.position = "relative";
+	    root.style.backgroundColor = "white";
+
+            // create handle
+            var handle = document.createElement("div");
+
+	    //if (palcanvas.style.borderTopColor !== undefined &&
+	    //  palcanvas.style.borderTopColor !== null) {
+            //  handle.style.backgroundColor = palcanvas.style.borderColor;
+	    //} else {
+            handle.style.backgroundColor = "red";
+	    //};
+
+            handle.style.width = "200px";
+            handle.style.marginLeft = "50px";
+            handle.style.height = "10px";
+
+            // add root, handle and palette to the document
+            textarea.parentNode.insertBefore(root, textarea);
+            root.appendChild(handle);
+            root.appendChild(palcanvas);
+
+            // initialize dragging script
+            Drag.init(handle, root);
+          } else {
+            // insert canvas in the document before the textarea 
+            textarea.parentNode.insertBefore(palcanvas, textarea);
+          }
 
           // Initialize the canvas. This is only needed in Internet Explorer,
           // where Google's Explorer Canvas library handles canvases.

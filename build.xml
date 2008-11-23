@@ -78,6 +78,12 @@
       </patternset>
     </unzip>
 
+    <!-- copy dom-drag script -->
+    <copy 
+      file='libraries/dom-drag/dom-drag.js'
+      todir='build/javascript/net/youngpup/dom-drag/'
+    />
+
     <!-- copy jsmath fonts next to the javascript files -->
     <copy todir='build/javascript/org/mathdox/formulaeditor'>
       <fileset dir='build/temporary/jsmath'/>

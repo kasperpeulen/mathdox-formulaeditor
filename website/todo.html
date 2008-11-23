@@ -6,13 +6,23 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
-    </script>
     <script type='text/javascript'>
-      $setOptions("org.mathdox.formulaeditor.options", { 
-        fontSize: 150
-	//,paletteURL : "http://localhost/formulaeditor/org/mathdox/formulaeditor/palette2.xml"
-      });
+      if (org) {
+        alert("org already defined, could not set options");
+      } else {
+        var org = { mathdox: { formulaeditor: { options: {
+	  dragPalette: true,
+          fontSize: 150,
+	  //,paletteURL : "http://localhost/formulaeditor/org/mathdox/formulaeditor/palette2.xml"
+	  inputStyle: "border: 10px solid #99F; verticalAlign:middle; "+
+	    "cursor:text; padding: 0px;",
+	  paletteStyle: "border: 2px solid green; verticalAlign:middle; "+
+	    "cursor:text; padding: 5px;"
+	}}}};
+      }
+    </script>
+
+    <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
     </script>
 
     <style type='text/css'>
@@ -40,7 +50,7 @@
 
       <h4>Demo</h4>
 
-      <textarea id='formula1' class='mathdoxformula mathdoxpalette' style='margin-right: 2em'>
+      <textarea id='formula1' class='mathdoxformula mathdoxpalette' style='margin-right: 2em ; border:10px solid red;'>
 
 &lt;OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0" cdbase="http://www.openmath.org/cd"&gt;
   &lt;OMA&gt;
@@ -99,6 +109,7 @@
 	<li>manual: describe support we offer (what do people have to do before
 	asking us)</li>
         <li>think about generic function application: (f+g)(x) (problem: (x+1)(x+2) )</li>
+        <li>add default css option</li>
         <li>reorganize short term todo list</li>
 	<li>add support for all mathml symbols, add support for generic mathml
 	  described constructs</li>

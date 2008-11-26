@@ -222,56 +222,15 @@ $main(function(){
                     org.mathdox.formulaeditor.options.paletteStyle);
           } else {
             // no paletteStyle option available -> set default style
-            palcanvas.style.border        = "2px solid #99F";
-            palcanvas.style.verticalAlign = "middle";
-            palcanvas.style.cursor        = "text";
-            palcanvas.style.padding       = "0px";
+            palcanvas.style.border          = "2px solid #99F";
+            palcanvas.style.verticalAlign   = "middle";
+            palcanvas.style.cursor          = "text";
+            palcanvas.style.padding         = "0px";
+            palcanvas.style.backgroundColor = "white";
           }
 
           // set a classname so the user can extend the style
           palcanvas.className           = "formulaeditorpalette";
-
-          // special case: dragable canvas TODO
-          if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
-            org.mathdox.formulaeditor.options.dragPalette === true) {
-            // create root 
-            var root = document.createElement("div");
-            root.style.left = "50px";
-            root.style.top = "50px";
-            root.style.position = "relative";
-	    root.style.backgroundColor = "white";
-
-            // create handle
-            var handle = document.createElement("div");
-
-	    //if (palcanvas.style.borderTopColor !== undefined &&
-	    //  palcanvas.style.borderTopColor !== null) {
-            //  handle.style.backgroundColor = palcanvas.style.borderColor;
-	    //} else {
-            handle.style.backgroundColor = "red";
-	    //};
-
-            handle.style.width = "200px";
-            handle.style.marginLeft = "50px";
-            handle.style.height = "10px";
-
-            // add root, handle and palette to the document
-            textarea.parentNode.insertBefore(root, textarea);
-            root.appendChild(handle);
-            root.appendChild(palcanvas);
-
-            // initialize dragging script
-            Drag.init(handle, root);
-          } else {
-            // insert canvas in the document before the textarea 
-            textarea.parentNode.insertBefore(palcanvas, textarea);
-          }
-
-          // Initialize the canvas. This is only needed in Internet Explorer,
-          // where Google's Explorer Canvas library handles canvases.
-          if (G_vmlCanvasManager) {
-            palcanvas = G_vmlCanvasManager.initElement(palcanvas);
-          }
 
           if (!palettes) {
             palettes = [];
@@ -280,6 +239,58 @@ $main(function(){
           palettes.push(this.palette);
 
           this.palette.initialize(palcanvas);
+          // special case: dragable canvas TODO
+          if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
+            org.mathdox.formulaeditor.options.dragPalette === true) {
+            // create root 
+            var root = document.createElement("div");
+            root.style.left = "50px";
+            root.style.top = "50px";
+            root.style.position = "relative";
+
+            // create handle
+            var handle = document.createElement("div");
+
+            handle.style.width = "200px";
+            handle.style.marginLeft = "50px";
+            handle.style.height = "10px";
+            handle.style.cursor = "move";
+
+            // add root, handle and palette to the document
+            textarea.parentNode.insertBefore(root, textarea);
+            root.appendChild(handle);
+            root.appendChild(palcanvas);
+
+            // initialize dragging script
+            Drag.init(handle, root);
+
+            var borderTopColor = "";
+            
+            // getting computed style: see also page 380 of J:TDG 5th edition
+            if (palcanvas.currentStyle) { // Try simple IE API first
+              borderTopColor = palcanvas.currentStyle.borderTopColor;
+            } else if (window.getComputedStyle) {  // Otherwise use W3C API
+              borderTopColor = 
+                window.getComputedStyle(palcanvas, null).borderTopColor;
+            }
+
+            if (borderTopColor !== "") {
+              handle.style.backgroundColor = borderTopColor;
+            } else {
+              handle.style.backgroundColor = "red";
+            };
+
+          } else {
+            // insert canvas in the document before the textarea 
+            textarea.parentNode.insertBefore(palcanvas, textarea);
+          }
+
+          // Initialize the canvas. This is only needed in Internet Explorer,
+          // where Google's Explorer Canvas library handles canvases.
+	  // NOTE: this should be done after putting the canvas in the DOM tree
+          if (G_vmlCanvasManager) {
+            palcanvas = G_vmlCanvasManager.initElement(palcanvas);
+          }
         }
 
         // hide the textarea XXX
@@ -629,7 +640,10 @@ $main(function(){
         errorString = null;
       }
       catch(exception) {
-        errorString = exception.toString();
+	// IE doesn't provide a useful .toString for errors, use name and
+	// message instead
+        // old code: errorString = exception.toString();
+	errorString = exception.name + " : "+exception.message;
         omstring =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
@@ -693,7 +707,7 @@ $main(function(){
         }
 
         pos++;
-        c = str[pos];
+        c = str.charAt(pos);
         switch(c) {
           case '/': // closing tag
             indent -= 1;
@@ -718,7 +732,7 @@ $main(function(){
             break;
           case '!': // comment or CDATA
             pos++;
-            c = str[pos];
+            c = str.charAt(pos);
             switch(c) {
               case '[' : // CDATA 
                 child = true;
@@ -760,7 +774,7 @@ $main(function(){
             doIndent();
             
             // in case of an opening tag, increase indenting
-            if (str[pos-1] !='/') {
+            if (str.charAt(pos-1) !='/') {
               child = false;
               indent += 1;
             } else {

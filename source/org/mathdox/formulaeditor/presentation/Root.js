@@ -185,12 +185,12 @@ $main(function(){
       getFollowingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend === null) {
+        if (descend === null || descend === undefined) {
           descend = true;
         }
 
         // when index is not specified, return the first position in the array
-        if (index === null) {
+        if (index === null || index === undefined) {
           if (this.drawBaseQ()) {
             return this.base.getFollowingCursorPosition();
           } else {
@@ -226,12 +226,12 @@ $main(function(){
       getPrecedingCursorPosition : function(index, descend) {
 
         // default value for descend
-        if (descend === null) {
+        if (descend === null || descend === undefined) {
           descend = true;
         }
 
         // when index is not specified, return the first position in the array
-        if (index === null) {
+        if (index === null || index === undefined) {
           return this.middle.getPrecedingCursorPosition();
         }
         

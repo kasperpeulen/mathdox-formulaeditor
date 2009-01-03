@@ -335,6 +335,37 @@ $main(function(){
      * possible.
      */
     drawSymbol : function(symbol, x, y, invisible, typeface) {
+      var mathCanvas = org.mathdox.formulaeditor.MathCanvas;
+      if (mathCanvas.combinedSymbols[symbol]!== undefined) {
+        // special case combined symbol: 
+        // draw all subsymbols and return maximum dimensions
+
+        var dim = {
+          top:    y,
+          left:   x,
+          width:  0,
+          height: 0
+        };
+        var olddim;
+        var i;
+        var symbols = mathCanvas.combinedSymbols[symbol];
+
+        for (i=0; i< symbols.length; i++) {
+          olddim = dim;
+          dim = this.drawSymbol(symbols[i], x, y, invisible, typeface);
+
+          dim = {
+            top: Math.min(olddim.top, dim.top),
+            height: Math.max(olddim.top+olddim.height, dim.top+dim.height) - 
+              Math.min(olddim.top, dim.top),
+            left: Math.min(olddim.left, dim.left),
+            width: Math.max(olddim.left+olddim.width, dim.left+dim.width) - 
+              Math.min(olddim.left, dim.left)
+          };
+        }
+
+        return dim;
+      }
 
       // retrieve font and symbol data
       var symbolData = this.getSymbolData(symbol, typeface);
@@ -916,6 +947,12 @@ $main(function(){
          '§',  '†',  '‡',  '¶',  '♣',  '♢',  '♡',  '♠' ]
     ]
   };
+
+  org.mathdox.formulaeditor.MathCanvas.combinedSymbols = {
+    // U+2260 not equal to
+    // U+2215 division slash
+    '≠': [ '=', '∕' ]
+  }
 
   org.mathdox.formulaeditor.MathCanvas.fillSymbolPositions = function() {
     var sp,sif;

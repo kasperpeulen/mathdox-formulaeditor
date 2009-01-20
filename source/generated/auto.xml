@@ -126,6 +126,21 @@
     <!-- U+2228 logical or -->
     <model:symbol_screen>&#x2228;</model:symbol_screen>
   </model:instance>
+  <!-- permutation1.left_compose -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/permutation1/left_compose.js"
+  >
+    <model:cd>permutation1</model:cd>
+    <model:name>left_compose</model:name>
+    <model:precedence>130</model:precedence>
+    <model:precedence2>140</model:precedence2>
+    <!-- U+2218 ring operator -->
+    <model:symbol_enter>&#x2218;</model:symbol_enter>
+    <!-- U+2218 ring operator -->
+    <model:symbol_mathml>&#x2218;</model:symbol_mathml>
+    <!-- U+2218 ring operator-->
+    <model:symbol_screen>&#x2218;</model:symbol_screen>
+  </model:instance>
   <!-- relation1.approx -->
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/approx.js"
@@ -348,6 +363,15 @@
       <!-- U+03C0 greek small letter pi -->
       <model:onscreen>&#x03c0;</model:onscreen>
       <model:type>constant</model:type>
+    </model:instance>
+    <!-- permutation1.sign -->
+    <model:instance>
+      <model:cd>permutation1</model:cd>
+      <model:keyword>sgn</model:keyword>
+      <model:mathml>&lt;mi&gt;sgn&lt;/mi&gt;</model:mathml>
+      <model:name>sign</model:name>
+      <model:onscreen>sgn</model:onscreen>
+      <model:type>function</model:type>
     </model:instance>
     <!-- setname1.C -->
     <model:instance>

@@ -54,6 +54,7 @@ $main(function(){
       handlePermutation1Cycle : function(node) {
         var operands = [];
         var result;
+        var i;
 
         for (i=1; i<node.childNodes.length; i++) {
           operands.push(this.handle(node.getChildNodes().item(i)));
@@ -62,14 +63,15 @@ $main(function(){
         result.initialize.apply(result, operands);
 
         return result;
-      },
-
+      }, 
+      
       /**
       * Returns a permutation object based on the OpenMath node.
       */
       handlePermutation1Permutation : function(node) {
         var operands = [];
         var result;
+        var i;
 
         for (i=1; i<node.childNodes.length; i++) {
           operands.push(this.handle(node.getChildNodes().item(i)));

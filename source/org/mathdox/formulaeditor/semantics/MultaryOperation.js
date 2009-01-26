@@ -63,10 +63,13 @@ $main(function(){
         // construct an array of the presentation of operand nodes interleaved
         // with operator symbols
         var array = [];
+        var i;
         if (this.symbol.onscreen instanceof Array) {
-          array.push(new presentation.Row(this.symbol.onscreen[0]));
+          if (this.symbol.onscreen[0]!=="") {
+            array.push(new presentation.Row(this.symbol.onscreen[0]));
+          }
         }
-        for (var i=0; i<this.operands.length; i++) {
+        for (i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
           if (i>0) {
             if (this.symbol.onscreen instanceof Array) {

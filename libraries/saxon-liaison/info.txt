@@ -1,0 +1,4 @@
+http://vocaro.com/trevor/blog/2007/01/08/how-to-use-saxon-with-ant/
+https://issues.apache.org/bugzilla/show_bug.cgi?id=46172
+
+Fixed in ant 2.8

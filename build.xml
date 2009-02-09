@@ -10,11 +10,13 @@
   -->
   <property file='build.properties'/>
 
+  <!-- specify saxon processor -->
+  <property name='saxon.processor' value='SaxonLiaison'/>
+
   <!-- specify saxon classpath -->
   <path id='saxon.classpath'>
-    <fileset dir='libraries/saxon'>
-      <include name='*.jar'/>
-    </fileset>
+    <fileset dir='libraries/saxon' includes='*.jar'/>
+    <pathelement location='libraries/saxon-liaison'/>
   </path>
   
   <!--
@@ -31,7 +33,7 @@
       destdir='build/javascript'
       force='true'
       extension='js'
-      processor='trax'
+      processor='${saxon.processor}'
       classpathref='saxon.classpath'
     />
 
@@ -139,7 +141,7 @@
       style='source/generated/identify/identify.xsl'
       force='true'
       extension='js'
-      processor='trax'
+      processor='${saxon.processor}'
       classpathref='saxon.classpath'
     >
       <param name='filedir' expression ='../../../build/javascript'/>

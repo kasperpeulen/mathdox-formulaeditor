@@ -1213,9 +1213,9 @@ $main(function(){
     },
     insertSymbolFromPalette: function(editor,x,y) {
       var position = editor.cursor.position;
-      var pArray = this.presentation.children[0];
-      var coords = pArray.getCoordinatesFromPosition(x,y);
-      var row = this.semantics.operands[coords.row].operands[coords.col];
+      var pTabContainer = this.presentation.children[0];
+      var coords = pTabContainer.getCoordinatesFromPosition(x,y);
+      var row = this.semantics.operands[coords.tab].operands[coords.row].operands[coords.col];
 
       var presentation = org.mathdox.formulaeditor.presentation;
       var rowPresentation = new presentation.Row(row.getPresentation({}));

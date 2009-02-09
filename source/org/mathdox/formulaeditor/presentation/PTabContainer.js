@@ -38,6 +38,16 @@ $main(function(){
       return this.children[this.current].draw(canvas, x, y, invisible);
     },
 
+    getCoordinatesFromPosition : function (x,y) {
+        // NOTE: x and y might need adjusting if palette switching elements are also shown
+        var palcoords = this.children[this.current].getCoordinatesFromPosition(x,y);
+        return {
+            tab: this.current;
+            row: palcoords.row;
+            col: palcoords.col;
+        };
+    },
+
     initialize : function() {
       if (arguments.length >0) {
         this.children = Array.prototype.slice.call(arguments);

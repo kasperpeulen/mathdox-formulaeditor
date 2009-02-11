@@ -863,14 +863,16 @@ $main(function(){
     onmousedown: function(event) {
       // check whether the mouse click falls in the canvas element
       var mouseinfo = this.mouseeventinfo(event);
+      var noEditorNeeded;
 
       if (mouseinfo) {
         // we are clicked on
         var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
-        if (editor) {
-          this.insertSymbolFromPalette(editor, 
-            mouseinfo.x, mouseinfo.y);
-        } else {
+
+        noEditorNeeded = 
+	  this.insertSymbolFromPalette(editor, mouseinfo.x, mouseinfo.y);
+
+        if ((noEditorNeeded === false) && (editor === null)) {
           alert("No formulaeditor with focus. Please click on an editor\n"+
                 "at the position where the symbol should be entered.");
         }
@@ -1212,9 +1214,27 @@ $main(function(){
       this.draw();
     },
     insertSymbolFromPalette: function(editor,x,y) {
-      var position = editor.cursor.position;
       var pTabContainer = this.presentation.children[0];
-      var coords = pTabContainer.getCoordinatesFromPosition(x,y);
+      var palette = this;
+      var redrawFun2 = function() {
+      	palette.redraw();
+      };
+      var coords = pTabContainer.perform(redrawFun2,x,y);
+
+      if (editor === null) {
+        if (coords === null) {
+	  /* nothing to enter, so no editor needed */
+      	  return true; 
+	} else {
+	  return false;
+	}
+      }
+
+      var position = editor.cursor.position;
+
+      if (coords === null) {
+      	return false;
+      }
       var row = this.semantics.operands[coords.tab].operands[coords.row].operands[coords.col];
 
       var presentation = org.mathdox.formulaeditor.presentation;
@@ -1242,6 +1262,7 @@ $main(function(){
       }
       editor.redraw();
       editor.save();
+      return false;
     },
     parseXMLPalette : function(XMLstr) {
       var presentation;

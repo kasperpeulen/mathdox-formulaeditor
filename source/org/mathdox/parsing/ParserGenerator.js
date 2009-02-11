@@ -228,6 +228,18 @@ $main(function(){
 
       },
 
+      parentAlternation: function(newrule, oldrule, obj) {
+        alert(obj);
+        alert(obj[oldrule]);
+        var result = function() {
+          this.alternation(newrule, obj[oldrule]).apply(this, arguments);
+        }
+        result.asString = "(" + obj[oldrule].asString + "|" + 
+	  newrule.asString + ")";
+
+        return result;
+      },
+
       concatenation : function() {
 
         var parent = arguments.callee.parent;

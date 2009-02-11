@@ -189,7 +189,7 @@ $main(function(){
 
       if (this.parent !== null) {
         if ((index === null || index === undefined) && 
-	    this.parent instanceof presentation.Row) {
+            this.parent instanceof presentation.Row) {
           return { row: this.parent, index: this.index };
         }
         else {
@@ -208,7 +208,7 @@ $main(function(){
 
       if (this.parent !== null) {
         if ((index === null || index === undefined) && 
-	    this.parent instanceof presentation.Row) {
+            this.parent instanceof presentation.Row) {
           return { row: this.parent, index: this.index };
         } else {
           return this.parent.getHigherCursorPosition(this.index, x);
@@ -232,6 +232,27 @@ $main(function(){
         str+=" ]";
         return str;
       }
+    },
+    maxDimensions: function(x,y,arr) {
+      var i;
+      var maxdim={ top:y, left:x, width:0, height:0 };
+      var top, bottom, left, right;
+
+      for (i=0; i< arr.length;i++) {
+        top = Math.min(maxdim.top,arr[i].top);
+        bottom = Math.max(maxdim.top+maxdim.height, 
+          arr[i].top+arr[i].height);
+        left = Math.min(maxdim.left,arr[i].left);
+        right = Math.max(maxdim.left+maxdim.width, 
+          arr[i].left+arr[i].width);
+        maxdim = { 
+          top:top, 
+          left:left, 
+          width: right-left, 
+          height: bottom - top
+	};
+      }
+      return maxdim;
     }
 
   });

@@ -272,21 +272,69 @@ $main(function(){
     },
 
     /**
-     * Draws a blue box around on the edge of an element, depending on the
-     * dimensions. It overwrites the character (that is stays inside its
+     * Draws a grey/black box around on the edge of an element, depending on
+     * the dimensions. It overwrites the character (that is stays inside its
      * dimensions). The box will be drawn around
      * (dimensions.left,dimensions.top) (upper left) and
      * (dimensions.left+dimensions.width - 1, dimensions.top+dimensions.height
-     * - 1) (lower right). An additional line will be drawn around the
-     * baseline.
+     * - 1) (lower right). 
+     *
+     * if strokeStyle is defined, that style will be used to draw the
+     * border of the box.
+     *
+     * if fillStyle is defined, the box is filled using that style
+     * 
+     * if both stokeStyle and fillStyle are defined, then a filled box is drawn
+     * first, followed by a border.
      */
-    drawBox: function(dimensions,y) {
+    drawBox: function(dimensions, strokeStyle, fillStyle) {
       var canvas = this.canvas;
       var context = this.getContext();
+
       context.save();
-      context.lineWidth = 1.0;
-      context.strokeRect(dimensions.left, dimensions.top, dimensions.width - 1 , dimensions.height - 1 );
+      
+      // set styles
+      if (fillStyle !== undefined) {
+        context.fillStyle = fillStyle;
+      }
+      if (strokeStyle !== undefined) {
+        context.strokeStyle = strokeStyle;
+      }
+
+      // draw a filled box
+      if (fillStyle) {
+        context.fillRect(dimensions.left, dimensions.top, dimensions.width, 
+          dimensions.height
+        );
+      }
+
+      // draw the box border
+      if (!fillStyle || (fillStyle && strokeStyle)) {
+        context.lineWidth = 1.0;
+        context.strokeRect(dimensions.left, dimensions.top, 
+          dimensions.width - 1 , dimensions.height - 1 
+        );
+      } 
+
+      context.restore();
+    },
+   
+    /**
+     * This function draws a box with based on dimensions, with border style
+     * strokeStyle and fill style fillStyle.
+     * 
+     * if y is defined a baseline will be drawn as well (in the strokeStyle)
+     * 
+     * see also: drawBox
+     */
+    drawBoxWithBaseline: function(dimensions, y, strokeStyle, fillStyle) {
+      this.drawBox(dimensions, fillStyle, strokeStyle);
+
+      context.save();
       if (y) {
+        if (strokeStyle !== undefined) {
+          context.strokeStyle = strokeStyle;
+        }
         context.beginPath();
         context.moveTo(dimensions.left, y);
         context.lineTo(dimensions.left + dimensions.width - 1, y);
@@ -295,7 +343,7 @@ $main(function(){
       }
       context.restore();
     },
-   
+
     // draw a box the size of the symbol of the letter 'f' 
     drawFBox : function(x, y, invisible, letter) {
       var dim;

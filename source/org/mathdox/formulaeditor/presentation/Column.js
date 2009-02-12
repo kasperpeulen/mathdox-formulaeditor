@@ -93,7 +93,7 @@ $main(function(){
 
 
         if ((!invisible) && this.drawBox) {
-          canvas.drawBox(this.dimensions,y);
+          canvas.drawBoxWithBaseline(this.dimensions,y);
         }
 
         return this.dimensions;

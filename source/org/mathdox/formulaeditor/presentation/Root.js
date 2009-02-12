@@ -152,7 +152,7 @@ $main(function(){
           }
           canvas.drawBox(this.middle.dimensions);
           canvas.drawBox(this.leftBracket.dimensions);
-          canvas.drawBox(this.dimensions,y);
+          canvas.drawBoxWithBaseline(this.dimensions,y);
         }
 
         return this.dimensions;

@@ -870,7 +870,7 @@ $main(function(){
         var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
 
         noEditorNeeded = 
-	  this.insertSymbolFromPalette(editor, mouseinfo.x, mouseinfo.y);
+	  this.handleMouseClick(editor, mouseinfo.x, mouseinfo.y);
 
         if ((noEditorNeeded === false) && (editor === null)) {
           alert("No formulaeditor with focus. Please click on an editor\n"+
@@ -1213,13 +1213,14 @@ $main(function(){
       this.presentation.margin = 10.0;
       this.draw();
     },
-    insertSymbolFromPalette: function(editor,x,y) {
+    handleMouseClick: function(editor,x,y) {
       var pTabContainer = this.presentation.children[0];
+      /* wrapper function to be able to redraw after a tab switch */
       var palette = this;
-      var redrawFun2 = function() {
+      var redrawFunction = function() {
       	palette.redraw();
       };
-      var coords = pTabContainer.perform(redrawFun2,x,y);
+      var coords = pTabContainer.handleMouseClick(x,y,redrawFunction);
 
       if (editor === null) {
         if (coords === null) {

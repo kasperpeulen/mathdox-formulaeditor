@@ -95,9 +95,9 @@ $main(function(){
         
         if ((!invisible) &&this.drawBox) {
           canvas.drawBox(this.middle.dimensions);
-          canvas.drawBox(this.leftBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
-          canvas.drawBox(this.rightBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
-          canvas.drawBox(this.dimensions,y);
+          canvas.drawBoxWithBaseline(this.leftBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+          canvas.drawBoxWithBaseline(this.rightBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+          canvas.drawBoxWithBaseline(this.dimensions,y);
         }
 
         return this.dimensions;

@@ -57,7 +57,6 @@ $main(function(){
           height: this.tabBarSize
         };
 
-        canvas.drawBox(boxDim);
 
         for (i=0; i< this.children.length; i++) {
           tabBoxDim = {
@@ -66,8 +65,14 @@ $main(function(){
             width: boxDim.width/this.children.length,
             height: boxDim.height,
           }
-          canvas.drawBox(tabBoxDim);
+          if (i == this.current) {
+            canvas.drawBox(tabBoxDim, "#00F", "#AAF");
+          } else {
+            canvas.drawBox(tabBoxDim, "#00F", "#DDF");
+          }
         }
+        
+	canvas.drawBox(boxDim, "#00F");
   
         this.children[this.current].draw(canvas, x, y + this.tabBarSize, 
           invisible
@@ -86,14 +91,14 @@ $main(function(){
       return this.dimensions;
     },
 
-    perform : function (redraw,x,y) {
+    handleMouseClick : function (x,y,redraw) {
       var palcoords ;
       var index;
 
       if (this.showTabBar()) {
         if (y < this.dimensions.top + this.tabBarSize) {
           /* inside tabbar, insert nothing */
-	  index = Math.floor((x - this.dimensions.left) / 
+          index = Math.floor((x - this.dimensions.left) / 
             (this.dimensions.width) * this.children.length
           );
           

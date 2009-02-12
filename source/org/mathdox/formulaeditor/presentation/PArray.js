@@ -166,7 +166,7 @@ $main(function(){
               y + this.rowInfo[row].baseline,
               invisible);
             if ((!invisible) && this.drawBox) {
-              canvas.drawBox(entry.dimensions, y + 
+              canvas.drawBoxWithBaseline(entry.dimensions, y + 
                 this.rowInfo[row].baseline);
             }
           }
@@ -179,7 +179,7 @@ $main(function(){
         height : totalHeight
       };
       if ((!invisible) && this.drawBox) {
-        canvas.drawBox(this.dimensions, y);
+        canvas.drawBoxWithBaseline(this.dimensions, y);
       }
       return this.dimensions;
     },

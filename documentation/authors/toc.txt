@@ -1,0 +1,22 @@
+This document contains some topics that ideally should be in the manual.
+
+1) How to include the formulaeditor in a webpage
+  - Customizing the way the formulaeditor is displayed, customizable palette
+2) How to find out if my symbol supported ?
+3) Adding new symbols
+  - introduction: what kind of symbols can be added easily
+  - Describe adding symbols using models
+  - Describe creation of new symbols
+  - unique parsing
+4) implementation:
+  - presentation versus semantics
+  - drawing details, presentation context
+  - parsing
+  - functions that can be called from outside 
+5) palette 
+  - creating a palette
+  - the palette cds
+  - custom presentation in the palette (how ?)
+6) services (future work)
+  - how to set up
+  - how to do this from the palette

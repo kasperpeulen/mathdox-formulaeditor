@@ -20,6 +20,8 @@ $main(function(){
 
     tabBarSize : 20,
 
+    margin: 2.0,
+
     /**
      * Draws the current tab to the canvas.
      *
@@ -46,12 +48,12 @@ $main(function(){
 
       if (this.showTabBar()) {
         for (i=0; i< this.children.length; i++) {
-          dimArray.push(this.children[i].draw(canvas,x,y+this.tabBarSize,true));
+          dimArray.push(this.children[i].draw(canvas,x,y+this.tabBarSize+this.margin,true));
         }
-        maxDim = this.maxDimensions(x,y+this.tabBarSize,dimArray);
+        maxDim = this.maxDimensions(x,y+this.tabBarSize+this.margin,dimArray);
 
         boxDim = { 
-          top: maxDim.top - this.tabBarSize, 
+          top: maxDim.top - this.tabBarSize - this.margin, 
           left: maxDim.left, 
           width: maxDim.width, 
           height: this.tabBarSize
@@ -74,15 +76,15 @@ $main(function(){
         
 	canvas.drawBox(boxDim, "#00F");
   
-        this.children[this.current].draw(canvas, x, y + this.tabBarSize, 
+        this.children[this.current].draw(canvas, x, y + this.tabBarSize + this.margin, 
           invisible
         );
     
         this.dimensions = {
-          top: maxDim.top - this.tabBarSize,
+          top: maxDim.top - this.tabBarSize - this.margin,
           left: maxDim.left, 
           width: maxDim.width, 
-          height: maxDim.height+this.tabBarSize
+          height: maxDim.height+this.tabBarSize + this.margin
         };
       } else { /* only 1 child, don't draw a bar */
         this.dimensions = this.children[0].draw(canvas, x, y, invisible);

@@ -4,6 +4,8 @@ $identify("org/mathdox/formulaeditor/FormulaEditor.js");
 
 // load make/maker functions
 $require("com/oreilly/javascript/tdg/make.js");
+// load XMLHttpRequest methods
+$require("com/oreilly/javascript/tdg/XMLHttp.js");
 
 var Drag;
 $require("net/youngpup/dom-drag/dom-drag.js", function() { return Drag; });
@@ -15,6 +17,7 @@ $require("org/mathdox/formulaeditor/Canvas.js");
 $require("org/mathdox/formulaeditor/MathCanvasFill.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
 $require("org/mathdox/formulaeditor/EventHandler.js");
+$require("org/mathdox/formulaeditor/Services.js");
 
 $require("org/mathdox/formulaeditor/version.js");
 
@@ -909,20 +912,16 @@ $main(function(){
       if (org.mathdox.formulaeditor.options.paletteURL) {
         url = org.mathdox.formulaeditor.options.paletteURL;
       } else {
-              url = $baseurl+"org/mathdox/formulaeditor/palette.xml";
+        url = $baseurl+"org/mathdox/formulaeditor/palette.xml";
       }
 
       if (!org.mathdox.formulaeditor.Palette.description) {
         org.mathdox.formulaeditor.Palette.description = "loading";
-        var xmlhttp = null;
+        var HTTP = com.oreilly.javascript.tdg.XMLHttp;
 
-        var onload = function() {
-          if (xmlhttp.readyState!=4) {
-            // only do something when fully loaded
-            return;
-          }
+        var callback = function(responseText) {
 
-          org.mathdox.formulaeditor.Palette.description = xmlhttp.responseText;
+          org.mathdox.formulaeditor.Palette.description = responseText;
             
           /* update palettes */
           for (var p=0; p<palettes.length; p++) {
@@ -931,22 +930,7 @@ $main(function(){
           }
         };
 
-        /// XMLHttp request data from http://www.w3schools.com/dom/dom_http.asp
-        if (window.XMLHttpRequest) {
-          // code for Firefox, Opera, IE7, etc.
-          xmlhttp = new XMLHttpRequest();
-        } else {
-          // code for IE6, IE5
-          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-
-        if (xmlhttp!==null) {
-          xmlhttp.onreadystatechange = onload;
-          xmlhttp.open("GET", url, true);
-          xmlhttp.send(null);
-        } else {
-          alert("Your browser does not support XMLHTTP.");
-        }
+	HTTP.getText(url, callback);
       } else if (org.mathdox.formulaeditor.Palette.description != "loading") {
         // set presentation and semantics
         this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);

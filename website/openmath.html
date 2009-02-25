@@ -16,6 +16,17 @@
 	}}}};
       }
 
+      updateGAP = function() {
+	var textarea = document.getElementById("gap1");
+
+        var callback = function(str) {
+	  textarea.value = str;
+	}
+
+	org.mathdox.formulaeditor.Services.openmath2gap(
+	  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").getOpenMath(), callback);
+
+      };
       updateMathML = function() {
 	var mathml = new org.mathdox.formulaeditor.FormulaEditor().indentXML(
 	  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
@@ -75,6 +86,12 @@
 	Update MathML
       </button>
       <textarea id='mathml1' style='margin-right: 2em' rows='10' cols='80'>
+      </textarea>
+
+      <button type="button" name="GAP" value='GAP' onclick='updateGAP()'>
+	Update GAP
+      </button>
+      <textarea id='gap1' style='margin-right: 2em' rows='10' cols='80'>
       </textarea>
 
     </div>

@@ -8,6 +8,7 @@ This document contains some topics that ideally should be in the manual.
   - Describe adding symbols using models
   - Describe creation of new symbols
   - unique parsing
+  - describe editor1
 4) implementation:
   - presentation versus semantics
   - drawing details, presentation context

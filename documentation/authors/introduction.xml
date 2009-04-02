@@ -25,7 +25,7 @@
       usual way of input in HTML: Forms. The logical element would be
       a TextArea, since the OpenMath would generally not fit on a single line.
     </para>
-    </para>
+    <para>
       The server can then process the Form correctly if the TextArea contains
       what the user means (in OpenMath) and the user will see the formula and
       not the OpenMath.

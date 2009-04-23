@@ -65,8 +65,9 @@ $main(function(){
             top: boxDim.top,
             left: boxDim.left + (i/this.children.length)*boxDim.width,
             width: boxDim.width/this.children.length,
-            height: boxDim.height,
-          }
+            height: boxDim.height
+          };
+
           if (i == this.current) {
             canvas.drawBox(tabBoxDim, "#00F", "#AAF");
           } else {

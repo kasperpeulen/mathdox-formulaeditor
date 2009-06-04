@@ -304,16 +304,14 @@ $main(function(){
       // draw a filled box
       if (fillStyle) {
         context.fillRect(dimensions.left, dimensions.top, dimensions.width, 
-          dimensions.height
-        );
+          dimensions.height);
       }
 
       // draw the box border
       if (!fillStyle || (fillStyle && strokeStyle)) {
         context.lineWidth = 1.0;
         context.strokeRect(dimensions.left, dimensions.top, 
-          dimensions.width - 1 , dimensions.height - 1 
-        );
+          dimensions.width - 1 , dimensions.height - 1);
       } 
 
       context.restore();
@@ -1000,7 +998,7 @@ $main(function(){
     // U+2260 not equal to
     // U+2215 division slash
     '≠': [ '=', '∕' ]
-  }
+  };
 
   org.mathdox.formulaeditor.MathCanvas.fillSymbolPositions = function() {
     var sp,sif;

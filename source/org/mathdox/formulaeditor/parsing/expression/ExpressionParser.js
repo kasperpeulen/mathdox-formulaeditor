@@ -11,119 +11,120 @@ $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 
-$main(function(){
+$main(function() {
 
-  with(org.mathdox.formulaeditor.semantics) {
-  with(new org.mathdox.parsing.ParserGenerator()) {
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var pG = new org.mathdox.parsing.ParserGenerator();
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.parsing.Parser, {
         // TODO make this list alphabetical
 
         // start = expression
-        start : rule("expression"),
+        start : pG.rule("expression"),
 
         // expression = expression70
-        expression  : rule("expression70"), 
+        expression  : pG.rule("expression70"), 
 
         // expression70 = expression80
-        expression70 : rule("expression80"), // equivalence, ...
+        expression70 : pG.rule("expression80"), // equivalence, ...
 
         // expression80 = expression90
-        expression80 : rule("expression90"), // implies, ...
+        expression80 : pG.rule("expression90"), // implies, ...
 
         // expression90 = expression100
-        expression90 : rule("expression100"), // or, ...
+        expression90 : pG.rule("expression100"), // or, ...
 
         // expression100 = expression110
-        expression100 : rule("expression110"), // and, ...
+        expression100 : pG.rule("expression110"), // and, ...
 
         // expression110 = expression120
-        expression110 : rule("expression120"), // equals, lessthan, morethan, ...
+	expression110 : pG.rule("expression120"), // equals, lessthan,
+						  // morethan, ...
 
         // expression120 = expression130
-        expression120 : rule("expression130"), // plus, minus
+        expression120 : pG.rule("expression130"), // plus, minus
 
         // expression130 = expression140
-        expression130 : rule("expression140"), // times
+        expression130 : pG.rule("expression140"), // times
 
         // expression140 = expression150
-        expression140 : rule("expression150"), // unary minus
+        expression140 : pG.rule("expression150"), // unary minus
 
         // expression150 = expression160
-        expression150 : rule("expression160"), // power
+        expression150 : pG.rule("expression160"), // power
 
         // expression160 = braces | integer | variable
         expression160 :
-          alternation(
-            rule("braces"),
-            rule("parseNumber"),
-            rule("func"),
-            rule("func_sub"),
-            rule("variable"),
-            rule("omSymbol"),
-            rule("omString")
+          pG.alternation(
+            pG.rule("braces"),
+            pG.rule("parseNumber"),
+            pG.rule("func"),
+            pG.rule("func_sub"),
+            pG.rule("variable"),
+            pG.rule("omSymbol"),
+            pG.rule("omString")
           ),
 
         // restrictedexpression160 = braces | variable | func
         // no number allowed, for silent multiplication
         restrictedexpression160 :
-          alternation(
-            rule("braces"),
-            rule("func"),
-            rule("func_sub"),
-            rule("variable"),
-            rule("omSymbol")
+          pG.alternation(
+            pG.rule("braces"),
+            pG.rule("func"),
+            pG.rule("func_sub"),
+            pG.rule("variable"),
+            pG.rule("omSymbol")
           ),
 
         // integer = [0..9]+
         integer :
-          transform(
-            repetitionplus(
-              range('0','9')
+          pG.transform(
+            pG.repetitionplus(
+              pG.range('0','9')
             ),
             function(result) {
-              return new Integer(Number(result.join("")));
+              return new semantics.Integer(Number(result.join("")));
             }
           ),
 
         // float = [0..9]+ ++ '.' ++ [0-9]*
         parseFloat :
-          transform(
-            concatenation( 
-              repetitionplus(
-                range('0','9')
+          pG.transform(
+            pG.concatenation( 
+              pG.repetitionplus(
+                pG.range('0','9')
               ),
-              literal('.'),
-              repetition(
-                range('0','9')
+              pG.literal('.'),
+              pG.repetition(
+                pG.range('0','9')
               )
             ),
             function(result) {
-              return new SemanticFloat(Number(result.join("")));
+              return new semantics.SemanticFloat(Number(result.join("")));
             }
           ),
 
         // number: float | integer
         parseNumber :
-          alternation(
-            rule("parseFloat"),
-            rule("integer")
+          pG.alternation(
+            pG.rule("parseFloat"),
+            pG.rule("integer")
           ),
 
         // variable = ([a..z]|[A..Z]) ([a..z]|[A..Z]|[0..9])*
         variable :
-          transform(
-            concatenation(
-              alternation(
-                range('a','z'),
-                range('A','Z')
+          pG.transform(
+            pG.concatenation(
+              pG.alternation(
+                pG.range('a','z'),
+                pG.range('A','Z')
               ),
-              repetition(
-                alternation(
-                  range('a','z'),
-                  range('A','Z'),
-                  range('0','9')
+              pG.repetition(
+                pG.alternation(
+                  pG.range('a','z'),
+                  pG.range('A','Z'),
+                  pG.range('0','9')
                 )
               )
             ),
@@ -132,9 +133,11 @@ $main(function(){
               var result_joined=result.join("");
 
               if (org.mathdox.formulaeditor.parsing.expression.KeywordList[
-                      result_joined]==null) {
+                      result_joined] === undefined ||
+		  org.mathdox.formulaeditor.parsing.expression.KeywordList[
+		      result_joined] === null) {
                 // not in the list of variables that are symbols
-                return new Variable(result_joined);
+                return new semantics.Variable(result_joined);
               } else {
                 // in the list of symbols, return the corresponding object
                 // instead
@@ -146,54 +149,54 @@ $main(function(){
         // omString = "([a..z]|[A..Z]|[0..9]|' _.-')*"
         // TODO: maybe add more symbols
         omString:
-          transform(
-            concatenation(
-              literal('"'),
-              repetitionplus( 
-                alternation(
-                  range('a','z'),
-                  range('A','Z'),
-                  range('0','9'),
-                  literal(' '),
-                  literal('_'),
-                  literal('.'),
-                  literal('-')
+          pG.transform(
+            pG.concatenation(
+              pG.literal('"'),
+              pG.repetitionplus( 
+                pG.alternation(
+                  pG.range('a','z'),
+                  pG.range('A','Z'),
+                  pG.range('0','9'),
+                  pG.literal(' '),
+                  pG.literal('_'),
+                  pG.literal('.'),
+                  pG.literal('-')
                 )
               ),
-              literal('"')
+              pG.literal('"')
             ),
             function(result) {
-              return new SString(result.slice(1,result.length-1).join(""));
+              return new semantics.SString(result.slice(1,result.length-1).join(""));
             }
           ),
         
         // omSymbol = ([a..z]|[A..Z]) ([a..z]|[A..Z]|[0..9]|'_')* '.' ([a..z]|[A..Z])([a..z]|[A..Z]|[0..9]|_)*
         omSymbol:
-          transform(
-            concatenation(
-              alternation(
-                range('a','z'),
-                range('A','Z')
+          pG.transform(
+            pG.concatenation(
+              pG.alternation(
+                pG.range('a','z'),
+                pG.range('A','Z')
               ),
-              repetition(
-                alternation(
-                  range('a','z'),
-                  range('A','Z'),
-                  range('0','9'),
-                  literal('_')
+              pG.repetition(
+                pG.alternation(
+                  pG.range('a','z'),
+                  pG.range('A','Z'),
+                  pG.range('0','9'),
+                  pG.literal('_')
                 )
               ),
-              literal('.'),
-              alternation(
-                range('a','z'),
-                range('A','Z')
+              pG.literal('.'),
+              pG.alternation(
+                pG.range('a','z'),
+                pG.range('A','Z')
               ),
-              repetition(
-                alternation(
-                  range('a','z'),
-                  range('A','Z'),
-                  range('0','9'),
-                  literal('_')
+              pG.repetition(
+                pG.alternation(
+                  pG.range('a','z'),
+                  pG.range('A','Z'),
+                  pG.range('0','9'),
+                  pG.literal('_')
                 )
               )
             ),
@@ -210,18 +213,18 @@ $main(function(){
                 onscreen: null,
                 openmath: null,
                 mathml: "&lt;mi&gt;"+cd+"."+name+"&lt;/mi&gt;"
-              }
-              return new Keyword(cd,name,symbol,"constant");
+              };
+              return new semantics.Keyword(cd,name,symbol,"constant");
             }
           ),
 
         // braces = '(' expression ')'
         braces :
-          transform(
-            concatenation(
-              literal('('),
-              rule("expression"),
-              literal(')')
+          pG.transform(
+            pG.concatenation(
+              pG.literal('('),
+              pG.rule("expression"),
+              pG.literal(')')
             ),
             function(result) {
               return result[1];
@@ -230,25 +233,25 @@ $main(function(){
 
         // function = variable '(' expr ( ',' expr ) * ')'
         func :
-          transform(
-            concatenation(
-              alternation(
-                rule("variable"),
-                rule("omSymbol"),
-                rule("braces"),
-                rule("func_sub")
+          pG.transform(
+            pG.concatenation(
+              pG.alternation(
+                pG.rule("variable"),
+                pG.rule("omSymbol"),
+                pG.rule("braces"),
+                pG.rule("func_sub")
               ),
-              repetitionplus(
-                concatenation(
-                  literal('('),
-                  rule("expression"),
-                  repetition(
-                    concatenation(
-                      literal(","),
-                      rule("expression")
+              pG.repetitionplus(
+                pG.concatenation(
+                  pG.literal('('),
+                  pG.rule("expression"),
+                  pG.repetition(
+                    pG.concatenation(
+                      pG.literal(","),
+                      pG.rule("expression")
                     )
                   ),
-                  literal(')')
+                  pG.literal(')')
                 )
               )
             ),
@@ -291,35 +294,35 @@ $main(function(){
             }
           ),
         func_sub:
-          transform(
-            concatenation(
-              alternation(
-                rule("variable"),
-                rule("omSymbol"),
-                rule("braces")
+          pG.transform(
+            pG.concatenation(
+              pG.alternation(
+                pG.rule("variable"),
+                pG.rule("omSymbol"),
+                pG.rule("braces")
               ),
-              repetitionplus(
-                alternation(
-                  concatenation(
-                    literal('_'),
-                    alternation(
-                      rule("variable"),
-                      rule("omSymbol"),
-                      rule("integer"),
-                      concatenation(
-                        literal('{'),
-                        rule("expression"),
+              pG.repetitionplus(
+                pG.alternation(
+                  pG.concatenation(
+                    pG.literal('_'),
+                    pG.alternation(
+                      pG.rule("variable"),
+                      pG.rule("omSymbol"),
+                      pG.rule("integer"),
+                      pG.concatenation(
+                        pG.literal('{'),
+                        pG.rule("expression"),
                         //repetition(
                         //  concatenation(
                         //    literal(","),
                         //    rule("expression")
                         //  )
                         //),
-                        literal('}')
+                        pG.literal('}')
                       )
                     )
                   ),
-                  rule("subscript")
+                  pG.rule("subscript")
                 )
               )
             ),
@@ -374,8 +377,8 @@ $main(function(){
           // subscript : rule only occurs from presentation
           subscript: never
         
-      })
+      });
 
-  }}
+  }
 
-});
+);

@@ -78,8 +78,7 @@ $main(function(){
 	canvas.drawBox(boxDim, "#00F");
   
         this.children[this.current].draw(canvas, x, y + this.tabBarSize + this.margin, 
-          invisible
-        );
+          invisible);
     
         this.dimensions = {
           top: maxDim.top - this.tabBarSize - this.margin,
@@ -102,8 +101,7 @@ $main(function(){
         if (y < this.dimensions.top + this.tabBarSize) {
           /* inside tabbar, insert nothing */
           index = Math.floor((x - this.dimensions.left) / 
-            (this.dimensions.width) * this.children.length
-          );
+            (this.dimensions.width) * this.children.length);
           
           this.current = index;
 

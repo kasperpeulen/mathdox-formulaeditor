@@ -171,5 +171,5 @@ $main(function(){
 
       return lambda;
     }
-  }
+  };
 });

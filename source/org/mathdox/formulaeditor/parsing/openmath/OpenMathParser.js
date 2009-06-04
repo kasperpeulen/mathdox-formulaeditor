@@ -252,7 +252,7 @@ $main(function(){
       var children = [];
       var name="";
       var i;
-      var child
+      var child;
       for (i=0;i<node.childNodes.length; i++) {
 	child = node.childNodes.item(i);
         if (child.nodeType == 3) { // Node.TEXT_NODE

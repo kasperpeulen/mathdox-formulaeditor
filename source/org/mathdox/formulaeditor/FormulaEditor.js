@@ -171,7 +171,7 @@ $main(function(){
             }
           }
 
-          canvas.className           = "formulaeditorinput";
+          canvas.className = "mathdoxformula";
 
           // set the style attributes that determine the look of the editor
           if (textarea.getAttribute("style") !== null && 

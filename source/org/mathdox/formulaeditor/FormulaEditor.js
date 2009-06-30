@@ -1065,7 +1065,7 @@ $main(function(){
      */
     } else if (canvas instanceof HTMLElement) {
       for (i=0; i<editors.length; i++) {
-        if (editors[i].canvas == canvas) {
+        if (editors[i].canvas.canvas == canvas) {
           return editors[i];
         }
       }

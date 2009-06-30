@@ -139,6 +139,7 @@ $main(function(){
      * used for rendering formulae.
      */
     initialize : function(textarea, canvas) {
+      var x;
 
       if (textarea) {
 
@@ -159,12 +160,14 @@ $main(function(){
           canvas = document.createElement("canvas");
 
           // copy style attributes from the textarea to the canvas
-          for (var x in textarea.style) {
-            try {
-              canvas.style[x] = textarea.style[x];
-            }
-            catch(exception) {
-              // skip
+          if (! org.mathdox.formulaeditor.options.ignoreTextareaStyle) {
+            for (x in textarea.style) {
+              try {
+                canvas.style[x] = textarea.style[x];
+              }
+              catch(exception) {
+                // skip
+              }
             }
           }
 
@@ -209,13 +212,15 @@ $main(function(){
           //canvas.parentNode.insertBefore(palette, canvas);
           var palcanvas = document.createElement("canvas");
 
-          // copy style attributes from the textarea to the canvas
-          for (var x in textarea.style) {
-            try {
-              palcanvas.style[x] = textarea.style[x];
-            }
-            catch(exception) {
-              // skip
+          if (! org.mathdox.formulaeditor.options.ignoreTextareaStyle) {
+            // copy style attributes from the textarea to the canvas
+            for (x in textarea.style) {
+              try {
+                palcanvas.style[x] = textarea.style[x];
+              }
+              catch(exception) {
+                // skip
+              }
             }
           }
 
@@ -248,9 +253,14 @@ $main(function(){
             org.mathdox.formulaeditor.options.dragPalette === true) {
             // create root 
             var root = document.createElement("div");
-            root.style.left = "50px";
-            root.style.top = "50px";
+            root.style.left = "150px";
+            root.style.top = "0px";
             root.style.position = "relative";
+
+            var subdiv = document.createElement("div");
+
+            // float is a keyword, to change the css float style, use cssFloat
+            subdiv.style.cssFloat="right";
 
             // create handle
             var handle = document.createElement("div");
@@ -262,8 +272,9 @@ $main(function(){
 
             // add root, handle and palette to the document
             textarea.parentNode.insertBefore(root, textarea);
-            root.appendChild(handle);
-            root.appendChild(palcanvas);
+            root.appendChild(subdiv);
+            subdiv.appendChild(handle);
+            subdiv.appendChild(palcanvas);
 
             // initialize dragging script
             Drag.init(handle, root);
@@ -282,7 +293,7 @@ $main(function(){
               handle.style.backgroundColor = borderTopColor;
             } else {
               handle.style.backgroundColor = "red";
-            };
+            }
 
           } else {
             // insert canvas in the document before the textarea 
@@ -291,7 +302,7 @@ $main(function(){
 
           // Initialize the canvas. This is only needed in Internet Explorer,
           // where Google's Explorer Canvas library handles canvases.
-	  // NOTE: this should be done after putting the canvas in the DOM tree
+          // NOTE: this should be done after putting the canvas in the DOM tree
           if (G_vmlCanvasManager) {
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);
           }
@@ -644,10 +655,10 @@ $main(function(){
         errorString = null;
       }
       catch(exception) {
-	// IE doesn't provide a useful .toString for errors, use name and
-	// message instead
+        // IE doesn't provide a useful .toString for errors, use name and
+        // message instead
         // old code: errorString = exception.toString();
-	errorString = exception.name + " : "+exception.message;
+        errorString = exception.name + " : "+exception.message;
         omstring =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
@@ -801,19 +812,304 @@ $main(function(){
   });
 
   /**
-   * Add the static getEditorByTextArea(id) method, that returns the formula
-   * editor corresponding to a certain textarea. Returns null when none of the
-   * editors in the page has a textarea with that id argument id.
+   * Perform several cleanup operations
+   * 
+   * - Check all Formula Editor objects in editors
+   *   + check if the textarea and canvas still exist (and are visible)
+   *   + if the canvas doesn't exist anymore; remove the Formula Editor (and
+   *     textarea)
+   *   + if the textarea doesn't exist anymore, it should be reconstructed (?)
+   * - Check all *mathdoxformula* canvases and remove those without Editor
+   * - Check all *mathdoxformula* textareas and remove those without Editor
+   * - Make sure for all editors that the textarea is placed directly after the
+   *   canvas.
    */
-  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea = function(id) {
+  org.mathdox.formulaeditor.FormulaEditor.cleanup = function() {
+    this.cleanupEditors();
+    this.cleanupCanvases();
+    this.cleanupTextareas();
+    this.cleanupGroup();
+  };
 
-    for (var i=0; i<editors.length; i++) {
-      if (id == editors[i].textarea.id) {
-        return editors[i];
+  /**
+   * Perform some cleanup operations
+   * 
+   * - Check all *mathdoxformula* canvases and remove those without Editor
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupCanvases = function() {
+    var canvases = document.getElementsByTagName("canvas");
+
+    for (i=0; i<canvases.length; i++) {
+      var canvas = canvases[i];
+
+      // retrieve the class attribute of the textarea
+      classattribute = canvas.getAttribute("class");
+
+      // workaround bug in IE
+      // see also http://www.doxdesk.com/personal/posts/wd/20020617-dom.html
+      if (!classattribute) {
+        classattribute = canvas.getAttribute("className");
+      }
+
+      // check whether this canvas is of class 'mathdoxformula'
+      if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
+        if (!this.getEditorByCanvas(canvas)) {
+          /* delete canvas */
+          canvas.parentNode.removeChild(canvas);
+        }
       }
     }
-    return null;
+  };
 
+  /**
+   * Perform some cleanup operations
+   * 
+   * - Check all Formula Editor objects in editors
+   *   + check if the textarea and canvas still exist (and are visible)
+   *   + if the canvas doesn't exist anymore; remove the Formula Editor (and
+   *     textarea)
+   *   + if the textarea doesn't exist anymore, remove the Formula Editor (and
+   *     canvas) 
+   *     in the future : maybe reconstructed it ?
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupEditors = function() {
+    /* check all editors and remove those that cannot be repaired */
+    for (var i=editors.length; i>0; i--) {
+      var nodeCanvas = editors[i-1].canvas.canvas;
+      var nodeTextarea = editors[i-1].textarea;
+
+      // check editor for canvas and textarea
+      if (!nodeCanvas || !nodeTextarea) {
+        if (nodeCanvas &&nodeCanvas.parentNode) {
+          nodeCanvas.parentNode.removeChild(nodeCanvas);
+        }
+
+        if (nodeTextarea && nodeTextarea.parentNode) {
+          nodeTextarea.parentNode.removeChild(nodeTextarea);
+        }
+
+        delete editors[i-1];
+        editors.splice(i-1, 1);
+        // editor removed
+      }
+    }
+  };
+
+  /**
+   * Perform some cleanup operations
+   * 
+   * - Make sure for all editors that the textarea is placed directly after the
+   *   canvas.
+   * 
+   * returns true if all editors have a textarea and canvas and false otherwise
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupGroup = function() {
+    // check again all editors and place textareas directly after the canvas
+    var i;
+    var structureCorrect = true;
+
+    for (i=0;i<editors.length;i++) {
+      var nodeCanvas = editors[i].canvas.canvas;
+      var nodeTextarea = editors[i].textarea;
+
+      // check if editor has a canvas and textarea
+      if (nodeCanvas && nodeCanvas.parentNode && nodeTextarea && nodeTextarea.parentNode) {
+        if (nodeCanvas.nextSibling && (nodeCanvas.nextSibling==nodeTextarea)) {
+          // text area was positioned correctly
+        } else {
+          // text area is not positioned correctly: fix it
+          // create a clone of the textarea 
+          var tmpTextarea = nodeTextarea.cloneNode(true);
+
+          // put the clone directly after the canvas
+          if (nodeCanvas.nextSibling) {
+            nodeCanvas.parentNode.insertBefore(tmpTextarea, nodeCanvas.nextSibling);
+          } else {
+            nodeCanvas.parentNode.appendChild(tmpTextarea);
+          }
+
+          // update the textarea in the editor 
+          editors[i].textarea = tmpTextarea;
+
+          // remove original textarea
+          textarea.parentNode.removeChild(textarea);
+        }
+      } else {
+        // no canvas or no textarea found
+        structureCorrect = false;
+      }
+    }
+
+    return structureCorrect;
+  };
+
+  /**
+   * Perform some cleanup operations
+   * 
+   * - Check all *mathdoxformula* textareas and remove those without Editor
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupTextareas = function() {
+    var textareas = document.getElementsByTagName("textarea");
+
+    for (i=0; i<textareas.length; i++) {
+      var textarea = textareas[i];
+
+      // retrieve the class attribute of the textarea
+      classattribute = textarea.getAttribute("class");
+
+      // workaround bug in IE
+      // see also http://www.doxdesk.com/personal/posts/wd/20020617-dom.html
+      if (!classattribute) {
+        classattribute = textarea.getAttribute("className");
+      }
+
+      // check whether this textarea is of class 'mathdoxformula'
+      if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
+        var textareaObject = this.getEditorByTextarea(textarea);
+        if (!textareaObject) {
+          /* delete textarea */
+          textarea.parentNode.removeChild(textarea);
+        } else {
+          // dirty... but works (forces page to render in some cases)
+          // workaround for some bug
+          // TODO : is this still necessary
+          textarea.innerHTML = textareaObject.textarea.value;
+        }
+      }
+    }  
+  };
+
+  /**
+   * Add the static deleteEditor(editor) method, that deletes a formula editor
+   * object. This can be useful when cleaning, for example after changes in the
+   * HTML, like when a textarea has been removed.
+   * 
+   * editor - an index in the editors array or a FormulaEditor object
+   *
+   * It returns true if the editor was found and of the right type and false
+   * otherwise.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.deleteEditor = function(editor) {
+    var i;
+
+    if (typeof editor == "number") {
+      /* editor is an index; check if it is valid */
+      i=editor;
+      if (i<0 || i>=editors.length) {
+        /* wrong index */
+        return false;
+      }
+    } else if (editor instanceof org.mathdox.formuleditor.FormulaEditor) {
+      /* editor is a FormulaEditor object; look it up editor in editors array */
+      i=0;
+      while (i<editors.length && editors[i]!=editor) {
+        i++;
+      }
+
+      /* if the editor is not found, return false */
+      if (i==editors.length) {
+        return false;
+      }
+    } else {
+      /* not a number, and not a Formula Editor */
+      return false;
+    }
+
+    var nodeCanvas = editors[i].canvas.canvas;
+    var nodeTextarea = editors[i].textarea;
+  
+    // remove canvas (if exists)
+    if (nodeCanvas &&nodeCanvas.parentNode) {
+      nodeCanvas.parentNode.removeChild(nodeCanvas);
+    }
+    // remove textarea (if exists)
+    if (nodeTextarea && nodeTextarea.parentNode) {
+      nodeTextarea.parentNode.removeChild(nodeTextarea);
+    }
+
+    // remove editor object
+    delete editors[i];
+    editors.splice(i,1);
+
+    return true;
+  };
+
+  /**
+   * Add the static getEditorByCanvas(canvas) method, that returns the
+   * formula editor corresponding to a certain canvas. 
+   * 
+   * canvas - a string or an HTMLElement
+   *
+   * NOTE: might not work in IE if canvas is not an HTMLElement (check)
+   *
+   * It returns null when none of the editors in the page corresponds to the 
+   * canvas given as argument.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getEditorByCanvas = function(canvas) {
+    var i;
+
+    if (canvas === undefined || canvas === null) {
+      /* no argument given, return null */
+      return null;
+    }
+    /* if canvas is a string, it is an id */
+    /* NOTE: testing with instanceof String does *not* work */
+    if (typeof canvas == "string") {
+      for (i=0; i<editors.length; i++) {
+        if (canvas == editors[i].canvas.id) {
+          return editors[i];
+        }
+      }
+    /**
+     * if textarea is an object in the HTML DOM tree, it is the textarea itself
+     */
+    } else if (canvas instanceof HTMLElement) {
+      for (i=0; i<editors.length; i++) {
+        if (editors[i].canvas == canvas) {
+          return editors[i];
+        }
+      }
+    }
+    /* no editor found */
+    return null;
+  };
+
+  /**
+   * Add the static getEditorByTextArea(textarea) method, that returns the
+   * formula editor corresponding to a certain textarea. 
+   * 
+   * textarea - a string or an HTMLTextAreaElement
+   *
+   * It returns null when none of the editors in the page corresponds to the 
+   * textarea given as argument.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea = function(textarea) {
+    var i;
+
+    if (textarea === undefined || textarea === null) {
+      /* no argument given, return null */
+      return null;
+    }
+    /* if textarea is a string, it is an id */
+    /* NOTE: testing with instanceof String does *not* work */
+    if (typeof textarea == "string") {
+      for (i=0; i<editors.length; i++) {
+        if (textarea == editors[i].textarea.id) {
+          return editors[i];
+        }
+      }
+    /**
+     * if textarea is an object in the HTML DOM tree, it is the textarea itself
+     */
+    } else if (textarea instanceof HTMLElement) {
+      for (i=0; i<editors.length; i++) {
+        if (editors[i].textarea == textarea) {
+          return editors[i];
+        }
+      }
+    }
+    /* no editor found */
+    return null;
   };
 
   /**
@@ -830,6 +1126,83 @@ $main(function(){
     }
     return null;
 
+  };
+
+  /**
+   * Update the editor list, based on the current tree, focusing on which
+   * textareas are present.
+   *
+   * In effect, create a new editor for each *relevant* textarea that has no 
+   * corresponding editor. Here relevant means having the class
+   * mathdoxformulaeditor.
+   * 
+   * clean: boolean, if true also do the following:
+   *   - remove all editors for which no textarea is present
+   *   - remove all *relevant* canvases for which no editor is present
+   *     (here relevant means having the class ???)
+   */
+  org.mathdox.formulaeditor.FormulaEditor.updateByTextAreas = function(clean) {
+    /* let textareas be all the textareas in the document */
+
+    var textareas = document.getElementsByTagName("textarea");
+
+    var classattribute;
+
+    /* do cleaning : TODO */
+    var i,j;
+    if (clean) {
+      /* remove all editors for which no textarea is present */
+
+      i=0;
+      while (i<editors.length) {
+        /* get the index of j, or textareas.length if not found */
+        j=0;
+        while (j<textareas.length && editors[i].textarea != textareas[j]) {
+          j++;
+        }
+        
+        if (j==textareas.length) {
+          /* textarea not found, delete the editor */
+          this.deleteFormulaEditor(i);
+        } else {
+          i=i+1;
+        }
+      }
+
+      /* 
+        remove all *relevant* canvases for which no editor is present 
+        Here relevant means of the class: mathdoxformula
+      */
+      this.cleanupCanvases();
+    }
+
+    /* 
+     * add new editors where needed: 
+     * for each textarea:
+     * - check if the class contains mathdoxformula
+     * - check if no editor corresponds to it
+     * - create a new editor and add it to the list of editors
+     */
+
+    for (i=0; i<textareas.length; i++) {
+      var textarea = textareas[i];
+
+      // retrieve the class attribute of the textarea
+      classattribute = textarea.getAttribute("class");
+
+      // workaround bug in IE
+      // see also http://www.doxdesk.com/personal/posts/wd/20020617-dom.html
+      if (!classattribute) {
+        classattribute = textarea.getAttribute("className");
+      }
+
+      // check whether this textarea is of class 'mathdoxformula'
+      if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
+        // create and initialize new editor
+        // new should not be used as a statement: use a dummy variable
+        var editor = new org.mathdox.formulaeditor.FormulaEditor(textarea);
+      }
+    }
   };
 
 
@@ -873,7 +1246,7 @@ $main(function(){
         var editor = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
 
         noEditorNeeded = 
-	  this.handleMouseClick(editor, mouseinfo.x, mouseinfo.y);
+          this.handleMouseClick(editor, mouseinfo.x, mouseinfo.y);
 
         if ((noEditorNeeded === false) && (editor === null)) {
           alert("No formulaeditor with focus. Please click on an editor\n"+
@@ -930,7 +1303,7 @@ $main(function(){
           }
         };
 
-	HTTP.getText(url, callback);
+        HTTP.getText(url, callback);
       } else if (org.mathdox.formulaeditor.Palette.description != "loading") {
         // set presentation and semantics
         this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
@@ -942,23 +1315,23 @@ $main(function(){
       /* wrapper function to be able to redraw after a tab switch */
       var palette = this;
       var redrawFunction = function() {
-      	palette.redraw();
+              palette.redraw();
       };
       var coords = pTabContainer.handleMouseClick(x,y,redrawFunction);
 
       if (editor === null) {
         if (coords === null) {
-	  /* nothing to enter, so no editor needed */
-      	  return true; 
-	} else {
-	  return false;
-	}
+        /* nothing to enter, so no editor needed */
+          return true; 
+        } else {
+          return false;
+        }
       }
 
       var position = editor.cursor.position;
 
       if (coords === null) {
-      	return false;
+        return false;
       }
       var row = this.semantics.operands[coords.tab].operands[coords.row].operands[coords.col];
 

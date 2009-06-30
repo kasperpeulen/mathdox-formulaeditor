@@ -375,7 +375,7 @@ $main(function() {
             }
           ),
           // subscript : rule only occurs from presentation
-          subscript: never
+          subscript: pG.never
         
       });
 

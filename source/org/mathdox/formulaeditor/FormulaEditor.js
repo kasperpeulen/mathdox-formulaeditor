@@ -965,7 +965,7 @@ $main(function(){
 
       // check whether this textarea is of class 'mathdoxformula'
       if (classattribute && classattribute.match(/(^| )mathdoxformula($| )/)) {
-        var textareaObject = this.getEditorByTextarea(textarea);
+        var textareaObject = this.getEditorByTextArea(textarea);
         if (!textareaObject) {
           /* delete textarea */
           textarea.parentNode.removeChild(textarea);

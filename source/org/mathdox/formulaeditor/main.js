@@ -20,6 +20,7 @@
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = baseurl + url;
+    script.charset = "utf-8";
     lastadded.parentNode.insertBefore(script, lastadded.nextSibling);
     lastadded = script;
   };

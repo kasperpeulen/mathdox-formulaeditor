@@ -175,7 +175,8 @@ $main(function(){
 
           // set the style attributes that determine the look of the editor
           if (textarea.getAttribute("style") !== null && 
-               textarea.getAttribute("style") !== undefined) {
+               textarea.getAttribute("style") !== undefined &&
+               textarea.getAttribute("style").value !== undefined) {
             // same style as the textarea
             canvas.setAttribute("style", textarea.getAttribute("style"));
           } else if (org.mathdox.formulaeditor.options.inputStyle) {

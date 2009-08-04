@@ -16,31 +16,51 @@ $main(function(){
    * Defines a semantic tree node that represents an integration.
    */
   org.mathdox.formulaeditor.semantics.Integration =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+    $extend(org.mathdox.formulaeditor.semantics.Node, {
 
-      // operand 0 : lambda expression
+      // operand : lambda expression
+      lambda: null,
     
       getPresentation : function(context) {
       
         var presentation = org.mathdox.formulaeditor.presentation;
-        
-        return new presentation.Row(
+        var result = new presentation.Row();
+        var row;
+
+        row = [
           // U+222B integral
           new presentation.Symbol('∫'),
-          this.operands[0].expression.getPresentation(context),
-          new presentation.Symbol("d"),
-          this.operands[0].variables[0].getPresentation(context)
-        );
+          this.lambda.expression.getPresentation(context),
+          // U+2146 differential D
+          new presentation.Symbol("ⅆ"),
+          this.lambda.variables[0].getPresentation(context)
+        ];
+
+        result.initialize.apply(result, row);
         
+        return result;
       },
       
       getOpenMath : function() {
       
         return "<OMA>" +
           "<OMS cd='calculus1' name='int'/>" +
-          this.operands[0].getOpenMath() +
+          this.lambda.getOpenMath() +
         "</OMA>";
-      
+      },
+
+      getMathML : function() {
+        // U+222B integral
+        return "<mrow><mo>∫</mo>"+
+          this.lambda.expression.getMathML() +
+          // U+2146 differential D
+          "<mo>ⅆ</mo>"+
+          this.lambda.variables[0].getMathML()+
+          "</mrow>";
+      },
+
+      initialize : function() {
+        this.lambda = arguments[0];
       }
     
     });
@@ -65,7 +85,6 @@ $main(function(){
 	}
 
         return new org.mathdox.formulaeditor.semantics.Integration(lambda);
-
       }
 
     });
@@ -95,13 +114,17 @@ $main(function(){
             // U+222B integral
             pG.literal("∫"),
             pG.rule("expression"),
-            pG.literal("d"),
+            pG.literal("ⅆ"),
             pG.rule("variable")
           ),
           function(result) {
-            return new semantics.Integration(
+            var integration;
+
+            integration =  new semantics.Integration(
               new semantics.Lambda(result[3], result[1])
             );
+
+            return integration;
           }
         )
   });

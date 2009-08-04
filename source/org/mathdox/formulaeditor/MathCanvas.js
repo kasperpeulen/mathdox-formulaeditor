@@ -382,7 +382,7 @@ $main(function(){
      */
     drawSymbol : function(symbol, x, y, invisible, typeface) {
       var mathCanvas = org.mathdox.formulaeditor.MathCanvas;
-      if (mathCanvas.combinedSymbols[symbol]!== undefined) {
+      if (mathCanvas.specialSymbols[symbol]!== undefined) {
         // special case combined symbol: 
         // draw all subsymbols and return maximum dimensions
 
@@ -394,7 +394,7 @@ $main(function(){
         };
         var olddim;
         var i;
-        var symbols = mathCanvas.combinedSymbols[symbol];
+        var symbols = mathCanvas.specialSymbols[symbol];
 
         for (i=0; i< symbols.length; i++) {
           olddim = dim;
@@ -994,7 +994,9 @@ $main(function(){
     ]
   };
 
-  org.mathdox.formulaeditor.MathCanvas.combinedSymbols = {
+  org.mathdox.formulaeditor.MathCanvas.specialSymbols = {
+    // U+2146 differential D
+    'ⅆ': [ 'd' ],
     // U+2260 not equal to
     // U+2215 division slash
     '≠': [ '=', '∕' ]

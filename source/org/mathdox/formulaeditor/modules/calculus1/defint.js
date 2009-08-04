@@ -35,12 +35,27 @@ $main(function(){
               this.operands[0].operands[1].getPresentation(context))
           ),
           this.operands[1].expression.getPresentation(context),
-          new presentation.Symbol("d"),
+          // U+2146 Differential d
+          new presentation.Symbol("ⅆ"),
           this.operands[1].variables[0].getPresentation(context)
         );
       
       },
       
+      getMathML : function() {
+      	// U+222B integral 
+        return "<mrow><msubsup><mo>∫</mo>" +
+          // below: lower boundry
+          this.operands[0].operands[0].getMathML() +
+          // above: higher boundry
+          this.operands[0].operands[1].getMathML() +
+          "</msubsup>"+
+          this.operands[1].expression.getMathML() +
+          "<mo>ⅆ</mo>"+
+          this.operands[1].variables[0].getMathML() +
+	  "</mrow>";
+      },
+
       getOpenMath : function() {
       
         return "<OMA>" +
@@ -127,7 +142,8 @@ $main(function(){
             pG.concatenation(
               pG.rule("defint"),
               pG.rule("expression"),
-              pG.literal("d"),
+	      // U+2146 differential d
+              pG.literal("ⅆ"),
               pG.rule("variable")
             ),
             function(result) {

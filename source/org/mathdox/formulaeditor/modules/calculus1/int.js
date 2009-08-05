@@ -79,10 +79,10 @@ $main(function(){
         var children = node.getChildNodes();
         var lambda   = this.handle(children.item(1));
 
-	if (lambda === null || lambda.variables.length === 0) {
-	  alert("calculus1.int needs a nonempty OMBVAR");
-	  return null;
-	}
+        if (lambda === null || lambda.variables.length === 0) {
+          alert("calculus1.int needs a nonempty OMBVAR");
+          return null;
+        }
 
         return new org.mathdox.formulaeditor.semantics.Integration(lambda);
       }
@@ -126,8 +126,67 @@ $main(function(){
 
             return integration;
           }
+        ),
+      calculus1int_partial: 
+        pG.transform(
+          pG.concatenation(
+            // U+222B integral
+            pG.literal("∫"),
+            pG.rule("expression")
+          ),
+          function(result) {
+            // just return the expression
+            // return value should probably not be used anyway
+            return result[1];
+          }
         )
   });
+
+  /**
+   * Add a key handler for the 'd' key.
+   */
+  org.mathdox.formulaeditor.presentation.Row =
+    $extend(org.mathdox.formulaeditor.presentation.Row, {
+
+      /**
+       * Override the onkeypress method to handle the '/' key.
+       */
+      onkeypress : function(event, editor) {
+
+        // only handle keypresses where alt and ctrl are not held
+        if (!event.altKey && !event.ctrlKey) {
+
+          // check whether the 'd' key has been pressed
+          if (String.fromCharCode(event.charCode) == "d") {
+
+            // search for a partial integral expression to the left of
+            // the cursor
+            var index = editor.cursor.position.index;
+            var parsedleft = this.getSemantics(0, index, 
+              "calculus1int_partial", true);
+	
+            if (parsedleft.value !== null || parsedleft.index < index) {
+              // found a partial calculus1int expression
+              // U+2146 differential d
+              var presentation = org.mathdox.formulaeditor.presentation;
+              this.insert(index, new presentation.Symbol("ⅆ"));
+              editor.cursor.moveRight();
+            
+              // update the editor state
+              editor.redraw();
+              editor.save();
+              return false;
+            }
+          }
+
+        }
+
+        // call the overridden method
+        return arguments.callee.parent.onkeypress.call(this, event, editor);
+
+      }
+
+    });
 
 
 });

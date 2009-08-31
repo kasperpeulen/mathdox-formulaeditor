@@ -169,7 +169,7 @@ $main(function(){
           function(result) {
             // just return the expression
             // return value should probably not be used anyway
-            return result[1];
+            return result[0];
           }
         )
 
@@ -198,7 +198,7 @@ $main(function(){
             var parsedleft = this.getSemantics(0, index, 
               "calculus1defint_partial", true);
 
-            if (parsedleft.value !== null || parsedleft.index < index) {
+            if (parsedleft.value !== null || parsedleft.index > 0) {
               // found a partial calculus1int expression
               // U+2146 differential d
               var presentation = org.mathdox.formulaeditor.presentation;

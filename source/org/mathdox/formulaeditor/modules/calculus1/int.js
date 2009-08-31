@@ -165,7 +165,7 @@ $main(function(){
             var parsedleft = this.getSemantics(0, index, 
               "calculus1int_partial", true);
 	
-            if (parsedleft.value !== null || parsedleft.index < index) {
+            if (parsedleft.value !== null || parsedleft.index > 0) {
               // found a partial calculus1int expression
               // U+2146 differential d
               var presentation = org.mathdox.formulaeditor.presentation;

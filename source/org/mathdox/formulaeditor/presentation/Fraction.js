@@ -177,7 +177,7 @@ $main(function(){
           value : new org.mathdox.formulaeditor.semantics.Divide(
                     this.children[0].getSemantics().value,
                     this.children[1].getSemantics().value),
-          rule  : "braces"
+          rule  : "divide"
         };
       }
 

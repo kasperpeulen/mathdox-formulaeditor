@@ -46,7 +46,7 @@ $main(function(){
       /**
        * Returns a Times object based on the OpenMath node.
        */
-      handleArith1Times : function(node) {
+      handleArith1Times : function(node, style) {
 
         // parse the children of the OMA
         var children = node.getChildNodes();
@@ -58,6 +58,9 @@ $main(function(){
         // construct a Times object
         var result = new org.mathdox.formulaeditor.semantics.Times();
         result.initialize.apply(result, operands);
+	if (style == "invisible") {
+          result.style = style;
+        }
         return result;
 
       }
@@ -100,7 +103,9 @@ $main(function(){
             )
           ),
           function(result) {
-            return new semantics.Times(result[0], result[1]);
+            var times = new semantics.Times(result[0], result[1]);
+            times.style = "invisible";
+            return times;
           }
         ),
 

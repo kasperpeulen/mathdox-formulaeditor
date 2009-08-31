@@ -45,6 +45,11 @@ $main(function(){
        * The precedence level of the operator.
        */
       precedence : 0,
+ 
+      /**
+       * style if any (like "invisible")
+       */ 
+      style:null,
 
       /**
        * Initializes the operation using the specified arguments as operands.
@@ -64,14 +69,14 @@ $main(function(){
         // with operator symbols
         var array = [];
         var i;
-        if (this.symbol.onscreen instanceof Array) {
+        if (this.style != "invisible" && this.symbol.onscreen instanceof Array) {
           if (this.symbol.onscreen[0]!=="") {
             array.push(new presentation.Row(this.symbol.onscreen[0]));
           }
         }
         for (i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
-          if (i>0) {
+          if (i>0 && this.style != "invisible" ) {
             if (this.symbol.onscreen instanceof Array) {
               if (this.symbol.onscreen[1]!=="") {
                 array.push(new presentation.Row(this.symbol.onscreen[1]));
@@ -90,7 +95,7 @@ $main(function(){
             array.push(operand.getPresentation(context));
           }
         }
-        if (this.symbol.onscreen instanceof Array) {
+        if (this.style != "invisible" && this.symbol.onscreen instanceof Array) {
           if (this.symbol.onscreen[2]!=="") {
             array.push(new presentation.Row(this.symbol.onscreen[2]));
           }
@@ -108,7 +113,14 @@ $main(function(){
        */
       getOpenMath : function() {
 
-        var result = "<OMA>" + this.symbol.openmath;
+        var result = "<OMA";
+
+        // add style (like invisible) if present
+        if (this.style) {
+          result = result + " style='" + this.style + "'";
+        }
+
+        result = result + ">" + this.symbol.openmath;
         for (var i=0; i<this.operands.length; i++) {
           result = result + this.operands[i].getOpenMath();
         }

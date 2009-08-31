@@ -111,7 +111,7 @@ $main(function(){
 
         // call the handler method
         if (handler in this) {
-          return this[handler](node);
+          return this[handler](node, style);
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== null && org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== undefined) {
           /* return a FunctionApplication at the end */
           symbol = this.handleOMS(node.getFirstChild());

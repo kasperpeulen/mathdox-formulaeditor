@@ -1,5 +1,6 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/divide.js");
 
+$require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Fraction.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
@@ -78,17 +79,31 @@ $main(function(){
         var parent = arguments.callee.parent;
         pG.alternation(
           pG.rule("divide"),
+          pG.rule("divide_silent_addition"),
           parent.expression160).apply(this, arguments);
       },
 
       // divide = never
-      divide : pG.never
+      divide : pG.never,
+
+      divide_silent_addition : 
+        pG.transform(
+          pG.concatenation(
+            pG.rule("integer"),
+            pG.rule("divide")),
+          function(result) {
+            var semantics = org.mathdox.formulaeditor.semantics; 
+            var plus = new semantics.Plus(result[0],result[1]);
+            plus.style="invisible";
+            return plus;
+          }
+        )
 
   });
 
 
   /**
-   * Add a key handler for the '/' key.
+   * Add a key handler for the '/' and '%' keys.
    */
   org.mathdox.formulaeditor.presentation.Row =
     $extend(org.mathdox.formulaeditor.presentation.Row, {
@@ -126,6 +141,25 @@ $main(function(){
             editor.save();
             return false;
 
+          } else if (String.fromCharCode(event.charCode) == "%") {
+            var presentation = org.mathdox.formulaeditor.presentation;
+            var index    = editor.cursor.position.index;
+
+            // create the fraction
+            var fraction = new presentation.Fraction(
+              new presentation.Row(new presentation.BlockSymbol()),
+              new presentation.Row(new presentation.BlockSymbol()));
+
+            // insert the fraction into the row
+            this.insert(index, fraction);
+
+            // move the cursor into the fraction
+            editor.cursor.moveRight();
+            
+            // update the editor state
+            editor.redraw();
+            editor.save();
+            return false;
           }
 
         }

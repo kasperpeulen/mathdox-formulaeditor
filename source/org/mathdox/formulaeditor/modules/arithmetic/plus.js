@@ -40,7 +40,7 @@ $main(function(){
       /**
        * Returns a Plus object based on the OpenMath node.
        */
-      handleArith1Plus : function(node) {
+      handleArith1Plus : function(node, style) {
 
         // parse the children of the OMA
         var children = node.getChildNodes();
@@ -52,6 +52,9 @@ $main(function(){
         // construct a Plus object
         var result = new org.mathdox.formulaeditor.semantics.Plus();
         result.initialize.apply(result, operands);
+        if (style == "invisible") {
+          result.style = style;
+        }
         return result;
 
       }

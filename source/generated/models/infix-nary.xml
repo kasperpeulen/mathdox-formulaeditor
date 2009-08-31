@@ -44,6 +44,12 @@ $main(function(){
         operands.push(this.handle(children.item(i)));
       }
 
+      // construct the corresponding object
+      var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
+      result.initialize.apply(result, operands);
+      return result;
+
+
     }
 
   });

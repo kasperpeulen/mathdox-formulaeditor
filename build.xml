@@ -69,6 +69,7 @@
       <fileset dir='libraries' includes='excanvas*.zip'/>
       <patternset>
         <include name='excanvas.js'/>
+	<!--<include name='excanvas.compiled.js'/>-->
       </patternset>
     </unzip>
 

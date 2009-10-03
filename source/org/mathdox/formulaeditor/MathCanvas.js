@@ -75,14 +75,14 @@ $main(function(){
      * symbol of that size is known it will be tried to construct it, if that
      * fails a smaller symbol will be used. See also drawSymbol.
      */
-    drawBracket : function(bracket, x, y, minimumHeight, invisible) {
+    drawBracket : function(bracket, x, y, minimumHeight, invisible, fontSizeModifier) {
 
       // retrieve font and symbol data
       var symbolData;
 
       // see if a standard symbol can be used
       for (var i=4 ; i>=1; i--) {
-        var tmpData = this.getSymbolDataByPosition(bracket + i);
+        var tmpData = this.getSymbolDataByPosition(bracket + i, fontSizeModifier);
         if (tmpData.height >= minimumHeight) {
           symbolData = tmpData;
         }
@@ -156,9 +156,9 @@ $main(function(){
         };
       } else {
         // construct a symbol
-        var topSymbol = this.getSymbolDataByPosition(bracket+"u");
-        var bottomSymbol = this.getSymbolDataByPosition(bracket+"l");
-        var connection = this.getSymbolDataByPosition(bracket+"m");
+        var topSymbol = this.getSymbolDataByPosition(bracket+"u", fontSizeModifier);
+        var bottomSymbol = this.getSymbolDataByPosition(bracket+"l", fontSizeModifier);
+        var connection = this.getSymbolDataByPosition(bracket+"m", fontSizeModifier);
 
         if (!topSymbol.adjusted) {
           // get rid of aliased top/bottom
@@ -488,37 +488,33 @@ $main(function(){
       return newObj;
     },
 
-    getSymbolData : function(symbol) {
-      var typeface = null;
-      if (arguments.length>1) {
-        typeface = arguments[1];
-      }
+    getSymbolData : function(symbol, typeface, fontSizeModifier) {
       // retrieve font and symbol data
       var symbolData;
 
       /* some special cases */
       if (symbol==' ') {
-        symbolData = this.getSymbolDataByPosition(',');
+        symbolData = this.getSymbolDataByPosition(',', fontSizeModifier);
         if (symbolData) {
           symbolData = this.extendObject(symbolData, {
             x:symbolData.x+symbolData.width+1
           });
         }
       } else if (symbol == '_' ) { 
-        symbolData = this.getSymbolDataByPosition('-');
+        symbolData = this.getSymbolDataByPosition('-', fontSizeModifier);
         if (symbolData) {
           symbolData = this.extendObject(symbolData, { 
             yadjust: 0 + symbolData.height 
           });
         }
       } else if (typeface == 'math') {
-        symbolData = this.getSymbolDataByPosition("m"+ symbol);
+        symbolData = this.getSymbolDataByPosition("m"+ symbol, fontSizeModifier);
         if (! symbolData) {
-          symbolData = this.getSymbolDataByPosition(symbol);
+          symbolData = this.getSymbolDataByPosition(symbol, fontSizeModifier);
         }
       } else {
         /* generic case */
-        symbolData = this.getSymbolDataByPosition(symbol);
+        symbolData = this.getSymbolDataByPosition(symbol, fontSizeModifier);
       }
 
       /* some margins, '-', '+', middle dot */
@@ -563,11 +559,18 @@ $main(function(){
       return null;
     },
 
-    getSymbolDataByPosition: function(symbol) {
+    getSymbolDataByPosition: function(symbol, fontSizeModifier) {
       var positionInfo = org.mathdox.formulaeditor.MathCanvas.symbolPositions[
         symbol];
       var fBP = org.mathdox.formulaeditor.MathCanvas.fontsByPosition;
       var fontSize = this.fontSizes[this.fontSizeIdx];
+      var newFontSizeIndex;
+      if (fontSizeModifier!== undefined && fontSizeModifier !== null) {
+	newFontSizeIndex = this.fontSizeIdx + fontSizeModifier;
+	if (0<=newFontSizeIndex && newFontSizeIndex <= this.fontSizes.length) {
+	  fontSize = this.fontSizes[newFontSizeIndex];
+	}
+      }
 
       if (!positionInfo) {
         //alert("no positioninfo : "+symbol);

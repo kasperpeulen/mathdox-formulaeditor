@@ -22,7 +22,7 @@
   <!--
     Create a directory that contains all javascript and supporting files.
   -->
-  <target name='javascript'>
+  <target name='javascript' depends='javascript-palettes'>
   
     <mkdir dir='build/javascript'/>
     
@@ -41,6 +41,12 @@
     <copy todir='build/javascript'>
       <fileset dir='source' excludes='convert/**,**/version*'/>
     </copy>
+
+    <!-- copy palette as javascript source -->
+    <copy 
+      file='build/javascript-palettes/Palettes.js'
+      todir='build/javascript/org/mathdox/formulaeditor/'
+    />
 
     <!-- copy files with version info with filter -->
     <filter token='version' value='${version}'/>
@@ -69,7 +75,7 @@
       <fileset dir='libraries' includes='excanvas*.zip'/>
       <patternset>
         <include name='excanvas.js'/>
-	<!--<include name='excanvas.compiled.js'/>-->
+        <!--<include name='excanvas.compiled.js'/>-->
       </patternset>
     </unzip>
 
@@ -122,13 +128,13 @@
       <fileset dir='build/javascript' includes='**/*.js'/>
       <filterchain>
         <linecontains>
-	  <contains value='$identify('/>
-	</linecontains>
-	<tokenfilter>
-	  <replaceregex 
-	    pattern='\$identify\("(.*)"\);' 
-	    replace='  &lt;identify file="\1"/&gt;'/>
-	</tokenfilter>
+          <contains value='$identify('/>
+        </linecontains>
+        <tokenfilter>
+          <replaceregex 
+            pattern='\$identify\("(.*)"\);' 
+            replace='  &lt;identify file="\1"/&gt;'/>
+        </tokenfilter>
       </filterchain>
     </concat>
     <concat destfile='build/javascript-identify/identify.xml'>
@@ -147,6 +153,33 @@
     >
       <param name='filedir' expression ='../../../build/javascript'/>
     </xslt>
+  </target>
+
+  <!-- 
+    Create a file containing all javascript files with identify
+  -->
+  <target name='javascript-palettes'>
+    <copy 
+      file='source/org/mathdox/formulaeditor/palette.xml' 
+      tofile='build/javascript-palettes/Palettes.body'
+    >
+      <filterchain>
+        <replaceregex 
+          pattern='"' 
+	  replace='\\\\"'
+	  flags='g'
+        />
+        <replaceregex 
+          pattern='^(.*)' 
+          replace='"\1\\\\n"+'
+        />
+      </filterchain>
+    </copy>
+    <concat destfile='build/javascript-palettes/Palettes.js'>
+      <file file='source/generated/palettes/Palettes.header'/>
+      <file file='build/javascript-palettes/Palettes.body'/>
+      <file file='source/generated/palettes/Palettes.footer'/>
+    </concat>
   </target>
 
   <!--

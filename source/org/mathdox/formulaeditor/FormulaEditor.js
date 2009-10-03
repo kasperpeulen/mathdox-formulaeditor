@@ -23,6 +23,8 @@ $require("org/mathdox/formulaeditor/version.js");
 
 $require("org/mathdox/formulaeditor/Options.js");
 
+$require("org/mathdox/formulaeditor/Palettes.js");
+
 $require("org/mathdox/formulaeditor/modules/keywords.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
@@ -272,6 +274,7 @@ $main(function(){
             handle.style.cursor = "move";
 
             // add root, handle and palette to the document
+	    // NOTE: should not be added inside a para
             textarea.parentNode.insertBefore(root, textarea);
             root.appendChild(subdiv);
             subdiv.appendChild(handle);
@@ -1286,7 +1289,13 @@ $main(function(){
       if (org.mathdox.formulaeditor.options.paletteURL) {
         url = org.mathdox.formulaeditor.options.paletteURL;
       } else {
-        url = $baseurl+"org/mathdox/formulaeditor/palette.xml";
+	org.mathdox.formulaeditor.Palette.description = 
+          org.mathdox.formulaeditor.Palettes.defaultPalette;
+        
+	this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
+        this.draw();
+
+	return;
       }
 
       if (!org.mathdox.formulaeditor.Palette.description) {

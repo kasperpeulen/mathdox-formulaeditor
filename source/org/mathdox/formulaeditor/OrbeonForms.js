@@ -46,6 +46,8 @@ $main(function(){
       oldXformsHandleResponse = xformsHandleResponse;
     } else if (ORBEON.xforms.Server.handleResponse) {
       oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
+    } else if (ORBEON.xforms.Server.handleResponseDom) {
+      oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
     } else {
       alert("ERROR: detected orbeon, but could not add response handler");
     }
@@ -81,6 +83,8 @@ $main(function(){
       xformsHandleResponse = newXformsHandleResponse;
     } else if (ORBEON.xforms.Server.handleResponse) {
       ORBEON.xforms.Server.handleResponse = newXformsHandleResponse;
+    } else if (ORBEON.xforms.Server.handleResponseDom) {
+      ORBEON.xforms.Server.handleResponseDom = newXformsHandleResponse;
     } 
 
   }

@@ -250,7 +250,6 @@ $main(function(){
           this.palette = new org.mathdox.formulaeditor.Palette();
           palettes.push(this.palette);
 
-          this.palette.initialize(palcanvas);
           // special case: dragable canvas TODO
           if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
             org.mathdox.formulaeditor.options.dragPalette === true) {
@@ -310,6 +309,8 @@ $main(function(){
           if (G_vmlCanvasManager) {
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);
           }
+          
+	  this.palette.initialize(palcanvas);
         }
 
         // hide the textarea XXX

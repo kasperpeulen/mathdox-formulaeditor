@@ -2,6 +2,8 @@
  * Loads Google's Explorer Canvas library, when there is no native support for
  * the <canvas/> tag.
  */
+$identify("org/mathdox/formulaeditor/Canvas.js");
+
 var G_vmlCanvasManager;
 if (!window.CanvasRenderingContext2D) {
 

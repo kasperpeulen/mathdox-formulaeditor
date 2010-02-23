@@ -273,8 +273,18 @@ $main(function(){
             handle.style.cursor = "move";
 
             // add root, handle and palette to the document
-	    // NOTE: should not be added inside a para
-            textarea.parentNode.insertBefore(root, textarea);
+	    if (textarea.parentNode.tagName.toLowerCase() == "p") {
+	      // NOTE: should not be added inside a para
+              var para = textarea.parentNode;
+              var paraparent = textarea.parentNode.parentNode;
+              // code to insert after the paragraph
+              paraparent.replaceChild(root, para);
+              paraparent.insertBefore(para, root);
+              // to insert before the paragraph use
+              // paraparent.insertBefore(root, para);
+	    } else {
+              textarea.parentNode.insertBefore(root, textarea);
+	    }
             root.appendChild(subdiv);
             subdiv.appendChild(handle);
             subdiv.appendChild(palcanvas);

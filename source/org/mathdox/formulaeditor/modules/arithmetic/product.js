@@ -7,7 +7,7 @@ $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/formulaeditor/modules/relation1/eq.js");
-$require("org/mathdox/formulaeditor/modules/miscellaneous/interval.js");
+$require("org/mathdox/formulaeditor/modules/interval/integer_interval.js");
 $require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
 
 $main(function(){
@@ -18,7 +18,7 @@ $main(function(){
   org.mathdox.formulaeditor.semantics.Product =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
-      // operand 0 : interval
+      // operand 0 : integer_interval
       // operand 1 : lambda expression
     
       getPresentation : function(context) {
@@ -106,7 +106,7 @@ $main(function(){
       handleArith1Product : function(node) {
 
         var children = node.getChildNodes();
-        var interval = this.handle(children.item(1));
+        var integer_interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
 
 	if (lambda.variables.length === 0) {
@@ -114,7 +114,7 @@ $main(function(){
 	  return null;
 	}
 
-        return new org.mathdox.formulaeditor.semantics.Product(interval, lambda);
+        return new org.mathdox.formulaeditor.semantics.Product(integer_interval, lambda);
 
       }
 
@@ -142,7 +142,7 @@ $main(function(){
             function(result) {
 
               return new semantics.Product(
-                new semantics.Interval(result[0][0], result[0][1]),
+                new semantics.Integer_interval(result[0][0], result[0][1]),
                 new semantics.Lambda([result[0][2]], result[1])
               );
 

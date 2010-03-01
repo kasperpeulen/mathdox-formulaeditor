@@ -17,7 +17,7 @@ $main(function(){
       symbol : {
 
         onscreen : ["[",",","]"],
-        openmath : "<OMS cd='interval1' name='integer_interval'/>"
+        openmath : "<OMS cd='interval1' name='interval'/>"
 
       }
 
@@ -25,7 +25,7 @@ $main(function(){
 
   /**
    * Extend the OpenMathParser object with parsing code for
-   * interval1.integer_interval
+   * interval1.interval
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
@@ -33,7 +33,7 @@ $main(function(){
       /**
        * Returns an Interval object based on the OpenMath node.
        */
-      handleInterval1Integer_interval : function(node) {
+      handleInterval1Interval : function(node) {
 
         var children = node.getChildNodes();
         var lower = this.handle(children.item(1));

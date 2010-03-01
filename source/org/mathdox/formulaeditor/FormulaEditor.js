@@ -272,6 +272,10 @@ $main(function(){
             handle.style.height = "10px";
             handle.style.cursor = "move";
 
+            subdiv.appendChild(handle);
+            subdiv.appendChild(palcanvas);
+            root.appendChild(subdiv);
+
             // add root, handle and palette to the document
 	    if (textarea.parentNode.tagName.toLowerCase() == "p") {
 	      // NOTE: should not be added inside a para
@@ -281,13 +285,10 @@ $main(function(){
               paraparent.replaceChild(root, para);
               paraparent.insertBefore(para, root);
               // to insert before the paragraph use
-              // paraparent.insertBefore(root, para);
+              //paraparent.insertBefore(root, para);
 	    } else {
               textarea.parentNode.insertBefore(root, textarea);
 	    }
-            root.appendChild(subdiv);
-            subdiv.appendChild(handle);
-            subdiv.appendChild(palcanvas);
 
             // initialize dragging script
             Drag.init(handle, root);
@@ -312,14 +313,14 @@ $main(function(){
             // insert canvas in the document before the textarea 
             textarea.parentNode.insertBefore(palcanvas, textarea);
           }
+          if (G_vmlCanvasManager) {
+            palcanvas = G_vmlCanvasManager.initElement(palcanvas);
+          }
 
           // Initialize the canvas. This is only needed in Internet Explorer,
           // where Google's Explorer Canvas library handles canvases.
           // NOTE: this should be done after putting the canvas in the DOM tree
-          if (G_vmlCanvasManager) {
-            palcanvas = G_vmlCanvasManager.initElement(palcanvas);
-          }
-          
+	  
 	  this.palette.initialize(palcanvas);
         }
 

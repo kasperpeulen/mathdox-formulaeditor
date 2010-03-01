@@ -1,4 +1,4 @@
-$identify("org/mathdox/formulaeditor/modules/interval/interval.js");
+$identify("org/mathdox/formulaeditor/modules/interval1/interval.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");

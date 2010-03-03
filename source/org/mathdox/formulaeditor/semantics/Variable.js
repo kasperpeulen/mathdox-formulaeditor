@@ -18,12 +18,41 @@ $main(function(){
        */
       name : null,
 
+     /**
+       * Information about the variable that is used to represent it.
+       */
+      symbol : {
+
+        /**
+         * The symbol(s) that is/are used for rendering the variable to the
+         * screen.
+         */
+        onscreen : null,
+
+        /**
+         * The MathML representation of this variable.
+         */
+        mathml   : null
+
+      },
+
+
       /**
        * Initializes a semantic tree node to represent the variable with the
        * specified name.
        */
-      initialize : function(name) {
+      initialize : function(name, symbol) {
         this.name = name;
+
+        if (symbol) {
+          this.symbol = {};
+          if (symbol.onscreen) {
+            this.symbol.onscreen = symbol.onscreen;
+          }
+          if (symbol.mathml) {
+            this.symbol.mathml = symbol.mathml;
+          }
+        }
       },
 
       /**
@@ -32,7 +61,12 @@ $main(function(){
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
 
-        var str = this.name.toString();
+        var str;
+        if (this.symbol.onscreen !== null) {
+          str = this.symbol.onscreen.toString();
+        } else { 
+          str = this.name.toString();
+        }
         var symbols = [];
 
         for (var i=0; i<str.length; i++) {
@@ -56,7 +90,11 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
       getMathML : function() {
-        return "<mi>" + this.name + "</mi>";
+        if (this.symbol.mathml !== null) {
+          return this.symbol.mathml.toString();
+        } else {
+          return "<mi>" + this.name + "</mi>";
+        }
       }
 
     });

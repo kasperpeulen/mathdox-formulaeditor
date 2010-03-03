@@ -3,6 +3,7 @@ $package("org.mathdox.formulaeditor.parsing.openmath");
 $identify("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/VariableList.js");
 $require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 $require("org/mathdox/formulaeditor/semantics/Integer.js");
 $require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
@@ -267,8 +268,14 @@ $main(function(){
     handleOMV: function(node) {
 
       var semantics = org.mathdox.formulaeditor.semantics;
+      var varname= node.getAttribute("name");
+      var variable = org.mathdox.formulaeditor.parsing.openmath.VariableList[varname];
 
-      return new semantics.Variable(node.getAttribute("name"));
+      if (variable !== null && variable !== undefined) {
+	return variable;
+      } else {
+      	return new semantics.Variable(varname);
+      }
 
     },
     /**

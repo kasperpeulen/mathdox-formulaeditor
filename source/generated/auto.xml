@@ -279,12 +279,12 @@
     <!-- editor1.input_box -->
     <model:instance>
       <model:cd>editor1</model:cd>
-      // U+25A1 white square
+      <!--  U+25A1 white square -->
       <model:keyword>□</model:keyword>
-      // U+25A1 white square
+      <!--  U+25A1 white square -->
       <model:mathml>&lt;mi&gt;□&lt;/mi&gt;</model:mathml>
       <model:name>input_box</model:name>
-      // U+25A1 white square
+      <!--  U+25A1 white square -->
       <model:onscreen>□</model:onscreen>
       <model:type>constant</model:type>
     </model:instance>
@@ -692,6 +692,218 @@
       <model:name>tanh</model:name>
       <model:onscreen>tanh</model:onscreen>
       <model:type>function</model:type>
+    </model:instance>
+  </model:group>
+  <model:group model="models/variables.xml" 
+    target="org/mathdox/formulaeditor/modules/variables.js"
+  >
+    <!-- Greek small letter alpha -->
+    <model:instance>
+      <!-- U+03B1 Greek small letter alpha -->
+      <model:mathml>&lt;mi&gt;&#x03B1;&lt;/mi&gt;</model:mathml>
+      <model:name>alpha</model:name>
+      <!--  U+03B1 Greek small letter alpha -->
+      <model:onscreen>&#x03B1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter beta -->
+    <model:instance>
+      <!--  U+03B2 Greek small letter beta -->
+      <model:mathml>&lt;mi&gt;&#x03B2;&lt;/mi&gt;</model:mathml>
+      <model:name>beta</model:name>
+      <!--  U+03B2 Greek small letter beta -->
+      <model:onscreen>&#x03B2;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter gamma -->
+    <model:instance>
+      <!--  U+03B3 Greek small letter gamma -->
+      <model:mathml>&lt;mi&gt;&#x03B3;&lt;/mi&gt;</model:mathml>
+      <model:name>gamma</model:name>
+      <!--  U+03B3 Greek small letter gamma -->
+      <model:onscreen>&#x03B3;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter delta -->
+    <model:instance>
+      <!--  U+03B4 Greek small letter delta -->
+      <model:mathml>&lt;mi&gt;&#x03B4;&lt;/mi&gt;</model:mathml>
+      <model:name>delta</model:name>
+      <!--  U+03B4 Greek small letter delta -->
+      <model:onscreen>&#x03B4;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter epsilon -->
+    <model:instance>
+      <!--  U+03F5 Greek lunate epsilon symbol -->
+      <model:mathml>&lt;mi&gt;&#x03F5;&lt;/mi&gt;</model:mathml>
+      <model:name>epsilon</model:name>
+      <!--  U+03F5 Greek lunate epsilon symbol -->
+      <model:onscreen>&#x03F5;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter epsilon : varepsilon-->
+    <model:instance>
+      <!--  U+03C6 Greek small letter epsilon -->
+      <model:mathml>&lt;mi&gt;&#x03C6;&lt;/mi&gt;</model:mathml>
+      <model:name>varepsilon</model:name>
+      <!--  U+03C6 Greek small letter epsilon -->
+      <model:onscreen>&#x03C6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter zeta -->
+    <model:instance>
+      <!--  U+03B6 Greek small letter zeta -->
+      <model:mathml>&lt;mi&gt;&#x03B6;&lt;/mi&gt;</model:mathml>
+      <model:name>zeta</model:name>
+      <!--  U+03B6 Greek small letter zeta -->
+      <model:onscreen>&#x03B6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter eta -->
+    <model:instance>
+      <!--  U+03B7 Greek small letter eta -->
+      <model:mathml>&lt;mi&gt;&#x03B7;&lt;/mi&gt;</model:mathml>
+      <model:name>eta</model:name>
+      <!--  U+03B7 Greek small letter eta -->
+      <model:onscreen>&#x03B7;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter theta -->
+    <model:instance>
+      <!--  U+03B8 Greek small letter theta -->
+      <model:mathml>&lt;mi&gt;&#x03B8;&lt;/mi&gt;</model:mathml>
+      <model:name>theta</model:name>
+      <!--  U+03B8 Greek small letter theta -->
+      <model:onscreen>&#x03B8;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter theta: vartheta -->
+    <model:instance>
+      <!--  U+03D1 Greek theta symbol -->
+      <model:mathml>&lt;mi&gt;&#x03D1;&lt;/mi&gt;</model:mathml>
+      <model:name>vartheta</model:name>
+      <!--  U+03D1 Greek theta symbol -->
+      <model:onscreen>&#x03D1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter kappa -->
+    <model:instance>
+      <!--  U+03BA Greek small letter kappa -->
+      <model:mathml>&lt;mi&gt;&#x03BA;&lt;/mi&gt;</model:mathml>
+      <model:name>kappa</model:name>
+      <!--  U+03BA Greek small letter kappa -->
+      <model:onscreen>&#x03BA;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter mu -->
+    <model:instance>
+      <!--  U+03BC Greek small letter mu -->
+      <model:mathml>&lt;mi&gt;&#x03BC;&lt;/mi&gt;</model:mathml>
+      <model:name>mu</model:name>
+      <!--  U+03BC Greek small letter mu -->
+      <model:onscreen>&#x03BC;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter nu -->
+    <model:instance>
+      <!--  U+03BD Greek small letter nu -->
+      <model:mathml>&lt;mi&gt;&#x03BD;&lt;/mi&gt;</model:mathml>
+      <model:name>nu</model:name>
+      <!--  U+03BD Greek small letter nu -->
+      <model:onscreen>&#x03BD;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter xi -->
+    <model:instance>
+      <!--  U+03BE Greek small letter xi -->
+      <model:mathml>&lt;mi&gt;&#x03BE;&lt;/mi&gt;</model:mathml>
+      <model:name>xi</model:name>
+      <!--  U+03BE Greek small letter xi -->
+      <model:onscreen>&#x03BE;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter pi: varpi -->
+    <model:instance>
+      <!--  U+03D6 Greek pi symbol -->
+      <model:mathml>&lt;mi&gt;&#x03D6;&lt;/mi&gt;</model:mathml>
+      <model:name>varpi</model:name>
+      <!--  U+03D6 Greek pi symbol -->
+      <model:onscreen>&#x03D6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter rho -->
+    <model:instance>
+      <!--  U+03C1 Greek small letter rho -->
+      <model:mathml>&lt;mi&gt;&#x03C1;&lt;/mi&gt;</model:mathml>
+      <model:name>rho</model:name>
+      <!--  U+03C1 Greek small letter rho -->
+      <model:onscreen>&#x03C1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter rho: varrho -->
+    <model:instance>
+      <!--  U+03F1 Greek rho symbol -->
+      <model:mathml>&lt;mi&gt;&#x03F1;&lt;/mi&gt;</model:mathml>
+      <model:name>varrho</model:name>
+      <!--  U+03F1 Greek rho symbol -->
+      <model:onscreen>&#x03F1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter sigma -->
+    <model:instance>
+      <!--  U+03C3 Greek small letter sigma -->
+      <model:mathml>&lt;mi&gt;&#x03C3;&lt;/mi&gt;</model:mathml>
+      <model:name>sigma</model:name>
+      <!--  U+03C3 Greek small letter sigma -->
+      <model:onscreen>&#x03C3;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter sigma: varsigma -->
+    <model:instance>
+      <!--  U+03C2 Greek small letter final sigma -->
+      <model:mathml>&lt;mi&gt;&#x03C2;&lt;/mi&gt;</model:mathml>
+      <model:name>varsigma</model:name>
+      <!--  U+03C2 Greek small letter final sigma -->
+      <model:onscreen>&#x03C2;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter tau -->
+    <model:instance>
+      <!--  U+03C4 Greek small letter tau -->
+      <model:mathml>&lt;mi&gt;&#x03C4;&lt;/mi&gt;</model:mathml>
+      <model:name>tau</model:name>
+      <!--  U+03C4 Greek small letter tau -->
+      <model:onscreen>&#x03C4;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter upsilon -->
+    <model:instance>
+      <!--  U+03C5 Greek small letter upsilon -->
+      <model:mathml>&lt;mi&gt;&#x03C5;&lt;/mi&gt;</model:mathml>
+      <model:name>upsilon</model:name>
+      <!--  U+03C5 Greek small letter upsilon -->
+      <model:onscreen>&#x03C5;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter phi -->
+    <model:instance>
+      <!--  U+03D5 Greek phi symbol -->
+      <model:mathml>&lt;mi&gt;&#x03D5;&lt;/mi&gt;</model:mathml>
+      <model:name>phi</model:name>
+      <!--  U+03D5 Greek phi symbol -->
+      <model:onscreen>&#x03D5;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter phi: varphi -->
+    <model:instance>
+      <!--  U+03C6 Greek small letter phi -->
+      <model:mathml>&lt;mi&gt;&#x03C6;&lt;/mi&gt;</model:mathml>
+      <model:name>varphi</model:name>
+      <!--  U+03C6 Greek small letter phi -->
+      <model:onscreen>&#x03C6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter chi -->
+    <model:instance>
+      <!--  U+03C7 Greek small letter chi -->
+      <model:mathml>&lt;mi&gt;&#x03C7;&lt;/mi&gt;</model:mathml>
+      <model:name>chi</model:name>
+      <!--  U+03C7 Greek small letter chi -->
+      <model:onscreen>&#x03C7;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter psi -->
+    <model:instance>
+      <!--  U+03C8 Greek small letter psi -->
+      <model:mathml>&lt;mi&gt;&#x03C8;&lt;/mi&gt;</model:mathml>
+      <model:name>psi</model:name>
+      <!--  U+03C8 Greek small letter psi -->
+      <model:onscreen>&#x03C8;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter omega -->
+    <model:instance>
+      <!--  U+03C9 Greek small letter omega -->
+      <model:mathml>&lt;mi&gt;&#x03C9;&lt;/mi&gt;</model:mathml>
+      <model:name>omega</model:name>
+      <!--  U+03C9 Greek small letter omega -->
+      <model:onscreen>&#x03C9;</model:onscreen>
     </model:instance>
   </model:group>
 </model:list>

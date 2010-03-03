@@ -26,6 +26,7 @@ $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/Palettes.js");
 
 $require("org/mathdox/formulaeditor/modules/keywords.js");
+$require("org/mathdox/formulaeditor/modules/variables.js");
 
 $require("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/divide.js");

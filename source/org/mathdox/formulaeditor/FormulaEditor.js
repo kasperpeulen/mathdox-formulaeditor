@@ -196,7 +196,21 @@ $main(function(){
           }
 
           // insert canvas in the document before the textarea 
-          textarea.parentNode.insertBefore(canvas, textarea);
+          // in case of G_vmlCanvasManager, check if the parent is a p
+          // if it is then put the canvas after the paragraph
+          
+          if (G_vmlCanvasManager && textarea.parentNode.tagName.toLowerCase() == "p") {
+            // NOTE: should not be added inside a para
+            var para = textarea.parentNode;
+            var paraparent = textarea.parentNode.parentNode;
+            // code to insert after the paragraph
+            paraparent.replaceChild(canvas, para);
+            paraparent.insertBefore(para, canvas);
+            // to insert before the paragraph use
+            //paraparent.insertBefore(root, para);
+          } else {
+            textarea.parentNode.insertBefore(canvas, textarea);
+          }
 
           // Initialize the canvas. This is only needed in Internet Explorer,
           // where Google's Explorer Canvas library handles canvases.
@@ -311,8 +325,22 @@ $main(function(){
             }
 
           } else {
-            // insert canvas in the document before the textarea 
-            textarea.parentNode.insertBefore(palcanvas, textarea);
+            // insert palcanvas in the document before the textarea 
+            // in case of G_vmlCanvasManager, check if the parent is a p
+            // if it is then put the canvas after the paragraph
+            if (G_vmlCanvasManager && textarea.parentNode.tagName.toLowerCase() == "p") {
+              // NOTE: should not be added inside a para
+              var para = textarea.parentNode;
+              var paraparent = textarea.parentNode.parentNode;
+              // code to insert after the paragraph
+              paraparent.replaceChild(palcanvas, para);
+              paraparent.insertBefore(para, palcanvas);
+              // to insert before the paragraph use
+              //paraparent.insertBefore(root, para);
+            } else {
+              textarea.parentNode.insertBefore(palcanvas, textarea);
+            }
+  
           }
           if (G_vmlCanvasManager) {
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);

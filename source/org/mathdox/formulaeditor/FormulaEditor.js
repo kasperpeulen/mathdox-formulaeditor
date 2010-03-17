@@ -297,8 +297,13 @@ $main(function(){
               var para = textarea.parentNode;
               var paraparent = textarea.parentNode.parentNode;
               // code to insert after the paragraph
-              paraparent.replaceChild(root, para);
-              paraparent.insertBefore(para, root);
+              if (G_vmlCanvasManager) {
+                paraparent.replaceChild(root, canvas);
+                paraparent.insertBefore(canvas, root);
+              } else {
+                paraparent.replaceChild(root, para);
+                paraparent.insertBefore(para, root);
+              }
               // to insert before the paragraph use
               //paraparent.insertBefore(root, para);
 	    } else {
@@ -343,6 +348,7 @@ $main(function(){
   
           }
           if (G_vmlCanvasManager) {
+            /* reinitialize canvas */
             palcanvas = G_vmlCanvasManager.initElement(palcanvas);
           }
 

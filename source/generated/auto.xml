@@ -113,7 +113,7 @@
     <model:symbol_screen_post></model:symbol_screen_post>
   </model:instance>
   <!-- logic1.or -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-nary.xml"
     target="org/mathdox/formulaeditor/modules/logic1/or.js"
   >
     <model:cd>logic1</model:cd>

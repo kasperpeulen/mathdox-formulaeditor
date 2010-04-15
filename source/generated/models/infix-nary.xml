@@ -5,8 +5,15 @@ $require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
 
 $main(function(){
+
+  var symbol = {
+    onscreen : "<model:symbol_screen/>",
+    openmath : null, // use default with model:cd and model:name
+    mathml   : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;"
+  };
 
   /**
    * Define a semantic tree node that represents <model:cd/>.<model:name/>.
@@ -16,9 +23,9 @@ $main(function(){
 
       symbol : {
 
-        onscreen : "<model:symbol_screen/>",
+        onscreen : symbol.onscreen,
         openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
-        mathml   : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;"
+        mathml   : symbol.mathml
 
       },
 
@@ -54,6 +61,8 @@ $main(function(){
 
   });
 
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new org.mathdox.formulaeditor.semantics.Keyword("<model:cd/>", "<model:name/>", symbol, "infix");
+
   /**
    * Extend the ExpressionParser object with parsing code for the equality sign.
    */
@@ -65,7 +74,7 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-    // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
+      // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
       expression<model:precedence/> : function() {
         var parent = arguments.callee.parent;
         pG.alternation(

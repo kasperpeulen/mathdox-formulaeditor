@@ -81,7 +81,7 @@ $main(function(){
 
         // XXX make case distinction for U+25A1 white square 
         // to become BlockSymbol
-        if (this.symbol.onscreen !== null) {
+        if (this.symbol.onscreen !== null && this.symbol.onscreen!== undefined) {
           // U+25A1 white square
           if (this.symbol.onscreen == '□') {
             if (context.inPalette === true && 

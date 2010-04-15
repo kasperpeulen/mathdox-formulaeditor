@@ -87,10 +87,21 @@ $main(function(){
      * true otherwise.
      */
     onmousedown : function(event, editor, x, y) {
+      var position = editor.presentation.getCursorPosition(x,y);
+      var retval = true;
 
-      this.position = editor.presentation.getCursorPosition(x,y);
+      if (position) {
+	this.position = position;
+	retval = false;
+      } else {
+	retval = editor.presentation.onmousedown(event, editor, x, y);
+      }
+      if (this.position == null) {
+	this.position = editor.presentation.getFollowingCursorPosition();
+      }
       editor.redraw();
 
+      return retval;
     },
 
     moveRight : function() {

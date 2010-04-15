@@ -1,6 +1,6 @@
 <model:list xmlns:model="local:model">
   <!-- arith1.minus -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/arith1/minus.js"
   >
     <model:cd>arith1</model:cd>
@@ -82,7 +82,7 @@
     <model:symbol_screen>&#x21D4;</model:symbol_screen>
   </model:instance>
   <!-- logic1.implies -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/logic1/implies.js"
   >
     <model:cd>logic1</model:cd>
@@ -113,7 +113,7 @@
     <model:symbol_screen_post></model:symbol_screen_post>
   </model:instance>
   <!-- logic1.or -->
-  <model:instance model="models/infix-nary.xml"
+  <model:instance model="models/infix.xml"
     target="org/mathdox/formulaeditor/modules/logic1/or.js"
   >
     <model:cd>logic1</model:cd>
@@ -127,7 +127,7 @@
     <model:symbol_screen>&#x2228;</model:symbol_screen>
   </model:instance>
   <!-- permutation1.left_compose -->
-  <model:instance model="models/infix.xml"
+  <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/permutation1/left_compose.js"
   >
     <model:cd>permutation1</model:cd>
@@ -155,18 +155,7 @@
     <!-- U+2248 almost equal to -->
     <model:symbol_screen>&#x2248;</model:symbol_screen>
   </model:instance>
-  <!-- relation1.eq -->
-  <model:instance model="models/infix-once.xml"
-    target="org/mathdox/formulaeditor/modules/relation1/eq.js"
-  >
-    <model:cd>relation1</model:cd>
-    <model:name>eq</model:name>
-    <model:precedence>110</model:precedence>
-    <model:precedence2>120</model:precedence2>
-    <model:symbol_enter>=</model:symbol_enter>
-    <model:symbol_mathml>=</model:symbol_mathml>
-    <model:symbol_screen>=</model:symbol_screen>
-  </model:instance>
+  <!-- relation1.eq see relation2.eqs -->
   <!-- relation1.geq -->
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/geq.js"
@@ -233,12 +222,14 @@
     <!-- U+2260 not equal to -->
     <model:symbol_screen>&#x2260;</model:symbol_screen>
   </model:instance>
-  <!-- relation1.eq -->
-  <model:instance model="models/infix-nary.xml"
-    target="org/mathdox/formulaeditor/modules/relation2/eqs.js"
+  <!-- relation2.eqs and relation1.eq -->
+  <model:instance model="models/infix-different.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/eq.js"
   >
-    <model:cd>relation2</model:cd>
-    <model:name>eqs</model:name>
+    <model:binary_cd>relation1</model:binary_cd>
+    <model:binary_name>eq</model:binary_name>
+    <model:nary_cd>relation2</model:nary_cd>
+    <model:nary_name>eqs</model:nary_name>
     <model:precedence>110</model:precedence>
     <model:precedence2>120</model:precedence2>
     <model:symbol_enter>=</model:symbol_enter>

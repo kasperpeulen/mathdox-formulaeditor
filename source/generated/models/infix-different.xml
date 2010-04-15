@@ -1,5 +1,5 @@
 <model:model xmlns:model="local:model">
-$identify("org/mathdox/formulaeditor/modules/<model:cd/>/<model:name/>.js");
+$identify("org/mathdox/formulaeditor/modules/<model:binary_cd/>/<model:binary_name/>.js");
 
 $require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
@@ -11,20 +11,38 @@ $main(function(){
 
   var symbol = {
     onscreen : "<model:symbol_screen/>",
-    openmath : null, // use default with model:cd and model:name
+    openmath : null, // use default with cd and name from model
     mathml   : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;"
   };
 
   /**
-   * Define a semantic tree node that represents <model:cd/>.<model:name/>.
+   * Define a semantic tree node that represents <model:binary_cd/>.<model:binary_name/>.
    */
-  org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/> =
+  org.mathdox.formulaeditor.semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/> =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
 
         onscreen : symbol.onscreen,
-        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
+        openmath : "&lt;OMS cd='<model:binary_cd/>' name='<model:binary_name/>'/>",
+        mathml   : symbol.mathml
+
+      },
+
+      precedence : <model:precedence/>
+
+    });
+ 
+  /**
+   * Define a semantic tree node that represents <model:nary_cd/>.<model:nary_name/>.
+   */
+  org.mathdox.formulaeditor.semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/> =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        onscreen : symbol.onscreen,
+        openmath : "&lt;OMS cd='<model:nary_cd/>' name='<model:nary_name/>'/>",
         mathml   : symbol.mathml
 
       },
@@ -34,7 +52,8 @@ $main(function(){
     });
   
   /**
-   * Extend the OpenMathParser object with parsing code for <model:cd/>.<model:name/>.
+   * Extend the OpenMathParser object with parsing code for 
+   * <model:binary_cd/>.<model:binary_name/> and <model:nary_cd/>.<model:nary_name/>.
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
@@ -42,7 +61,7 @@ $main(function(){
     /**
      * Returns an equality object based on the OpenMath node.
      */
-    handle<model:cd capitalize="true"/><model:name capitalize="true"/> : function(node) {
+    handle<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/> : function(node) {
 
       // parse the children of the OMA
       var children = node.getChildNodes();
@@ -52,15 +71,32 @@ $main(function(){
       }
 
       // construct the corresponding object
-      var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
+      var result = new org.mathdox.formulaeditor.semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
+      result.initialize.apply(result, operands);
+      return result;
+
+    },
+    handle<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/> : function(node) {
+
+      // parse the children of the OMA
+      var children = node.getChildNodes();
+      var operands = [];
+      for (var i=1; i&lt;children.length; i++) {
+        operands.push(this.handle(children.item(i)));
+      }
+
+      // construct the corresponding object
+      var result = new org.mathdox.formulaeditor.semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();
       result.initialize.apply(result, operands);
       return result;
 
     }
 
+
   });
 
-  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new org.mathdox.formulaeditor.semantics.Keyword("<model:cd/>", "<model:name/>", symbol, "infix");
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:binary_cd/>__<model:binary_name/>"] = new org.mathdox.formulaeditor.semantics.Keyword("<model:binary_cd/>", "<model:binary_name/>", symbol, "infix");
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:nary_cd/>__<model:nary_name/>"] = new org.mathdox.formulaeditor.semantics.Keyword("<model:nary_cd/>", "<model:nary_name/>", symbol, "infix");
 
   /**
    * Extend the ExpressionParser object with parsing code for the equality sign.
@@ -73,17 +109,17 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-      // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
+      // expression<model:precedence/> = <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> | super.expression<model:precedence/>
       expression<model:precedence/> : function() {
         var parent = arguments.callee.parent;
         pG.alternation(
-          pG.rule("<model:cd/><model:name/>"),
+          pG.rule("<model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/>"),
           parent.expression<model:precedence/>).apply(this, arguments);
       },
 
-      // <model:cd/><model:name/> = 
+      // <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> = 
       //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
-      <model:cd/><model:name/> :
+      <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> :
         pG.transform(
           pG.concatenation(
             pG.rule("expression<model:precedence2/>"),
@@ -97,7 +133,13 @@ $main(function(){
             )
           ),
           function(result) {
-            var retval = new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
+	    var retval;
+	    if (result.length &lt; 3){
+              retval = new semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
+	    } else {
+              retval = new semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();
+	    }
+
             var operands = [];
             var i;
 
@@ -115,18 +157,18 @@ $main(function(){
     org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
-      // expression<model:precedence/> = <model:cd/><model:name/> | 
-      //   <model:cd/><model:name/>alt | super.expression<model:precedence/>
+      // expression<model:precedence/> = <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> | 
+      //   super.expression<model:precedence/>
       expression<model:precedence/> : function() {
         var parent = arguments.callee.parent;
         pG.alternation(
-          pG.rule("<model:cd/><model:name/>"),
+          pG.rule("<model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/>"),
           parent.expression<model:precedence/>).apply(this, arguments);
       },
 
-      // <model:cd/><model:name/> = 
+      // <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> = 
       //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
-      <model:cd/><model:name/> :
+      <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> :
         pG.transform(
           pG.concatenation(
             pG.rule("expression<model:precedence2/>"),
@@ -146,7 +188,12 @@ $main(function(){
             )
           ),
           function(result) {
-            var retval = new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
+            var retval;
+	    if (result.length &lt; 3){
+              retval = new semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
+	    } else {
+              retval = new semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();
+	    }
             var operands = [];
             var i;
 

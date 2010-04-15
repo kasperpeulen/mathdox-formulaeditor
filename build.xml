@@ -144,7 +144,7 @@
     </concat>
     <xslt 
       in='build/javascript-identify/identify.xml'
-      out='build/javascript/org/mathdox/formulaeditor/OrbeonFormsConcat.js'
+      out='build/javascript/org/mathdox/formulaeditor/FEConcatenation.js'
       style='source/generated/identify/identify.xsl'
       force='true'
       extension='js'

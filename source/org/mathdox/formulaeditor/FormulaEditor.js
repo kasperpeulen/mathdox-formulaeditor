@@ -52,6 +52,7 @@ $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
 $require("org/mathdox/formulaeditor/modules/list1/list.js");
 
+$require("org/mathdox/formulaeditor/presentation/Editor.js");
 $require("org/mathdox/formulaeditor/presentation/Root.js");
 
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
@@ -70,7 +71,6 @@ $require("org/mathdox/formulaeditor/modules/relation1/gt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/neq.js");
-$require("org/mathdox/formulaeditor/modules/relation2/eqs.js");
 
 $main(function(){
 
@@ -137,6 +137,149 @@ $main(function(){
       return false;
     },
 
+    addPalette : function() {
+      //canvas.parentNode.insertBefore(palette, canvas);
+      var palcanvas = document.createElement("canvas");
+
+      if (! org.mathdox.formulaeditor.options.ignoreTextareaStyle) {
+        // copy style attributes from the textarea to the canvas
+        for (x in this.textarea.style) {
+          try {
+            palcanvas.style[x] = this.textarea.style[x];
+          }
+          catch(exception) {
+            // skip
+          }
+        }
+      }
+
+      // set the style attributes that determine the look of the palette
+      if (org.mathdox.formulaeditor.options.paletteStyle) {
+        // use paletteStyle option if available
+        palcanvas.setAttribute("style",
+                org.mathdox.formulaeditor.options.paletteStyle);
+      } else {
+        // no paletteStyle option available -> set default style
+        palcanvas.style.border          = "2px solid #99F";
+        palcanvas.style.verticalAlign   = "middle";
+        palcanvas.style.cursor          = "text";
+        palcanvas.style.padding         = "0px";
+        palcanvas.style.backgroundColor = "white";
+      }
+
+      // clear possible display none
+      palcanvas.style.display = "";
+      // set a classname so the user can extend the style
+      palcanvas.className           = "formulaeditorpalette";
+
+      if (!palettes) {
+        palettes = [];
+      }
+      this.palette = new org.mathdox.formulaeditor.Palette();
+      palettes.push(this.palette);
+
+      // special case: dragable canvas TODO
+      if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
+          org.mathdox.formulaeditor.options.dragPalette === true) {
+        // create root 
+        var root = document.createElement("div");
+        root.style.left = "150px";
+        root.style.top = "0px";
+        root.style.position = "relative";
+
+        var subdiv = document.createElement("div");
+
+        // float is a keyword, to change the css float style, use cssFloat
+        subdiv.style.cssFloat="right";
+
+        // create handle
+        var handle = document.createElement("div");
+
+        handle.style.width = "200px";
+        handle.style.marginLeft = "50px";
+        handle.style.height = "10px";
+        handle.style.cursor = "move";
+
+        subdiv.appendChild(handle);
+        subdiv.appendChild(palcanvas);
+        root.appendChild(subdiv);
+
+        // add root, handle and palette to the document
+        if (this.textarea.parentNode.tagName.toLowerCase() == "p") {
+          // NOTE: should not be added inside a para
+          var para = this.textarea.parentNode;
+          var paraparent = this.textarea.parentNode.parentNode;
+          // code to insert after the paragraph
+          if (G_vmlCanvasManager) {
+            paraparent.replaceChild(root, canvas);
+            paraparent.insertBefore(canvas, root);
+          } else {
+            paraparent.replaceChild(root, para);
+            paraparent.insertBefore(para, root);
+          }
+          // to insert before the paragraph use
+          //paraparent.insertBefore(root, para);
+        } else {
+          this.textarea.parentNode.insertBefore(root, this.textarea);
+        }
+
+        // initialize dragging script
+        Drag.init(handle, root);
+
+        var borderTopColor = "";
+        
+        // getting computed style: see also page 380 of J:TDG 5th edition
+        if (palcanvas.currentStyle) { // Try simple IE API first
+          borderTopColor = palcanvas.currentStyle.borderTopColor;
+        } else if (window.getComputedStyle) {  // Otherwise use W3C API
+          borderTopColor = 
+            window.getComputedStyle(palcanvas, null).borderTopColor;
+        }
+
+        if (borderTopColor !== "") {
+          handle.style.backgroundColor = borderTopColor;
+        } else {
+          handle.style.backgroundColor = "red";
+        }
+
+          this.palette.htmlelement = root;
+      } else {
+        // insert palcanvas in the document before the textarea 
+        // in case of G_vmlCanvasManager, check if the parent is a p
+        // if it is then put the canvas after the paragraph
+        if (G_vmlCanvasManager && this.textarea.parentNode.tagName.toLowerCase() == "p") {
+          // NOTE: should not be added inside a para
+          var para = this.textarea.parentNode;
+          var paraparent = this.textarea.parentNode.parentNode;
+          // code to insert after the paragraph
+          paraparent.replaceChild(palcanvas, para);
+          paraparent.insertBefore(para, palcanvas);
+          // to insert before the paragraph use
+          //paraparent.insertBefore(root, para);
+        } else {
+          this.textarea.parentNode.insertBefore(palcanvas, this.textarea);
+        }
+      }
+      if (G_vmlCanvasManager) {
+        /* reinitialize canvas */
+        palcanvas = G_vmlCanvasManager.initElement(palcanvas);
+      }
+
+      // Initialize the canvas. This is only needed in Internet Explorer,
+      // where Google's Explorer Canvas library handles canvases.
+      // NOTE: this should be done after putting the canvas in the DOM tree
+      
+      this.palette.initialize(palcanvas);
+    },
+    togglePalette:function () {
+      if (this.palette) {
+        // remove existing palette
+        org.mathdox.formulaeditor.Palette.removePalette(this.palette);
+      } else {
+        // add new palette
+        this.addPalette();
+      }
+    },
     /**
      * Hides the specified textarea and replaces it by a canvas that will be
      * used for rendering formulae.
@@ -220,6 +363,9 @@ $main(function(){
 
         }
 
+        // register the textarea 
+        this.textarea = textarea;
+
         // check whether a palette needs to be added
         this.showPalette = this.showPalette &&
           (this.checkClass(textarea.className, "mathdoxpalette") || 
@@ -227,136 +373,7 @@ $main(function(){
             !palettes)
           );
         if (this.showPalette) { 
-          //canvas.parentNode.insertBefore(palette, canvas);
-          var palcanvas = document.createElement("canvas");
-
-          if (! org.mathdox.formulaeditor.options.ignoreTextareaStyle) {
-            // copy style attributes from the textarea to the canvas
-            for (x in textarea.style) {
-              try {
-                palcanvas.style[x] = textarea.style[x];
-              }
-              catch(exception) {
-                // skip
-              }
-            }
-          }
-
-          // set the style attributes that determine the look of the palette
-          if (org.mathdox.formulaeditor.options.paletteStyle) {
-            // use paletteStyle option if available
-            palcanvas.setAttribute("style",
-                    org.mathdox.formulaeditor.options.paletteStyle);
-          } else {
-            // no paletteStyle option available -> set default style
-            palcanvas.style.border          = "2px solid #99F";
-            palcanvas.style.verticalAlign   = "middle";
-            palcanvas.style.cursor          = "text";
-            palcanvas.style.padding         = "0px";
-            palcanvas.style.backgroundColor = "white";
-          }
-
-          // set a classname so the user can extend the style
-          palcanvas.className           = "formulaeditorpalette";
-
-          if (!palettes) {
-            palettes = [];
-          }
-          this.palette = new org.mathdox.formulaeditor.Palette();
-          palettes.push(this.palette);
-
-          // special case: dragable canvas TODO
-          if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
-            org.mathdox.formulaeditor.options.dragPalette === true) {
-            // create root 
-            var root = document.createElement("div");
-            root.style.left = "150px";
-            root.style.top = "0px";
-            root.style.position = "relative";
-
-            var subdiv = document.createElement("div");
-
-            // float is a keyword, to change the css float style, use cssFloat
-            subdiv.style.cssFloat="right";
-
-            // create handle
-            var handle = document.createElement("div");
-
-            handle.style.width = "200px";
-            handle.style.marginLeft = "50px";
-            handle.style.height = "10px";
-            handle.style.cursor = "move";
-
-            subdiv.appendChild(handle);
-            subdiv.appendChild(palcanvas);
-            root.appendChild(subdiv);
-
-            // add root, handle and palette to the document
-	    if (textarea.parentNode.tagName.toLowerCase() == "p") {
-	      // NOTE: should not be added inside a para
-              var para = textarea.parentNode;
-              var paraparent = textarea.parentNode.parentNode;
-              // code to insert after the paragraph
-              if (G_vmlCanvasManager) {
-                paraparent.replaceChild(root, canvas);
-                paraparent.insertBefore(canvas, root);
-              } else {
-                paraparent.replaceChild(root, para);
-                paraparent.insertBefore(para, root);
-              }
-              // to insert before the paragraph use
-              //paraparent.insertBefore(root, para);
-	    } else {
-              textarea.parentNode.insertBefore(root, textarea);
-	    }
-
-            // initialize dragging script
-            Drag.init(handle, root);
-
-            var borderTopColor = "";
-            
-            // getting computed style: see also page 380 of J:TDG 5th edition
-            if (palcanvas.currentStyle) { // Try simple IE API first
-              borderTopColor = palcanvas.currentStyle.borderTopColor;
-            } else if (window.getComputedStyle) {  // Otherwise use W3C API
-              borderTopColor = 
-                window.getComputedStyle(palcanvas, null).borderTopColor;
-            }
-
-            if (borderTopColor !== "") {
-              handle.style.backgroundColor = borderTopColor;
-            } else {
-              handle.style.backgroundColor = "red";
-            }
-
-          } else {
-            // insert palcanvas in the document before the textarea 
-            // in case of G_vmlCanvasManager, check if the parent is a p
-            // if it is then put the canvas after the paragraph
-            if (G_vmlCanvasManager && textarea.parentNode.tagName.toLowerCase() == "p") {
-              // NOTE: should not be added inside a para
-              var para = textarea.parentNode;
-              var paraparent = textarea.parentNode.parentNode;
-              // code to insert after the paragraph
-              paraparent.replaceChild(palcanvas, para);
-              paraparent.insertBefore(para, palcanvas);
-              // to insert before the paragraph use
-              //paraparent.insertBefore(root, para);
-            } else {
-              textarea.parentNode.insertBefore(palcanvas, textarea);
-            }
-  
-          }
-          if (G_vmlCanvasManager) {
-            /* reinitialize canvas */
-            palcanvas = G_vmlCanvasManager.initElement(palcanvas);
-          }
-
-          // Initialize the canvas. This is only needed in Internet Explorer,
-          // where Google's Explorer Canvas library handles canvases.
-          // NOTE: this should be done after putting the canvas in the DOM tree
-	  
-	  this.palette.initialize(palcanvas);
+          this.addPalette();
         }
 
         // hide the textarea XXX
@@ -364,8 +381,7 @@ $main(function(){
           textarea.style.display = "none";
         }
 
-        // register the textarea and a new mathcanvas
-        this.textarea = textarea;
+        // register a new mathcanvas
         this.canvas   = new MathCanvas(canvas);
 
         this.load();
@@ -384,16 +400,26 @@ $main(function(){
     load : function() {
 
       var Parser    = org.mathdox.formulaeditor.parsing.openmath.OpenMathParser;
+      var Editor    = org.mathdox.formulaeditor.presentation.Editor;
       var Row       = org.mathdox.formulaeditor.presentation.Row;
 
       // read any OpenMath code that may be present in the textarea
       try {
         var parsed = new Parser().parse(this.textarea.value);
-        this.presentation = new Row(parsed.getPresentation({}));
-        this.presentation.flatten();
+        var row;
+        if (org.mathdox.formulaeditor.options.useBar) {
+          this.presentation = new Editor(parsed.getPresentation({}));
+        } else {
+          this.presentation = new Row(parsed.getPresentation({}));
+          this.presentation.flatten();
+        }
       }
       catch(exception) {
-        this.presentation = new Row();
+        if (org.mathdox.formulaeditor.options.useBar) {
+          this.presentation = new Editor();
+        } else {
+          this.presentation = new Row();
+        }
       }
 
     },
@@ -427,11 +453,23 @@ $main(function(){
 
       // TODO: move this code to a separate presentation node
       //       (equivalent to the DOM Document node)
-      var margin = 4.0;
-      var dimensions = this.presentation.draw(this.canvas, 0, 0, true);
-      this.canvas.canvas.setAttribute("width", dimensions.width + 2 * margin);
-      this.canvas.canvas.setAttribute("height", dimensions.height + 2 * margin);
-      this.presentation.draw(this.canvas, margin-dimensions.left, margin-dimensions.top);
+      var dimensions;
+      if (org.mathdox.formulaeditor.options.useBar) {
+        dimensions = this.presentation.draw(this.canvas, 0, 0, true);
+      } else {
+        /* add margin */
+        var margin = 4.0;
+        var formula_dimensions = this.presentation.draw(this.canvas, 0, 0, true);
+        dimensions = {
+          top:    formula_dimensions.top    - margin,
+          left:          formula_dimensions.left   - margin,
+          width:  formula_dimensions.width  + 2 * margin,
+          height: formula_dimensions.height + 2 * margin
+        };
+      }
+      this.canvas.canvas.setAttribute("width", dimensions.width);
+      this.canvas.canvas.setAttribute("height", dimensions.height);
+      this.presentation.draw(this.canvas, - dimensions.left, - dimensions.top);
       this.cursor.draw(this.canvas);
     },
 
@@ -1316,8 +1354,12 @@ $main(function(){
       draw: function() {
         return true;
       }
-    }
-    ,
+    },
+    /**
+     * containing HTMLElement if not the canvas
+     * item that should be removed if this palette should be removed
+     */
+    htmlelement : null,
     // todo onmousedown : function(event) { }
     initialize : function(canvas) {
       if (!canvas) {
@@ -1336,13 +1378,13 @@ $main(function(){
       if (org.mathdox.formulaeditor.options.paletteURL) {
         url = org.mathdox.formulaeditor.options.paletteURL;
       } else {
-	org.mathdox.formulaeditor.Palette.description = 
+        org.mathdox.formulaeditor.Palette.description = 
           org.mathdox.formulaeditor.Palettes.defaultPalette;
         
-	this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
+        this.parseXMLPalette(org.mathdox.formulaeditor.Palette.description);
         this.draw();
 
-	return;
+        return;
       }
 
       if (!org.mathdox.formulaeditor.Palette.description) {
@@ -1438,8 +1480,46 @@ $main(function(){
 
       return presentation;
     }
-
   });
+
+  /**
+   * Remove this palette from the document
+   * does three things:
+   * - removes this palette from palettes
+   * - removes it from the corresponding editor
+   * - removes the canvas from the document
+   */
+  org.mathdox.formulaeditor.Palette.removePalette = function (palette) {
+    /* palette should be defined */
+    if (palette === null || palette === undefined) {
+      return ;
+    }
+
+    var i;
+    for (i=0; i<palettes.length; i++) {
+      if (palettes[i] == palette) {
+        // remove palette from the palettes array
+        palettes.splice(i,1);
+      }
+    }
+    // remove palette's canvas from the corresponding editor
+    for (i=0; i<editors.length; i++) {
+      if (editors[i].palette == palette) {
+        editors[i].palette = null;
+      }
+    }
+
+    // remove this palette's canvas from the page
+    var palhtml;
+
+    if (palette.htmlelement!== null && palette.htmlelement !== undefined) {
+      palhtml = palette.htmlelement;
+    } else {
+      palhtml = palette.canvas.canvas;
+    }
+
+    palhtml.parentNode.removeChild(palhtml);
+  };
 
   /**
    * When the document has finished loading, replace all textarea elements of

@@ -69,13 +69,19 @@ $main(function(){
           };
 
           if (i == this.current) {
-            canvas.drawBox(tabBoxDim, "#00F", "#AAF");
+            if (!invisible) { 
+	      canvas.drawBox(tabBoxDim, "#00F", "#AAF"); 
+	    }
           } else {
-            canvas.drawBox(tabBoxDim, "#00F", "#DDF");
+            if (!invisible) { 
+              canvas.drawBox(tabBoxDim, "#00F", "#DDF");
+	    }
           }
         }
         
-	canvas.drawBox(boxDim, "#00F");
+        if (!invisible) { 
+          canvas.drawBox(boxDim, "#00F");
+	}
   
         this.children[this.current].draw(canvas, x, y + this.tabBarSize + this.margin, 
           invisible);

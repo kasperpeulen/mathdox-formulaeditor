@@ -86,7 +86,7 @@ $main(function(){
       <model:cd/><model:name/> :
         pG.transform(
           pG.concatenation(
-            pG.rule("expression<model:precedence2/>"),
+            pG.rule("expression<model:precedence/>"),
             pG.literal("<model:symbol_enter/>"),
             pG.rule("expression<model:precedence2/>")
           ),
@@ -101,36 +101,24 @@ $main(function(){
       $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
 
       // expression<model:precedence/> = <model:cd/><model:name/> | 
-      //   <model:cd/><model:name/>alt | super.expression<model:precedence/>
+      //   super.expression<model:precedence/>
       expression<model:precedence/> : function() {
         var parent = arguments.callee.parent;
         pG.alternation(
           pG.rule("<model:cd/><model:name/>"),
-          pG.rule("<model:cd/><model:name/>alt"),
           parent.expression<model:precedence/>).apply(this, arguments);
       },
 
       // <model:cd/><model:name/> = 
-      //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
+      //    expression<model:precedence/> ("<model:symbol_enter/>"|"<model:symbol_screen/>") expression<model:precedence2/>
       <model:cd/><model:name/> :
         pG.transform(
           pG.concatenation(
-            pG.rule("expression<model:precedence2/>"),
-            pG.literal("<model:symbol_enter/>"),
-            pG.rule("expression<model:precedence2/>")
-          ),
-          function(result) {
-            return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
-          }
-        ),
-
-      // <model:cd/><model:name/>alt = 
-      //    expression<model:precedence/> "<model:symbol_screen/>" expression<model:precedence2/>
-      <model:cd/><model:name/>alt :
-        pG.transform(
-          pG.concatenation(
-            pG.rule("expression<model:precedence2/>"),
-            pG.literal("<model:symbol_screen/>"),
+            pG.rule("expression<model:precedence/>"),
+	    pG.alternation(
+	      pG.literal("<model:symbol_enter/>"),
+	      pG.literal("<model:symbol_screen/>")
+	    ),
             pG.rule("expression<model:precedence2/>")
           ),
           function(result) {
@@ -138,8 +126,8 @@ $main(function(){
           }
         )
 
+
     });
   }
-
 });
 </model:model>

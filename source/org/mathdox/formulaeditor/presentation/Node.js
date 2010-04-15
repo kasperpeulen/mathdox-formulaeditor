@@ -87,6 +87,17 @@ $main(function(){
     },
 
     /**
+     * Called whenever a mouseclick has been detected at position (x,y), and no
+     * new cursor position could be found. Put other actions here.
+     * If the event is handled, return false.
+     */
+    onmousedown : function(event, editor, x, y) {
+      // skip
+      return true;
+
+    },
+
+    /**
      * Flattens the tree, meaning that all rows inside rows will be moved into
      * one row.
      */
@@ -250,7 +261,7 @@ $main(function(){
           left:left, 
           width: right-left, 
           height: bottom - top
-	};
+        };
       }
       return maxdim;
     }

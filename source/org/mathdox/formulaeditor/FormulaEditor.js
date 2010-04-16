@@ -178,7 +178,7 @@ $main(function(){
       this.palette = new org.mathdox.formulaeditor.Palette();
       palettes.push(this.palette);
 
-      // special case: dragable canvas TODO
+      // special case: draggable canvas TODO
       if (org.mathdox.formulaeditor.options.dragPalette !== undefined &&
           org.mathdox.formulaeditor.options.dragPalette === true) {
         // create root 
@@ -211,8 +211,8 @@ $main(function(){
           var paraparent = this.textarea.parentNode.parentNode;
           // code to insert after the paragraph
           if (G_vmlCanvasManager) {
-            paraparent.replaceChild(root, canvas);
-            paraparent.insertBefore(canvas, root);
+            paraparent.replaceChild(root, this.canvas.canvas);
+            paraparent.insertBefore(this.canvas.canvas, root);
           } else {
             paraparent.replaceChild(root, para);
             paraparent.insertBefore(para, root);
@@ -366,6 +366,9 @@ $main(function(){
         // register the textarea 
         this.textarea = textarea;
 
+        // register a new mathcanvas
+        this.canvas   = new MathCanvas(canvas);
+
         // check whether a palette needs to be added
         this.showPalette = this.showPalette &&
           (this.checkClass(textarea.className, "mathdoxpalette") || 
@@ -380,9 +383,6 @@ $main(function(){
         if (!this.checkClass(textarea.className, "mathdoxvisibletextarea")) {
           textarea.style.display = "none";
         }
-
-        // register a new mathcanvas
-        this.canvas   = new MathCanvas(canvas);
 
         this.load();
 

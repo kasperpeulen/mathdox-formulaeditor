@@ -1621,7 +1621,10 @@ $main(function(){
   if (window.addEventListener) {
 
     // use the W3C standard way of registering event handlers
-    if (org.mathdox.formulaeditor.hasLoaded) {
+    // NOTE: Google Chrome indicates it's already finished loading, so no
+    // eventlistener needs to be added.
+    if (org.mathdox.formulaeditor.hasLoaded || 
+      (document.readyState && document.readyState == "complete")) {
       onload();
     } else {
       window.addEventListener("load", onload, false);

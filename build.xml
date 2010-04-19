@@ -144,7 +144,7 @@
     </concat>
     <xslt 
       in='build/javascript-identify/identify.xml'
-      out='build/javascript/org/mathdox/formulaeditor/FEConcatenation.js'
+      out='build/javascript-concatenation/org/mathdox/formulaeditor/FEConcatenation.js'
       style='source/generated/identify/identify.xsl'
       force='true'
       extension='js'
@@ -153,6 +153,11 @@
     >
       <param name='filedir' expression ='../../../build/javascript'/>
     </xslt>
+    <!-- start with core javascript functions -->
+    <concat destfile='build/website/org/mathdox/formulaeditor/FEConcatenation.js'>
+      <file file='build/javascript/org/mathdox/javascript/core.js'/>
+      <file file='build/javascript-concatenation/org/mathdox/formulaeditor/FEConcatenation.js'/>
+    </concat>
   </target>
 
   <!-- 

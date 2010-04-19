@@ -8,7 +8,10 @@
   var scriptfinder2 = /^(http:\/\/[^/]*mathdox\.org\/formulaeditor\/)main.js/;
   for (var i=0; i<scripts.length; i++) {
     var url = scripts[i].src;
-    var match = url.match(scriptfinder1) || url.match(scriptfinder2);
+    var match = url.match(scriptfinder1);
+    if (match === null) {
+      match = url.match(scriptfinder2);
+    }
     if (match !== null) {
       baseurl = match[1];
       lastadded = scripts[i];
@@ -25,7 +28,6 @@
     lastadded = script;
   };
 
-  addScript("org/mathdox/javascript/core.js");
   addScript("org/mathdox/formulaeditor/FEConcatenation.js");
 
 })();

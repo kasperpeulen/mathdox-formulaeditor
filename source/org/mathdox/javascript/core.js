@@ -316,9 +316,13 @@ var $setOptions;
    * calculate the value of 'lastadded' and '$baseurl'.
    */
   var scripts = document.getElementsByTagName("script");
-  var scriptfinder = /(.*)org\/mathdox\/javascript\/core\.js$/;
+  var scriptfinder1 = /(.*)org\/mathdox\/javascript\/core\.js$/;
+  var scriptfinder2 = /(.*)org\/mathdox\/formulaeditor\/FEConcatenation\.js$/;
   for (var i=0; i<scripts.length; i++) {
-    var match = scripts[i].src.match(scriptfinder);
+    var match = scripts[i].src.match(scriptfinder1);
+    if (match === null) {
+      match = scripts[i].src.match(scriptfinder2);
+    }
     if (match !== null) {
       lastadded = scripts[i];
       $baseurl = match[1];

@@ -22,9 +22,9 @@ $main(function(){
       barwidth: 10.0,
 
       /**
-       * color of the bar, default 99F
+       * colors of the bar, default for on : AAF,  off: DDF
        */
-      barcolor: "#99F",
+      barcolor: { on: "#AAF", off: "#DDF" },
 
       /**
        * status of the bar, one of the following
@@ -37,16 +37,20 @@ $main(function(){
       /**
        * The arguments to the constructor are the children of this node.
        */
-      initialize : function(pres) {
+      initialize : function(pres, paletteEnabled) {
         var Row = org.mathdox.formulaeditor.presentation.Row;
         var row;
 
+        if (paletteEnabled !== undefined && paletteEnabled !== null) {
+          this.paletteEnabled = paletteEnabled;
+        }
+
         this.children = [];
         if (pres) {
-          row = new Row();
-        } else {
           row = new Row(pres);
           row.flatten();
+        } else {
+          row = new Row();
         }
         this.children.push(row);
         this.updateChildren();
@@ -73,7 +77,13 @@ $main(function(){
         };
         /* draw the box */
         if (! invisible) {
-          canvas.drawBox(boxdimensions, this.barcolor, this.barcolor);
+	  var color;
+          if (this.paletteEnabled) {
+	    color = this.barcolor.on;
+          } else {
+	    color = this.barcolor.off;
+	  }
+          canvas.drawBox(boxdimensions, color, color);
         }
 
         this.dimensions = {
@@ -90,8 +100,8 @@ $main(function(){
         if (x<this.dimensions.width - this.barwidth) {
           return this.children[0].getCursorPosition(x, y);
         } else {
-	  return null;
-	}
+          return null;
+        }
       },
 
       getFirstCursorPosition : function(index) {
@@ -130,9 +140,17 @@ $main(function(){
       },
       onmousedown : function(event, editor, x, y) {
         if (x>=this.dimensions.width - this.barwidth) {
-	  /* toggle bar */
+          /* toggle bar */
           editor.togglePalette();
-	}
+          if (editor.palette) {
+            this.paletteEnabled = true;
+          } else {
+            this.paletteEnabled = false;
+          }
+        }
+      },
+      getSemantics : function () {
+	return this.children[0].getSemantics();
       }
       
     });

@@ -404,11 +404,16 @@ $main(function(){
       var Row       = org.mathdox.formulaeditor.presentation.Row;
 
       // read any OpenMath code that may be present in the textarea
+      var paletteEnabled;
       try {
         var parsed = new Parser().parse(this.textarea.value);
-        var row;
         if (org.mathdox.formulaeditor.options.useBar) {
-          this.presentation = new Editor(parsed.getPresentation({}));
+          if (this.palette) {
+	    paletteEnabled = true;
+          } else {
+	    paletteEnabled = false;
+          }
+          this.presentation = new Editor(parsed.getPresentation({}), paletteEnabled);
         } else {
           this.presentation = new Row(parsed.getPresentation({}));
           this.presentation.flatten();
@@ -416,7 +421,12 @@ $main(function(){
       }
       catch(exception) {
         if (org.mathdox.formulaeditor.options.useBar) {
-          this.presentation = new Editor();
+          if (this.palette) {
+	    paletteEnabled = true;
+          } else {
+	    paletteEnabled = false;
+          }
+          this.presentation = new Editor(null, paletteEnabled);
         } else {
           this.presentation = new Row();
         }

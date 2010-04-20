@@ -175,7 +175,7 @@ $main(function(){
             return this.children[index + 1].getLowerCursorPosition(null, x);
           }
           else {
-            arguments.callee.parent.getLowerCursorPosition(this, index, x);
+            return arguments.callee.parent.getLowerCursorPosition.call(this, index, x);
           }
         }
       },
@@ -190,7 +190,7 @@ $main(function(){
             return this.children[index - 1].getHigherCursorPosition(null, x);
           }
           else {
-            arguments.callee.parent.getHigherCursorPosition(this, index, x);
+            return arguments.callee.parent.getHigherCursorPosition.call(this, index, x);
           }
         }
       },

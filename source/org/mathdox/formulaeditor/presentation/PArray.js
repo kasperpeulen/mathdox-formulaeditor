@@ -239,7 +239,7 @@ $main(function(){
       var result = null;
       var row, col;
 
-      if (index === null) {
+      if (index === null || index === undefined) {
         middle = Math.floor(this.rows / 2);
         row    = middle;
         while(result === null && 0<=row && row < this.rows) {
@@ -260,7 +260,7 @@ $main(function(){
         result = this.entries[row][col+1].getFirstCursorPosition();
       }
 
-      if ((result === null) && (this.parent !== null)) {
+      if (((result === null)|| (result === undefined)) && (this.parent !== null)) {
         result = this.parent.getFollowingCursorPosition(this.index, false);
       }
       return result;
@@ -272,7 +272,7 @@ $main(function(){
       var row = null;
       var col = null;
 
-      if (index === null) {
+      if (index === null || index === undefined) {
         var middle = Math.floor(this.rows / 2);
         row    = middle;
         while(result === null && 0<=row && row < this.rows) {
@@ -296,38 +296,33 @@ $main(function(){
         } 
       }
 
-      if ((result === null) && (this.parent !== null)) {
+      if (((result === null) || (result === undefined))&& (this.parent !== null)) {
         result = this.parent.getPrecedingCursorPosition(this.index, false);
       }
       return result;
     },
 
     getLowerCursorPosition : function(index, x) {
-      
-      if (index === null) {
+      if (index === null || index === undefined) {
         return this.entries[0][0].getLowerCursorPosition(null, x);
       }
 
-      if (index<this.children.length) {
-        var row = Math.floor(index / this.columns);
-        var col = index % this.columns;
-        var result;
-        if (row+1<this.rows) {
-          result = this.entries[row+1][col].getLowerCursorPosition(null, x);
-        } 
-        if ((result === null) && (this.parent !== null)) {
-          result = this.parent.getLowerCursorPosition(this.index, x);
-        }
-        return result;
+      var row = Math.floor(index / this.columns);
+      var col = index % this.columns;
+      var result;
+      if (row+1<this.rows) {
+        result = this.entries[row+1][col].getLowerCursorPosition(null, x);
+      } 
+      if (((result === null) || (result === undefined)) && (this.parent !== null)) {
+        result = this.parent.getLowerCursorPosition(this.index, x);
       }
-
-      return null;
+      return result;
     },
 
     getHigherCursorPosition : function(index, x) {
       
-      if (index === null) {
-        return this.entries[0][0].getLowerCursorPosition(null, x);
+      if (index === null || index === undefined) {
+        return this.entries[0][this.rows-1].getHigherCursorPosition(null, x);
       }
 
       if (index<this.children.length) {
@@ -335,9 +330,9 @@ $main(function(){
         var col = index % this.columns;
         var result;
         if (row>0) {
-          result = this.entries[row-1][col].getLowerCursorPosition(null, x);
+          result = this.entries[row-1][col].getHigherCursorPosition(null, x);
         } 
-        if ((result === null) && (this.parent !== null)) {
+        if (((result === null)||(result === undefined)) && (this.parent !== null)) {
           result = this.parent.getHigherCursorPosition(this.index, x);
         }
         return result;

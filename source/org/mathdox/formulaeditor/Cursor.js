@@ -88,20 +88,17 @@ $main(function(){
      */
     onmousedown : function(event, editor, x, y) {
       var position = editor.presentation.getCursorPosition(x,y);
-      var retval = true;
 
       if (position) {
 	this.position = position;
-	retval = false;
       } else {
-	retval = editor.presentation.onmousedown(event, editor, x, y);
+	editor.presentation.onmousedown(event, editor, x, y);
       }
-      if (this.position == null) {
+      if (this.position === null || this.position === undefined) {
 	this.position = editor.presentation.getFollowingCursorPosition();
       }
-      editor.redraw();
 
-      return retval;
+      editor.redraw();
     },
 
     moveRight : function() {

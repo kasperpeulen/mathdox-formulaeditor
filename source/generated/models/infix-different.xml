@@ -134,7 +134,7 @@ $main(function(){
           ),
           function(result) {
 	    var retval;
-	    if (result.length &lt; 3){
+	    if (result.length &lt; 4){
               retval = new semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
 	    } else {
               retval = new semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();

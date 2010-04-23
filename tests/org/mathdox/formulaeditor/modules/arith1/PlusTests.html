@@ -1,13 +1,26 @@
 <html xmlns='http://www.w3.org/1999/xhtml'>
   <head>
-    <title>Plus tests</title>
+    <title>Arith1Plus tests</title>
     <script type='text/javascript' src='../../../../../app/jsUnitCore.js'></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
   </head>
   <body>
 
+    <!--
+      Load code that will be tested.
+    -->
     <script
       type='text/javascript'
       src='../../../../../org/mathdox/javascript/core.js'
+    ></script>
+    <script
+      type='text/javascript'
+      src='../../../../../org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js'
+    ></script>
+
+    <script
+      type='text/javascript'
+      src='../../../../../org/mathdox/formulaeditor/main.js'
     ></script>
 
     <!--
@@ -29,8 +42,8 @@
             );
             assert(
               "parsing OMA/OMS[@cd='arith1' and @name='plus'] doesn't return " +
-              "a Plus object",
-              parsed instanceof Plus
+              "a Arith1Plus object",
+              parsed instanceof Arith1Plus
             );
             assert(
               "invalid arguments while " +
@@ -50,8 +63,8 @@
             // test forward parsing
             var parsed = new ExpressionParser().parse("x+1").value;
             assert(
-              "Parsing 'x+1' doesn't return a Plus object",
-                parsed instanceof Plus
+              "Parsing 'x+1' doesn't return a Arith1Plus object",
+                parsed instanceof Arith1Plus
             );
             assert(
               "Parsing 'x+1' doesn't return a variable as first operand",
@@ -65,8 +78,8 @@
             // test backward parsing
             var parsed = new ExpressionParser().parse("x+1", "x+1".length, true).value;
             assert(
-              "Parsing 'x+1' doesn't return a Plus object",
-                parsed instanceof Plus
+              "Parsing 'x+1' doesn't return a Arith1Plus object",
+                parsed instanceof Arith1Plus
             );
             assert(
               "Parsing 'x+1' doesn't return a variable as first operand",
@@ -88,8 +101,8 @@
             // test forward parsing
             var parsed = new ExpressionParser().parse("(x+y)+1").value;
             assert(
-              "Parsing '(x+y)+1' doesn't return a Plus object",
-                parsed instanceof Plus
+              "Parsing '(x+y)+1' doesn't return a Arith1Plus object",
+                parsed instanceof Arith1Plus
             );
             assert(
               "Parsing '(x+y)+1' doesn't return an integer as second operand",
@@ -109,8 +122,8 @@
             // test backward parsing
             var parsed = new ExpressionParser().parse("(x+y)+1", "(x+y)+1".length, true).value;
             assert(
-              "Parsing '(x+y)+1' doesn't return a Plus object",
-                parsed instanceof Plus
+              "Parsing '(x+y)+1' doesn't return a Arith1Plus object",
+                parsed instanceof Arith1Plus
             );
             assert(
               "Parsing '(x+y)+1' doesn't return an integer as second operand",
@@ -140,12 +153,12 @@
       }
 
       var setUpPage = function() {
-        $require("org/mathdox/formulaeditor/modules/arithmetic/plus.js");
-        $main(function(){
+        if ($package("org.mathdox.formulaeditor.semantics").Arith1Plus) {
           setUpPageStatus = "complete";
-        })
+        } else {
+          window.setTimeout(arguments.callee, 100);
+        }
       }
-
 
     </script>
 

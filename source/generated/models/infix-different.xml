@@ -122,7 +122,7 @@ $main(function(){
       <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> :
         pG.transform(
           pG.concatenation(
-            pG.rule("expression<model:precedence2/>"),
+            pG.rule("expression<model:precedence/>"),
             pG.literal("<model:symbol_enter/>"),
             pG.rule("expression<model:precedence2/>"),
             pG.repetition(
@@ -171,7 +171,7 @@ $main(function(){
       <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> :
         pG.transform(
           pG.concatenation(
-            pG.rule("expression<model:precedence2/>"),
+            pG.rule("expression<model:precedence/>"),
 	    pG.alternation(
 	      pG.literal("<model:symbol_enter/>"),
 	      pG.literal("<model:symbol_screen/>")

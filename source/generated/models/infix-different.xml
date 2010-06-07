@@ -134,17 +134,23 @@ $main(function(){
           ),
           function(result) {
 	    var retval;
-	    if (result.length &lt; 4){
-              retval = new semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
-	    } else {
-              retval = new semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();
-	    }
-
             var operands = [];
             var i;
 
-            for (i=0; 2*i&lt;result.length; i++) {
-              operands[i] = result[2*i];
+            if ((result[0] instanceof semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>) ||
+                (result[0] instanceof semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>)) {
+
+              retval = new semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();
+              for (i=0; i&lt;result[0].operands.length;i++) {
+	        operands.push(result[0].operands[i]);
+              }
+	    } else {
+              retval = new semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
+	      operands.push(result[0]);
+            }
+
+            for (i=1; 2*i&lt;result.length; i++) {
+              operands.push(result[2*i]);
             }
             retval.operands = operands;
 

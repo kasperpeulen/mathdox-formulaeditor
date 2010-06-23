@@ -154,7 +154,7 @@
       <param name='filedir' expression ='../../../build/javascript'/>
     </xslt>
     <!-- start with core javascript functions -->
-    <concat destfile='build/website/org/mathdox/formulaeditor/FEConcatenation.js'>
+    <concat destfile='build/javascript/org/mathdox/formulaeditor/FEConcatenation.js'>
       <file file='build/javascript/org/mathdox/javascript/core.js'/>
       <file file='build/javascript-concatenation/org/mathdox/formulaeditor/FEConcatenation.js'/>
     </concat>

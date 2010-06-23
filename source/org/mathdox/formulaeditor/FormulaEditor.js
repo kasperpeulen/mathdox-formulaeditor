@@ -162,7 +162,7 @@ $main(function(){
         // no paletteStyle option available -> set default style
         palcanvas.style.border          = "2px solid #99F";
         palcanvas.style.verticalAlign   = "middle";
-        palcanvas.style.cursor          = "text";
+        palcanvas.style.cursor          = "pointer";
         palcanvas.style.padding         = "0px";
         palcanvas.style.backgroundColor = "white";
       }
@@ -370,6 +370,27 @@ $main(function(){
         this.canvas   = new MathCanvas(canvas);
 
         // check whether a palette needs to be added
+        if (this.checkClass(textarea.className, "mathdoxpalette")) {
+          /* specified: show a palette */
+          this.showPalette = this.showPalette && true;
+        } else if (this.checkClass(textarea.className, "mathdoxnopalette")) {
+          /* specified: don't show a palette */
+          this.showPalette = this.showPalette && false;
+        } else if (org.mathdox.formulaeditor.options.paletteShow == "all") {
+          /* when unspecified, always show a palette */
+          this.showPalette = this.showPalette && true;
+        } else if (org.mathdox.formulaeditor.options.paletteShow == "none") {
+          /* when unspecified, never show a palette */
+          this.showPalette = this.showPalette && false;
+        } else if (org.mathdox.formulaeditor.options.paletteShow == "once") {
+          /* only add a palette if no palette is present on the page yet */
+          this.showPalette = this.showPalette && (!palettes);
+        } else {
+          /* default: show only one palette */
+          /* only add a palette if no palette is present on the page yet */
+          this.showPalette = this.showPalette && (!palettes);
+        }
+
         this.showPalette = this.showPalette &&
           (this.checkClass(textarea.className, "mathdoxpalette") || 
           (!this.checkClass(textarea.className, "mathdoxnopalette") && 
@@ -409,9 +430,9 @@ $main(function(){
         var parsed = new Parser().parse(this.textarea.value);
         if (org.mathdox.formulaeditor.options.useBar) {
           if (this.palette) {
-	    paletteEnabled = true;
+            paletteEnabled = true;
           } else {
-	    paletteEnabled = false;
+            paletteEnabled = false;
           }
           this.presentation = new Editor(parsed.getPresentation({}), paletteEnabled);
         } else {
@@ -422,9 +443,9 @@ $main(function(){
       catch(exception) {
         if (org.mathdox.formulaeditor.options.useBar) {
           if (this.palette) {
-	    paletteEnabled = true;
+            paletteEnabled = true;
           } else {
-	    paletteEnabled = false;
+            paletteEnabled = false;
           }
           this.presentation = new Editor(null, paletteEnabled);
         } else {

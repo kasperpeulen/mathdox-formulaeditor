@@ -1,0 +1,20 @@
+tabbar:
+new presentation element as a child for ptabcontainer
+
+needs number of tabs/children, margin (?) and total width (minimal)
+
+returns dimensions
+
+if child is non-empty then show it, with margin around it. 
+
+Width: calculate the height/width of all non-empty tabs
+calculate the rest to sum up to the total width (but it should be at least a
+minimum value, maybe 2-4x the height ?) 
+
+vertical placement based on baseline.
+horizontal placement: center
+
+special draw: strings as symbols (normal text)
+              (there will be no parsing anyway)
+
+check if OMSTR is supported

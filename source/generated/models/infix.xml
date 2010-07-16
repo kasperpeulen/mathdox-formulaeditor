@@ -167,7 +167,7 @@ $main(function(){
             }
 
 	    for (i=1; 2*i&lt;result.length; i++) {
-              operands[i] = result[2*i];
+              operands.push(result[2*i]);
             }
             retval.operands = operands;
 

@@ -227,6 +227,7 @@ $main(function() {
               pG.literal(')')
             ),
             function(result) {
+	      result[1].inside_braces = true;
               return result[1];
             }
           ),

@@ -101,7 +101,9 @@ $main(function(){
             var operands = [];
             var i;
 
-            if (result[0] instanceof semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>) {
+	    // if the operator is the same rewrite it
+	    // except if the style is invisible 
+            if (result[0] instanceof semantics.<model:cd capitalize="true"/><model:name capitalize="true"/> &amp;&amp; result[0].style!="invisible") {
               for (i=0; i&lt;result[0].operands.length;i++) {
 	        operands.push(result[0].operands[i]);
               }

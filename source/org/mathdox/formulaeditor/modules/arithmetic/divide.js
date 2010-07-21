@@ -93,12 +93,20 @@ $main(function(){
             pG.rule("divide")),
           function(result) {
             var semantics = org.mathdox.formulaeditor.semantics; 
-            var plus = new semantics.Plus(result[0],result[1]);
+            var plus = new semantics.Arith1Plus(result[0],result[1]);
             plus.style="invisible";
             return plus;
           }
-        )
+        ),
 
+      // parseNumber = divide | divide_silent_addition | parseNumber
+      parseNumber : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("divide"),
+          pG.rule("divide_silent_addition"),
+          parent.parseNumber).apply(this, arguments);
+      }
   });
 
 

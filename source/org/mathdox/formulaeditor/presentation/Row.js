@@ -357,7 +357,7 @@ $main(function(){
             }
           }
           if (this.children[bestIndex] !== null && 
-	    this.children[bestIndex] !== undefined) {
+            this.children[bestIndex] !== undefined) {
             return this.children[bestIndex].getLowerCursorPosition(null, x);
           }
           else {
@@ -394,7 +394,7 @@ $main(function(){
             }
           }
           if (this.children[bestIndex] !== null && 
-	    this.children[bestIndex] !== undefined) {
+            this.children[bestIndex] !== undefined) {
             return this.children[bestIndex].getHigherCursorPosition(null, x);
           }
           else {
@@ -482,6 +482,12 @@ $main(function(){
 
         // create the input for the parser by serializing the row elements
         var input = "";
+	// array to adjust for spaces (which have no semantics)
+        var originalIndex = new Array();
+	// adjust the index for the begin (XXX: shouldn't be necessary)
+	originalIndex[begin] = begin;
+	// counting spaces so far
+        var adjustIndex = 0;
 
         // go through the row elements
         var children = this.children;
@@ -496,7 +502,11 @@ $main(function(){
 
               // if the row element is a symbol, add its value to input string
               input = input + child.value;
-
+              
+              if (child.value == "") {
+                // special case: space, count it
+                adjustIndex=adjustIndex+1;
+              } 
             }
             else {
 
@@ -534,9 +544,12 @@ $main(function(){
             }
 
           })();
-
-
+          
+	  // adjust the index for this position
+          originalIndex[i] = i + adjustIndex;
         }
+	// adjust the index for the end
+	originalIndex[end] = end + adjustIndex;
 
         // use the constructed parser and input to parse the row
         var parsebegin = backward ? input.length : 0           ;
@@ -546,7 +559,7 @@ $main(function(){
         // return the result of parsing
         return {
           value : parsed.index == parseend ? parsed.value : null,
-          index : parsed.index + begin,
+          index : originalIndex[parsed.index + begin],
           rule  : "braces"
         };
 

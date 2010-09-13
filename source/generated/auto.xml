@@ -216,7 +216,7 @@
     <model:name>neq</model:name>
     <model:precedence>110</model:precedence>
     <model:precedence2>120</model:precedence2>
-    <model:symbol_enter>!=</model:symbol_enter>
+    <model:symbol_enter>&lt;&gt;</model:symbol_enter>
     <!-- U+2260 not equal to -->
     <model:symbol_mathml>&#x2260;</model:symbol_mathml>
     <!-- U+2260 not equal to -->

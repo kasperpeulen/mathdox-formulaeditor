@@ -41,6 +41,7 @@ $main(function(){
 
     var oldXformsHandleResponse;
     var newXformsHandleResponse;
+    var ancientOrbeon;
     
     if (xformsHandleResponse) {
       oldXformsHandleResponse = xformsHandleResponse;
@@ -49,12 +50,20 @@ $main(function(){
     } else if (ORBEON.xforms.Server.handleResponseDom) {
       oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
     } else {
-      alert("ERROR: detected orbeon, but could not add response handler");
+      if (org.mathdox.formulaeditor.options.ancientOrbeon !== undefined &&
+        org.mathdox.formulaeditor.options.ancientOrbeon == true) {
+	ancientOrbeon = true;
+      } else {
+	ancientOrbeon = false;
+        alert("ERROR: detected orbeon, but could not add response handler");
+      }
     }
     newXformsHandleResponse = function(request) {
 
       // call the overridden method
-      oldXformsHandleResponse.apply(this, arguments);
+      if (ancientOrbeon != true ) {
+        oldXformsHandleResponse.apply(this, arguments);
+      }
 
       // go through all canvases in the document
       var canvases = document.getElementsByTagName("canvas");

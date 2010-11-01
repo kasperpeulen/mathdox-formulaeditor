@@ -6,6 +6,7 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // further functions could be placed in an org.mathdox.formulaeditor.options
 // record.
 
+// ancientOrbeon: if set to true: do not warn about old orbeon
 // dragPalette: if set to true: enable draggable Palette
 // fontSize: set font size 
 // ignoreTextareaStyle: do not copy options from textarea if set to true

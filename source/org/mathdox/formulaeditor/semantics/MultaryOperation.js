@@ -141,6 +141,7 @@ $main(function(){
         }
 
         for (var i=0; i<this.operands.length; i++) {
+          var operand = this.operands[i];
           if (i>0) {
             if (this.symbol.mathml instanceof Array) {
               result = result + this.symbol.mathml[1];
@@ -148,7 +149,14 @@ $main(function(){
               result = result + this.symbol.mathml;
             }
           }
-          result = result + this.operands[i].getMathML();
+          if (operand.precedence && operand.precedence < this.precedence) {
+            result = result + "<mo>(</mo>";
+            result = result + this.operands[i].getMathML();
+            result = result + "<mo>)</mo>";
+          }
+          else {
+            result = result + this.operands[i].getMathML();
+          }
         }
 
         if (this.symbol.mathml instanceof Array) {

@@ -671,6 +671,9 @@ $main(function(){
       if (mouseinfo) {
         // we have focus
         this.focus();
+	// give focus to the window
+	// XXX check if it is the right window
+	window.focus();
         // forward the mouse click to the cursor object
         return this.cursor.onmousedown(event, this, mouseinfo.x, mouseinfo.y);
       }

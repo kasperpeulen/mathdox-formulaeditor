@@ -114,6 +114,10 @@ $main(function(){
               if (position.index > 0) {
                 this.remove(position.index - 1);
                 position.index--;
+                // after deleting the last character, add a new input box
+                if (this.isEmpty()) {
+                  this.insert(0);
+                }
                 editor.redraw();
                 editor.save();
               }
@@ -121,6 +125,10 @@ $main(function(){
 
             case 46: // delete 
               this.remove(editor.cursor.position.index);
+              // after deleting the last character, add a new input box
+              if (this.isEmpty()) {
+                this.insert(0);
+              }
               editor.redraw();
               editor.save();
               return false;
@@ -482,11 +490,11 @@ $main(function(){
 
         // create the input for the parser by serializing the row elements
         var input = "";
-	// array to adjust for spaces (which have no semantics)
+        // array to adjust for spaces (which have no semantics)
         var originalIndex = new Array();
-	// adjust the index for the begin (XXX: shouldn't be necessary)
-	originalIndex[begin] = begin;
-	// counting spaces so far
+        // adjust the index for the begin (XXX: shouldn't be necessary)
+        originalIndex[begin] = begin;
+        // counting spaces so far
         var adjustIndex = 0;
 
         // go through the row elements
@@ -545,11 +553,11 @@ $main(function(){
 
           })();
           
-	  // adjust the index for this position
+          // adjust the index for this position
           originalIndex[i] = i + adjustIndex;
         }
-	// adjust the index for the end
-	originalIndex[end] = end + adjustIndex;
+        // adjust the index for the end
+        originalIndex[end] = end + adjustIndex;
 
         // use the constructed parser and input to parse the row
         var parsebegin = backward ? input.length : 0           ;

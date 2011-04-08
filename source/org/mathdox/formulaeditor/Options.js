@@ -7,6 +7,7 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // record.
 
 // ancientOrbeon: if set to true: do not warn about old orbeon
+// contextParsingExpression: set to an object describing the context for the ExpressionParser
 // dragPalette: if set to true: enable draggable Palette
 // fontSize: set font size 
 // ignoreTextareaStyle: do not copy options from textarea if set to true
@@ -24,3 +25,4 @@ $identify("org/mathdox/formulaeditor/Options.js");
 $main(function(){
   // do nothing
 });
+

@@ -33,8 +33,9 @@ $main(function(){
 
       drawBaseQ: function(canvas) {
         var context;
-	context = org.mathdox.formulaeditor.FormulaEditor.getEditorByCanvas(canvas.canvas).context;
-        var baseSemantics = this.base.getSemantics();
+	context = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext();
+
+        var baseSemantics = this.base.getSemantics(context);
 
         return (!baseSemantics || !baseSemantics.value || 
           !baseSemantics.value.value || (baseSemantics.value.value != 2));

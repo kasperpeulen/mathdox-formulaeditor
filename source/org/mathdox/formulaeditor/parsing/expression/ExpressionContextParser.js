@@ -21,19 +21,40 @@ $main(function() {
       $extend(Object, {
         getParser : function(context) {
           var i;
-          var parser = ExpressionParser;
 
-          for (i=0;i<functions.length;i++) {
-            parser = $extend(parser, functions[i](context));
-          }
-          return parser;
+          if (context === null || context === undefined) {
+	    context = this.getContext();
+	  }
+
+	  if (context.parser === undefined) {
+
+            var parser = ExpressionParser;
+
+            for (i=0;i<functions.length;i++) {
+              parser = $extend(parser, functions[i](context));
+            }
+
+	    context.parser = parser;
+	  }
+
+	  return context.parser;
         }
       });
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction = function(fun) {
       functions.push(fun);
     };
+    
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.defaultContext = new Object();
 
-  }
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext = function() {
+      if (org.mathdox.formulaeditor.options.contextParsingExpression === undefined) {
+        org.mathdox.formulaeditor.options.contextParsingExpression = 
+          org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.defaultContext;
+      }
+
+      return org.mathdox.formulaeditor.options.contextParsingExpression;
+    };
+}
 
 );

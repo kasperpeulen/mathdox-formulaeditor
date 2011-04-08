@@ -4,7 +4,7 @@ $require("org/mathdox/formulaeditor/modules/arith1/plus.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Fraction.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $main(function(){
 
@@ -67,12 +67,12 @@ $main(function(){
   });
 
   /**
-   * Extend the ExpressionParser object with parsing code for division.
+   * Add the parsing code for division.
    */
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression160 = divide | super.expression160
       expression160 : function() {
@@ -107,6 +107,7 @@ $main(function(){
           pG.rule("divide_silent_addition"),
           parent.parseNumber).apply(this, arguments);
       }
+    };
   });
 
 

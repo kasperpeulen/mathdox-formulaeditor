@@ -3,7 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $main(function(){
 
@@ -72,13 +72,13 @@ $main(function(){
     });
 
   /**
-   * Extend the ExpressionParser object with parsing code for power operations.
+   * Add the parsing code for power operations.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression150 = power | super.expression150
       expression150 : function() {
@@ -115,7 +115,7 @@ $main(function(){
 
       // superscript = 0
       superscript : pG.never
-
+      };
     });
 
   /**

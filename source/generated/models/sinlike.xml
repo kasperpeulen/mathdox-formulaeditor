@@ -48,14 +48,14 @@ $main(function(){
     })
 
   /**
-   * Extend the ExpressionParser object with parsing code for <model:name/> operations.
+   * Add the parsing code for <model:name/> operations.
    */
   with( org.mathdox.formulaeditor.semantics          ) {
   with( org.mathdox.formulaeditor.parsing.expression ) {
   with( new org.mathdox.parsing.ParserGenerator()    ) {
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
 
         // expression160 = <model:name/> | super.expression160
         expression160 : function() {
@@ -90,7 +90,7 @@ $main(function(){
               return <model:name/>;
             }
           )
-
+        };
       })
 
   }}}

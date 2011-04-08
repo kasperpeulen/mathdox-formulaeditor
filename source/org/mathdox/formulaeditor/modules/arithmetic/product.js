@@ -5,7 +5,7 @@ $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Column.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/modules/relation1/eq.js");
 $require("org/mathdox/formulaeditor/modules/interval1/integer_interval.js");
 $require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
@@ -122,13 +122,13 @@ $main(function(){
 
 
   /**
-   * Extend the ExpressionParser object with parsing code for products.
+   * Add the parsing code for products.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression150 = product expression150 | super.expression150
       expression150 : function() {
@@ -153,7 +153,7 @@ $main(function(){
 
       // product = never
       product : pG.never
-
+    };
   });
 
 });

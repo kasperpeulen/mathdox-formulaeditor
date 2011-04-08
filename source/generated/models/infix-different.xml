@@ -3,7 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/<model:binary_cd/>/<model:binary_na
 
 $require("org/mathdox/parsing/ParserGenerator.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
 
@@ -99,15 +99,15 @@ $main(function(){
   org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:nary_cd/>__<model:nary_name/>"] = new org.mathdox.formulaeditor.semantics.Keyword("<model:nary_cd/>", "<model:nary_name/>", symbol, "infix");
 
   /**
-   * Extend the ExpressionParser object with parsing code for the equality sign.
+   * Add the parsing code for an infix-different symbol.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
   if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
     // only one expression, same on screen
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression<model:precedence/> = <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> | super.expression<model:precedence/>
       expression<model:precedence/> : function() {
@@ -157,11 +157,11 @@ $main(function(){
             return retval;
           }
         )
-
+      };
     });
   } else { // allow alternative as displayed on the screen
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression<model:precedence/> = <model:binary_cd/><model:binary_name/><model:nary_cd/><model:nary_name/> | 
       //   super.expression<model:precedence/>
@@ -211,7 +211,7 @@ $main(function(){
             return retval;
           }
         )
-
+      };
     });
   }
 });

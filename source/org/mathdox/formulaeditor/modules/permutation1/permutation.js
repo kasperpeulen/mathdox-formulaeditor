@@ -2,7 +2,7 @@ $identify("org/mathdox/formulaeditor/modules/permutation1/permutation.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $main(function(){
 
@@ -86,13 +86,13 @@ $main(function(){
     });
 
   /**
-   * Extend the ExpressionParser object with parsing code for absolute values.
+   * Add the parsing code for permutations.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
         // expression160 = permutation | super.expression160
         expression160 : function() {
@@ -156,7 +156,7 @@ $main(function(){
               return perm;
             }
           )
-
+        };
       });
 
 });

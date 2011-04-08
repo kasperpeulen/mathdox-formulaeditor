@@ -3,7 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/arithmetic/abs.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $main(function(){
 
@@ -44,13 +44,13 @@ $main(function(){
     });
 
   /**
-   * Extend the ExpressionParser object with parsing code for absolute values.
+   * Add parsing code for absolute values.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
         // expression160 = abs | super.expression160
         expression160 : function() {
@@ -72,7 +72,7 @@ $main(function(){
               return new semantics.Abs(result[1]);
             }
           )
-
+        };
       });
 
 });

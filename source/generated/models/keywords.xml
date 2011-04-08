@@ -2,7 +2,7 @@
 $identify("org/mathdox/formulaeditor/modules/keywords.js");
 
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
@@ -48,7 +48,8 @@ $main(function(){
     for (var i=0;i &lt; newvars.length; i++) {
       args.push(pG.literal(newvars[i]));
     }
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser = $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
         variable : function() {
           var parent = arguments.callee.parent;
           pG.alternation(
@@ -63,6 +64,7 @@ $main(function(){
             ),
             parent.variable).apply(this, arguments);
         }
+      };
     });
   }
 });

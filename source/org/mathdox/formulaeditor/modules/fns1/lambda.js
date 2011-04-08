@@ -2,7 +2,7 @@ $identify("org/mathdox/formulaeditor/modules/fns1/lambda.js");
 
 $require("org/mathdox/formulaeditor/semantics/Lambda.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 
 $main(function(){
@@ -60,13 +60,13 @@ $main(function(){
 
 
   /**
-   * Extend the ExpressionParser object with parsing code for lambda functions.
+   * Add the parsing code for lambda functions.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( function(context) {
+    return {
 
       // expression160 = list | super.expression160
       expression160 : function() {
@@ -160,7 +160,7 @@ $main(function(){
             return new semantics.Lambda(variables,expression);
           }
         )
-
+      };
     });
 
   org.mathdox.formulaeditor.parsing.expression.KeywordList.lambda = {

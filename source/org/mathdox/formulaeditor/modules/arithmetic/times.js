@@ -1,6 +1,6 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/times.js");
 
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
@@ -68,13 +68,13 @@ $main(function(){
     });
 
   /**
-   * Extend the ExpressionParser object with parsing code for multiplication.
+   * Add the parsing code for multiplication.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression130 = times | super.expression130
       expression130 : function() {
@@ -121,7 +121,7 @@ $main(function(){
             return new semantics.Times(result[0], result[2]);
           }
         )
-
+      };
     });
 
   /**

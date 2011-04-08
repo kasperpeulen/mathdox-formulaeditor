@@ -2,6 +2,7 @@ $package("org.mathdox.formulaeditor.presentation");
 
 $identify("org/mathdox/formulaeditor/presentation/Row.js");
 
+//$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/BlockSymbol.js");
 
@@ -485,8 +486,11 @@ $main(function(){
         }
 
         // use the expressionparser to parse the elements of the row
+	var ContextParser;
+	ContextParser = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser;
+
         var Parser;
-        Parser = org.mathdox.formulaeditor.parsing.expression.ExpressionParser;
+        Parser = new ContextParser().getParser({}); //for now use empty context
 
         // create the input for the parser by serializing the row elements
         var input = "";

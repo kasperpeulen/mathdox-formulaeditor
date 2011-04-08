@@ -1,5 +1,6 @@
 $identify("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Matrix.js");
@@ -162,13 +163,13 @@ $main(function(){
     });
 
   /**
-   * Extend the ExpressionParser object with parsing code for Matrixrow.
+   * Add the parsing code for Matrixlike.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression160 = Linalg2Matrixlike | super.expression160
       expression160 : function() {
@@ -225,7 +226,7 @@ $main(function(){
             return matrixLike;
           }
         )
-
+      };
     });
 
 });

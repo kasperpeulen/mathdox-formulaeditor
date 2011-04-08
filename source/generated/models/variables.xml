@@ -2,7 +2,7 @@
 $identify("org/mathdox/formulaeditor/modules/variables.js");
 
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/VariableList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/VariableList.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
@@ -45,7 +45,8 @@ $main(function(){
     for (var i=0;i &lt; newvars.length; i++) {
       args.push(pG.literal(newvars[i]));
     }
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser = $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
         variable : function() {
           var parent = arguments.callee.parent;
           pG.alternation(
@@ -60,6 +61,7 @@ $main(function(){
             ),
             parent.variable).apply(this, arguments);
         }
+      };
     });
   }
 });

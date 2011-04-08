@@ -3,7 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/arithmetic/root.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Root.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $main(function(){
 
@@ -65,12 +65,12 @@ $main(function(){
   });
 
   /**
-   * Extend the ExpressionParser object with parsing code for division.
+   * Add the parsing code for division.
    */
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+    function(context) { return {
 
       // expression160 = root | super.expression160
       expression160 : function() {
@@ -82,7 +82,7 @@ $main(function(){
 
       // root = never
       root : pG.never
-
+    };
   });
 
 });

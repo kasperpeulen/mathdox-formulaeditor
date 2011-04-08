@@ -4,7 +4,7 @@ $identify("org/mathdox/formulaeditor/modules/<model:cd/>/<model:name/>.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $main(function(){
 
@@ -55,7 +55,7 @@ $main(function(){
     });
 
   /**
-   * Extend the ExpressionParser object with parsing code for unary minus.
+   * Add the parsing code for unary symbol.
    */
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
@@ -74,8 +74,8 @@ $main(function(){
   if (( "<model:symbol_enter_pre/>"  === "<model:symbol_screen_pre/>"  ) &amp;&amp;
       ( "<model:symbol_enter_post/>" === "<model:symbol_screen_post/>" )) {
     // only one expression, same on screen
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
 
         // expression<model:precedence/> = <model:cd/><model:name/> | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
@@ -93,7 +93,7 @@ $main(function(){
               return new semantics.<model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionEnter]);
             }
           )
-
+      };
     });
   } else { // allow alternative as displayed on the screen
     var rulesScreen = [];
@@ -107,8 +107,8 @@ $main(function(){
       rulesScreen.push(pG.literal("<model:symbol_screen_post/>"));
     }
   
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.formulaeditor.parsing.expression.ExpressionParser, {
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
 
         // expression<model:precedence/> = <model:cd/><model:name/> | super.expression<model:precedence/>
         expression<model:precedence/> : function() {
@@ -136,6 +136,7 @@ $main(function(){
               return new semantics.<model:cd capitalize='true'/><model:name capitalize='true'/>(result[positionScreen]);
             }
           )
+       };
      });
    }
 

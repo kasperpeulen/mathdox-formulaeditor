@@ -30,14 +30,14 @@ $main(function(){
           this.middle, rightBracket);
       },
 
-      getSemantics : function() {
+      getSemantics : function(context) {
         var semanticEntries;
         var vector;
 
         var semantics = org.mathdox.formulaeditor.semantics;
         semanticEntries = [];
         for (var i=0;i<this.middle.children.length;i++) {
-          semanticEntries.push(this.middle.children[i].getSemantics().value);
+          semanticEntries.push(this.middle.children[i].getSemantics(context).value);
         }
         vector = new semantics.Linalg2Vector();
         vector.initialize.apply(vector, semanticEntries);

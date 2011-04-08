@@ -121,6 +121,13 @@ $main(function(){
      */
     hasFocus : false,
 
+
+    /**
+     * context for expression parsing
+     */
+    context : {},
+
+
     /**
      * checkClass(classNames, className): function to help check if an HTML
      * element contains a certain class.
@@ -733,7 +740,7 @@ $main(function(){
       var mmlstring;
       try {
         mmlstring = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">"+
-          this.presentation.getSemantics().value.getMathML()+
+          this.presentation.getSemantics(this.context).value.getMathML()+
           "</math>";
       }
       catch(exception) {
@@ -772,7 +779,7 @@ $main(function(){
         omstring =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
-          this.presentation.getSemantics().value.getOpenMath() +
+          this.presentation.getSemantics(this.context).value.getOpenMath() +
           "</OMOBJ>";
         success = true;
         errorString = null;

@@ -163,7 +163,7 @@ $main(function(){
             // search for a partial integral expression to the left of
             // the cursor
             var index = editor.cursor.position.index;
-            var parsedleft = this.getSemantics(0, index, 
+            var parsedleft = this.getSemantics(editor.context, 0, index, 
               "calculus1int_partial", true);
 	
             if (parsedleft.value !== null || parsedleft.index > 0) {

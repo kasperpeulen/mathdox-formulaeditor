@@ -172,11 +172,11 @@ $main(function(){
         }
       },
 
-      getSemantics : function() {
+      getSemantics : function(context) {
         return {
           value : new org.mathdox.formulaeditor.semantics.Divide(
-                    this.children[0].getSemantics().value,
-                    this.children[1].getSemantics().value),
+                    this.children[0].getSemantics(context).value,
+                    this.children[1].getSemantics(context).value),
           rule  : "divide"
         };
       }

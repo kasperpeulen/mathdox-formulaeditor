@@ -134,8 +134,8 @@ $main(function(){
 
             // search for an expression of precedence level 130 to the left of the
             // cursor, and of level 150 to the right of the cursor
-            var parsedleft  = this.getSemantics(0, index, "expression130", true);
-            var parsedright = this.getSemantics(index, length, "expression150");
+            var parsedleft  = this.getSemantics(editor.context, 0, index, "expression130", true);
+            var parsedright = this.getSemantics(editor.context, index, length, "expression150");
 
             // create the left and right operands of the fraction
             var right = this.remove(index, parsedright.index);

@@ -31,7 +31,9 @@ $main(function(){
       // should we draw boxes ?
       drawBox : false,
 
-      drawBaseQ: function() {
+      drawBaseQ: function(canvas) {
+        var context;
+	context = org.mathdox.formulaeditor.FormulaEditor.getEditorByCanvas(canvas.canvas).context;
         var baseSemantics = this.base.getSemantics();
 
         return (!baseSemantics || !baseSemantics.value || 
@@ -58,7 +60,7 @@ $main(function(){
         middleheight = this.middle.dimensions.height + this.lineWidth + 
           this.margin*2;
 
-        drawBase = this.drawBaseQ();
+        drawBase = this.drawBaseQ(canvas);
 
         if (drawBase) {
           this.base.draw(canvas, 0, 0, true);
@@ -285,12 +287,12 @@ $main(function(){
         this.updateChildren();
       },
 
-      getSemantics : function() {
+      getSemantics : function(context) {
         var root;
 
         var presentation = org.mathdox.formulaeditor.semantics;
-        root = new presentation.Arith1Root(this.middle.getSemantics().value, 
-          this.base.getSemantics().value);
+        root = new presentation.Arith1Root(this.middle.getSemantics(context).value, 
+          this.base.getSemantics(context).value);
         return {
           value : root,
           rule  : "braces"

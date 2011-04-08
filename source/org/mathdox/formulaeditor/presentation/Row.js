@@ -469,7 +469,7 @@ $main(function(){
         }
       },
 
-      getSemantics : function(begin, end, start, backward) {
+      getSemantics : function(context, begin, end, start, backward) {
 
         // assign default values to parameters
         if (begin    === null || begin    === undefined ) { 
@@ -490,7 +490,7 @@ $main(function(){
 	ContextParser = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser;
 
         var Parser;
-        Parser = new ContextParser().getParser({}); //for now use empty context
+        Parser = new ContextParser().getParser(context); //for now use empty context
 
         // create the input for the parser by serializing the row elements
         var input = "";
@@ -529,7 +529,7 @@ $main(function(){
               input = input + '#';
 
               // retrieve the semantic tree node that represents the row element
-              var semantics = child.getSemantics();
+              var semantics = child.getSemantics(context);
 
               // extend the parser so that it will parse the dummy into the
               // correct semantic tree node

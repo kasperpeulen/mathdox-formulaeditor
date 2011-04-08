@@ -85,9 +85,9 @@ $main(function(){
         }
       },
 
-      getSemantics : function() {
+      getSemantics : function(context) {
         return {
-          value : this.children[0].getSemantics().value,
+          value : this.children[0].getSemantics(context).value,
           rule  : "superscript"
         };
       }

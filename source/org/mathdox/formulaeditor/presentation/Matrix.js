@@ -32,7 +32,7 @@ $main(function(){
           this.pArray, rightBracket);
       },
 
-      getSemantics : function() {
+      getSemantics : function(context) {
         var rows = this.pArray.entries; // this.middle is the pArray
         var semanticRows;
         var matrix;
@@ -44,7 +44,7 @@ $main(function(){
 
           semanticRowEntries = [];
           for (var j=0; j<rows[i].length;j++) {
-            semanticRowEntries.push(rows[i][j].getSemantics().value);
+            semanticRowEntries.push(rows[i][j].getSemantics(context).value);
           }
           var semanticRow = new semantics.Linalg2Matrixrow();
           semanticRow.initialize.apply(semanticRow, semanticRowEntries);

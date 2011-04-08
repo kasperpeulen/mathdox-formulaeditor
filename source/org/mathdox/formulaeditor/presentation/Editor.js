@@ -149,8 +149,8 @@ $main(function(){
           }
         }
       },
-      getSemantics : function () {
-	return this.children[0].getSemantics();
+      getSemantics : function (context) {
+	return this.children[0].getSemantics(context);
       }
       
     });

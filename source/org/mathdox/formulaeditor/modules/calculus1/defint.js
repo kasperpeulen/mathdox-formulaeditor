@@ -83,10 +83,10 @@ $main(function(){
 
       },
 
-      getSemantics : function() {
+      getSemantics : function(context) {
 
-        var above = this.children[0].getSemantics().value;
-        var below = this.children[2].getSemantics().value;
+        var above = this.children[0].getSemantics(context).value;
+        var below = this.children[2].getSemantics(context).value;
 
         return {
           value : [below, above],

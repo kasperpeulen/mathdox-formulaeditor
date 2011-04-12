@@ -143,7 +143,7 @@ $main(function(){
 
             // search for an expression of precedence level 130 to the right of
             // the cursor
-            var parsed = this.getSemantics(editor.context, index, length, "expression130");
+            var parsed = this.getSemantics(editor.getExpressionParsingContext(), index, length, "expression130");
 
             // create the operand of the superscript operation
             var operand = this.remove(index, parsed.index);

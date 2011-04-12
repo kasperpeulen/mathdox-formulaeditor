@@ -11,6 +11,8 @@ var Drag;
 $require("net/youngpup/dom-drag/dom-drag.js", function() { return Drag; });
 
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/Canvas.js");
@@ -120,13 +122,6 @@ $main(function(){
      * Indicates whether this formula editor has the focus.
      */
     hasFocus : false,
-
-
-    /**
-     * context for expression parsing
-     */
-    context : {},
-
 
     /**
      * checkClass(classNames, className): function to help check if an HTML
@@ -740,7 +735,7 @@ $main(function(){
       var mmlstring;
       try {
         mmlstring = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">"+
-          this.presentation.getSemantics(this.context).value.getMathML()+
+          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getMathML()+
           "</math>";
       }
       catch(exception) {
@@ -779,7 +774,7 @@ $main(function(){
         omstring =
           "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
           "cdbase='http://www.openmath.org/cd'>" +
-          this.presentation.getSemantics(this.context).value.getOpenMath() +
+          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getOpenMath() +
           "</OMOBJ>";
         success = true;
         errorString = null;
@@ -937,8 +932,15 @@ $main(function(){
       }
       
       return buffer.join("");
+    },
+    /**
+     * get the context for the expression parser
+     * in the future this might be dependant on the editor
+     * for now it is just an additional layer
+     */
+    getExpressionParsingContext: function() {
+      return org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext();
     }
-
   });
 
   /**

@@ -23,6 +23,38 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // useBar : enable Bar to turn palette on/off
 
 $main(function(){
-  // do nothing
+  org.mathdox.formulaeditor.Options = $extend(Object, {
+    defaultOptions: {
+      decimalMark: '.'
+    },
+    getOption: function(name) {
+      if (org.mathdox.formulaeditor.options[name] !== undefined) {
+        return org.mathdox.formulaeditor.options[name];
+      } else {
+        return null;
+      }
+    },
+    getDecimalMark: function() {
+      var mark = this.getOption("decimalMark");
+      if (mark === '.' || mark === ',') {
+        return mark;
+      } else { 
+        // use default 
+        return this.defaultOptions.decimalMark;
+      }
+    },
+    getListSeperator: function() {
+      var mark = this.getDecimalMark();
+      
+      if (mark === '.') {
+        return ',';
+      } else if (mark === ',') {
+        return ';';
+      } else { // should not happen
+        alert("Options: unable to get listseperator.");
+        return null;
+      }
+    }
+  });
 });
 

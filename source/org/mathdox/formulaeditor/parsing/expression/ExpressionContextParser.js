@@ -3,19 +3,15 @@ $package("org.mathdox.formulaeditor.parsing.expression");
 $identify("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
 $require("org/mathdox/parsing/Parser.js");
-$require("org/mathdox/parsing/ParserGenerator.js");
+$require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
-$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
-$require("org/mathdox/formulaeditor/presentation/Subscript.js");
-$require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
-$require("org/mathdox/formulaeditor/semantics/Integer.js");
-$require("org/mathdox/formulaeditor/semantics/SemanticFloat.js");
-$require("org/mathdox/formulaeditor/semantics/Variable.js");
 
 $main(function() {
 
-    var ExpressionParser = org.mathdox.formulaeditor.parsing.expression.ExpressionParser;
+    var ParsingParser = org.mathdox.parsing.Parser;
     var functions = new Array();
+
+    var cachedContext = null;
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser =
       $extend(Object, {
@@ -28,7 +24,7 @@ $main(function() {
 
 	  if (context.parser === undefined) {
 
-            var parser = ExpressionParser;
+            var parser = ParsingParser;
 
             for (i=0;i<functions.length;i++) {
               parser = $extend(parser, functions[i](context));
@@ -45,16 +41,30 @@ $main(function() {
       functions.push(fun);
     };
     
-    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.defaultContext = new Object();
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.clearCache = function() {
+      cachedContext = null;
+    }
 
     org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext = function() {
-      if (org.mathdox.formulaeditor.options.contextParsingExpression === undefined) {
-        org.mathdox.formulaeditor.options.contextParsingExpression = 
-          org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.defaultContext;
+      if (cachedContext === null) {
+
+        var Options = new org.mathdox.formulaeditor.Options();
+
+        /* set context options based on options */
+
+        cachedContext = {
+          decimalMark : Options.getDecimalMark(),
+          listSeperator : Options.getListSeperator()
+        };
       }
 
-      return org.mathdox.formulaeditor.options.contextParsingExpression;
+      return cachedContext;
     };
+
+    /* initialize with ExpressionParser rules */
+    var ExpressionParser = new org.mathdox.formulaeditor.parsing.expression.ExpressionParser();
+
+    functions.push(ExpressionParser.getRules);
 }
 
 );

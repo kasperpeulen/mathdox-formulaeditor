@@ -16,8 +16,8 @@ $main(function() {
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-    org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-      $extend(org.mathdox.parsing.Parser, {
+  org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
+    $extend(Object, { getRules: function(context) { return {
         // TODO make this list alphabetical
 
         // start = expression
@@ -377,8 +377,10 @@ $main(function() {
           ),
           // subscript : rule only occurs from presentation
           subscript: pG.never
-        
-      });
+        };
+      }
+
+    });
 
   }
 

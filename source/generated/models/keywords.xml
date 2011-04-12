@@ -3,6 +3,8 @@ $identify("org/mathdox/formulaeditor/modules/keywords.js");
 
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){

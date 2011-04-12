@@ -181,7 +181,7 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.presentation.Row, {
 
       /**
-       * Override the onkeypress method to handle the '/' key.
+       * Override the onkeypress method to handle the 'd' key.
        */
       onkeypress : function(event, editor) {
 
@@ -194,7 +194,7 @@ $main(function(){
             // search for a partial integral expression to the left of
             // the cursor
             var index = editor.cursor.position.index;
-            var parsedleft = this.getSemantics(0, index, 
+            var parsedleft = this.getSemantics(editor.getExpressionParsingContext(), 0, index, 
               "calculus1defint_partial", true);
 
             if (parsedleft.value !== null || parsedleft.index > 0) {

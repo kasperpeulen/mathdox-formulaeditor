@@ -1,6 +1,6 @@
 $identify("org/mathdox/formulaeditor/modules/list1/list.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
@@ -10,7 +10,7 @@ $main(function(){
    * Defines a semantic tree node that represents an absolute value.
    */
   org.mathdox.formulaeditor.semantics.List1List =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+    $extend(org.mathdox.formulaeditor.semantics.MultaryListOperation, {
 
       symbol : {
 
@@ -76,7 +76,7 @@ $main(function(){
             pG.rule("expression"),
             pG.repetition(
               pG.concatenation(
-                pG.literal(","),
+                pG.literal(context.listSeparator),
                 pG.rule("expression")
               )
             ),

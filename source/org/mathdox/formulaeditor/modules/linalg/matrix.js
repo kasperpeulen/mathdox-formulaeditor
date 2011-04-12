@@ -6,6 +6,7 @@ $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Matrix.js");
 $require("org/mathdox/formulaeditor/presentation/Vector.js");
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
@@ -14,7 +15,7 @@ $main(function(){
    * Define a semantic tree node that represents the linalg2.matrix
    */
   org.mathdox.formulaeditor.semantics.Linalg2Matrix =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+    $extend(org.mathdox.formulaeditor.semantics.MultaryListOperation, {
 
       symbol : {
 
@@ -187,7 +188,7 @@ $main(function(){
             pG.rule("expression"),
             pG.repetition(
               pG.concatenation(
-                pG.literal(","),
+                pG.literal(context.listSeparator),
                 pG.rule("expression")
               )
             ),

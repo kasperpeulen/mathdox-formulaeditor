@@ -1,8 +1,8 @@
 $identify("org/mathdox/formulaeditor/modules/permutation1/permutation.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
 
 $main(function(){
 
@@ -10,7 +10,7 @@ $main(function(){
    * Defines a semantic tree node that represents an absolute value.
    */
   org.mathdox.formulaeditor.semantics.Cycle =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+    $extend(org.mathdox.formulaeditor.semantics.MultaryListOperation, {
 
       symbol : {
 
@@ -114,7 +114,7 @@ $main(function(){
                 ),
                 pG.repetitionplus(
                   pG.concatenation(
-                    pG.literal(","),
+                    pG.literal(context.listSeparator),
                     pG.alternation(
                       pG.rule("integer"),
                       pG.rule("omString")
@@ -138,7 +138,7 @@ $main(function(){
                   entries.push(result[i]);
                   i++;
                   // result[i] = ')' or ','
-                  if (i<result.length && result[i] == ',') {
+                  if (i<result.length && result[i] == context.listSeparator) {
                     i++;
                   }
                   // result[i] = ')' or result[i] = <entry>

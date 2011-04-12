@@ -436,9 +436,9 @@ $main(function(){
           } else {
             paletteEnabled = false;
           }
-          this.presentation = new Editor(parsed.getPresentation({}), paletteEnabled);
+          this.presentation = new Editor(parsed.getPresentation(this.getPresentationContext()), paletteEnabled);
         } else {
-          this.presentation = new Row(parsed.getPresentation({}));
+          this.presentation = new Row(parsed.getPresentation(this.getPresentationContext()));
           this.presentation.flatten();
         }
       }
@@ -940,6 +940,19 @@ $main(function(){
      */
     getExpressionParsingContext: function() {
       return org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext();
+    },
+    /**
+     * get the context for the expression parser
+     * in the future this might be dependant on the editor
+     * for now it is just an additional layer
+     */
+    getPresentationContext: function() {
+      Options = new org.mathdox.formulaeditor.Options();
+
+      return {
+        decimalMark : Options.getDecimalMark(),
+        listSeparator : Options.getListSeparator()
+      };
     }
   });
 
@@ -1478,7 +1491,7 @@ $main(function(){
       var row = this.semantics.operands[coords.tab].operands[coords.row].operands[coords.col];
 
       var presentation = org.mathdox.formulaeditor.presentation;
-      var rowPresentation = new presentation.Row(row.getPresentation({}));
+      var rowPresentation = new presentation.Row(row.getPresentation(this.getPresentationContext()));
       rowPresentation.flatten();
 
       var moveright;
@@ -1512,7 +1525,7 @@ $main(function(){
       // read any OpenMath code that may be present in the textarea
       //try {
         this.semantics = new Parser().parse(XMLstr);
-        presentation = new Row(this.semantics.getPresentation({}));
+        presentation = new Row(this.semantics.getPresentation(this.getPresentationContext()));
         presentation.flatten();
         this.presentation = presentation;
         this.presentation.margin = 10.0;

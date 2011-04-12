@@ -43,7 +43,7 @@ $main(function(){
         return this.defaultOptions.decimalMark;
       }
     },
-    getListSeperator: function() {
+    getListSeparator: function() {
       var mark = this.getDecimalMark();
       
       if (mark === '.') {
@@ -51,7 +51,7 @@ $main(function(){
       } else if (mark === ',') {
         return ';';
       } else { // should not happen
-        alert("Options: unable to get listseperator.");
+        alert("Options: unable to get listseparator.");
         return null;
       }
     }

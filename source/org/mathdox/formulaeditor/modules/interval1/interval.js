@@ -1,6 +1,6 @@
 $identify("org/mathdox/formulaeditor/modules/interval1/interval.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 
 $main(function(){
@@ -9,7 +9,7 @@ $main(function(){
    * Defines a semantic tree node that represents an interval.
    */
   org.mathdox.formulaeditor.semantics.Interval =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+    $extend(org.mathdox.formulaeditor.semantics.MultaryListOperation, {
 
       // operand 0 is lower bound
       // operand 1 is upper bound

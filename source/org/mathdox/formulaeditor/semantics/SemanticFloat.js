@@ -38,13 +38,35 @@ $main(function(){
         var symbols = [];
 
         for (var i=0; i<string.length; i++) {
-          symbols[i] = new presentation.Symbol(string.charAt(i));
+          if (string.charAt(i) != '.') {
+            symbols[i] = new presentation.Symbol(string.charAt(i));
+          } else {
+            symbols[i] = new presentation.Symbol(context.decimalMark);
+          }
         }
 
         var result = new presentation.Row();
         result.initialize.apply(result, symbols);
         return result;
 
+      },
+
+      /**
+       * return the value with the correct decimal mark
+       */
+      getValue : function(context) {
+        var string = this.value.toString();
+        var result=[];
+
+        for (var i=0; i<string.length; i++) {
+          if (string.charAt(i)!='.') {
+            result.push(string.charAt(i));
+          } else {
+            result.push(context.decimalMark);
+          }
+        }
+
+        return result.join("");
       },
 
       /**

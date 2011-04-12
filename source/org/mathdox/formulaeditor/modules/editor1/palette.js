@@ -5,13 +5,14 @@ $package("org.mathdox.formulaeditor.semantics");
 $require("org/mathdox/formulaeditor/modules/keywords.js");
 $require("org/mathdox/formulaeditor/presentation/PArray.js");
 $require("org/mathdox/formulaeditor/presentation/PTabContainer.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
 
 $main(function(){
   /**
    * Define a semantic tree node that represents the editor1.palette
    */
   org.mathdox.formulaeditor.semantics.Editor1Palette =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+    $extend(org.mathdox.formulaeditor.semantics.MultaryListOperation, {
 
     symbol : {
       mathml   : ["<mtr><mtd>","</mtd><mtd>","</mtd></mtr>"],

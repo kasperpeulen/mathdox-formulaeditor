@@ -39,8 +39,8 @@ $main(function() {
         expression100 : pG.rule("expression110"), // and, ...
 
         // expression110 = expression120
-	expression110 : pG.rule("expression120"), // equals, lessthan,
-						  // morethan, ...
+        expression110 : pG.rule("expression120"), // equals, lessthan,
+                                                  // morethan, ...
 
         // expression120 = expression130
         expression120 : pG.rule("expression130"), // plus, minus
@@ -88,20 +88,32 @@ $main(function() {
             }
           ),
 
-        // float = [0..9]+ ++ '.' ++ [0-9]*
+        // float = [0..9]+ ++ context.decimalMark ++ [0-9]*
         parseFloat :
           pG.transform(
             pG.concatenation( 
               pG.repetitionplus(
                 pG.range('0','9')
               ),
-              pG.literal('.'),
+              pG.literal(context.decimalMark),
               pG.repetition(
                 pG.range('0','9')
               )
             ),
             function(result) {
-              return new semantics.SemanticFloat(Number(result.join("")));
+              // replace decimalMark by a period
+              var string = result.join("");
+              var res=[];
+
+              for (var i=0; i<string.length; i++) {
+                if (string.charAt(i) >= '0' && string.charAt(i) <= '9') {
+                  res.push(string.charAt(i));
+                } else {
+                  res.push('.');
+                }
+              }
+
+              return new semantics.SemanticFloat(res.join(""));
             }
           ),
 
@@ -134,8 +146,8 @@ $main(function() {
 
               if (org.mathdox.formulaeditor.parsing.expression.KeywordList[
                       result_joined] === undefined ||
-		  org.mathdox.formulaeditor.parsing.expression.KeywordList[
-		      result_joined] === null) {
+                  org.mathdox.formulaeditor.parsing.expression.KeywordList[
+                      result_joined] === null) {
                 // not in the list of variables that are symbols
                 return new semantics.Variable(result_joined);
               } else {
@@ -227,7 +239,7 @@ $main(function() {
               pG.literal(')')
             ),
             function(result) {
-	      result[1].inside_braces = true;
+              result[1].inside_braces = true;
               return result[1];
             }
           ),

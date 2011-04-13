@@ -33,7 +33,7 @@ $main(function(){
 
       drawBaseQ: function(canvas) {
         var context;
-	context = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext();
+        context = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext();
 
         var baseSemantics = this.base.getSemantics(context);
 
@@ -102,13 +102,17 @@ $main(function(){
             this.leftBracket.dimensions.width/2 - this.base.dimensions.width);
         }
  
+        var yAdjustMiddle = - (this.middle.dimensions.top+this.middle.dimensions.height) - 
+          this.margin;
+
         this.dimensions = { 
           height : height,
           width : 
             this.leftBracket.dimensions.width +
             this.middle.dimensions.width - baseXAdjust + this.margin,
           left : x,
-          top : y - this.leftBracket.dimensions.height + yAdjust/2 
+          //top : y - this.leftBracket.dimensions.height + yAdjust/2 
+          top : y - this.leftBracket.dimensions.height + yAdjust/2 - yAdjustMiddle
         };
      
         if (drawBase) {
@@ -116,21 +120,20 @@ $main(function(){
             x - this.base.dimensions.left,
             y + yAdjust/2 - Math.min(rootheight/2, vlheight) - 
               (this.base.dimensions.top + this.base.dimensions.height) - 
-              2*this.margin,
+              2*this.margin - yAdjustMiddle, 
             invisible);
         }
 
         this.leftBracket.draw(canvas, 
           x - this.leftBracket.dimensions.left - baseXAdjust, 
           y - (this.leftBracket.dimensions.top +
-            this.leftBracket.dimensions.height) + yAdjust/2 , 
+            this.leftBracket.dimensions.height) + yAdjust/2 - yAdjustMiddle, 
           invisible);
         /* XXX adjust vertically */
         this.middle.draw(canvas, 
           x - baseXAdjust + this.leftBracket.dimensions.width -
           this.middle.dimensions.left + this.margin , 
-          y - (this.middle.dimensions.top+this.middle.dimensions.height) - 
-	  this.margin, invisible);
+          y, invisible);
 
         if (!invisible) {
           // draw line

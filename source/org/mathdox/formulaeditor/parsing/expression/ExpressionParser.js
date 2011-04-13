@@ -260,7 +260,7 @@ $main(function() {
                   pG.rule("expression"),
                   pG.repetition(
                     pG.concatenation(
-                      pG.literal(","),
+                      pG.literal(context.listSeparator),
                       pG.rule("expression")
                     )
                   ),
@@ -287,7 +287,7 @@ $main(function() {
                   array.push(result[i]);
                   i++;
 
-                  if (i<result.length && result[i]==',') {
+                  if (i<result.length && result[i]==context.listSeparator) {
                     // comma -> skip
                     i++;
                   }

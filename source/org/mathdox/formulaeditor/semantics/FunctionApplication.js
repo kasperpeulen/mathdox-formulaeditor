@@ -61,7 +61,7 @@ $main(function(){
         for (var i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
           if (i>0) {
-            pres = new presentation.Symbol(",");
+            pres = new presentation.Symbol(context.listSeparator);
             if (this.style == "sub") {
               // subscript style
               array.push(new presentation.Subscript(pres));

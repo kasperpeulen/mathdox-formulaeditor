@@ -33,7 +33,21 @@ $main(function(){
 
       },
 
-      precedence : 130
+      precedence : 130,
+
+      getPresentation : function(context) {
+        var parent = arguments.callee.parent;
+
+	// set onscreen symbol based on context
+      	this.symbol = {
+          onscreen : context.symbolArith1Times,
+          openmath : this.symbol.openmath,
+          mathml: this.symbol.mathml
+        };
+
+	// call getPresentation from parent
+	return parent.getPresentation.call(this, context);
+      }
 
     });
 
@@ -114,7 +128,7 @@ $main(function(){
         pG.transform(
           pG.concatenation(
             pG.rule("expression130"),
-            pG.literal("·"),
+            pG.literal(context.symbolArith1Times),
             pG.rule("expression140")
           ),
           function(result) {
@@ -146,7 +160,7 @@ $main(function(){
             for (var x in event) {
               newEvent[x] = event[x];
             }
-            newEvent.charCode = "·".charCodeAt(0);
+            newEvent.charCode = editor.getPresentationContext().symbolArith1Times.charCodeAt(0);
             event = newEvent;
 
           }

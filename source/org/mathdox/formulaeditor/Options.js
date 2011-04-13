@@ -20,19 +20,36 @@ $identify("org/mathdox/formulaeditor/Options.js");
 //   is none in the page yet, 
 // paletteStyle: set default style for Palette Canvases
 // paletteURL: url for palette
+// styleArith1Times: behavior for times symbol
+// - "dot" show a middle dot (default)
+// - "cross" show a cross
+// - "star" show an asterisk
 // useBar : enable Bar to turn palette on/off
 
-$main(function(){
+$main(function() {
   org.mathdox.formulaeditor.Options = $extend(Object, {
-    defaultOptions: {
-      decimalMark: '.'
+    defaultOptions : {
+      decimalMark: '.',
+      symbolArith1Times: '·' // U+00B7 Middle dot
     },
-    getOption: function(name) {
+    getOption : function(name) {
       if (org.mathdox.formulaeditor.options[name] !== undefined) {
         return org.mathdox.formulaeditor.options[name];
       } else {
         return null;
       }
+    },
+    getArith1TimesSymbol : function () {
+      var option = this.getOption("styleArith1Times");
+
+      if (option == 'dot') {
+        return '·'; // U+00B7 Middle dot
+      } else if (option == 'cross') {
+        return '×'; // U+00D7 is cross
+      } else if (option == 'star') {
+        return '*';
+      }
+      return this.defaultOptions.symbolArith1Times;
     },
     getDecimalMark: function() {
       var mark = this.getOption("decimalMark");
@@ -43,7 +60,7 @@ $main(function(){
         return this.defaultOptions.decimalMark;
       }
     },
-    getListSeparator: function() {
+    getListSeparator : function() {
       var mark = this.getDecimalMark();
       
       if (mark === '.') {

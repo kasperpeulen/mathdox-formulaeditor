@@ -951,7 +951,8 @@ $main(function(){
 
       return {
         decimalMark : Options.getDecimalMark(),
-        listSeparator : Options.getListSeparator()
+        listSeparator : Options.getListSeparator(),
+	symbolArith1Times : Options.getArith1TimesSymbol()
       };
     }
   });

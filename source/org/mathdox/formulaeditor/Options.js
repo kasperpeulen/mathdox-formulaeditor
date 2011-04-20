@@ -30,6 +30,7 @@ $main(function() {
   org.mathdox.formulaeditor.Options = $extend(Object, {
     defaultOptions : {
       decimalMark: '.',
+      styleTransc1Log: 'function',
       symbolArith1Times: '·' // U+00B7 Middle dot
     },
     getOption : function(name) {
@@ -71,7 +72,16 @@ $main(function() {
         alert("Options: unable to get listseparator.");
         return null;
       }
-    }
+    },
+    getTransc1LogStyle : function () {
+      var option = this.getOption("styleTransc1Log");
+
+      if (option == 'prefix' || option == 'postfix' || option == 'function') {
+        return option;
+      } 
+
+      return this.defaultOptions.styleTransc1Log;
+    },
   });
 });
 

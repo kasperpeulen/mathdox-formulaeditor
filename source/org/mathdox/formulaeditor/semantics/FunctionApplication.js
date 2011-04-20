@@ -47,14 +47,23 @@ $main(function(){
       getPresentation : function(context) {
 
         var presentation = org.mathdox.formulaeditor.presentation;
+        var semantics = org.mathdox.formulaeditor.semantics;
 
         // construct an array of the presentation of operand nodes interleaved
         // with operator symbols
         var array = [];
         var pres;
 
+        var style = this.style;
+
+        if ( (context.styleTransc1Log == "postfix") && 
+            (this.symbol instanceof semantics.Keyword) && 
+            (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
+          style = "firstsub";
+        }
+
         array.push(this.symbol.getPresentation(context));
-        if (this.style != "sub") {
+        if (style != "sub" && style != "firstsub") {
           // no brackets in subscript style "sub"
           array.push(new presentation.Symbol("("));
         }
@@ -62,14 +71,15 @@ $main(function(){
           var operand = this.operands[i];
           if (i>0) {
             pres = new presentation.Symbol(context.listSeparator);
-            if (this.style == "sub") {
+            if (style == "sub") {
               // subscript style
               array.push(new presentation.Subscript(pres));
+            } else if (style == "firstsub" && i==1) {
+              array.push(new presentation.Symbol("("));
             } else {
               // normal style
               array.push(pres);
             }
-
           }
           
           if (!operand) {
@@ -79,8 +89,10 @@ $main(function(){
             alert("operands[1]: "+this.operands[1]);
           }
           pres = operand.getPresentation(context);
-          if (this.style == "sub") {
+          if (style == "sub") {
             // subscript style
+            array.push(new presentation.Subscript(pres));
+          } else if (style == "firstsub" && i==0) {
             array.push(new presentation.Subscript(pres));
           } else {
             // normal style
@@ -88,7 +100,7 @@ $main(function(){
           }
         }
         
-        if (this.style != "sub") {
+        if (style != "sub") {
           // no brackets in subscript style "sub"
           array.push(new presentation.Symbol(")"));
         }
@@ -107,14 +119,14 @@ $main(function(){
       getOpenMath : function() {
 
         var result;
-	
-	if (this.style !== null) {
-	  result = "<OMA style=\""+this.style+"\">";
-	} else {
-	  result = "<OMA>";
-	}
+        
+        if (this.style !== null) {
+          result = "<OMA style=\""+this.style+"\">";
+        } else {
+          result = "<OMA>";
+        }
 
-	result += this.symbol.getOpenMath();
+        result += this.symbol.getOpenMath();
         for (var i=0; i<this.operands.length; i++) {
           result = result + this.operands[i].getOpenMath();
         }
@@ -132,9 +144,9 @@ $main(function(){
         var result = "<mrow>" + this.symbol.getMathML() + "<mo>(</mo>";
 
         for (var i=0; i<this.operands.length; i++) {
-	  if (i>0) {
-	    result = result + "<mo>,</mo>";
-	  }
+          if (i>0) {
+            result = result + "<mo>,</mo>";
+          }
           result = result + this.operands[i].getMathML();
         }
         result = result + "<mo>)</mo>" + "</mrow>";

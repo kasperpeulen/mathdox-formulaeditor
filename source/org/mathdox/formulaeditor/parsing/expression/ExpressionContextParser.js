@@ -55,6 +55,7 @@ $main(function() {
         cachedContext = {
           decimalMark : Options.getDecimalMark(),
           listSeparator : Options.getListSeparator(),
+	  styleTransc1Log: Options.getTransc1LogStyle(),
 	  symbolArith1Times: Options.getArith1TimesSymbol()
         };
       }

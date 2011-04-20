@@ -17,7 +17,69 @@ $main(function() {
   var pG = new org.mathdox.parsing.ParserGenerator();
 
   org.mathdox.formulaeditor.parsing.expression.ExpressionParser =
-    $extend(Object, { getRules: function(context) { return {
+    $extend(Object, { getRules: function(context) { 
+      var func_subCheck = function(oper) {
+        return false;
+      };
+      
+      var func_subUpdate = function(oper) {
+        return oper;
+      };
+
+      if (context.styleTransc1Log === "postfix") {
+        func_subCheck = function(operInput) {
+         
+          var oper;
+
+          oper = operInput;
+          // oper should be a function application
+          if (! (oper instanceof semantics.FunctionApplication) ) {
+            return false;
+          }
+
+          // symbol should exist
+          if (oper.symbol === undefined || oper.symbol === null) {
+            return false;
+          } 
+
+          oper = oper.symbol;
+
+          if (! (oper instanceof semantics.FunctionApplication) ) {
+            return false;
+          }
+
+          // symbol should exist
+          if (oper.symbol === undefined || oper.symbol === null) {
+            return false;
+          } 
+
+          // symbol should be a keyword
+          if (!( oper.symbol instanceof semantics.Keyword)) {
+            return false;
+          }  
+          
+          if (oper.symbol.cd == "transc1" && oper.symbol.name == "log" ) {
+            return true;
+          }
+          
+          return false;
+        };
+        func_subUpdate = function(oper) {
+          if (func_subCheck(oper)) {
+            var symbol = oper.symbol.symbol;
+
+            // use the operands from the subscript before the others
+            var arr = oper.symbol.operands.concat(oper.operands);
+
+            // and return the "flattened" function
+            return new semantics.FunctionApplication(symbol, arr, "firstsub");
+          } else {
+            return oper;
+          }
+        };
+      }
+
+      return {
         // TODO make this list alphabetical
 
         // start = expression
@@ -303,6 +365,8 @@ $main(function() {
                 i++;
               }
 
+              // check for log_2(x) updates
+              oper = func_subUpdate(oper);
               return oper;
             }
           ),

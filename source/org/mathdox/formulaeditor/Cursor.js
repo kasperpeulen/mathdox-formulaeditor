@@ -226,7 +226,7 @@ $main(function(){
 
         // ensure that size of the cursor is at least height of the symbol 'f'
         var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
-        var fHeight = new Symbol("f").draw(canvas, 0, 0, true).height;
+        var fHeight = new Symbol("f").draw(canvas, context, 0, 0, true).height;
         fHeight = fHeight + 2 * margin;
         if (bottom - top < fHeight) {
           var delta = fHeight - (bottom - top);

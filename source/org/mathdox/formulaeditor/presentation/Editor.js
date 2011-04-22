@@ -61,11 +61,11 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
-        var dimensions = this.children[0].draw(canvas, 0, 0, true);
+      draw : function(canvas, context, x, y, invisible) {
+        var dimensions = this.children[0].draw(canvas, context, 0, 0, true);
 
         if (! invisible) {
-          this.children[0].draw(canvas, x + this.margin - dimensions.left, y + this.margin);
+          this.children[0].draw(canvas, context, x + this.margin - dimensions.left, y + this.margin);
         }
 
         /* draw bar */

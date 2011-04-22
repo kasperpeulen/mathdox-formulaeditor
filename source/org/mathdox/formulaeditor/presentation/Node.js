@@ -44,8 +44,9 @@ $main(function(){
      * Draws the node on the specified canvas context. This is an abstract
      * method, so it is expected that subclasses will override this method.
      *
-     * Parameter context: The 2d context of the canvas upon which this node is
+     * Parameter canvas: The 2d context of the canvas upon which this node is
      *   expected to draw itself
+     * Parameter context: The draw context (subscript font is smaller; etc)
      * Parameters x,y: The (x,y) coordinate indicates where the left of the
      *   baseline of the node will appear.
      * Parameter invisible: This is an optional boolean parameter that indicates
@@ -57,7 +58,7 @@ $main(function(){
      *   that indicate the position and dimensions of the bounding rectangle
      *   of the node.
      */
-    draw : function(context, x, y, invisible) {
+    draw : function(canvas, context, x, y, invisible) {
 
       throw new Error("abstract method called");
 

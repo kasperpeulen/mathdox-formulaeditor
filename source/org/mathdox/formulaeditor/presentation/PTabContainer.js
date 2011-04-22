@@ -27,7 +27,7 @@ $main(function(){
      *
      * See also: org.mathdox.formulaeditor.presentation.Node.draw
      */
-    draw : function(canvas, x, y, invisible) {
+    draw : function(canvas, context, x, y, invisible) {
 
       if (this.current === null) {
         this.dimensions = { top:y, left:x, width:0, height:0 };
@@ -48,7 +48,7 @@ $main(function(){
 
       if (this.showTabBar()) {
         for (i=0; i< this.children.length; i++) {
-          dimArray.push(this.children[i].draw(canvas,x,y+this.tabBarSize+this.margin,true));
+          dimArray.push(this.children[i].draw(canvas,context,x,y+this.tabBarSize+this.margin,true));
         }
         maxDim = this.maxDimensions(x,y+this.tabBarSize+this.margin,dimArray);
 
@@ -83,7 +83,7 @@ $main(function(){
           canvas.drawBox(boxDim, "#00F");
 	}
   
-        this.children[this.current].draw(canvas, x, y + this.tabBarSize + this.margin, 
+        this.children[this.current].draw(canvas, context, x, y + this.tabBarSize + this.margin, 
           invisible);
     
         this.dimensions = {
@@ -93,7 +93,7 @@ $main(function(){
           height: maxDim.height+this.tabBarSize + this.margin
         };
       } else { /* only 1 child, don't draw a bar */
-        this.dimensions = this.children[0].draw(canvas, x, y, invisible);
+        this.dimensions = this.children[0].draw(canvas, context, x, y, invisible);
       }
 
       return this.dimensions;

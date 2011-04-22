@@ -53,7 +53,7 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
         var symbol = this.value;
         if (this.onscreen !== null) {
           symbol = this.onscreen;

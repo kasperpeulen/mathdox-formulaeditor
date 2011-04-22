@@ -350,7 +350,7 @@ $main(function(){
       }
       var presentation = org.mathdox.formulaeditor.presentation;
 
-      dim = new presentation.Symbol(letter).draw(this,x,y,true);
+      dim = this.drawSymbol(letter,x,y,true);
 
       if (!invisible) {
         var context = this.getContext();

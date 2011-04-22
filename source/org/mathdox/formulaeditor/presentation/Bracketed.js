@@ -27,12 +27,12 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
         var height;
 
         // invisible drawing of array to set dimensions
         
-        this.middle.draw(canvas, 0, 0, true);
+        this.middle.draw(canvas, context, 0, 0, true);
 
         // if the left and right symbols are brackets set the height
         // XXX check if they are brackets
@@ -42,8 +42,8 @@ $main(function(){
           this.middle.dimensions.height;
 
         // invisible drawing of brackets to set dimensions
-        this.leftBracket.draw(canvas, 0, 0, true);
-        this.rightBracket.draw(canvas, 0, 0, true);
+        this.leftBracket.draw(canvas, context, 0, 0, true);
+        this.rightBracket.draw(canvas, context, 0, 0, true);
 
         height = Math.max(
             this.leftBracket.dimensions.height,
@@ -75,18 +75,18 @@ $main(function(){
         };
         
         this.leftBracket.minimumHeight = this.middle.dimensions.height;
-        this.leftBracket.draw(canvas, 
+        this.leftBracket.draw(canvas, context,  
           x - this.leftBracket.dimensions.left, 
           this.dimensions.top + yAdjustBrackets - 
           this.leftBracket.dimensions.top, 
           invisible);
 
-        this.middle.draw(canvas, 
+        this.middle.draw(canvas, context,  
           x + this.leftBracket.dimensions.width - this.middle.dimensions.left, 
           y, invisible);
 
         this.rightBracket.minimumHeight = this.middle.dimensions.height;
-        this.rightBracket.draw(canvas, 
+        this.rightBracket.draw(canvas, context, 
           x + this.rightBracket.dimensions.width + 
             this.middle.dimensions.width - this.rightBracket.dimensions.left,
           this.dimensions.top + yAdjustBrackets - 

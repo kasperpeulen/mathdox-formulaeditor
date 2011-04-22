@@ -487,12 +487,14 @@ $main(function(){
       // TODO: move this code to a separate presentation node
       //       (equivalent to the DOM Document node)
       var dimensions;
+      var drawContext = {};
+
       if (org.mathdox.formulaeditor.options.useBar) {
-        dimensions = this.presentation.draw(this.canvas, 0, 0, true);
+        dimensions = this.presentation.draw(this.canvas, drawContext, 0, 0, true);
       } else {
         /* add margin */
         var margin = 4.0;
-        var formula_dimensions = this.presentation.draw(this.canvas, 0, 0, true);
+        var formula_dimensions = this.presentation.draw(this.canvas, drawContext, 0, 0, true);
         dimensions = {
           top:    formula_dimensions.top    - margin,
           left:          formula_dimensions.left   - margin,
@@ -502,7 +504,7 @@ $main(function(){
       }
       this.canvas.canvas.setAttribute("width", dimensions.width);
       this.canvas.canvas.setAttribute("height", dimensions.height);
-      this.presentation.draw(this.canvas, - dimensions.left, - dimensions.top);
+      this.presentation.draw(this.canvas, drawContext, - dimensions.left, - dimensions.top);
       this.cursor.draw(this.canvas);
     },
 
@@ -705,14 +707,14 @@ $main(function(){
         if (editor.hasFocus && (blinker == editor.blinker)) {
           editor.cursor.visible = true;
           editor.redraw();
-          window.setTimeout(blinkoff, 600);
+          window.setTimeout(blinkoff, 6000);
         }
       };
       blinkoff = function() {
         if (editor.hasFocus && (blinker == editor.blinker)) {
           editor.cursor.visible = false;
           editor.redraw();
-          window.setTimeout(blinkon, 400);
+          window.setTimeout(blinkon, 4000);
         }
       };
       blinkon();

@@ -46,7 +46,7 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
         var middleheight;
         var rootheight;
         var baseheight;
@@ -56,7 +56,7 @@ $main(function(){
 
         // invisible drawing of array to set dimensions
         
-        this.middle.draw(canvas, 0, 0, true);
+        this.middle.draw(canvas, context, 0, 0, true);
 
         middleheight = this.middle.dimensions.height + this.lineWidth + 
           this.margin*2;
@@ -64,7 +64,7 @@ $main(function(){
         drawBase = this.drawBaseQ(canvas);
 
         if (drawBase) {
-          this.base.draw(canvas, 0, 0, true);
+          this.base.draw(canvas, context, 0, 0, true);
           baseheight = this.base.dimensions.height;
           vlheight = canvas.drawSymbol("vl", 0, 0, true, null).height;
         }
@@ -80,7 +80,7 @@ $main(function(){
         }
 
         // invisible drawing of brackets to set dimensions
-        this.leftBracket.draw(canvas, 0, 0, true);
+        this.leftBracket.draw(canvas, context, 0, 0, true);
 
         rootheight = this.leftBracket.dimensions.height;
 
@@ -116,7 +116,7 @@ $main(function(){
         };
      
         if (drawBase) {
-          this.base.draw(canvas,
+          this.base.draw(canvas, context,
             x - this.base.dimensions.left,
             y + yAdjust/2 - Math.min(rootheight/2, vlheight) - 
               (this.base.dimensions.top + this.base.dimensions.height) - 
@@ -124,31 +124,31 @@ $main(function(){
             invisible);
         }
 
-        this.leftBracket.draw(canvas, 
+        this.leftBracket.draw(canvas, context,
           x - this.leftBracket.dimensions.left - baseXAdjust, 
           y - (this.leftBracket.dimensions.top +
             this.leftBracket.dimensions.height) + yAdjust/2 - yAdjustMiddle, 
           invisible);
         /* XXX adjust vertically */
-        this.middle.draw(canvas, 
+        this.middle.draw(canvas, context,
           x - baseXAdjust + this.leftBracket.dimensions.width -
           this.middle.dimensions.left + this.margin , 
           y, invisible);
 
         if (!invisible) {
           // draw line
-          var context = canvas.getContext();
+          var canvasContext = canvas.getContext();
 
-          context.save();
-          context.lineWidth = this.lineWidth;
-          context.beginPath();
-          context.moveTo(x-baseXAdjust+this.leftBracket.dimensions.width - 1,
+          canvasContext.save();
+          canvasContext.lineWidth = this.lineWidth;
+          canvasContext.beginPath();
+          canvasContext.moveTo(x-baseXAdjust+this.leftBracket.dimensions.width - 1,
             this.dimensions.top + this.lineWidth);
-          context.lineTo(x+this.dimensions.width, 
+          canvasContext.lineTo(x+this.dimensions.width, 
             this.dimensions.top + this.lineWidth);
-          context.stroke();
-          context.closePath();
-          context.restore();
+          canvasContext.stroke();
+          canvasContext.closePath();
+          canvasContext.restore();
         }
 
         /* XXX adjust */

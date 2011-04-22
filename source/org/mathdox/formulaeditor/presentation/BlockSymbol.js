@@ -22,7 +22,7 @@ $main(function(){
       }
     },
 
-    draw : function(canvas, x, y, invisible) {
+    draw : function(canvas, context, x, y, invisible) {
       this.dimensions = canvas.drawFBox(
         Math.round(x), Math.round(y), invisible, this.onscreen);
 

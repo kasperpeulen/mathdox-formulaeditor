@@ -20,7 +20,7 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
 
         var dim0;
         var presentation = org.mathdox.formulaeditor.presentation;
@@ -28,7 +28,7 @@ $main(function(){
           dim0 = this.parent.children[this.index - 1].dimensions;
         }
         else {
-          dim0 = new presentation.Symbol("x").draw(canvas,x,y,true);
+          dim0 = new presentation.Symbol("x").draw(canvas,context, x,y,true);
         }
 
         y = dim0.top + (dim0.height/2);
@@ -42,8 +42,8 @@ $main(function(){
         var margin = 2.0;
         var lineWidth = 1.0;
 
-        var upperDimensions = upper.draw(canvas, 0, 0, true);
-        var lowerDimensions = lower.draw(canvas, 0, 0, true);
+        var upperDimensions = upper.draw(canvas, context, 0, 0, true);
+        var lowerDimensions = lower.draw(canvas, context, 0, 0, true);
 
         var left   = x + Math.min(upperDimensions.left, lowerDimensions.left);
         var top    = y - upperDimensions.height - margin;
@@ -54,7 +54,7 @@ $main(function(){
 
         // draw upper part
         upper.draw(
-          canvas,
+          canvas, context,
           x + (width/2) - (upperDimensions.width/2),
           top - upperDimensions.top,
           invisible);
@@ -62,21 +62,21 @@ $main(function(){
         if (!invisible) {
 
           // draw line
-          var context = canvas.getContext();
-          context.save();
-          context.lineWidth = lineWidth;
-          context.beginPath();
-          context.moveTo(x,y);
-          context.lineTo(x+width,y);
-          context.stroke();
-          context.closePath();
-          context.restore();
+          var canvasContext = canvas.getContext();
+          canvasContext.save();
+          canvasContext.lineWidth = lineWidth;
+          canvasContext.beginPath();
+          canvasContext.moveTo(x,y);
+          canvasContext.lineTo(x+width,y);
+          canvasContext.stroke();
+          canvasContext.closePath();
+          canvasContext.restore();
 
         }
 
         // draw lower part
         lower.draw(
-          canvas,
+          canvas, context,
           x + (width/2) - (lowerDimensions.width/2),
           y + margin - lowerDimensions.top + 1,
           invisible);

@@ -47,7 +47,7 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
 
         if (this.children.length > 0) {
 
@@ -63,7 +63,7 @@ $main(function(){
             var child = this.children[i];
 
             // draw the current child node
-            var dimensions = child.draw(canvas, right, y, invisible);
+            var dimensions = child.draw(canvas, context, right, y, invisible);
 
             // update the dimensions of the bounding rectangle
             left   = Math.min(left, dimensions.left);

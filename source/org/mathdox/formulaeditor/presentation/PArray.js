@@ -75,7 +75,7 @@ $main(function(){
      *
      * See also: org.mathdox.formulaeditor.presentation.Node.draw
      */
-    draw : function(canvas, x, y, invisible) {
+    draw : function(canvas, context, x, y, invisible) {
 
       // total height
       var totalHeight = 0;
@@ -87,7 +87,7 @@ $main(function(){
       for (row = 0; row < this.rows; row++) {
         for (col = 0; col < this.columns; col++) {
             if (this.entries[row][col] && this.entries[row][col].draw) {
-              this.entries[row][col].draw(canvas, 0, 0, true);
+              this.entries[row][col].draw(canvas, context, 0, 0, true);
             } else {
               alert("PArray could not draw row:"+row+", col:"+col+".");
             }
@@ -160,7 +160,7 @@ $main(function(){
             var entryHeight = entry.dimensions.height;
             var entryTop    = entry.dimensions.top;
             entry.draw(
-              canvas,
+              canvas, context,
               x + this.colInfo[col].center - (entryWidth/2), 
                     // horizontally centered in column
               y + this.rowInfo[row].baseline,

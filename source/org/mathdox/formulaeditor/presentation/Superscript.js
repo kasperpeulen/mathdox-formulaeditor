@@ -12,7 +12,7 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Superscript =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
 
-      draw : function(context, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
 
         var superscript = this.children[0];
 
@@ -23,14 +23,14 @@ $main(function(){
           dim0 = this.parent.children[this.index - 1].dimensions;
         }
         else {
-          dim0 = new presentation.Symbol("x").draw(context,x,y,true);
+          dim0 = new presentation.Symbol("x").draw(canvas,context,x,y,true);
           dim0.left = x - dim0.width;
         }
 
-        var tmp = superscript.draw(context,0,0,true);
+        var tmp = superscript.draw(canvas,context,0,0,true);
 
         var dim1 = superscript.draw(
-          context,
+          canvas,context,
           dim0.left + dim0.width,
           dim0.top - (tmp.height + tmp.top),
           invisible);

@@ -29,7 +29,7 @@ $main(function(){
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
        */
-      draw : function(canvas, x, y, invisible) {
+      draw : function(canvas, context, x, y, invisible) {
 
         // the amount of space between the column elements
         var margin = this.margin;
@@ -43,7 +43,7 @@ $main(function(){
           var height;
           var top;
           var baseline;
-          var dimensions = this.children[i].draw(canvas, 0, 0, true);
+          var dimensions = this.children[i].draw(canvas, context, 0, 0, true);
 
           maxWidth = Math.max(maxWidth, dimensions.width);
           height = dimensions.height;
@@ -80,7 +80,7 @@ $main(function(){
 
         for (row = 0; row < this.children.length; row++) {
           var childLeft = center - this.children[row].dimensions.width/2;
-          this.children[row].draw(canvas, childLeft, y + rowInfo[row].baseline, 
+          this.children[row].draw(canvas, context, childLeft, y + rowInfo[row].baseline, 
             invisible);
         }
 

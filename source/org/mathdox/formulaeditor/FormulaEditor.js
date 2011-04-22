@@ -707,14 +707,14 @@ $main(function(){
         if (editor.hasFocus && (blinker == editor.blinker)) {
           editor.cursor.visible = true;
           editor.redraw();
-          window.setTimeout(blinkoff, 6000);
+          window.setTimeout(blinkoff, 600);
         }
       };
       blinkoff = function() {
         if (editor.hasFocus && (blinker == editor.blinker)) {
           editor.cursor.visible = false;
           editor.redraw();
-          window.setTimeout(blinkon, 4000);
+          window.setTimeout(blinkon, 400);
         }
       };
       blinkon();

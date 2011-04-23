@@ -340,6 +340,7 @@
         </OMA>
         <OMA>
           <OMS cd='transc1' name='log'/>
+          <OMI>10</OMI>
           <OMS cd='editor1' name='input_box'/>
         </OMA>
       </OMA>

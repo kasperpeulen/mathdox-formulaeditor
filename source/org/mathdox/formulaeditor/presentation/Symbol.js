@@ -59,8 +59,14 @@ $main(function(){
           symbol = this.onscreen;
         }
        
+        var fontSizeModifier = 0;
+        if (context.fontSizeModifier!== undefined && context.fontSizeModifier !== null) {
+          fontSizeModifier = context.fontSizeModifier;
+        }
+
         this.dimensions = canvas.drawSymbol(
-          symbol, Math.round(x), Math.round(y), invisible, this.typeface);
+          symbol, Math.round(x), Math.round(y), invisible, this.typeface, 
+          fontSizeModifier);
 
         return this.dimensions;
 

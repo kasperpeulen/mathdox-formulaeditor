@@ -4,7 +4,6 @@ $identify("org/mathdox/formulaeditor/modules/calculus1/int.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
-$require("org/mathdox/formulaeditor/presentation/Column.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");

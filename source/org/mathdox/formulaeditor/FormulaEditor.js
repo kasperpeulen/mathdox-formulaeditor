@@ -505,7 +505,7 @@ $main(function(){
       this.canvas.canvas.setAttribute("width", dimensions.width);
       this.canvas.canvas.setAttribute("height", dimensions.height);
       this.presentation.draw(this.canvas, drawContext, - dimensions.left, - dimensions.top);
-      this.cursor.draw(this.canvas);
+      this.cursor.draw(this.canvas, drawContext);
     },
 
     /**

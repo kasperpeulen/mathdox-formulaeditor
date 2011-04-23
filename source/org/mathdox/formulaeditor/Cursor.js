@@ -196,7 +196,7 @@ $main(function(){
 
     },
 
-    draw : function(canvas) {
+    draw : function(canvas, context) {
 
       if (this.visible) {
 
@@ -234,17 +234,17 @@ $main(function(){
           bottom = bottom + delta/2;
         }
 
-        var context = canvas.getContext();
+        var canvasContext = canvas.getContext();
 
-        context.save();
-        context.lineWidth = lineWidth;
-        context.strokeStyle = color;
-        context.beginPath();
-        context.moveTo(x, top);
-        context.lineTo(x, bottom);
-        context.stroke();
-        context.closePath();
-        context.restore();
+        canvasContext.save();
+        canvasContext.lineWidth = lineWidth;
+        canvasContext.strokeStyle = color;
+        canvasContext.beginPath();
+        canvasContext.moveTo(x, top);
+        canvasContext.lineTo(x, bottom);
+        canvasContext.stroke();
+        canvasContext.closePath();
+        canvasContext.restore();
 
       }
 

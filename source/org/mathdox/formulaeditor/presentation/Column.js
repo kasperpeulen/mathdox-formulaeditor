@@ -23,6 +23,17 @@ $main(function(){
       drawBox : false,
 
       /**
+       * To add a fontSizeModifier for each row; create a list with an entry for each row.
+       * this is added to the fontSizeModifier of the context. 
+       *
+       * For example a column with three rows, where the top and lower row are smaller would have
+       * fontSizeModifierArray = [ -1, 0, -1 ]
+       *
+       * Note the name Array: this is added because it is not a single value
+       */
+      fontSizeModifierArray : null,
+
+      /**
        * Draws the column to the canvas.
        *
        * vertical align on middle column: Math.floor((this.children.length)/2)
@@ -39,11 +50,30 @@ $main(function(){
         var maxWidth = 0;
         var totalHeight = 0;
 
+        var childContextArray = [];
+
         for (var i=0; i<this.children.length; i++) {
           var height;
           var top;
           var baseline;
-          var dimensions = this.children[i].draw(canvas, context, 0, 0, true);
+
+          var modifiedContext;
+          
+          if (this.fontSizeModifierArray !== null && 
+            this.fontSizeModifierArray[i]!==undefined && this.fontSizeModifierArray[i]!== null) {
+
+	    modifiedContext = { fontSizeModifier : 0 };
+            for (var name in context) {
+              modifiedContext[name] = context[name];
+            }
+            modifiedContext.fontSizeModifier = modifiedContext.fontSizeModifier - 1;
+          } else {
+            modifiedContext = context;
+          }
+
+          childContextArray.push(modifiedContext);
+
+          var dimensions = this.children[i].draw(canvas, childContextArray[i], 0, 0, true);
 
           maxWidth = Math.max(maxWidth, dimensions.width);
           height = dimensions.height;
@@ -69,7 +99,7 @@ $main(function(){
         
         var usedBaseline = rowInfo[Math.floor(this.children.length/2)].baseline;
 
-	var row; // counter
+        var row; // counter
         for (row = 0; row < this.children.length; row++) {
           rowInfo[row].top -= usedBaseline;
           rowInfo[row].baseline -= usedBaseline;
@@ -80,7 +110,7 @@ $main(function(){
 
         for (row = 0; row < this.children.length; row++) {
           var childLeft = center - this.children[row].dimensions.width/2;
-          this.children[row].draw(canvas, context, childLeft, y + rowInfo[row].baseline, 
+          this.children[row].draw(canvas, childContextArray[row], childLeft, y + rowInfo[row].baseline, 
             invisible);
         }
 

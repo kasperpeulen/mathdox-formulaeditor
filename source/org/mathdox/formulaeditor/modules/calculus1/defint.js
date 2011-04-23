@@ -74,6 +74,11 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Defint =
     $extend(org.mathdox.formulaeditor.presentation.Column, {
 
+      /**
+       * top and bottom rows are smaller
+       */
+      fontSizeModifierArray : [-1,0,1],
+
       initialize : function(below, above) {
 
         var parent = arguments.callee.parent;

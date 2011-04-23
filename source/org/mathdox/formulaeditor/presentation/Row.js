@@ -57,6 +57,7 @@ $main(function(){
           var right  = x;
           var bottom = y;
 
+
           // go through all child nodes in the row
           for (var i=0; i<this.children.length; i++) {
 
@@ -85,7 +86,12 @@ $main(function(){
 
         }
         else {
-          this.dimensions = canvas.drawFBox(x, y, true);
+          var fontSizeModifier = 0;
+          if (context.fontSizeModifier!== undefined && context.fontSizeModifier !== null) {
+            fontSizeModifier = context.fontSizeModifier;
+          }
+
+          this.dimensions = canvas.drawFBox(x, y, true, null, null, fontSizeModifier);
 
           if (!invisible && this.parent) {
             canvas.drawFBox(x, y, invisible);

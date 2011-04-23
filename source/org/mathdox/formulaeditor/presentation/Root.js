@@ -54,6 +54,17 @@ $main(function(){
         var vlheight;
         var drawBase;
 
+        var fontSizeModifier = 0;
+        if (context.fontSizeModifier!== undefined && context.fontSizeModifier !== null) {
+          fontSizeModifier = context.fontSizeModifier;
+        }
+
+	var baseContext = { fontSizeModifier : 0 };
+        for (var name in context) {
+          baseContext[name] = context[name];
+        }
+        baseContext.fontSizeModifier = baseContext.fontSizeModifier - 1;
+
         // invisible drawing of array to set dimensions
         
         this.middle.draw(canvas, context, 0, 0, true);
@@ -64,9 +75,9 @@ $main(function(){
         drawBase = this.drawBaseQ(canvas);
 
         if (drawBase) {
-          this.base.draw(canvas, context, 0, 0, true);
+          this.base.draw(canvas, baseContext, 0, 0, true);
           baseheight = this.base.dimensions.height;
-          vlheight = canvas.drawSymbol("vl", 0, 0, true, null).height;
+          vlheight = canvas.drawSymbol("vl", 0, 0, true, null, fontSizeModifier).height;
         }
 
         // if the left and right symbols are brackets set the height
@@ -116,7 +127,7 @@ $main(function(){
         };
      
         if (drawBase) {
-          this.base.draw(canvas, context,
+          this.base.draw(canvas, baseContext,
             x - this.base.dimensions.left,
             y + yAdjust/2 - Math.min(rootheight/2, vlheight) - 
               (this.base.dimensions.top + this.base.dimensions.height) - 

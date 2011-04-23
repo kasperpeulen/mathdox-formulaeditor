@@ -23,8 +23,13 @@ $main(function(){
     },
 
     draw : function(canvas, context, x, y, invisible) {
+      var fontSizeModifier = 0;
+      if (context.fontSizeModifier!== undefined && context.fontSizeModifier !== null) {
+        fontSizeModifier = context.fontSizeModifier;
+      }
+
       this.dimensions = canvas.drawFBox(
-        Math.round(x), Math.round(y), invisible, this.onscreen);
+        Math.round(x), Math.round(y), invisible, this.onscreen, this.typeface, fontSizeModifier);
 
       return this.dimensions;
     }

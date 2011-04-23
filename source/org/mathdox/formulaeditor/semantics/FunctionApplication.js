@@ -60,11 +60,18 @@ $main(function(){
             (this.symbol instanceof semantics.Keyword) && 
             (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
           style = "firstsub";
+        } else if ( (context.styleTransc1Log == "prefix") && 
+            (this.symbol instanceof semantics.Keyword) && 
+            (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
+          style = "firstsuper";
         }
 
-        array.push(this.symbol.getPresentation(context));
-        if (style != "sub" && style != "firstsub") {
-          // no brackets in subscript style "sub"
+	if (style != "firstsuper") {
+          array.push(this.symbol.getPresentation(context));
+	}
+        if (style != "sub" && style != "firstsub" && style != "firstsuper") {
+	  // no brackets in subscript style "sub" or if the first argument is
+	  // handled differently
           array.push(new presentation.Symbol("("));
         }
         for (var i=0; i<this.operands.length; i++) {
@@ -74,8 +81,12 @@ $main(function(){
             if (style == "sub") {
               // subscript style
               array.push(new presentation.Subscript(pres));
-            } else if (style == "firstsub" && i==1) {
+	      // first subscript (after the symbol)
+            } else if ((style == "firstsub" ||style == "firstsuper") && i==1) {
               array.push(new presentation.Symbol("("));
+            } else if (style == "firstsuper" && i==0) {
+	      // first superscript (before the symbol); 
+	      // print nothing yet
             } else {
               // normal style
               array.push(pres);
@@ -94,6 +105,9 @@ $main(function(){
             array.push(new presentation.Subscript(pres));
           } else if (style == "firstsub" && i==0) {
             array.push(new presentation.Subscript(pres));
+          } else if (style == "firstsuper" && i==0) {
+            array.push(new presentation.Superscript(pres));
+              array.push(this.symbol.getPresentation(context));
           } else {
             // normal style
             array.push(pres);

@@ -26,6 +26,19 @@ $main(function() {
         return oper;
       };
 
+      var func_super = null;
+
+      // expression160 = braces | integer | variable
+      var expression160 = pG.alternation(
+        pG.rule("braces"),
+        pG.rule("parseNumber"),
+        pG.rule("func"),
+        pG.rule("func_sub"),
+        pG.rule("variable"),
+        pG.rule("omSymbol"),
+        pG.rule("omString")
+      );
+
       if (context.styleTransc1Log === "postfix") {
         func_subCheck = function(operInput) {
          
@@ -77,6 +90,71 @@ $main(function() {
             return oper;
           }
         };
+      } 
+
+      var rule_func_super;
+      var rule_expression160;
+
+      if (context.styleTransc1Log === "prefix") {
+	rule_expression160 = pG.alternation(
+          pG.rule("braces"),
+          pG.rule("parseNumber"),
+          pG.rule("func"),
+          pG.rule("func_sub"),
+          pG.rule("func_super"),
+          pG.rule("variable"),
+          pG.rule("omSymbol"),
+          pG.rule("omString")
+        );
+
+	rule_func_super = 
+          pG.transform(
+            pG.concatenation(
+	      pG.rule("superscript"),
+              pG.alternation(
+                pG.rule("variable"),
+                pG.rule("omSymbol")
+              ),
+              pG.literal('('),
+              pG.rule("expression"),
+              pG.repetition(
+                pG.concatenation(
+                  pG.literal(context.listSeparator),
+                  pG.rule("expression")
+                )
+              ),
+              pG.literal(')')
+	    ),
+          function(result) {
+            var array = [];
+            var i,j; // counters
+            var semantics = org.mathdox.formulaeditor.semantics;
+           
+	    array.push(result[0]);
+	    var oper = result[1];
+            var str;
+
+	    // 2 : literal '('
+            i=3;
+            while (i < result.length) {
+              array.push(result[i]);
+
+              i=i+2;
+            }
+            return new semantics.FunctionApplication(oper, array);
+          }
+	);
+      } else {
+	rule_expression160 = pG.alternation(
+          pG.rule("braces"),
+          pG.rule("parseNumber"),
+          pG.rule("func"),
+          pG.rule("func_sub"),
+          pG.rule("variable"),
+          pG.rule("omSymbol"),
+          pG.rule("omString")
+        );
+        rule_func_super = pG.never;
       }
 
       return {
@@ -117,16 +195,7 @@ $main(function() {
         expression150 : pG.rule("expression160"), // power
 
         // expression160 = braces | integer | variable
-        expression160 :
-          pG.alternation(
-            pG.rule("braces"),
-            pG.rule("parseNumber"),
-            pG.rule("func"),
-            pG.rule("func_sub"),
-            pG.rule("variable"),
-            pG.rule("omSymbol"),
-            pG.rule("omString")
-          ),
+        expression160 : rule_expression160, // use version defined above
 
         // restrictedexpression160 = braces | variable | func
         // no number allowed, for silent multiplication
@@ -314,7 +383,8 @@ $main(function() {
                 pG.rule("variable"),
                 pG.rule("omSymbol"),
                 pG.rule("braces"),
-                pG.rule("func_sub")
+                pG.rule("func_sub"),
+                pG.rule("func_super")
               ),
               pG.repetitionplus(
                 pG.concatenation(
@@ -451,8 +521,11 @@ $main(function() {
               return oper;
             }
           ),
+        func_super: rule_func_super,
           // subscript : rule only occurs from presentation
-          subscript: pG.never
+          subscript: pG.never,
+          // superscript : rule only occurs from presentation
+	  superscript: pG.never
         };
       }
 

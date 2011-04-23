@@ -343,14 +343,14 @@ $main(function(){
     },
 
     // draw a box the size of the symbol of the letter 'f' 
-    drawFBox : function(x, y, invisible, letter) {
+    drawFBox : function(x, y, invisible, letter, typeface, fontSizeModifier) {
       var dim;
       if (letter === null || letter === undefined) {
         letter = "f";
       }
       var presentation = org.mathdox.formulaeditor.presentation;
 
-      dim = this.drawSymbol(letter,x,y,true);
+      dim = this.drawSymbol(letter,x,y,true, typeface, fontSizeModifier);
 
       if (!invisible) {
         var context = this.getContext();
@@ -380,7 +380,7 @@ $main(function(){
      * If the typeface is "math" a slanted/italic symbol will be drawn if
      * possible.
      */
-    drawSymbol : function(symbol, x, y, invisible, typeface) {
+    drawSymbol : function(symbol, x, y, invisible, typeface, fontSizeModifier) {
       var mathCanvas = org.mathdox.formulaeditor.MathCanvas;
       if (mathCanvas.specialSymbols[symbol]!== undefined) {
         // special case combined symbol: 
@@ -398,7 +398,7 @@ $main(function(){
 
         for (i=0; i< symbols.length; i++) {
           olddim = dim;
-          dim = this.drawSymbol(symbols[i], x, y, invisible, typeface);
+          dim = this.drawSymbol(symbols[i], x, y, invisible, typeface, fontSizeModifier);
 
           dim = {
             top: Math.min(olddim.top, dim.top),
@@ -414,7 +414,7 @@ $main(function(){
       }
 
       // retrieve font and symbol data
-      var symbolData = this.getSymbolData(symbol, typeface);
+      var symbolData = this.getSymbolData(symbol, typeface, fontSizeModifier);
       var font = symbolData.font;
 
       // calculate the position of the topleft corner, the width and the height

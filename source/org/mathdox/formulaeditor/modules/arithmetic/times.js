@@ -22,6 +22,18 @@ $main(function(){
   /**
    * Defines a semantic tree node that represents a multiplication.
    */
+  org.mathdox.formulaeditor.semantics.KeywordTimes =
+    $extend(org.mathdox.formulaeditor.semantics.Keyword, {
+
+      getSymbolOnscreen : function(context) {
+        return context.symbolArith1Times;
+      }
+
+    });
+
+  /**
+   * Defines a semantic tree node that represents a multiplication.
+   */
   org.mathdox.formulaeditor.semantics.Times =
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
@@ -33,21 +45,12 @@ $main(function(){
 
       },
 
+      getSymbolOnscreen : function(context) {
+        alert("symbol onscreen: "+context.symbolArith1Times);
+        return context.symbolArith1Times;
+      },
+
       precedence : 130,
-
-      getPresentation : function(context) {
-        var parent = arguments.callee.parent;
-
-	// set onscreen symbol based on context
-      	this.symbol = {
-          onscreen : context.symbolArith1Times,
-          openmath : this.symbol.openmath,
-          mathml: this.symbol.mathml
-        };
-
-	// call getPresentation from parent
-	return parent.getPresentation.call(this, context);
-      }
 
     });
 
@@ -174,6 +177,6 @@ $main(function(){
 
     });
   
-  org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__times"] = new org.mathdox.formulaeditor.semantics.Keyword("arith1", "times", symbol, "infix");
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["arith1__times"] = new org.mathdox.formulaeditor.semantics.KeywordTimes("arith1", "times", symbol, "infix");
 
 });

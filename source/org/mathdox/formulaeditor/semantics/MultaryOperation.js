@@ -41,6 +41,12 @@ $main(function(){
 
       },
 
+      getSymbolOnscreen : function(context) {
+        return this.symbol.onscreen;
+      },
+
+
+
       /**
        * The precedence level of the operator.
        */
@@ -69,21 +75,22 @@ $main(function(){
         // with operator symbols
         var array = [];
         var i;
-        if (this.style != "invisible" && this.symbol.onscreen instanceof Array) {
-          if (this.symbol.onscreen[0]!=="") {
-            array.push(new presentation.Row(this.symbol.onscreen[0]));
+        var symbolOnscreen = this.getSymbolOnscreen(context);
+        if (this.style != "invisible" && symbolOnscreen instanceof Array) {
+          if (symbolOnscreen[0]!=="") {
+            array.push(new presentation.Row(symbolOnscreen[0]));
           }
         }
         for (i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
           if (i>0 && this.style != "invisible" ) {
-            if (this.symbol.onscreen instanceof Array) {
-              if (this.symbol.onscreen[1]!=="") {
-                array.push(new presentation.Row(this.symbol.onscreen[1]));
+            if (symbolOnscreen instanceof Array) {
+              if (symbolOnscreen[1]!=="") {
+                array.push(new presentation.Row(symbolOnscreen[1]));
               }
             }
             else {
-              array.push(new presentation.Row(this.symbol.onscreen));
+              array.push(new presentation.Row(symbolOnscreen));
             }
           }
           if (operand.precedence && operand.precedence < this.precedence) {
@@ -95,9 +102,9 @@ $main(function(){
             array.push(operand.getPresentation(context));
           }
         }
-        if (this.style != "invisible" && this.symbol.onscreen instanceof Array) {
-          if (this.symbol.onscreen[2]!=="") {
-            array.push(new presentation.Row(this.symbol.onscreen[2]));
+        if (this.style != "invisible" && symbolOnscreen instanceof Array) {
+          if (symbolOnscreen[2]!=="") {
+            array.push(new presentation.Row(symbolOnscreen[2]));
           }
         }
 

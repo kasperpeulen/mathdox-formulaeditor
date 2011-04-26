@@ -41,6 +41,14 @@ $main(function(){
 
       },
 
+      getSymbolOnscreen : function(context) {
+        if (this.symbol.onscreen !== undefined) {
+          return this.symbol.onscreen;
+	} else {
+          return null;
+	}
+      },
+
       /**
        * Initializes the keyword using the specified arguments as operands.
        * type should be one of the following strings:
@@ -78,12 +86,13 @@ $main(function(){
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
         var string;
+	var symbolOnscreen = this.getSymbolOnscreen(context);
 
         // XXX make case distinction for U+25A1 white square 
         // to become BlockSymbol
-        if (this.symbol.onscreen !== null && this.symbol.onscreen!== undefined) {
+        if (symbolOnscreen !== null && symbolOnscreen !== undefined) {
           // U+25A1 white square
-          if (this.symbol.onscreen == '□') {
+          if (symbolOnscreen == '□') {
             if (context.inPalette === true && 
               (context.inMatrix === true || context.inVector === true)
             ) {
@@ -91,14 +100,14 @@ $main(function(){
             } else {
               return new presentation.Row(new presentation.BlockSymbol());
             }
-          } else if (this.symbol.onscreen === '') {
+          } else if (symbolOnscreen === '') {
             if (context.inPalette === true) {
               string=" ";
             } else {
               string=" ";
             }
           } else {
-            string = this.symbol.onscreen.toString();
+            string = symbolOnscreen.toString();
           }
         } else {
           string = (this.cd + "." + this.name).toString();

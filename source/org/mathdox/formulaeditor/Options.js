@@ -40,7 +40,16 @@ $main(function() {
         return null;
       }
     },
-    getArith1TimesSymbol : function () {
+    getArith1PowerOptionPrefix : function () {
+      var option = this.getOption("optionArith1PowerPrefix");
+
+      if (option == 'true') {
+      	return "true";
+      } else {
+        return "false";
+      }
+    },
+     getArith1TimesSymbol : function () {
       var option = this.getOption("styleArith1Times");
 
       if (option == 'dot') {

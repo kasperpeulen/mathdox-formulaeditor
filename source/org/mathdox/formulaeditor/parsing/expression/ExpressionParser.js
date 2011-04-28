@@ -376,16 +376,12 @@ $main(function() {
           ),
 
         // function = variable '(' expr ( ',' expr ) * ')'
-        func :
+        func : function() {
+	  var obj = this;
+
           pG.transform(
             pG.concatenation(
-              pG.alternation(
-                pG.rule("variable"),
-                pG.rule("omSymbol"),
-                pG.rule("braces"),
-                pG.rule("func_sub"),
-                pG.rule("func_super")
-              ),
+              pG.rule("func_symbol"),
               pG.repetitionplus(
                 pG.concatenation(
                   pG.literal('('),
@@ -436,9 +432,17 @@ $main(function() {
               }
 
               // check for log_2(x) updates
-              oper = func_subUpdate(oper);
+              oper = obj.func_Update(oper);
               return oper;
             }
+          ).apply(this, arguments);
+	  },
+        func_symbol: pG.alternation(
+            pG.rule("variable"),
+            pG.rule("omSymbol"),
+            pG.rule("braces"),
+            pG.rule("func_sub"),
+            pG.rule("func_super")
           ),
         func_sub:
           pG.transform(
@@ -522,10 +526,11 @@ $main(function() {
             }
           ),
         func_super: rule_func_super,
+	func_Update: func_subUpdate,
           // subscript : rule only occurs from presentation
-          subscript: pG.never,
+        subscript: pG.never,
           // superscript : rule only occurs from presentation
-	  superscript: pG.never
+	superscript: pG.never
         };
       }
 

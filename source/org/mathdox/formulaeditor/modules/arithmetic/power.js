@@ -109,6 +109,10 @@ $main(function(){
             return false;
           }
           
+	  if ((oper.operands[0] instanceof semantics.Keyword) && oper.operands[1].cd == "transc1") {
+            return true;
+          }
+
 	  if ((oper.operands[1] instanceof semantics.Variable) ) {
             return true;
           }

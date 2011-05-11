@@ -78,67 +78,7 @@ $main(function(){
   var pG = new org.mathdox.parsing.ParserGenerator();
 
   org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
-    function(context) { 
-      var func_powCheck = function(oper) {
-        return false;
-      };
-
-      var func_powUpdate = function(oper) {
-        return oper;
-      };
-
-      if (context.optionArith1PowerPrefix === "true") {
-        func_powCheck = function(operInput) {
-         
-          var oper;
-
-          oper = operInput;
-          // oper should be a function application
-          if (! (oper instanceof semantics.FunctionApplication) ) {
-            return false;
-          }
-
-          // symbol should exist
-          if (oper.symbol === undefined || oper.symbol === null) {
-            return false;
-          } 
-
-	  oper = oper.symbol;
-
-          if (! (oper instanceof semantics.Power) ) {
-            return false;
-          }
-          
-	  if ((oper.operands[0] instanceof semantics.Keyword) && oper.operands[1].cd == "transc1") {
-            return true;
-          }
-
-	  if ((oper.operands[1] instanceof semantics.Variable) ) {
-            return true;
-          }
-
-	  if ((oper.operands[1] instanceof semantics.Integer) && oper.operands[1].value > 0 ) {
-            return true;
-          }
-
-          return false;
-        };
-        func_powUpdate = function(oper) {
-          if (func_powCheck(oper)) {
-            var symbol = oper.symbol.operands[0];
-
-            var base = new semantics.FunctionApplication(symbol, oper.operands);
-
-	    var exponent = oper.symbol.operands[1]; 
-
-            return new semantics.Power(base, exponent);
-          } else {
-            return oper;
-          }
-        };
-      } 
-
-      return {
+    function(context) { return {
 
       // expression150 = power | super.expression150
       expression150 : function() {
@@ -159,18 +99,6 @@ $main(function(){
             return new semantics.Power(result[0], result[1]);
           }
         ),
-      // note copy from ExpressionParser
-      func_Update: function(oper) {
-        var parent = arguments.callee.parent;
-        return parent.func_Update( func_powUpdate(oper) );
-      },
-
-      func_symbol: function() {
-        var parent = arguments.callee.parent;
-        pG.alternation(
-          pG.rule("power"),
-          parent.func_symbol).apply(this, arguments);
-      },
 
       // useful for invisible multiplication (should not start with a number)
       // restrictedpower = restrictedexpression160 superscript
@@ -200,6 +128,7 @@ $main(function(){
        * Override the onkeypress method to handle the '^' key.
        */
       onkeypress : function(event, editor) {
+
         // only handle keypresses where alt and ctrl are not held
         if (!event.altKey && !event.ctrlKey) {
 

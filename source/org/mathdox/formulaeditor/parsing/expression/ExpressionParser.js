@@ -26,8 +26,6 @@ $main(function() {
         return oper;
       };
 
-      var func_super = null;
-
       // expression160 = braces | integer | variable
       var expression160 = pG.alternation(
         pG.rule("braces"),
@@ -227,21 +225,31 @@ $main(function() {
                 pG.range('0','9')
               ),
               pG.literal(context.decimalMark),
-              pG.repetition(
+              pG.repetitionplus(
                 pG.range('0','9')
               )
             ),
             function(result) {
               // replace decimalMark by a period
-              var string = result.join("");
               var res=[];
+	      var i;
+              for (i=0; i<result.length; i++) {
+		if (result[i] instanceof Object) {
+                  res.push(result[i].value);
+		} else {
+                  res.push(result[i]);
+		}
+              }
 
-              for (var i=0; i<string.length; i++) {
-                if (string.charAt(i) >= '0' && string.charAt(i) <= '9') {
-                  res.push(string.charAt(i));
-                } else {
+              var string = res.join("");
+              res=[];
+
+              for (i=0; i<string.length; i++) {
+		if (string[i]>='0' && string[i]<='9' ) {
+                  res.push(string[i]);
+		} else {
                   res.push('.');
-                }
+		}
               }
 
               return new semantics.SemanticFloat(res.join(""));
@@ -441,8 +449,7 @@ $main(function() {
             pG.rule("variable"),
             pG.rule("omSymbol"),
             pG.rule("braces"),
-            pG.rule("func_sub"),
-            pG.rule("func_super")
+            pG.rule("func_sub")
           ),
         func_sub:
           pG.transform(

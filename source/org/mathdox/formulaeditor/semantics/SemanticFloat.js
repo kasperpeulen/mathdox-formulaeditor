@@ -81,6 +81,10 @@ $main(function(){
        */
       getMathML : function() {
         return "<mn>" + this.value + "</mn>";
+      },
+
+      toString : function() {
+        return this.value.toString();
       }
 
     });

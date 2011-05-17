@@ -90,7 +90,7 @@ $main(function() {
       } 
 
       return this.defaultOptions.styleTransc1Log;
-    },
+    }
   });
 });
 

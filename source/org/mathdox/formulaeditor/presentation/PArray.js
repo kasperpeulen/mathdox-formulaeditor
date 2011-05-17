@@ -199,7 +199,7 @@ $main(function(){
        *
        * if the coordinate is below the bottom, increase the row number
        */
-      while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top - (this.rowInfo[row].height - this.entries[row][0].dimensions.height)/2 + this.rowInfo[row].height)) {
+      while ((row<this.rows-1) && (y>this.rowInfo[row].top + this.rowInfo[row].height)) {
         // not in row "row"
         row++;
       }
@@ -216,7 +216,7 @@ $main(function(){
        *
        * if the coordinate is past the right, increase the column number
        */
-      while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
+      while ((col<this.columns-1) && (x>this.colInfo[col].center + this.colInfo[col].width/2)) {
         // not in column "col"
         col++;
       }

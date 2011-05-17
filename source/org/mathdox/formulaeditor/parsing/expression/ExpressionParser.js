@@ -245,8 +245,8 @@ $main(function() {
               res=[];
 
               for (i=0; i<string.length; i++) {
-		if (string[i]>='0' && string[i]<='9' ) {
-                  res.push(string[i]);
+		if (string.charAt(i)>='0' && string.charAt(i)<='9' ) {
+                  res.push(string.charAt(i));
 		} else {
                   res.push('.');
 		}

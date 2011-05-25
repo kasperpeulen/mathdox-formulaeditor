@@ -28,7 +28,7 @@ $main(function(){
 
         var complexI = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__i"];
 
-        var complexpart = new semantics.Times(this.handle(children.item(2), complexI);
+        var complexpart = new semantics.Times(this.handle(children.item(2)), complexI);
 
         // construct a Times object
         var result = new semantics.Arith1Plus(realpart, complexpart);

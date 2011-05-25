@@ -46,7 +46,6 @@ $main(function(){
       },
 
       getSymbolOnscreen : function(context) {
-        alert("symbol onscreen: "+context.symbolArith1Times);
         return context.symbolArith1Times;
       },
 

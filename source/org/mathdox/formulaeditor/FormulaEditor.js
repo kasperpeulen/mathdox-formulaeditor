@@ -44,6 +44,8 @@ $require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/defint.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/int.js");
 
+$require("org/mathdox/formulaeditor/modules/complex1/complex_cartesian.js");
+
 $require("org/mathdox/formulaeditor/modules/editor1/palette.js");
 
 $require("org/mathdox/formulaeditor/modules/fns1/lambda.js");

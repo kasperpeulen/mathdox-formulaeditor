@@ -96,9 +96,10 @@
     <!-- copy jsmath fonts next to the javascript files -->
     <copy todir='build/javascript/org/mathdox/formulaeditor'>
       <fileset dir='build/temporary/jsmath'/>
-      <mapper type='regexp'
+      <regexpmapper 
         from='fonts-sprite/(.*)/alpha/(.*)\.png'
         to='fonts/\1/\2\.png'
+        handledirsep='true'
       />
     </copy>
 

@@ -106,9 +106,10 @@
     <!-- copy xmljs files next to the javascript files -->
     <copy todir='build/javascript/net/sf/xmljs'>
       <fileset dir='build/temporary/xmljs'/>
-      <mapper type='regexp'
+      <regexpmapper
         from='xml_for_script-.*/jsXMLParser/(xml.*\.js)'
         to='\1'
+        handledirsep='true'
       />
     </copy>
 
@@ -154,6 +155,12 @@
     >
       <param name='filedir' expression ='../../../build/javascript'/>
     </xslt>
+    <!-- 
+      First delete the old FEConcatenation.js. 
+      If this is not done the new one will be appended.
+    -->
+    <delete file='build/javascript/org/mathdox/formulaeditor/FEConcatenation.js'/>
+    
     <!-- start with core javascript functions -->
     <concat destfile='build/javascript/org/mathdox/formulaeditor/FEConcatenation.js' encoding='UTF-8'>
       <file file='build/javascript/org/mathdox/javascript/core.js'/>

@@ -3,6 +3,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/arith1/minus.js"
   >
+    <model:associative>false</model:associative>
     <model:cd>arith1</model:cd>
     <model:name>minus</model:name>
     <model:precedence>120</model:precedence>
@@ -85,6 +86,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/logic1/implies.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>logic1</model:cd>
     <model:name>implies</model:name>
     <model:precedence>80</model:precedence>
@@ -130,6 +132,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/permutation1/left_compose.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>permutation1</model:cd>
     <model:name>left_compose</model:name>
     <model:precedence>130</model:precedence>
@@ -145,6 +148,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/approx.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>relation1</model:cd>
     <model:name>approx</model:name>
     <model:precedence>110</model:precedence>
@@ -160,6 +164,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/geq.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>relation1</model:cd>
     <model:name>geq</model:name>
     <model:precedence>110</model:precedence>
@@ -174,6 +179,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/gt.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>relation1</model:cd>
     <model:name>gt</model:name>
     <model:precedence>110</model:precedence>
@@ -186,6 +192,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/leq.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>relation1</model:cd>
     <model:name>leq</model:name>
     <model:precedence>110</model:precedence>
@@ -200,6 +207,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/lt.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>relation1</model:cd>
     <model:name>lt</model:name>
     <model:precedence>110</model:precedence>
@@ -212,6 +220,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/relation1/neq.js"
   >
+    <model:associative>true</model:associative>
     <model:cd>relation1</model:cd>
     <model:name>neq</model:name>
     <model:precedence>110</model:precedence>

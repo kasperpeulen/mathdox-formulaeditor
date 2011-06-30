@@ -29,8 +29,8 @@ $main(function(){
 
       },
 
-      precedence : <model:precedence/>,
-      precedence2 : <model:precedence2/>
+      associative : <model:associative/>,
+      precedence : <model:precedence/>
 
     });
   
@@ -55,6 +55,7 @@ $main(function(){
       // construct the corresponding object
       var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
       result.initialize.apply(result, operands);
+
       return result;
 
     }

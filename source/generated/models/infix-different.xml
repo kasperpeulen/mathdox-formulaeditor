@@ -29,8 +29,7 @@ $main(function(){
 
       },
 
-      precedence : <model:precedence/>,
-      precedence2 : <model:precedence2/>
+      precedence : <model:precedence/>
 
     });
  
@@ -48,8 +47,7 @@ $main(function(){
 
       },
 
-      precedence : <model:precedence/>,
-      precedence2 : <model:precedence2/>
+      precedence : <model:precedence/>
 
     });
   

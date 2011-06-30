@@ -51,11 +51,15 @@ $main(function(){
        * The precedence level of the operator.
        */
       precedence : 0,
-      /**
-       * The right precedence level of the operator.
-       */
-      precedence2 : 0,
  
+      /**
+       * Is the operator associative
+       *
+       * if false: put brackets around the second argument also if it has an
+       * operator with the same precedence. Example: a-(b-c)
+       */
+      associative : true,
+
       /**
        * style if any (like "invisible")
        */ 
@@ -97,7 +101,7 @@ $main(function(){
               array.push(new presentation.Row(symbolOnscreen));
             }
           }
-          if (operand.precedence && ((operand.precedence < this.precedence) || (i>0 && this.precendence2 && operand.precedence < this.precedence2))) {
+          if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));
@@ -160,7 +164,7 @@ $main(function(){
               result = result + this.symbol.mathml;
             }
           }
-          if (operand.precedence && operand.precedence < this.precedence) {
+          if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
             result = result + "<mo>(</mo>";
             result = result + this.operands[i].getMathML();
             result = result + "<mo>)</mo>";

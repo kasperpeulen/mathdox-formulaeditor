@@ -20,8 +20,7 @@ $main(function(){
 
       },
 
-      precedence : 0,
-      precedence2 : 0
+      precedence : 0
 
     });
 

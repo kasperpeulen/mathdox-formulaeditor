@@ -1,4 +1,4 @@
-$identify("org/mathdox/formulaeditor/modules/arithmetic/power.js");
+
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
@@ -20,7 +20,6 @@ $main(function(){
       },
 
       precedence : 150,
-      precedence2 : 160,
 
       getPresentation : function(context) {
 

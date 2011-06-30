@@ -93,7 +93,7 @@ $main(function(){
               array.push(new presentation.Row(symbolOnscreen));
             }
           }
-          if (operand.precedence && operand.precedence < this.precedence) {
+          if (operand.precedence && operand.precedence <= this.precedence) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));

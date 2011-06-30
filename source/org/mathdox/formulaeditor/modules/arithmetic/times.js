@@ -49,7 +49,8 @@ $main(function(){
         return context.symbolArith1Times;
       },
 
-      precedence : 130
+      precedence : 130,
+      precedence : 140
 
     });
 

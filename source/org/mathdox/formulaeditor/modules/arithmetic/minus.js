@@ -30,6 +30,7 @@ $main(function(){
       },
 
       precedence : 120
+      precedence : 130
 
     });
 

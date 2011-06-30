@@ -20,6 +20,7 @@ $main(function(){
       },
 
       precedence : 160,
+      precedence2 : 170,
 
       getPresentation : function(context) {
 

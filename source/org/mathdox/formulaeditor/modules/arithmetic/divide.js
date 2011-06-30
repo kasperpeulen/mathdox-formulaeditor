@@ -21,6 +21,7 @@ $main(function(){
       },
 
       precedence : 160,
+      precedence : 170,
 
       getPresentation : function(context) {
 

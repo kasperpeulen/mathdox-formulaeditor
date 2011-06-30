@@ -88,7 +88,59 @@ $main(function() {
             return oper;
           }
         };
-      } 
+      } else if (context.styleTransc1Log === "sangwin") {
+        func_subCheck = function(operInput) {
+         
+          var oper;
+
+          oper = operInput;
+          // oper should be a function application
+          if (! (oper instanceof semantics.FunctionApplication) ) {
+            return false;
+          }
+
+          // symbol should exist
+          if (oper.symbol === undefined || oper.symbol === null) {
+            return false;
+          } 
+
+          oper = oper.symbol;
+
+          if (! (oper instanceof semantics.FunctionApplication) ) {
+            return false;
+          }
+
+          // symbol should exist
+          if (oper.symbol === undefined || oper.symbol === null) {
+            return false;
+          } 
+
+          // symbol should be a keyword
+          if (!( oper.symbol instanceof semantics.Keyword)) {
+            return false;
+          }  
+          
+          if (oper.symbol.cd == "transc1" && oper.symbol.name == "log" ) {
+            return true;
+          }
+          
+          return false;
+        };
+        func_subUpdate = function(oper) {
+          if (func_subCheck(oper)) {
+            var symbol = oper.symbol.symbol;
+
+            // use the operands from the subscript before the others
+            var arr = oper.symbol.operands.concat(oper.operands);
+
+            // and return the "flattened" function
+            return new semantics.FunctionApplication(symbol, arr, "firstsub");
+          } else {
+            return oper;
+          }
+        };
+ 	
+      }
 
       var rule_func_super;
       var rule_expression160;

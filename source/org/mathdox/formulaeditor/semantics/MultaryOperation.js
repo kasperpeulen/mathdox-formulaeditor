@@ -51,6 +51,10 @@ $main(function(){
        * The precedence level of the operator.
        */
       precedence : 0,
+      /**
+       * The right precedence level of the operator.
+       */
+      precedence2 : 0,
  
       /**
        * style if any (like "invisible")
@@ -93,7 +97,7 @@ $main(function(){
               array.push(new presentation.Row(symbolOnscreen));
             }
           }
-          if (operand.precedence && operand.precedence <= this.precedence) {
+          if (operand.precedence && ((operand.precedence < this.precedence) || (i>0 && this.precendence2 && operand.precedence < this.precedence2))) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));

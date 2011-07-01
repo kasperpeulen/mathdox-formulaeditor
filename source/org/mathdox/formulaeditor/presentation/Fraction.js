@@ -39,7 +39,7 @@ $main(function(){
         var upper = this.children[0];
         var lower = this.children[1];
 
-        var margin = 2.0;
+        var margin = 4.0;
         var lineWidth = 1.0;
 
         var upperDimensions = upper.draw(canvas, context, 0, 0, true);

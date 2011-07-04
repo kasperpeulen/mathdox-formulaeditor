@@ -1670,6 +1670,21 @@ $main(function(){
       }
     });
     var handler = new Handler();
+    var Options = new org.mathdox.formulaeditor.Options();
+
+    /* check for onload focus */
+    var focus = Options.getOption("onloadFocus");
+    if (typeof focus == "string") {
+      var onloadTextArea = document.getElementById(focus);
+      if (onloadTextArea) {
+        var onloadEditor = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea( onloadTextArea );
+	if (onloadEditor) {
+	  onloadEditor.focus();
+	}
+      } 
+    } else if (focus == true) {
+      editors[0].focus();
+    } 
   };
 
   // register the onload function as an event handler

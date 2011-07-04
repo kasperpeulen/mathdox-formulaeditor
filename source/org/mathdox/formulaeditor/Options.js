@@ -13,6 +13,10 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // ignoreTextareaStyle: do not copy options from textarea if set to true
 // indentXML: indent created XML
 // inputStyle: set default style for Editor Canvases
+// onloadFocus: set focus on load 
+// - true gives focus to the first formulaeditor
+// - <id> as string gives focus to the formulaeditor corresponding to the
+//   textarea with id <id>
 // paletteShow : default behaviour when showing palettes, choices : 
 // - "all" gives a palette if not specified by class
 // - "none" gives no palette if not specified by class

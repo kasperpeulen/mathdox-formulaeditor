@@ -638,8 +638,10 @@ $main(function(){
       }
 
       // calculate the document coordinates of the mouse click
-      mouseX += pageXOffset;
-      mouseY += pageYOffset;
+      if (!event.mathdoxnoadjust) {
+        mouseX += pageXOffset;
+        mouseY += pageYOffset;
+      }
 
       // calculate the document coordinates of the canvas element
       element = this.canvas.canvas;
@@ -673,6 +675,7 @@ $main(function(){
     onmousedown : function(event) {
       // check whether the mouse click falls in the canvas element
       var mouseinfo = this.mouseeventinfo(event);
+
 
       if (mouseinfo) {
         // we have focus

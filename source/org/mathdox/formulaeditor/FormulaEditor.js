@@ -680,9 +680,9 @@ $main(function(){
       if (mouseinfo) {
         // we have focus
         this.focus();
-	// give focus to the window
-	// XXX check if it is the right window
-	window.focus();
+        // give focus to the window
+        // XXX check if it is the right window
+        window.focus();
         // forward the mouse click to the cursor object
         return this.cursor.onmousedown(event, this, mouseinfo.x, mouseinfo.y);
       }
@@ -959,8 +959,8 @@ $main(function(){
       return {
         decimalMark       : Options.getDecimalMark(),
         listSeparator     : Options.getListSeparator(),
-	styleTransc1Log   : Options.getTransc1LogStyle(),
-	symbolArith1Times : Options.getArith1TimesSymbol()
+        styleTransc1Log   : Options.getTransc1LogStyle(),
+        symbolArith1Times : Options.getArith1TimesSymbol()
       };
     }
   });
@@ -1433,9 +1433,46 @@ $main(function(){
       }
      
       var MathCanvas = org.mathdox.formulaeditor.MathCanvas;
+
       if (arguments.length > 0 ) { 
         this.canvas = new MathCanvas(canvas);
       }
+
+      var highlight = true;
+      if (org.mathdox.formulaeditor.options.paletteHighlight == false) {
+	highlight = false;
+      }
+
+      if (highlight) {
+        var palette = this;
+        var redrawFunction = function() {
+          palette.redraw();
+        };
+        var HandlerLocal = $extend(org.mathdox.formulaeditor.EventHandlerLocal, {
+          // handler for onmousemove
+          onmousemove: function(event) {
+            var mouseinfo = palette.mouseeventinfo(event);
+  
+            var pTabContainer = palette.presentation.children[0];
+  
+            /* mouse over update function */
+            pTabContainer.handleMouseMove(mouseinfo.x,mouseinfo.y,redrawFunction);
+  
+            return true;
+          },
+          onmouseout: function(event) {
+            var pTabContainer = palette.presentation.children[0];
+  
+            /* mouse out update function */
+            pTabContainer.handleMouseMove(null,null,redrawFunction);
+
+            return true;
+          }
+        });
+
+        var handlerLocal = new HandlerLocal(canvas);
+      }
+ 
       // default presentation: empty
       this.presentation = new org.mathdox.formulaeditor.presentation.Row();
 
@@ -1678,9 +1715,9 @@ $main(function(){
       var onloadTextArea = document.getElementById(focus);
       if (onloadTextArea) {
         var onloadEditor = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea( onloadTextArea );
-	if (onloadEditor) {
-	  onloadEditor.focus();
-	}
+        if (onloadEditor) {
+          onloadEditor.focus();
+        }
       } 
     } else if (focus == true) {
       editors[0].focus();

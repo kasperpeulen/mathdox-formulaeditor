@@ -70,18 +70,18 @@ $main(function(){
 
           if (i == this.current) {
             if (!invisible) { 
-	      canvas.drawBox(tabBoxDim, "#00F", "#AAF"); 
-	    }
+              canvas.drawBox(tabBoxDim, "#00F", "#AAF"); 
+            }
           } else {
             if (!invisible) { 
               canvas.drawBox(tabBoxDim, "#00F", "#DDF");
-	    }
+            }
           }
         }
         
         if (!invisible) { 
           canvas.drawBox(boxDim, "#00F");
-	}
+        }
   
         this.children[this.current].draw(canvas, context, x, y + this.tabBarSize + this.margin, 
           invisible);
@@ -124,6 +124,43 @@ $main(function(){
         row: palcoords.row,
         col: palcoords.col
       };
+    },
+
+    handleMouseMove : function (x,y,redraw) {
+      if(x==null || y==null) {
+	if (this.children[this.current].highlight) {
+          this.children[this.current].highlight = null;
+
+	  redraw();
+	}
+
+	return;
+      }
+
+      if (this.showTabBar()) {
+        if (y < this.dimensions.top + this.tabBarSize) {
+
+          if(this.children[this.current].highlight) {
+            this.children[this.current].highlight = null;
+
+	    redraw();
+          }
+
+          return;
+        }
+      }
+
+      var oldhighlight = this.children[this.current].highlight;
+      this.children[this.current].highlight = 
+          this.children[this.current].getCoordinatesFromPosition(x,y);
+
+      if ((!oldhighlight || !this.children[this.current].highlight) ||  
+        (oldhighlight.col != this.children[this.current].highlight.col ||
+          oldhighlight.row != this.children[this.current].highlight.row)) {
+
+	redraw();
+      } 
+
     },
 
     initialize : function() {

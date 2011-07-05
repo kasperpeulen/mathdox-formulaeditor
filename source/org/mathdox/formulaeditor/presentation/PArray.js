@@ -41,6 +41,11 @@ $main(function(){
     drawBox : false,
 
     /*
+     * Should we "highlight" a certain entry in the PArray ?
+     */
+    highlight: null,
+
+    /*
      * Determine the maximum height of a row
      * usage getMaxHeight(row) : max height of a row
      */
@@ -106,7 +111,7 @@ $main(function(){
           totalHeight += rowHeight;
         } else {
           rowTop = this.rowInfo[row-1].top + this.rowInfo[row-1].height + 
-	    this.margin;
+            this.margin;
           rowBaseline = rowTop - heightInfo.top;
           totalHeight += rowHeight + this.margin;
         }
@@ -141,6 +146,7 @@ $main(function(){
           totalWidth += colWidth + this.margin;
         }
         this.colInfo[col] = {
+          left   : colCenter - colWidth/2,
           width  : colWidth,
           center : colCenter
         };
@@ -159,16 +165,51 @@ $main(function(){
             var entryWidth  = entry.dimensions.width;
             var entryHeight = entry.dimensions.height;
             var entryTop    = entry.dimensions.top;
+            var highlight;
+
+            if (this.highlight != null && this.highlight.row == row && this.highlight.col == col) {
+              highlight = true;
+            } else {
+              highlight =false;
+            }
+    
+            if (!invisible) {
+              if (this.drawBox) {
+                canvas.drawBoxWithBaseline(entry.dimensions, y + 
+                  this.rowInfo[row].baseline);
+              } else if (highlight) {
+                //calculate box dimensions
+                var boxdimensions = {
+                  top:    y+this.rowInfo[row].top,
+                  left:   x+this.colInfo[col].left,
+                  width:  this.colInfo[col].width,
+                  height: this.rowInfo[row].height
+                }
+
+		if (col+1 <this.columns) {
+		  boxdimensions.width+=this.margin/2;
+		}
+		if (col > 0) {
+		  boxdimensions.left-=this.margin/2;
+		  boxdimensions.width+=this.margin/2;
+		}
+		if (row+1 <this.rows) {
+		  boxdimensions.height+=this.margin/2;
+		}
+		if (row > 0) {
+		  boxdimensions.top-=this.margin/2;
+		  boxdimensions.height+=this.margin/2;
+		}
+                canvas.drawBox(boxdimensions, "#00F", "#DDF");
+              }
+            }
+
             entry.draw(
               canvas, context,
               x + this.colInfo[col].center - (entryWidth/2), 
                     // horizontally centered in column
               y + this.rowInfo[row].baseline,
               invisible);
-            if ((!invisible) && this.drawBox) {
-              canvas.drawBoxWithBaseline(entry.dimensions, y + 
-                this.rowInfo[row].baseline);
-            }
           }
         }
       }
@@ -199,6 +240,7 @@ $main(function(){
        *
        * if the coordinate is below the bottom, increase the row number
        */
+      //while ((row<this.rows-1) && (y>this.rowInfo[row].top + this.rowInfo[row].height)) {
       while ((row<this.rows-1) && (y>this.entries[row][0].dimensions.top - (this.rowInfo[row].height - this.entries[row][0].dimensions.height)/2 + this.rowInfo[row].height)) {
         // not in row "row"
         row++;
@@ -216,7 +258,7 @@ $main(function(){
        *
        * if the coordinate is past the right, increase the column number
        */
-      while ((col<this.columns-1) && (x>this.entries[row][col].dimensions.left + (this.colInfo[row].width - this.entries[row][col].dimensions.width)/2 + this.colInfo[col].width)) {
+      while ((col<this.columns-1) && (x>this.colInfo[col].left + this.colInfo[col].width)) {
         // not in column "col"
         col++;
       }

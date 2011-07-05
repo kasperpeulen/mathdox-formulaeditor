@@ -328,6 +328,9 @@ $main(function(){
     drawBoxWithBaseline: function(dimensions, y, strokeStyle, fillStyle) {
       this.drawBox(dimensions, fillStyle, strokeStyle);
 
+      var canvas = this.canvas;
+      var context = this.getContext();
+
       context.save();
       if (y) {
         if (strokeStyle !== undefined) {
@@ -355,7 +358,7 @@ $main(function(){
       if (!invisible) {
         var context = this.getContext();
         context.save();
-        context.fillStyle = "#DDF";
+        context.fillStyle = "rgba(160,160,255,0.5)";
         context.fillRect(dim.left, dim.top, dim.width, dim.height);
         context.restore();
       }

@@ -10,7 +10,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // contextParsingExpression: set to an object describing the context for the ExpressionParser
 // dragPalette: if set to true: enable draggable Palette
 // fontSize: set font size 
-// ignoreTextareaStyle: do not copy options from textarea if set to true
+// paletteHighlight: highlight Palette
+// - true (default): highlight Palette onmouseover
+// - false: do not highlight Palette
 // indentXML: indent created XML
 // inputStyle: set default style for Editor Canvases
 // onloadFocus: set focus on load 

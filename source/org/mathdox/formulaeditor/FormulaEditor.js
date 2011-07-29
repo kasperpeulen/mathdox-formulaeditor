@@ -655,18 +655,38 @@ $main(function(){
         y += element.offsetTop;
 
         // check for padding and border
-        var computedStyle;
-        if (element.currentStyle !== undefined && element.currentStyle!== null) {
-          computedStyle = element.currentStyle;
-          // IE method 
-        } else {
-          computedStyle = getComputedStyle(element, null);
+        if (G_vmlCanvasManager === undefined || G_vmlCanvasManager === null) {
+          // NOTE: do not modify for padding/border in excanvas replacement 
+	  
+          var computedStyle;
+          if (element.currentStyle !== undefined && element.currentStyle!== null) {
+            // IE method 
+            computedStyle = element.currentStyle;
+          } else {
+            computedStyle = getComputedStyle(element, null);
+          }
+          var tmp;
+  
+          tmp = parseInt(computedStyle.borderLeftWidth);
+          if ( isFinite(tmp)) {
+            x += tmp;
+          }
+  
+          tmp = parseInt(computedStyle.borderLeftWidth);
+          if ( isFinite(tmp)) {
+            x += tmp;
+          }
+          
+          tmp = parseInt(computedStyle.borderTopWidth);
+          if ( isFinite(tmp)) {
+            y += tmp;
+          }
+  
+          tmp = parseInt(computedStyle.paddingTop);
+          if ( isFinite(tmp)) {
+            y += tmp;
+          }
         }
-        x += parseInt(computedStyle.borderLeftWidth);
-        x += parseInt(computedStyle.paddingLeft);
-        
-        y += parseInt(computedStyle.borderTopWidth);
-        y += parseInt(computedStyle.paddingTop);
 
         element = element.offsetParent;
       }

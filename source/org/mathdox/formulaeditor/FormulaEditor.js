@@ -655,37 +655,34 @@ $main(function(){
         y += element.offsetTop;
 
         // check for padding and border
-        if (G_vmlCanvasManager === undefined || G_vmlCanvasManager === null) {
-          // NOTE: do not modify for padding/border in excanvas replacement 
 	  
-          var computedStyle;
-          if (element.currentStyle !== undefined && element.currentStyle!== null) {
-            // IE method 
-            computedStyle = element.currentStyle;
-          } else {
-            computedStyle = getComputedStyle(element, null);
-          }
-          var tmp;
-  
-          tmp = parseInt(computedStyle.borderLeftWidth);
-          if ( isFinite(tmp)) {
-            x += tmp;
-          }
-  
-          tmp = parseInt(computedStyle.paddingLeft);
-          if ( isFinite(tmp)) {
-            x += tmp;
-          }
-          
-          tmp = parseInt(computedStyle.borderTopWidth);
-          if ( isFinite(tmp)) {
-            y += tmp;
-          }
-  
-          tmp = parseInt(computedStyle.paddingTop);
-          if ( isFinite(tmp)) {
-            y += tmp;
-          }
+        var computedStyle;
+        if (element.currentStyle !== undefined && element.currentStyle!== null) {
+          // IE method 
+          computedStyle = element.currentStyle;
+        } else {
+          computedStyle = getComputedStyle(element, null);
+        }
+        var tmp;
+
+        tmp = parseInt(computedStyle.borderLeftWidth);
+        if ( isFinite(tmp)) {
+          x += tmp;
+        }
+
+        tmp = parseInt(computedStyle.paddingLeft);
+        if ( isFinite(tmp)) {
+          x += tmp;
+        }
+        
+        tmp = parseInt(computedStyle.borderTopWidth);
+        if ( isFinite(tmp)) {
+          y += tmp;
+        }
+
+        tmp = parseInt(computedStyle.paddingTop);
+        if ( isFinite(tmp)) {
+          y += tmp;
         }
 
         element = element.offsetParent;

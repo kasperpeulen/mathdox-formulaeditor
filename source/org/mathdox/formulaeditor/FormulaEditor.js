@@ -672,7 +672,7 @@ $main(function(){
             x += tmp;
           }
   
-          tmp = parseInt(computedStyle.borderLeftWidth);
+          tmp = parseInt(computedStyle.paddingLeft);
           if ( isFinite(tmp)) {
             x += tmp;
           }

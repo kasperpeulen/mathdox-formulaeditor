@@ -509,7 +509,7 @@ $main(function(){
         var computedStyle;
         if (this.canvas.canvas.currentStyle !== undefined && this.canvas.canvas.currentStyle!== null) {
           // IE method 
-          computedStyle = element.currentStyle;
+          computedStyle = this.canvas.canvas.currentStyle;
         } else {
           computedStyle = getComputedStyle(this.canvas.canvas, null);
         }

@@ -504,8 +504,51 @@ $main(function(){
           height: formula_dimensions.height + 2 * margin
         };
       }
-      this.canvas.canvas.setAttribute("width", dimensions.width);
-      this.canvas.canvas.setAttribute("height", dimensions.height);
+      // XXX
+      if (G_vmlCanvasManager) {
+        var computedStyle;
+        if (this.canvas.canvas.currentStyle !== undefined && element.currentStyle!== null) {
+          // IE method 
+          computedStyle = element.currentStyle;
+        } else {
+          computedStyle = getComputedStyle(this.canvas.canvas, null);
+        }
+        var dim_extra = { width:0, height:0};
+
+        // adjust size horizontally
+        var tmp;
+        tmp = [ computedStyle.borderLeftWidth, 
+          computedStyle.borderRightWidth, 
+          computedStyle.paddingLeft, 
+          computedStyle.paddingRight ];
+
+        var i;
+        var parsed;
+        for (i=0;i<tmp.length;i++) {
+          parsed = parseInt(tmp[i]);
+          if (isFinite(parsed)) {
+            dim_extra.width+=tmp;
+          }
+        }
+
+        // adjust size vertically
+        tmp = [ computedStyle.borderTopWidth, 
+          computedStyle.borderBottomWidth, 
+          computedStyle.paddingTop, 
+          computedStyle.paddingBottom ];
+
+        for (i=0;i<tmp.length;i++) {
+          parsed = parseInt(tmp[i]);
+          if (isFinite(parsed)) {
+            dim_extra.height+=tmp;
+          }
+        }
+        this.canvas.canvas.setAttribute("width", dimensions.width+dim_extra.width);
+        this.canvas.canvas.setAttribute("height", dimensions.height+dim_extra.height);
+      } else {
+        this.canvas.canvas.setAttribute("width", dimensions.width);
+        this.canvas.canvas.setAttribute("height", dimensions.height);
+      }
       this.presentation.draw(this.canvas, drawContext, - dimensions.left, - dimensions.top);
       this.cursor.draw(this.canvas, drawContext);
     },
@@ -655,7 +698,7 @@ $main(function(){
         y += element.offsetTop;
 
         // check for padding and border
-	  
+          
         var computedStyle;
         if (element.currentStyle !== undefined && element.currentStyle!== null) {
           // IE method 

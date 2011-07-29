@@ -507,7 +507,7 @@ $main(function(){
       // XXX
       if (G_vmlCanvasManager) {
         var computedStyle;
-        if (this.canvas.canvas.currentStyle !== undefined && element.currentStyle!== null) {
+        if (this.canvas.canvas.currentStyle !== undefined && this.canvas.canvas.currentStyle!== null) {
           // IE method 
           computedStyle = element.currentStyle;
         } else {

@@ -649,9 +649,25 @@ $main(function(){
       var y      = 0;
       var width  = element.offsetWidth;
       var height = element.offsetHeight;
+
       while (element) {
         x += element.offsetLeft;
         y += element.offsetTop;
+
+        // check for padding and border
+        var computedStyle;
+        if (element.currentStyle !== undefined && element.currentStyle!== null) {
+          computedStyle = element.currentStyle;
+          // IE method 
+        } else {
+          computedStyle = getComputedStyle(element, null);
+        }
+        x += parseInt(computedStyle.borderLeftWidth);
+        x += parseInt(computedStyle.paddingLeft);
+        
+        y += parseInt(computedStyle.borderTopWidth);
+        y += parseInt(computedStyle.paddingTop);
+
         element = element.offsetParent;
       }
 
@@ -1440,7 +1456,7 @@ $main(function(){
 
       var highlight = true;
       if (org.mathdox.formulaeditor.options.paletteHighlight == false) {
-	highlight = false;
+        highlight = false;
       }
 
       if (highlight) {

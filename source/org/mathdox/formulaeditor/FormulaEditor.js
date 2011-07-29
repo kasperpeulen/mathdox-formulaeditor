@@ -527,7 +527,7 @@ $main(function(){
         for (i=0;i<tmp.length;i++) {
           parsed = parseInt(tmp[i]);
           if (isFinite(parsed)) {
-            dim_extra.width+=tmp;
+            dim_extra.width+=parsed;
           }
         }
 
@@ -540,7 +540,7 @@ $main(function(){
         for (i=0;i<tmp.length;i++) {
           parsed = parseInt(tmp[i]);
           if (isFinite(parsed)) {
-            dim_extra.height+=tmp;
+            dim_extra.height+=parsed;
           }
         }
         this.canvas.canvas.setAttribute("width", dimensions.width+dim_extra.width);

@@ -15,6 +15,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - false: do not highlight Palette
 // indentXML: indent created XML
 // inputStyle: set default style for Editor Canvases
+// modeArith1Divide: set mode for handling arith1.divide
+// - normal: automatically put unary minus and times expressions as enumerators
+// - restricted: only parse power and higher priority
 // onloadFocus: set focus on load 
 // - true gives focus to the first formulaeditor
 // - <id> as string gives focus to the formulaeditor corresponding to the
@@ -30,12 +33,17 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - "dot" show a middle dot (default)
 // - "cross" show a cross
 // - "star" show an asterisk
+// styleTransc1Log: behavior for logarithm symbol
+// - "function" log(10, x)
+// - "prefix"   ^10 log (x)
+// - "postfix"  log_10(x)
 // useBar : enable Bar to turn palette on/off
 
 $main(function() {
   org.mathdox.formulaeditor.Options = $extend(Object, {
     defaultOptions : {
       decimalMark: '.',
+      modeArith1Divide: 'normal',
       styleTransc1Log: 'function',
       symbolArith1Times: '·' // U+00B7 Middle dot
     },
@@ -46,7 +54,16 @@ $main(function() {
         return null;
       }
     },
-    getArith1PowerOptionPrefix : function () {
+    getArith1DivideMode : function () {
+      var option = this.getOption("modeArith1Divide");
+
+      if (option == 'normal' || option == 'restricted') {
+      	return option;
+      } else {
+        return "normal";
+      }
+    },
+     getArith1PowerOptionPrefix : function () {
       var option = this.getOption("optionArith1PowerPrefix");
 
       if (option == 'true') {

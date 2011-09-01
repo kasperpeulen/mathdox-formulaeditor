@@ -133,9 +133,17 @@ $main(function(){
             var index    = editor.cursor.position.index;
             var length   = this.children.length;
 
-            // search for an expression of precedence level 130 to the left of the
-            // cursor, and of level 150 to the right of the cursor
-            var parsedleft  = this.getSemantics(editor.getExpressionParsingContext(), 0, index, "expression130", true);
+	    // search for an expression of precedence level 130 (or 150 if
+	    // restricted) to the left of the cursor, and of level 150 to the
+	    // right of the cursor
+	    var leftexpr;
+
+	    if (editor.getExpressionParsingContext().optionArith1DivideMode == 'restricted') {
+	      leftexpr = "expression150";
+	    } else { // 'normal'
+	      leftexpr = "expression130";
+	    }
+	    var parsedleft = this.getSemantics(editor.getExpressionParsingContext(), 0, index, leftexpr, true);
             var parsedright = this.getSemantics(editor.getExpressionParsingContext(), index, length, "expression150");
 
             // create the left and right operands of the fraction

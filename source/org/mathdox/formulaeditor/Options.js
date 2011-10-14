@@ -8,6 +8,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 
 // ancientOrbeon: if set to true: do not warn about old orbeon
 // contextParsingExpression: set to an object describing the context for the ExpressionParser
+// decimalMark: character for decimal mark
+// - '.' : use period as in US
+// - ',' : use comma as in Europe
 // dragPalette: if set to true: enable draggable Palette
 // fontSize: set font size 
 // paletteHighlight: highlight Palette

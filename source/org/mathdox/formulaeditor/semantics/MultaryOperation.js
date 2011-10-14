@@ -101,7 +101,10 @@ $main(function(){
               array.push(new presentation.Row(symbolOnscreen));
             }
           }
-          if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
+          //if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
+          if (operand.precedence && ((operand.precedence < this.precedence) || 
+	     (operand.precedence == this.precedence && 
+	         (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath))))) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));

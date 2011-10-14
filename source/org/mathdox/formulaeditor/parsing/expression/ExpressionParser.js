@@ -233,7 +233,8 @@ $main(function() {
                                                   // morethan, ...
 
         // expression120 = expression130
-        expression120 : pG.rule("expression130"), // plus, minus
+        expression120 : pG.rule("expression130"), // plus, minus 
+        					  // forall
 
         // expression130 = expression140
         expression130 : pG.rule("expression140"), // times

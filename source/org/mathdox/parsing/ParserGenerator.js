@@ -139,17 +139,20 @@ $main(function(){
       var pG = this;
 
       return function(context, index, result, continuation) {
+	// note: repetition is the same forwards and backwards
+	// alternative 1: only 1 
+        operand(context, index, result, continuation); 
 
-        pG.alternation(
-          operand,
-          pG.concatenation(
-            operand,
-            pG.repetitionplus(operand)
-          )
-        )(context, index, result, continuation);
-
+	/* alternative 2: 1 followed by repetitionplus */
+        operand(
+          context,
+          index,
+          result,
+          function(newindex, newresult) {
+            pG.repetitionplus(operand)(context, newindex, newresult, continuation);
+          }
+        );
       };
-
     },
 
     rule : function(name) {

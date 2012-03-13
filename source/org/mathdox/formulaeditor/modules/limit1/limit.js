@@ -30,7 +30,7 @@ $main(function(){
           new presentation.Limit(
             new presentation.Row(
               this.operands[2].variables[0].getPresentation(context),
-	      // U+2192 rightwards arrow
+              // U+2192 rightwards arrow
               new presentation.Symbol("→"),
               this.operands[0].getPresentation(context)
             )
@@ -47,7 +47,7 @@ $main(function(){
         return "<OMA>" +
           "<OMS cd='limit1' name='limit'/>" +
           this.operands[0].getOpenMath() +
-	  this.operands[1].getOpenMath() +
+          this.operands[1].getOpenMath() +
           this.operands[2].getOpenMath() +
         "</OMA>";
       
@@ -113,13 +113,13 @@ $main(function(){
 
         var children = node.getChildNodes();
         var value = this.handle(children.item(1));
-	var method = this.handle(children.item(2));
+        var method = this.handle(children.item(2));
         var lambda   = this.handle(children.item(3));
 
-	if (lambda.variables.length === 0) {
-	  alert("limit1.limit needs a nonempty OMBVAR");
-	  return null;
-	}
+        if (lambda.variables.length === 0) {
+          alert("limit1.limit needs a nonempty OMBVAR");
+          return null;
+        }
 
         return new org.mathdox.formulaeditor.semantics.Limit(value, method, lambda);
 
@@ -150,7 +150,7 @@ $main(function(){
 
                 return new semantics.Limit(
                   result[0][2], 
-		  new semantics.Keyword("limit1", "null", null, "constant"),
+                  new semantics.Keyword("limit1", "null", null, "constant"),
                   new semantics.Lambda([result[0][0]], result[1])
                 );
 
@@ -159,18 +159,29 @@ $main(function(){
             parent.expression150).apply(this, arguments);
         },
 
-	approach : function() {
+        approach : function() {
           var parent = arguments.callee.parent;
-	  pG.concatenation(
+          pG.concatenation(
             pG.rule("variable"),
-            pG.alternation(
-              pG.concatenation(pG.literal("-"), pG.literal(">")),
-	      // U+2192 rightwards arrow
-              pG.literal("→")
-            ),
+            pG.rule("rightarrow"),
             pG.rule("expression")
           ).apply(this, arguments);
-	},
+        },
+        
+        rightarrow: function() {
+          var parent = arguments.callee.parent;
+	  pG.transform(
+            pG.alternation(
+              pG.concatenation(pG.literal("-"), pG.literal(">")),
+              // U+2192 rightwards arrow
+              pG.literal("→")
+            ),
+            function(result){
+              // U+2192 rightwards arrow
+              return "→";
+            }
+          ).apply(this, arguments);
+        },
 
         // limit = never
         limit : pG.never

@@ -45,6 +45,18 @@
             <OMS cd='editor1' name='input_box'/>
           </OMBIND>
         </OMA>
+        <OMA>
+          <OMS cd='limit1' name='limit'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='limit1' name='null'/>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="x"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
       </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>

@@ -34,6 +34,13 @@ $main(function(){
       fontSizeModifierArray : null,
 
       /**
+       * To use a different baseline then the default set this variable.
+       * The index here will be used to select the row which is placed on the baseline.
+       * This is used for functions like logarithm.
+       */
+      baselineIndex: null,
+
+      /**
        * Draws the column to the canvas.
        *
        * vertical align on middle column: Math.floor((this.children.length)/2)
@@ -66,7 +73,7 @@ $main(function(){
             for (var name in context) {
               modifiedContext[name] = context[name];
             }
-            modifiedContext.fontSizeModifier = modifiedContext.fontSizeModifier - 1;
+            modifiedContext.fontSizeModifier = modifiedContext.fontSizeModifier + this.fontSizeModifierArray[i];
           } else {
             modifiedContext = context;
           }
@@ -97,7 +104,12 @@ $main(function(){
         // determine the baseline of the column (vertical aligned on middle
         // row, rounded down)
         
-        var usedBaseline = rowInfo[Math.floor(this.children.length/2)].baseline;
+        var usedBaseline;
+	if (this.baselineIndex === null) {
+	  usedBaseline = rowInfo[Math.floor(this.children.length/2)].baseline;
+        } else {
+	  usedBaseline = rowInfo[this.baselineIndex].baseline;
+        }
 
         var row; // counter
         for (row = 0; row < this.children.length; row++) {

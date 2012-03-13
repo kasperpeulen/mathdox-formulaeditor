@@ -54,6 +54,8 @@ $require("org/mathdox/formulaeditor/modules/integer1/factorial.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
+$require("org/mathdox/formulaeditor/modules/limit1/limit.js");
+
 $require("org/mathdox/formulaeditor/modules/list1/list.js");
 
 $require("org/mathdox/formulaeditor/presentation/Editor.js");

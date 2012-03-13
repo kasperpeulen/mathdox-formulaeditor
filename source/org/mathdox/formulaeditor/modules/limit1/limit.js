@@ -51,6 +51,21 @@ $main(function(){
           this.operands[2].getOpenMath() +
         "</OMA>";
       
+      },
+
+      getMathML : function() {
+        return "<mrow>"+
+          "<munder>"+
+            "<mo>lim</mo>"+
+            "<mrow>"+
+              this.operands[2].variables[0].getMathML() +
+              // U+2192 rightwards arrow
+              "<mo>→</mo>"+
+              this.operands[0].getMathML() +
+            "</mrow>" +
+          "</munder>" +
+          this.operands[2].expression.getMathML() +
+        "</mrow>";
       }
     
     });
@@ -170,7 +185,7 @@ $main(function(){
         
         rightarrow: function() {
           var parent = arguments.callee.parent;
-	  pG.transform(
+          pG.transform(
             pG.alternation(
               pG.concatenation(pG.literal("-"), pG.literal(">")),
               // U+2192 rightwards arrow

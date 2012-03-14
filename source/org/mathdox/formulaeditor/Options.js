@@ -46,7 +46,7 @@ $main(function() {
   org.mathdox.formulaeditor.Options = $extend(Object, {
     defaultOptions : {
       decimalMark: '.',
-      modeArith1Divide: 'normal',
+      modeArith1Divide: 'restricted',
       styleTransc1Log: 'function',
       symbolArith1Times: '·' // U+00B7 Middle dot
     },
@@ -63,7 +63,7 @@ $main(function() {
       if (option == 'normal' || option == 'restricted') {
       	return option;
       } else {
-        return "normal";
+        return "restricted";
       }
     },
      getArith1PowerOptionPrefix : function () {

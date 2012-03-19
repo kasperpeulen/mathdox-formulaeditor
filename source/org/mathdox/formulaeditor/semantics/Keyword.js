@@ -59,7 +59,7 @@ $main(function(){
         } else if (this.argcount == argcount) {
           return true;
         } else {
-          return "expecting "+this.argcount+" arguments, but found "+argcount+" arguments instead";
+          return "expecting "+this.argcount+" argument(s), but found "+argcount+" argument(s) instead";
         }
       },
 

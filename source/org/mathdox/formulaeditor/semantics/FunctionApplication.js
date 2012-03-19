@@ -2,6 +2,7 @@ $package("org.mathdox.formulaeditor.semantics");
 
 $identify("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
 $require("org/mathdox/formulaeditor/semantics/Node.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -131,9 +132,22 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath()
        */
       getOpenMath : function() {
-
+        var semantics = org.mathdox.formulaeditor.semantics;
         var result;
-        
+
+	/* check number of arguments */
+        if (this.symbol instanceof semantics.Keyword) {
+          var argtest = this.symbol.checkArguments(this.operands);
+
+          if (typeof argtest === "string") {
+            result = "<OME><OMS cd='moreerrors' name='encodingError'/>";
+            result += "<OMSTR>invalid expression entered: "+ argtest+"</OMSTR>";
+            result += "</OME>";
+            return result;
+          }
+          /* otherwise: everything is fine; continue */
+	}
+
         if (this.style !== null) {
           result = "<OMA style=\""+this.style+"\">";
         } else {

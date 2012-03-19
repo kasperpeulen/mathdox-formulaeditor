@@ -14,9 +14,10 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.semantics.Node, {
 
       /**
-       * The operands of the operation.
+       * expected number of arguments
+       * "null" means no information
        */
-      operands: null,
+      argcount : null,
 
       /**
        * Information about the symbol that is used to represent this keyword.
@@ -41,12 +42,33 @@ $main(function(){
 
       },
 
+      /**
+       * checkArguments: check the number of arguments, returns true or an error string
+       */
+      checkArguments : function(operands) {
+        var argcount;
+        
+        if (operands === null || operands === undefined) {
+          argcount = 0;
+        } else {
+          argcount = operands.length;
+        }
+
+        if (this.argcount === null) {
+          return true;
+        } else if (this.argcount == argcount) {
+          return true;
+        } else {
+          return "expecting "+this.argcount+" arguments, but found "+argcount+" arguments instead";
+        }
+      },
+
       getSymbolOnscreen : function(context) {
         if (this.symbol.onscreen !== undefined) {
           return this.symbol.onscreen;
-	} else {
+        } else {
           return null;
-	}
+        }
       },
 
       /**
@@ -59,11 +81,19 @@ $main(function(){
        *    arguments
        * "infix"    : infix operator like arith1.plus which can only occur
        *    without arguments in special places like an editor1.palette_row
+       * "type"     : function or symbol
+       * "argcount": number of arguments for a function
        */
-      initialize : function(cd,name,symbol,type) {
+      initialize : function(cd,name,symbol,type,argcount) {
         this.cd = cd;
         this.name = name;
         this.type = type;
+
+        if (argcount!==null && argcount!== undefined) {
+          this.argcount = argcount;
+        } else {
+          this.argcount = null;
+        }
 
         if (symbol) {
           this.symbol = {};
@@ -86,7 +116,7 @@ $main(function(){
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
         var string;
-	var symbolOnscreen = this.getSymbolOnscreen(context);
+        var symbolOnscreen = this.getSymbolOnscreen(context);
 
         // XXX make case distinction for U+25A1 white square 
         // to become BlockSymbol
@@ -130,8 +160,7 @@ $main(function(){
       getOpenMath : function() {
         var result;
         
-        if (this.symbol.openmath !== null 
-	    && this.symbol.openmath !== undefined) {
+        if (this.symbol.openmath !== null && this.symbol.openmath !== undefined) {
           result = this.symbol.openmath;
         } else {
           result = "<OMS cd='" + this.cd + "' name='" + this.name + "'/>";

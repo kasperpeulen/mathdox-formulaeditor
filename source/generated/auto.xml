@@ -953,5 +953,69 @@
       <!--  U+03C9 Greek small letter omega -->
       <model:onscreen>&#x03C9;</model:onscreen>
     </model:instance>
-  </model:group>
+    <!-- Greek capital letter gamma -->
+    <model:instance>
+      <!-- U+0393 Greek capital letter gamma -->
+      <model:mathml>&lt;mi&gt;&#x0393;&lt;/mi&gt;</model:mathml>
+      <model:name>Gamma</model:name>
+      <!-- U+0393 Greek capital letter gamma -->
+      <model:onscreen>&#x0393;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter delta -->
+    <model:instance>
+      <!-- U+0394 Greek capital letter delta -->
+      <model:mathml>&lt;mi&gt;&#x0394;&lt;/mi&gt;</model:mathml>
+      <model:name>Delta</model:name>
+      <!-- U+0394 Greek capital letter gamma -->
+      <model:onscreen>&#x0394;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter theta -->
+    <model:instance>
+      <!-- U+0398 Greek capital letter theta -->
+      <model:mathml>&lt;mi&gt;&#x0398;&lt;/mi&gt;</model:mathml>
+      <model:name>Theta</model:name>
+      <!-- U+0398 Greek capital letter theta -->
+      <model:onscreen>&#x0398;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter lamda -->
+    <model:instance>
+      <!-- U+039B Greek capital letter lamda -->
+      <model:mathml>&lt;mi&gt;&#x039B;&lt;/mi&gt;</model:mathml>
+      <model:name>Lamda</model:name>
+      <!-- U+039B Greek capital letter lamda -->
+      <model:onscreen>&#x039B;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter xi -->
+    <model:instance>
+      <!-- U+039E Greek capital letter xi -->
+      <model:mathml>&lt;mi&gt;&#x039E;&lt;/mi&gt;</model:mathml>
+      <model:name>Xi</model:name>
+      <!-- U+039E Greek capital letter xi -->
+      <model:onscreen>&#x039E;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter phi -->
+    <model:instance>
+      <!-- U+03A6 Greek capital letter phi -->
+      <model:mathml>&lt;mi&gt;&#x03A6;&lt;/mi&gt;</model:mathml>
+      <model:name>Phi</model:name>
+      <!-- U+03A6 Greek capital letter phi -->
+      <model:onscreen>&#x03A6;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter psi -->
+    <model:instance>
+      <!-- U+03A8 Greek capital letter psi -->
+      <model:mathml>&lt;mi&gt;&#x03A8;&lt;/mi&gt;</model:mathml>
+      <model:name>Psi</model:name>
+      <!-- U+03A8 Greek capital letter psi -->
+      <model:onscreen>&#x03A8;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter omega -->
+    <model:instance>
+      <!-- U+03A9 Greek capital letter omega -->
+      <model:mathml>&lt;mi&gt;&#x03A9;&lt;/mi&gt;</model:mathml>
+      <model:name>Omega</model:name>
+      <!-- U+03A9 Greek capital letter omega -->
+      <model:onscreen>&#x03A9;</model:onscreen>
+    </model:instance>
+   </model:group>
 </model:list>

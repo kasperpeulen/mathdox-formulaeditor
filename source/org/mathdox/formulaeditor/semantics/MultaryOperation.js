@@ -27,17 +27,22 @@ $main(function(){
         /**
          * The symbol that is used for rendering the operation to the screen.
          */
-        onscreen : null,
+        onscreen         : null,
 
         /**
          * The OpenMath symbol that is associated with this operation.
          */
-        openmath : null,
+        openmath         : null,
 
         /**
          * The MathML representation of this operation.
          */
-        mathml   : null
+        mathml           : null,
+
+        /**
+         * The MathML invisible representation of this operation (if any)
+         */
+        mathml_invisible : null
 
       },
 
@@ -153,18 +158,23 @@ $main(function(){
       getMathML : function() {
 
         var result = "<mrow>";
+        var symbol_mathml = this.symbol.mathml;
 
-        if (this.symbol.mathml instanceof Array) {
-          result = result + this.symbol.mathml[0];
+	if (this.style == "invisible" && (this.symbol.mathml_invisible !== undefined && this.symbol.mathml_invisible !== null)) {
+          symbol_mathml = this.symbol.mathml_invisible;
+	}
+
+        if (symbol_mathml instanceof Array) {
+          result = result + symbol_mathml[0];
         }
 
         for (var i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
           if (i>0) {
-            if (this.symbol.mathml instanceof Array) {
-              result = result + this.symbol.mathml[1];
+            if (symbol_mathml instanceof Array) {
+              result = result + symbol_mathml[1];
             } else {
-              result = result + this.symbol.mathml;
+              result = result + symbol_mathml;
             }
           }
           if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
@@ -177,8 +187,8 @@ $main(function(){
           }
         }
 
-        if (this.symbol.mathml instanceof Array) {
-          result = result + this.symbol.mathml[2];
+        if (symbol_mathml instanceof Array) {
+          result = result + symbol_mathml[2];
         }
 
         result = result + "</mrow>";

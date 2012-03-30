@@ -13,10 +13,12 @@ $main(function(){
    */
   var symbol = {
     // U+00B7 middle dot
-    onscreen : "·",
-    openmath : null,
+    onscreen         : "·",
+    openmath         : null,
     // U+00B7 middle dot
-    mathml   : "<mo>·</mo>"
+    mathml           : "<mo>·</mo>",
+    // U+2062 invisible times
+    mathml_invisible : "<mo>⁢</mo>"
   };
 
   /**
@@ -39,10 +41,10 @@ $main(function(){
 
       symbol : {
 
-        onscreen : symbol.onscreen,
-        openmath : "<OMS cd='arith1' name='times'/>",
-        mathml   : symbol.mathml
-
+        onscreen         : symbol.onscreen,
+        openmath         : "<OMS cd='arith1' name='times'/>",
+        mathml           : symbol.mathml,
+        mathml_invisible : symbol.mathml_invisible
       },
 
       getSymbolOnscreen : function(context) {

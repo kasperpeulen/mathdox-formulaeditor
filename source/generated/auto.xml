@@ -23,6 +23,8 @@
     <model:precedence2>130</model:precedence2>
     <model:symbol_enter>+</model:symbol_enter>
     <model:symbol_mathml>+</model:symbol_mathml>
+    <!-- U+2064 invisible plus -->
+    <model:symbol_mathml_invisible>&#x2064;</model:symbol_mathml_invisible>
     <model:symbol_screen>+</model:symbol_screen>
   </model:instance>
   <!-- arith1.unary_minus -->

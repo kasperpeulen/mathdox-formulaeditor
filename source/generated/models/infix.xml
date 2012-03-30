@@ -10,9 +10,10 @@ $require("org/mathdox/formulaeditor/semantics/Keyword.js");
 $main(function(){
 
   var symbol = {
-    onscreen : "<model:symbol_screen/>",
-    openmath : null, // use default with model:cd and model:name
-    mathml   : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;"
+    onscreen         : "<model:symbol_screen/>",
+    openmath         : null, // use default with model:cd and model:name
+    mathml           : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;",
+    mathml_invisible : ( "<model:symbol_mathml_invisible default=''/>" != "" ? "&lt;mo&gt;<model:symbol_mathml_invisible default=''/>&lt;/mo&gt;" : null )
   };
 
   /**
@@ -23,9 +24,10 @@ $main(function(){
 
       symbol : {
 
-        onscreen : symbol.onscreen,
-        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
-        mathml   : symbol.mathml
+        onscreen         : symbol.onscreen,
+        openmath         : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/>",
+        mathml           : symbol.mathml,
+        mathml_invisible : symbol.mathml_invisible
 
       },
 

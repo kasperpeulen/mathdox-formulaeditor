@@ -123,6 +123,10 @@
           <xsl:with-param name='capitalize' select='@capitalize'/>
         </xsl:apply-templates>
       </xsl:when>
+      <xsl:when test='@default'>
+        <!-- using default value for the model -->
+        <xsl:value-of select='@default'/>
+      </xsl:when>
       <xsl:otherwise>
         <!-- no substitution found, produce a warning instead -->
         <xsl:message>

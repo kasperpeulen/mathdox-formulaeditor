@@ -44,7 +44,7 @@ $main(function(){
     /**
      * Returns an equality object based on the OpenMath node.
      */
-    handle<model:cd capitalize="true"/><model:name capitalize="true"/> : function(node) {
+    handle<model:cd capitalize="true"/><model:name capitalize="true"/> : function(node, style) {
 
       // parse the children of the OMA
       var children = node.getChildNodes();
@@ -56,8 +56,12 @@ $main(function(){
       // construct the corresponding object
       var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
       result.initialize.apply(result, operands);
-      return result;
 
+      if (style == "invisible") {
+        result.style = style;
+      }
+
+      return result;
     }
 
   });

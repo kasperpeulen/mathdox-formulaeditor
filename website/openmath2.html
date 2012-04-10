@@ -45,6 +45,16 @@
 
 	textarea.value = mathml;
       };
+      docopy = function() {
+	var presCopy = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
+			"formula1").presentation.copy();
+
+	var editor2 = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula2");
+	editor2.presentation = presCopy;
+	presCopy.updateChildren();
+	editor2.save();
+	editor2.redraw();
+      };
     </script>
     <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
     </script>
@@ -87,12 +97,34 @@
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
 	  &lt;!-- comments now allowed --&gt;
-	  &lt;OMS cd='editor1' name='input_box'/&gt;
+	  &lt;OMA&gt;
+	    &lt;OMS cd='limit1' name='limit'/&gt;
+            &lt;OMI&gt;0&lt;/OMI&gt;
+	    &lt;OMS cd='limit1' name='null'/&gt;
+            &lt;OMBIND&gt;
+              &lt;OMS cd="fns1" name="lambda"/&gt;
+                &lt;OMBVAR&gt;
+                &lt;OMV name="x"/&gt;
+                &lt;/OMBVAR&gt;
+                &lt;OMA&gt;
+                  &lt;OMS cd="transc1" name="sin"/&gt;
+                  &lt;OMV name="x"/&gt;
+                &lt;/OMA&gt;
+            &lt;/OMBIND&gt;
+	  &lt;/OMA&gt;
         &lt;/OMOBJ&gt;
 
       </textarea>
+      <textarea id='formula2' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80'>
+        &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
+          &lt;OMS cd="editor1" name="input_box"/&gt;
+        &lt;/OMOBJ&gt;
+      </textarea>
       <button type="button" name="MathML" value='MathML' onclick='updateMathML()'>
 	Update MathML
+      </button>
+      <button type="button" name="MathML" value='MathML' onclick='docopy()'>
+	Copy presentation 
       </button>
       <textarea id='mathml1' style='margin-right: 2em' rows='10' cols='80'>
       </textarea>

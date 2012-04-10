@@ -171,6 +171,14 @@ $main(function(){
       this.updateChildren();
     },
 
+    /**
+     * Returns a copy of this presentation object, without index information
+     * To be used for copy/paste or undo. See also presentation/Node.js
+     */
+    copy : function() {
+      return this.clone.apply(this, this.copyArray(this.children));
+    },
+
     showTabBar : function() {
       return (this.children.length>1);
     }

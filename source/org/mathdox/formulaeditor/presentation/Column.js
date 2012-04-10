@@ -235,14 +235,6 @@ $main(function(){
             return arguments.callee.parent.getHigherCursorPosition.call(this, index, x);
           }
         }
-      },
-      initialize : function() {
-        if (arguments.length >0) {
-          this.children = Array.prototype.slice.call(arguments);
-        } else {
-          this.children = [];
-        }
-        this.updateChildren();
       }
 
     });

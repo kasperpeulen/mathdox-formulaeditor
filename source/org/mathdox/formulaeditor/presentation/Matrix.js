@@ -32,6 +32,14 @@ $main(function(){
           this.pArray, rightBracket);
       },
 
+      /**
+       * Returns a copy of this presentation object, without index information
+       * To be used for copy/paste or undo. See also presentation/Node.js
+       */
+      copy : function() {
+        return this.clone.apply(this, this.copyArray(this.pArray.entries));
+      },
+
       getSemantics : function(context) {
         var rows = this.pArray.entries; // this.middle is the pArray
         var semanticRows;

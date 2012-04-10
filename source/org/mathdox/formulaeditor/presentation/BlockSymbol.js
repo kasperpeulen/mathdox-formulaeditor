@@ -22,6 +22,13 @@ $main(function(){
       }
     },
 
+    /**
+     * Returns a copy of this presentation object, without index information
+     * To be used for copy/paste or undo. See also presentation/Node.js
+     */
+    copy : function() {
+      return this.clone(this.onscreen);
+    },
     draw : function(canvas, context, x, y, invisible) {
       var fontSizeModifier = 0;
       if (context.fontSizeModifier!== undefined && context.fontSizeModifier !== null) {

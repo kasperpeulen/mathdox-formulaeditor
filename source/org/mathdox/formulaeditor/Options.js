@@ -40,12 +40,16 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - "function" log(10, x)
 // - "prefix"   ^10 log (x)
 // - "postfix"  log_10(x)
+// undo: whether to enable experimental undo
+// - true (default): enable undo
+// - false: disable undo
 // useBar : enable Bar to turn palette on/off
 
 $main(function() {
   org.mathdox.formulaeditor.Options = $extend(Object, {
     defaultOptions : {
       decimalMark: '.',
+      featureUndo: true,
       modeArith1Divide: 'restricted',
       styleTransc1Log: 'function',
       symbolArith1Times: '·' // U+00B7 Middle dot
@@ -53,8 +57,10 @@ $main(function() {
     getOption : function(name) {
       if (org.mathdox.formulaeditor.options[name] !== undefined) {
         return org.mathdox.formulaeditor.options[name];
+      } else if (this.defaultOptions[name] !== undefined) {
+        return this.defaultOptions[name];
       } else {
-        return null;
+	return null;
       }
     },
     getArith1DivideMode : function () {

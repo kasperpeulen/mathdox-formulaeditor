@@ -40,6 +40,60 @@ $main(function(){
 
     },
 
+    /*
+      if ( typeof Object.getPrototypeOf !== "function" ) {
+        if ( typeof "test".__proto__ === "object" ) {
+          Object.getPrototypeOf = function(object){
+            return object.__proto__;
+          };
+        } else {
+          Object.getPrototypeOf = function(object){
+            // May break if the constructor has been tampered with
+            return object.constructor.prototype;
+          };
+        }
+      }
+    */
+
+    /**
+     * Returns a copy of an object initialized with arguments args, which
+     * should be an array.
+     */
+    clone: function() {
+      var constructor = function(){};
+      constructor.prototype = Object.getPrototypeOf(this);
+
+      var result = new constructor();
+      result.initialize.apply(result, arguments);
+      
+      return result;
+    },
+
+    /**
+     * Returns a copy of this presentation object, without index information
+     * To be used for copy/paste or undo. See also presentation/Node.js
+     */
+    copy : function() {
+      return this.clone.apply(this, this.copyArray(this.children));
+    },
+
+    /**
+     * Returns a copy of an array of presentation objects, without index
+     * information. To be used for copy/paste or undo.
+     */
+    copyArray: function(arr) {
+      var result = [];
+
+      for (var i=0;i<arr.length;i++) {
+        if (arr[i] instanceof Array) {
+          result.push(this.copyArray(arr[i]));
+	} else {
+          result.push(arr[i].copy());
+        }
+      }
+      return result;
+    },
+
     /**
      * Draws the node on the specified canvas context. This is an abstract
      * method, so it is expected that subclasses will override this method.

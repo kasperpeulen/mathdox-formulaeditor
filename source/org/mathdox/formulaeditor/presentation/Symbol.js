@@ -49,6 +49,29 @@ $main(function(){
       },
 
       /**
+       * Returns a copy of this presentation object, without index information
+       * To be used for copy/paste or undo. See also presentation/Node.js
+       */
+      copy : function() {
+        var result;
+        var arg0;
+
+        if (this.onscreen !== null) {
+          arg0 = [ this.value, this.onscreen ];
+        } else {
+          arg0 = this.value;
+        }
+
+        if (this.typeface !== null) {
+          result = this.clone(arg0, this.typeface);
+        } else {
+          result = this.clone(arg0);
+        }
+  
+        return result;
+      },
+
+      /**
        * Draws the symbol to the canvas.
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw

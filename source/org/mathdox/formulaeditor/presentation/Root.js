@@ -302,6 +302,20 @@ $main(function(){
         this.updateChildren();
       },
 
+      /**
+       * Returns a copy of this presentation object, without index information
+       * To be used for copy/paste or undo. See also presentation/Node.js
+       */
+      copy : function() {
+        var result;
+        if (this.children.length == 2) {
+          result = this.clone(this.children[1].copy(), this.children[0].copy());
+        } else {
+          result = this.clone();
+        }
+        return result;
+      },
+
       getSemantics : function(context) {
         var root;
 

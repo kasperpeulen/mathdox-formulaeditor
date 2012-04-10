@@ -63,7 +63,7 @@ $main(function(){
       /**
        * top and bottom rows are smaller
        */
-      fontSizeModifierArray : [-1,0,1],
+      fontSizeModifierArray : [-1,0,-1],
 
       initialize : function(above, below) {
 
@@ -72,6 +72,10 @@ $main(function(){
         var pi  = new org.mathdox.formulaeditor.presentation.Symbol("Π");
         return parent.initialize.call(this, above, pi, below);
 
+      },
+
+      copy : function() {
+        return this.clone(this.children[0].copy(), this.children[2].copy());
       },
 
       getSemantics : function(context) {

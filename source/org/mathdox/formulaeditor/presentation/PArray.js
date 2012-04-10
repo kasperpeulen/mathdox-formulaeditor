@@ -152,9 +152,11 @@ $main(function(){
         };
       }
 
-      // adjust columns for total width
+      // adjust columns for left
+      var offset = this.entries[0][0].dimensions.left + this.entries[0][0].dimensions.width/2 - this.colInfo[0].width/2;
       for (col = 0; col < this.columns; col++) {
-        //this.colInfo[col].center += width/2
+        this.colInfo[col].center += offset;
+        this.colInfo[col].left += offset;
       }
 
       // draw all entries
@@ -258,7 +260,7 @@ $main(function(){
        *
        * if the coordinate is past the right, increase the column number
        */
-      while ((col<this.columns-1) && (x>this.colInfo[col].left + this.colInfo[col].width)) {
+      while ((col<this.columns-1) && (x> this.dimensions.left + this.colInfo[col].left + this.colInfo[col].width)) {
         // not in column "col"
         col++;
       }
@@ -398,6 +400,13 @@ $main(function(){
         }
       }
       this.updateChildren();
+    },
+    /**
+     * Returns a copy of this presentation object, without index information
+     * To be used for copy/paste or undo. See also presentation/Node.js
+     */
+    copy : function() {
+      return this.clone.apply(this, this.copyArray(this.entries));
     }
   });
 });

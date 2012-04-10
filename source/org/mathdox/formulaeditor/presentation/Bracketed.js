@@ -210,6 +210,13 @@ $main(function(){
           }
         }
         this.updateChildren();
+      },
+      /**
+       * Returns a copy of this presentation object, without index information
+       * To be used for copy/paste or undo. See also Presentation/Node.js
+       */
+      copy : function () {
+        return this.clone(this.leftBracket.copy(), this.children[0].copy(), this.rightBracket.copy());
       }
 
     });

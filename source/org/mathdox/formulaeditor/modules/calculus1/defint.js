@@ -77,7 +77,7 @@ $main(function(){
       /**
        * top and bottom rows are smaller
        */
-      fontSizeModifierArray : [-1,0,1],
+      fontSizeModifierArray : [-1,0,-1],
 
       initialize : function(below, above) {
 
@@ -86,6 +86,12 @@ $main(function(){
         var defint  = new org.mathdox.formulaeditor.presentation.Symbol("∫");
         return parent.initialize.call(this, above, defint, below);
 
+      },
+
+      copy : function() {
+        var above = this.children[0];
+        var below = this.children[2];
+        return this.clone(below.copy(), above.copy());
       },
 
       getSemantics : function(context) {

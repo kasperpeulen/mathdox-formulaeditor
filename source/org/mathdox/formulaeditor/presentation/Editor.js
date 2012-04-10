@@ -57,6 +57,19 @@ $main(function(){
       },
       
       /**
+       * Returns a copy of this presentation object, without index information
+       * To be used for copy/paste or undo. See also presentation/Node.js
+       */
+      copy : function() {
+        // NOTE: assuming children contains a single row, and taking the first
+        // subchild
+        //
+        // should also work with one children[0] less (but that might create an
+        // additional row which needs updating away)
+        return this.clone(this.children[0].copy(), this.paletteEnabled);
+      },
+ 
+      /**
        * Draws the editor to the canvas.
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw

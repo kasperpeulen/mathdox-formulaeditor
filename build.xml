@@ -32,10 +32,11 @@
       style='source/generated/xsl/model.xsl'
       destdir='build/javascript'
       force='true'
-      extension='js'
+      extension='.xml'
       processor='${saxon.processor}'
       classpathref='saxon.classpath'
     />
+    <delete file='build/javascript/auto.xml' />
 
     <!-- copy javascript source -->
     <copy todir='build/javascript'>
@@ -198,10 +199,10 @@
   <!--
     Create a zip file of all javascript and supporting files.
   -->
-  <target name='zip' depends='javascript-identify'>
+  <target name='zip' depends='website'>
     <mkdir dir='build/zip'/>
     <zip destfile='build/zip/formulaeditor-${version}.zip'>
-      <zipfileset dir='build/javascript' prefix='formulaeditor-${version}'/>
+      <zipfileset dir='build/website' prefix='formulaeditor-${version}'/>
     </zip>
   </target>
 

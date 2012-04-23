@@ -29,10 +29,23 @@ $main(function(){
 
         var complexI = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__i"];
 
-        var complexpart = new semantics.Times(this.handle(children.item(2)), complexI);
+        var imagpart = this.handle(children.item(2));
+        var complexpart;
 
         // construct a Times object
-        var result = new semantics.Arith1Plus(realpart, complexpart);
+        var result;
+
+        if (imagpart instanceof semantics.Arith1Unary_minus) {
+          complexpart = new semantics.Times(imagpart.operands[0], complexI);
+          result = new semantics.Arith1Minus(realpart, complexpart);
+        } else if (imagpart instanceof semantics.Integer || imagpart.value.charAt(0)=='-') {
+          var posInt = new semantics.Integer(imagpart.value.slice(1));
+          complexpart = new semantics.Times(posInt, complexI);
+          result = new semantics.Arith1Minus(realpart, complexpart);
+        } else {
+          complexpart = new semantics.Times(imagpart, complexI);
+          result = new semantics.Arith1Plus(realpart, complexpart);
+        }
 
         return result;
       }

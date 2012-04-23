@@ -80,7 +80,21 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
       getMathML : function() {
-        return "<mn>" + this.value + "</mn>";
+        var string = this.value.toString();
+        var result=[];
+
+	result.push("<mn>");
+
+        for (var i=0; i<string.length; i++) {
+          if (string.charAt(i)!='.') {
+            result.push(string.charAt(i));
+          } else {
+            result.push((new org.mathdox.formulaeditor.Options).getDecimalMark());
+          }
+        }
+	result.push("</mn>");
+
+        return result.join("");
       },
 
       toString : function() {

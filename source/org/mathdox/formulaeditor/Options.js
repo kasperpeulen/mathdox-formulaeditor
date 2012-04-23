@@ -21,6 +21,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // modeArith1Divide: set mode for handling arith1.divide
 // - normal: automatically put unary minus and times expressions as enumerators
 // - restricted: only parse power and higher priority
+// optionArith1PowerPrefix
+// - true : allow sin^2(x) (buggy)
+// - false : (default)
 // onloadFocus: set focus on load 
 // - true gives focus to the first formulaeditor
 // - <id> as string gives focus to the formulaeditor corresponding to the
@@ -72,7 +75,7 @@ $main(function() {
         return "restricted";
       }
     },
-     getArith1PowerOptionPrefix : function () {
+    getArith1PowerOptionPrefix : function () {
       var option = this.getOption("optionArith1PowerPrefix");
 
       if (option == 'true') {

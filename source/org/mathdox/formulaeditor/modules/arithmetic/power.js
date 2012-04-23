@@ -165,13 +165,13 @@ $main(function(){
         return parent.func_Update( func_powUpdate(oper) );
       },
 
-      /*
+      
       func_symbol: function() {
         var parent = arguments.callee.parent;
         pG.alternation(
           pG.rule("power"),
           parent.func_symbol).apply(this, arguments);
-      },*/
+      },
 
       // useful for invisible multiplication (should not start with a number)
       // restrictedpower = restrictedexpression160 superscript

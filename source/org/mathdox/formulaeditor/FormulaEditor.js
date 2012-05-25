@@ -10,6 +10,8 @@ $require("com/oreilly/javascript/tdg/XMLHttp.js");
 var Drag;
 $require("net/youngpup/dom-drag/dom-drag.js", function() { return Drag; });
 
+$require("org/mathdox/debug/Debug.js");
+
 $require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
@@ -86,6 +88,8 @@ $main(function(){
   var editors = [];
 
   var palettes;
+ 
+  var debug = null;
 
   /**
    * Class that represents a formula editor.
@@ -126,22 +130,6 @@ $main(function(){
      * Indicates whether this formula editor has the focus.
      */
     hasFocus : false,
-
-    /**
-     * checkClass(classNames, className): function to help check if an HTML
-     * element contains a certain class.
-     */
-    checkClass: function(classNames, className) {
-      var words = classNames.split(" ");
-      var i;
-
-      for (i=0; i<words.length; i++) {
-        if (words[i] == className) {
-          return true;
-        }
-      }
-      return false;
-    },
 
     addPalette : function() {
       //canvas.parentNode.insertBefore(palette, canvas);
@@ -277,6 +265,22 @@ $main(function(){
       
       this.palette.initialize(palcanvas);
     },
+    /**
+     * checkClass(classNames, className): function to help check if an HTML
+     * element contains a certain class.
+     */
+    checkClass: function(classNames, className) {
+      var words = classNames.split(" ");
+      var i;
+
+      for (i=0; i<words.length; i++) {
+        if (words[i] == className) {
+          return true;
+        }
+      }
+      return false;
+    },
+
     togglePalette:function () {
       if (this.palette) {
         // remove existing palette
@@ -1044,6 +1048,16 @@ $main(function(){
   });
 
   /**
+   * Write debug info if debug option is on
+   */
+  org.mathdox.formulaeditor.FormulaEditor.addDebug= function(str) {
+    if (debug !== undefined && debug!== null) {
+      debug.addDebug(str);
+    }
+    return debug;
+  },
+
+  /**
    * Perform several cleanup operations
    * 
    * - Check all Formula Editor objects in editors
@@ -1708,6 +1722,12 @@ $main(function(){
 
   // function that will be called upon loading
   var onload = function() {
+    var options = new org.mathdox.formulaeditor.Options();
+    if (options.getOption("debug") === true) {
+      debug = new org.mathdox.debug.Debug();
+      debug.createDebug();
+    }
+
 
     // replace all textarea's of class 'mathdoxformula' with editors
     var textareas = document.getElementsByTagName("textarea");

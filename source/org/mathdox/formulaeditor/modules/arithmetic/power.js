@@ -89,7 +89,6 @@ $main(function(){
 
       if (context.optionArith1PowerPrefix === "true") {
         func_powCheck = function(operInput) {
-         
           var oper;
 
           oper = operInput;
@@ -124,6 +123,7 @@ $main(function(){
           return false;
         };
         func_powUpdate = function(oper) {
+
           if (func_powCheck(oper)) {
             var symbol = oper.symbol.operands[0];
 
@@ -169,7 +169,7 @@ $main(function(){
       func_symbol: function() {
         var parent = arguments.callee.parent;
         pG.alternation(
-          pG.rule("power"),
+          pG.rule("restrictedpower"),
           parent.func_symbol).apply(this, arguments);
       },
 

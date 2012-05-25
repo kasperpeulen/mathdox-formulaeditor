@@ -8,6 +8,7 @@ $identify("org/mathdox/formulaeditor/Options.js");
 
 // ancientOrbeon: if set to true: do not warn about old orbeon
 // contextParsingExpression: set to an object describing the context for the ExpressionParser
+// debug: is debug enabled ?
 // decimalMark: character for decimal mark
 // - '.' : use period as in US
 // - ',' : use comma as in Europe
@@ -47,10 +48,13 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - true (default): enable undo
 // - false: disable undo
 // useBar : enable Bar to turn palette on/off
+// - true (default): enable bar
+// - false: disable bar
 
 $main(function() {
   org.mathdox.formulaeditor.Options = $extend(Object, {
     defaultOptions : {
+      debug: false,
       decimalMark: '.',
       featureUndo: true,
       modeArith1Divide: 'restricted',

@@ -152,13 +152,6 @@ $main(function(){
         };
       }
 
-      // adjust columns for left
-      var offset = this.entries[0][0].dimensions.left + this.entries[0][0].dimensions.width/2 - this.colInfo[0].width/2;
-      for (col = 0; col < this.columns; col++) {
-        this.colInfo[col].center += offset;
-        this.colInfo[col].left += offset;
-      }
-
       // draw all entries
       if (! invisible) {
         for (row=0; row<this.rows; row++) {

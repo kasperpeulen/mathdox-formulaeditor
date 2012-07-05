@@ -51,6 +51,11 @@ $main(function(){
         return context.symbolArith1Times;
       },
 
+      getSymbolMathML : function() {
+        options = new org.mathdox.formulaeditor.Options();
+        return "<mo>"+ options.getArith1TimesSymbol() +"</mo>";
+      },
+
       precedence : 130,
       precedence : 140
 

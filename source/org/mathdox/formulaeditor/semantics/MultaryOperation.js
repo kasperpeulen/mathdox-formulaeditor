@@ -46,6 +46,10 @@ $main(function(){
 
       },
 
+      getSymbolMathML : function(context) {
+        return this.symbol.mathml;
+      },
+
       getSymbolOnscreen : function(context) {
         return this.symbol.onscreen;
       },
@@ -158,7 +162,7 @@ $main(function(){
       getMathML : function() {
 
         var result = "<mrow>";
-        var symbol_mathml = this.symbol.mathml;
+        var symbol_mathml = this.getSymbolMathML();
 
 	if (this.style == "invisible" && (this.symbol.mathml_invisible !== undefined && this.symbol.mathml_invisible !== null)) {
           symbol_mathml = this.symbol.mathml_invisible;

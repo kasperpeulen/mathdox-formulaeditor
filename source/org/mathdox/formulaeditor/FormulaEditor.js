@@ -17,6 +17,7 @@ $require("org/mathdox/formulaeditor/parsing/expression/ExpressionParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/Canvas.js");
 $require("org/mathdox/formulaeditor/MathCanvasFill.js");
 $require("org/mathdox/formulaeditor/Cursor.js");
@@ -463,6 +464,44 @@ $main(function(){
         }
       }
 
+    },
+
+    loadMathML: function(xmlString) {
+      org.mathdox.formulaeditor.FormulaEditor.addDebug("loading MathML");
+      var Parser    = org.mathdox.formulaeditor.parsing.mathml.MathMLParser;
+      var Editor    = org.mathdox.formulaeditor.presentation.Editor;
+      var Row       = org.mathdox.formulaeditor.presentation.Row;
+
+      // read any OpenMath code that may be present in the textarea
+      var paletteEnabled;
+      //try {
+        var parsed = new Parser().parse(xmlString, this.getPresentationContext());
+
+        org.mathdox.formulaeditor.FormulaEditor.addDebug("parsed: "+parsed);
+        if (org.mathdox.formulaeditor.options.useBar) {
+          if (this.palette) {
+            paletteEnabled = true;
+          } else {
+            paletteEnabled = false;
+          }
+          this.presentation = new Editor(parsed, paletteEnabled);
+        } else {
+          this.presentation = new Row(parsed);
+          this.presentation.flatten();
+        }
+      //}
+/*      catch(exception) {
+        if (org.mathdox.formulaeditor.options.useBar) {
+          if (this.palette) {
+            paletteEnabled = true;
+          } else {
+            paletteEnabled = false;
+          }
+          this.presentation = new Editor(null, paletteEnabled);
+        } else {
+          this.presentation = new Row();
+        }
+      }*/
     },
 
     // TODO : move this to an onchange handler

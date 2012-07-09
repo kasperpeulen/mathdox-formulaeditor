@@ -54,8 +54,6 @@ $main(function(){
         return this.symbol.onscreen;
       },
 
-
-
       /**
        * The precedence level of the operator.
        */
@@ -139,6 +137,17 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath()
        */
       getOpenMath : function() {
+        var semantics = org.mathdox.formulaeditor.semantics;
+	var result;
+
+        var argtest = this.checkArguments(this.operands);
+
+        if (typeof argtest === "string") {
+          result = "<OME><OMS cd='moreerrors' name='encodingError'/>";
+          result += "<OMSTR>invalid expression entered: "+ argtest+"</OMSTR>";
+          result += "</OME>";
+          return result;
+        }
 
         var result = "<OMA";
 

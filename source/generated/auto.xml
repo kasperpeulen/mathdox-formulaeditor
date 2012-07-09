@@ -271,17 +271,6 @@
       <model:onscreen>lcm</model:onscreen>
       <model:type>function</model:type>
     </model:instance>
-    <!-- arith1.root -->
-    <model:instance>
-      <model:argcount>2</model:argcount>
-      <model:cd>arith1</model:cd>
-      <model:keyword>rt</model:keyword>
-      <!-- TODO: use mroot -->
-      <model:mathml>&lt;mi&gt;rt&lt;/mi&gt;</model:mathml>
-      <model:name>root</model:name>
-      <model:onscreen>rt</model:onscreen>
-      <model:type>function</model:type>
-    </model:instance>
     <!-- editor1.input_box -->
     <model:instance>
       <model:argcount>0</model:argcount>

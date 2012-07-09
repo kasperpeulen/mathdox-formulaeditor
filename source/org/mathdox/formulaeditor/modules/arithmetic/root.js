@@ -1,17 +1,22 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/root.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
-$require("org/mathdox/formulaeditor/presentation/Root.js");
-$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/presentation/Root.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
+
+  var semantics = org.mathdox.formulaeditor.semantics;
 
   /**
    * Defines a semantic tree node that represents a root.
    */
-  org.mathdox.formulaeditor.semantics.Arith1Root =
-    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+  semantics.Arith1Root =
+    $extend(semantics.MultaryOperation, {
+
+      argcount : 2,
 
       symbol : {
 
@@ -58,7 +63,7 @@ $main(function(){
         var base  = this.handle(children.item(2));
 
         // construct a root object
-        return new org.mathdox.formulaeditor.semantics.Arith1Root(middle, base);
+        return new semantics.Arith1Root(middle, base);
 
       }
 
@@ -84,5 +89,30 @@ $main(function(){
       root : pG.never
     };
   });
+
+  org.mathdox.formulaeditor.parsing.expression.KeywordList.rt = {
+    parseResultFun : function(oper, array) {
+      var semantics = org.mathdox.formulaeditor.semantics;
+      var root = new semantics.Arith1Root();
+      root.initialize.apply(root, array);
+
+      return root;
+    }
+  };
+
+  org.mathdox.formulaeditor.parsing.expression.KeywordList.sqrt = {
+    parseResultFun : function(oper, array) {
+      var semantics = org.mathdox.formulaeditor.semantics;
+      var root = new semantics.Arith1Root();
+      array.push(new semantics.Integer(2));
+
+      root.initialize.apply(root, array);
+
+      return root;
+    }
+  };
+
+    org.mathdox.formulaeditor.parsing.expression.KeywordList.rt;
+
 
 });

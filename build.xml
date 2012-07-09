@@ -306,7 +306,7 @@
       </fileset>
     </copy>
 
-    <zip destfile='build/release/formulaeditor-doc-${version}.jar'>
+    <zip destfile='build/release/formulaeditor-doc-${version}.zip'>
       <zipfileset dir='build/mathdox' prefix='formulaeditor-${version}'/>
     </zip>
   </target>

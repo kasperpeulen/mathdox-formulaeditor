@@ -1,0 +1,65 @@
+<toc>
+  <title>MathDox</title>
+  <tocdiv>
+    <tocentry>
+      <ulink url="index.xml">Contents</ulink>
+    </tocentry>
+  </tocdiv>
+  <tocdiv>
+    <title>FormulaEditor</title>
+    <tocentry>
+      <ulink url="intro1.xml">Introduction</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="intro1b.xml">Requirements</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="intro2.xml">Status</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="intro2b.xml"><!-- Presentation and Semantic -->Trees</ulink>
+    </tocentry>
+  </tocdiv>
+  <tocdiv>
+    <title>Customization</title>
+    <tocentry>
+      <ulink url="usage.xml">Usage</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="usage1.xml">Options: Palette</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="models.xml">Adding new symbols</ulink>
+    </tocentry>
+  </tocdiv>
+  <tocdiv>
+    <title>Applications</title>
+    <tocentry>
+      <ulink url="http://wortel.tue.nl/">Wortel TU/e</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="http://mathdox.org/phrasebook/">Online Services</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="cas-model.xml">Services description</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="http://mathdox.org/mathdoxeditor/">MathDox Editor</ulink>
+    </tocentry>
+  </tocdiv>
+  <tocdiv>
+    <title>Summary</title>
+    <tocentry>
+      <ulink url="future.xml">Future work</ulink>
+    </tocentry>
+  </tocdiv>
+  <tocdiv>
+    <title>Also interesting</title>
+    <tocentry>
+      <ulink url="libraries.xml">Libraries used</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="javascript.xml">Javascript comments</ulink>
+    </tocentry>
+  </tocdiv>
+</toc>

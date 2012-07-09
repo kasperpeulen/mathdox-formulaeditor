@@ -1,0 +1,286 @@
+<article
+  xmlns:xlink='http://www.w3.org/1999/xlink'
+>
+  <title>Configuring the MathDox Formula Editor: Page options</title>
+  <section>
+    <title>Introduction</title>
+    <para>
+      On this page it will be described how you can configure the MathDox
+      Formula Editor by setting options. The different kinds of options will be
+      described: generic options, options that describe palette behavior,
+      and options that influence how formulas are displayed and parsed.
+    </para>
+  </section>
+  <!-- 
+    1) generic options 
+      fontSize, style, 
+      onloadFocus
+    2) palette options 
+      dragPalette, paletteHighlight, paletteShow, paletteURL, useBar
+    3) formula configuration options (with examples)
+      decimalMark,
+      modeArith1Divide
+      styleArith1Times
+      styleTransc1Log
+    4) advanced options
+      ancientOrbeon
+      contextParsingExpression
+      indentXML
+      inputStyle
+  -->
+  <section>
+    <title>Generic Options</title>
+  </section>
+  <section>
+    <title>Palette Options</title>
+  </section>
+  <section>
+    <title>Formula Options</title>
+  </section>
+  <section>
+    <title>Options for advanced users</title>
+  </section>
+  <!--
+    <section>
+      <title>Adding zero, one or more palettes</title>
+      <para>
+        The MathDox Formula Editor can also display a palette. This also is an
+        HTML <tag>Canvas</tag> element, hereafter called
+        <emphasis>Palette</emphasis> and <emphasis>Palette Canvas</emphasis>
+      </para>
+      <para>
+        The Palette Canvas can be used as follows: the user first makes sure a
+        Formula Editor has focus (this can be done by clicking on the
+        Formula Editor Canvas) and then clicks on a symbol on a Palette.
+        The symbol will then be added in the Formula Editor with focus.
+      </para>
+      <para>
+        The default is to add a single palette. It will be added after the
+        first editor that allows it. A <tag>textarea</tag> can have two tags
+        that influence the placement of Palette Canvases:
+        the <code>mathdoxpalette</code> forces a Palette Canvas to be placed
+        even if it is not the first Editor that allows it and the
+        <code>mathdoxnopalette</code> prevents a Palette Canvas from being
+        added even if there are no Palettes present yet.
+      </para>
+      <example>
+        <title>Example with a single editor with palette</title>
+        <programlisting><![CDATA[
+  <textarea class="mathdoxformula" rows="10" cols="80"><![CDATA[
+    <OMOBJ version="2.0" xmlns="http://www.openmath.org/OpenMath">
+      <OMS cd="editor1" name="input_box"/>
+    </OMOBJ>]]>]]<![CDATA[>
+  </textarea>]]>
+        </programlisting>
+      </example>
+      <example>
+        <title>Example with two editors but no palettes</title>
+        <programlisting><![CDATA[
+  <textarea class="mathdoxformula mathdoxnopalette" rows="10" cols="80"><![CDATA[
+    <OMOBJ version="2.0" xmlns="http://www.openmath.org/OpenMath">
+      <OMS cd="editor1" name="input_box"/>
+    </OMOBJ>]]>]]<![CDATA[>
+  </textarea>
+
+  <textarea class="mathdoxformula mathdoxnopalette" rows="10" cols="80"><![CDATA[
+    <OMOBJ version="2.0" xmlns="http://www.openmath.org/OpenMath">
+      <OMS cd="editor1" name="input_box"/>
+    </OMOBJ>]]>]]<![CDATA[>
+  </textarea>]]>
+        </programlisting>
+      </example>
+      <example>
+        <title>Example with two editors and two palettes</title>
+        <programlisting><![CDATA[
+  <textarea class="mathdoxformula mathdoxpalette" rows="10" cols="80"><![CDATA[
+    <OMOBJ version="2.0" xmlns="http://www.openmath.org/OpenMath">
+      <OMS cd="editor1" name="input_box"/>
+    </OMOBJ>]]>]]<![CDATA[>
+  </textarea>
+
+  <textarea class="mathdoxformula mathdoxpalette" rows="10" cols="80"><![CDATA[
+    <OMOBJ version="2.0" xmlns="http://www.openmath.org/OpenMath">
+      <OMS cd="editor1" name="input_box"/>
+    </OMOBJ>]]>]]<![CDATA[>
+  </textarea>]]>
+        </programlisting>
+      </example>
+    </section>
+    <section>
+      <title>Complete minimal example</title>
+      <para>
+        Combining all these elements leads to the following HTML file:
+      </para>
+      <programlisting><![CDATA[
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+  >
+  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+      <title>Minimal MathDox Formula Editor Page</title>
+      <script type="text/javascript" src="org/mathdox/formulaeditor/main.js">
+      </script>
+      <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    </head>
+    <body>
+      <textarea class="mathdoxformula mathdoxpalette" rows="10" cols="80"><![CDATA[
+        <OMOBJ version="2.0" xmlns="http://www.openmath.org/OpenMath">
+          <OMS cd="editor1" name="input_box"/>
+        </OMOBJ>]]>]]<![CDATA[>
+      </textarea>
+    </body>
+  </html>]]>
+      </programlisting>
+    </section>
+  </section>
+  <section>
+    <title>Options: modifying the layout</title>
+    <section>
+      <title>How to set options</title>
+      <para>
+        A way to set the options is to first create the object
+        <code>org.mathdox.formulaeditor.options</code>. This can be done easily
+        if the object <code>org</code> does not exist in the following way:
+      </para>
+      <example>
+        <title>Setting some Formula Editor options</title>
+        <programlisting><![CDATA[
+  <script type='text/javascript'>
+    if (org) {
+      alert("org already defined, could not set options");
+    } else {
+      var org = { mathdox: { formulaeditor: { options: {
+        fontSize : 207,
+        indentXML : true,
+        paletteURL : "/formulaeditor/org/mathdox/formulaeditor/palette3.xml"
+      }}}};
+    }
+  </script>
+  <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+  </script>
+  ]]>
+        </programlisting>
+        <para>
+          If <varname>org</varname> does not exist, this code creates
+          <varname>org.mathdox.formulaeditor.options</varname> and stores some
+          options there. If <varname>org</varname> does exist, some more checking
+          should be done. When this code is the first Javascript in the header,
+          then <varname>org</varname> should not exist and everything should
+          work. The way to make sure that this works is by putting the options
+          <emphasis>before</emphasis> the tag that loads the Formula Editor
+          Javascript.
+        </para>
+        <para>
+          The part that can be modified is the list with identifiers and their
+          value. The format is <varname>identifier</varname> <quote>:</quote>
+          <varname>value</varname>. Entries are seperated by commas. Note
+          that there is no comma after the last entry (Internet Explorer will
+          give an error if a comma is present here).
+          An example is <varname>paletteURL</varname> which has the value
+          <code>"/formulaeditor/org/mathdox/formulaeditor/palette3.xml"</code>.
+        </para>
+      </example>
+    </section>
+    <section>
+      <title>Fontsize</title>
+      <para>
+        The MathDox Formula Editor uses the <link xlink:href=''>JsMath sprite
+        fonts</link> to display symbols. These are available in different
+        sizes. It is possible to configure which size to use at the start. It
+        is also possible to resize the editor by pressing
+        <keycombo><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> or
+        <keycombo><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>.
+        Unfortunately this does not yet work together with resizing in the
+        browser and some browsers try to resize the Formula Editor themselves,
+        which results in lesser quality symbols.
+      </para>
+      <para>
+        The option <varname>fontSize</varname> can be used to select the
+        fontSize used for the fonts of the Formula Editor and its Palette.
+        Current possible sizes for which fonts are available are 50, 60, 70,
+        85, 100, 120, 144, 173, 207, 249, 298, 358, and 430. If another value
+        is given, the next larger number is used. For example: if
+        <varname>fontSize</varname> has the value 128, then the size fonts used
+        will be 144. The default font size is 144.
+      </para>
+    </section>
+    <section>
+      <title>Palette url</title>
+      <para>
+        The layout of the Palette can be customized (there is no page yet
+        describing how to do this, but there are plans to make one in the
+        future). The Palette can be described using OpenMath
+        with the additional Content Dictionary <varname>editor1</varname>
+        (there is no manual page about this CD yet, but there are plans to make
+        one in the future).
+      </para>
+      <para>
+        When someone has described such a customized Palette in an XML file, he
+        can then modify the url in the option <varname>paletteURL</varname>.
+        Because of Javascript security issues, this can at the moment only be a
+        link to the same site as the web page. It is currently not possible to
+        enter the palette as a string, via a callback function or using a
+        combination of both.
+      </para>
+    </section>
+    <section>
+      <title>Movable palette</title>
+      <para>
+        It is possible to make the palettes with the formulaeditor draggable.
+        This can be done by adding the <varname>dragPalette</varname> with the
+        value <code>true</code>.
+      </para>
+    </section>
+    <section>
+      <title>Using CSS to change the Canvas and Palette layout</title>
+      <para>
+        It is possible to change the style of the Formula Editor Canvas and
+        Formula Editor Palette. 
+        The default is to copy the style of the textarea (but this is not done
+        if <varname>ignoreTextareaStyle</varname> is <code>true</code>) and
+        then modify some settings. This can be changed by setting the
+        <varname>inputStyle</varname> and/or <varname>paletteStyle</varname>
+        variables. These contain a string containing the style of the Editor
+        Canvas and Palette Canvas respectively.
+      </para>
+      <para>
+        The default style for the Editor Canvas is : 
+        <code>border : 1px solid #99F; vertical-align : middle; cursor : text;
+        padding : 0px;</code>. The default style for the Palette Canvas is : 
+        <code>border : 2px solid #99F; vertical-align : middle; cursor : text;
+        padding : 0px; background-color:white;</code>.
+      </para>
+    </section>
+    <section>
+      <title>Some other options</title>
+    </section>
+    <section>
+      <title>Displaying OpenMath</title>
+      <para>
+        The textarea is normally hidden when the Editor Canvas is added. It is
+        possible to surpress this behaviour by adding the class
+        <classname>mathdoxvisibletextarea</classname> to the corresponding textarea.
+      </para>
+    </section>
+    <section>
+      <title>Formatting XML</title>
+      <para>
+        It is possible to format the XML produced by the formulaeditor. This
+        means that the XML that will be written to the textarea will be
+        indented. This can be done by setting the option
+        <varname>indentXML</varname> to <code>true</code>.
+        This is especially useful if one or more textareas are not hidden on a
+        page (what for example happens if they have the class
+        <classname>mathdoxvisibletextarea</classname>).
+      </para>
+    </section>
+  </section>
+  <section>
+    <title>Using Javascript: some simple examples</title>
+    <section>
+      <title>MathML output in a window</title>
+    </section>
+  </section>
+  -->
+</article>
+

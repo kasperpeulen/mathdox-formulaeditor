@@ -1,0 +1,3 @@
+2011-06-15 
+  Thanks to Heiner Reinhardt for reporting several bugs (and a patch)
+  in the build process in Windows.

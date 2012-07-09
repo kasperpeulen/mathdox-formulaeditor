@@ -1,0 +1,29 @@
+<article
+xmlns:xforms="http://www.w3.org/2002/xforms"
+xmlns:mathdox='http://www.mathdox.org/MathDox'
+>
+  <title>A simple page with a formulaeditor </title>
+  <section>
+    <title>Making the palette draggable</title>
+    <para>
+      it is possible to make the palettes with the formulaeditor draggable.
+      this can be done by adding the <varname>dragpalette</varname> with the
+      value <code>true</code>.
+    </para>
+  <programlisting><![CDATA[
+  <script type='text/javascript'>
+    if (org) {
+      alert("org already defined, could not set options");
+    } else {
+      var org = { mathdox: { formulaeditor: { options: {
+        dragPalette : true
+      }}}};
+    }
+  </script>
+  <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+  </script>
+  ]]>
+        </programlisting>
+     <xforms:textarea ref='formula' class='math-editor' mathdox:options='{ dragPalette:true }' />
+  </section>
+</article>

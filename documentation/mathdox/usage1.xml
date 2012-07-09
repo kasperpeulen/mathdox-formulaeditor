@@ -1,0 +1,65 @@
+<article
+  xmlns:mathdox='http://www.mathdox.org/MathDox'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <title>MathDox FormulaEditor: extending</title>
+  <section>
+    <title>Modifying the palette</title>
+    <para>
+      The palette is described in OpenMath with some special symbols in a
+      private CD describing the palette-rows palette-entries and input-boxes.
+    </para>
+    <para>
+      If is furthermore possible to select the palette using javascript:
+    </para>
+    <programlisting>
+      <![CDATA[
+  <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+  </script>
+  <script type='text/javascript'>
+    if (org) {
+      alert("org already defined, could not set options");
+    } else {
+      var org = { mathdox: { formulaeditor: { options: {
+        fontSize: 300,
+        paletteURL : "palette_tabbed.xml"
+      }}}};
+    }
+   </script>
+    ]]>
+    </programlisting>
+    <para> 
+      In MathDox this can also be done by adding an <tag>mathdox:options</tag>
+      attribute to the <tag>xforms:textarea</tag>-element.
+    </para>
+    <programlisting>
+      <![CDATA[
+  <xforms:textarea ref='formula' class='math-editor' 
+    mathdox:options='{ 
+      fontSize: 300, 
+      paletteURL : "palette_tabbed.xml"
+    }' 
+  />
+      ]]>
+    </programlisting>
+    <para>
+      The palette can be made draggable with <code>dragPalette:true</code>. The
+      total listing now becomes:
+    </para>
+    <programlisting>
+      <![CDATA[
+  <xforms:textarea ref='formula' class='math-editor' 
+    mathdox:options='{ 
+      dragPalette:true,
+      fontSize: 300, 
+      paletteURL : "palette_tabbed.xml"
+    }' 
+  />
+      ]]>
+    </programlisting>
+     <para>
+      <xforms:textarea ref='formula' class='math-editor' mathdox:options='{ dragPalette:true,fontSize: 300, paletteURL : "palette_tabbed.xml" }' />
+    </para>
+  </section>
+</article>

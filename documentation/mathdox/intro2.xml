@@ -1,0 +1,21 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Current status</title>
+    <itemizedlist>
+      <listitem>Implementation started in 2007 by Mark Spanbroek</listitem>
+      <listitem>Since October 2007 developed by Jan Willem Knopper</listitem>
+      <listitem>A lot of symbols are supported</listitem>
+      <listitem>Easy to extend with new keywords and also possible to use prefix
+      	notation for unknown symbols</listitem>
+      <listitem>Fairly easy to add new complicated symbols (more documentation needed)</listitem>
+      <listitem>Optional palette (with tab support), which is easy to customize</listitem>
+      <listitem>Several options are available to customize appearance</listitem>
+    </itemizedlist>
+  </section>
+</article>

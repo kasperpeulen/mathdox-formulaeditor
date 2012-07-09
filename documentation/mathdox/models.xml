@@ -1,0 +1,223 @@
+<article>
+  <title>Using a template (model) to add symbols to the formulaeditor</title>
+  <subtitle>Adding functions like sin using a template (model)</subtitle>
+  <section>
+    <title>Introduction</title>
+    <para>
+      A lot of functions are entered and displayed in a similar way. They
+      consist of a function name (some word) followed by an opening bracket
+      <quote>(</quote>, a single argument, and a closing bracket
+      <quote>)</quote>.
+    </para>
+    <para>
+      If JavaScript code is added for several of such functions, then the code
+      might be very similar for all of them. This can lead to errors if people
+      construct this code by copying and pasting and do not take the time to
+      properly edit it. Furthermore if some changes need to be made for all of
+      these functions, then these changes will have to be made to all the
+      different files.
+    </para>
+    <para>
+      These problems do not appear if a single template or
+      <emphasis>model</emphasis> is used to generate the code for several of
+      these functions by only having to enter a few entries per function. In
+      this case there is no need to copy files and if a change needs to be
+      made, then the code can easily be generated again.
+      This article describes how this has been made possible and how it can be
+      used and extended.
+    </para>
+  </section>
+  <section>
+    <title>Models</title>
+    <para>
+      To construct code automatically, it should first be known what the
+      desired target code is. From this a template or
+      <emphasis>model</emphasis> can be made from which the code can then be
+      generated. If the code later needs to be changed, then it is enough to
+      change the corresponding model and regenerate the code. This section will
+      describe how to construct such models.
+    </para>
+    <example>
+      <title>A part of the model for a sin-like function.</title>
+      <para>
+	The following example shows a part of a model that can be used to
+	construct the JavaScript code for a function with one argument. It will
+	be explained below.
+      </para>
+      <programlisting>
+        <![CDATA[
+<model:model xmlns:model="local:model">
+  ...
+
+  /**
+   * Define a semantic tree node that represents the <model:name/>
+   * function.
+   */
+  org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/> =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        onscreen : ["<model:name/>(", ")"],
+        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/&gt;"
+
+      },
+
+      precedence : 0
+
+    })
+
+  ...
+</model:model>
+        ]]>
+      </programlisting>
+    </example>
+    <!-- model:model -->
+    <para>
+      As format for the model, we have chosen for an XML document, because it
+      is easy to transform. The tags are all in the <tag>model</tag>
+      namespace: <code>xmlns:model="local:model"</code>. The outermost tag is
+      <tag>model:model</tag>.
+    </para>
+    <!-- xml-ize the code -->
+    <para>
+      The model-document should be written in valid XML. This means that 
+      characters like <code>&lt;</code> should be escaped, in this case by
+      <code>&amp;lt;</code>. An example is the <tag>OMS</tag> which is
+      transformed from <code>&lt;OMS cd='...' name='...'&gt;</code> to
+      <code>&amp;lt;OMS cd='...' name='...'&amp;gt;</code>, but these
+      characters can also appear in JavaScript code.
+    </para>
+    <!-- add custom model tags -->
+    <para>
+      Now the code that might be different for each generated file can be
+      replaced by a custom <tag>model:*</tag>. The only restriction here is
+      that <tag>model:model</tag> can only be used as a container. In the
+      example the tags <tag>model:cd</tag> and <tag>model:name</tag> are used.
+      In the next section it is described how these can be changed to the
+      desired value, using an <tag>instance</tag>.
+    </para>
+    <!-- add capitalize -->
+    <para>
+      Sometimes it is desired to use a term both with and without a capital.
+      Here it would be nice if it would be enough to only enter the term once
+      and use an attribute to handle capitalization. For this the attribute
+      <tag>capitalize</tag> is added. Whenever a <tag>model:*</tag>-tag
+      contains the attribute <tag>capitalize="true"</tag>, the first letter of
+      the resulting output will be capitalized. In the example this is is the
+      case in the classname: <code>&lt;model:name capitalize="true"/&gt;</code>.
+      Suppose the output for <code>&lt;model:name/&gt;</code> would be
+      <quote>sin</quote>, then the output for <code>&lt;model:name
+      capitalize="true"/&gt;</code> would be <quote>Sin</quote>.
+    </para>
+  </section>
+  <section>
+    <title>Instances</title>
+    <!-- introduction -->
+    <para>
+      In this section it is described how to enter the information necessary to
+      transform a model to the desired output.
+    </para>
+    <!-- example -->
+    <example>
+      <title>An example instance list</title>
+      <para>
+	The code from the example below can be used to generate JavaScript code
+	for functions with one argument using the
+	<filename>sinlike.xml</filename> model file. A part of this model was
+	shown in the previous section. An explanation will follow below.
+      </para>
+      <programlisting>
+        <![CDATA[
+<model:list xmlns:model="local:model">
+  <!-- transc1.arccos -->
+  <model:instance model="models/sinlike.xml" 
+    target="org/mathdox/formulaeditor/modules/transc1/arccos.js"
+  >
+    <model:cd>transc1</model:cd>
+    <model:name>arccos</model:name>
+  </model:instance>
+
+  <!-- transc1.arccosh -->
+  <model:instance model="models/sinlike.xml" 
+    target="org/mathdox/formulaeditor/modules/transc1/arccosh.js"
+  >
+    <model:cd>transc1</model:cd>
+    <model:name>arccosh</model:name>
+  </model:instance>
+  ...
+</model:list>
+	]]>
+      </programlisting>
+    </example>
+    <!-- a list of instances -->
+    <para>
+      To transform a model in to the desired output an <tag>instance</tag> is
+      used. These <tag>instance</tag>s are grouped in a <tag>list</tag>. Both
+      of them are in the <tag>model</tag> namespace:
+      <code>xmlns:model="local:model"</code>.
+    </para>
+    <!-- input and output, model and target -->
+    <para>
+      The <tag>model:instance</tag>-tag should contain two attributes: the
+      <tag>model</tag>-attribute, which specifies which model-file to use, here
+      <filename>models/sinlike.xml</filename>, and the
+      <tag>target</tag>-attribute, which specifies the name of the output file,
+      here
+      <filename>org/mathdox/formulaeditor/modules/transc1/arccos.js</filename>.
+    </para>
+    <!-- things to replace, xml vs text -->
+    <para>
+      The <tag>model:instance</tag> contains several
+      <emphasis>XML-elements</emphasis> in the <tag>model</tag> namespace.
+      If these tags are encountered in the model, they will be replaced by
+      the corresponding contents in the instance. For example the tag
+      <tag>model:cd</tag> in the instance, here
+      <code>&lt;model:cd&gt;transc1&lt;/model:cd&gt;</code>, causes the
+      occurences of <code>&lt;model:cd/&gt;</code> in the model to be replaced
+      by the string <quote>transc1</quote>.
+    </para>
+  </section>
+  <section>
+    <title>Generation of the output</title>
+    <!-- introduction -->
+    <para>
+      This section describes how to use XSLT to generate the output from the
+      model and the list of <tag>instance</tag>-elements and describes some
+      details about the stylesheets.
+    </para>
+    <!-- how to generate -->
+    <para>
+      The generation can be done with an XSLT processor. The construction of
+      JavaScript files is done automatically when building the formulaeditor
+      with the ant <filename>build.xml</filename> script in the
+      <quote>javascript</quote> target.
+      The list of instances of JavaScript files can be found in
+      <filename>source/generated/auto.xml</filename>. The corresponding models
+      can be found in <filename>source/models/</filename> and are referenced
+      with <code>model="models/..."</code>. The XSLT-stylesheet used is
+      <filename>source/generated/xsl/model.xsl</filename>. 
+    </para>
+  </section>
+  <section>
+    <title>Conclusion</title>
+    <!-- already useful -->
+    <para>
+      Constructing a model and using it afterwards can save a lot of time.
+      Furthermore it is easier to verify if the generated files will be
+      correct.
+    </para>
+    <para>
+      At the moment one model is available:
+      <filename>models/sinlike.xml</filename> for functions in one variable
+      like <quote>sin</quote>. All files from the content dictionary 
+      <quote>transc1</quote> can be generated using this model.
+    </para>
+    <para>
+      It might be useful to add more models. Suggestions for models are
+      welcome at <email>info@mathdox.org</email>. Other suggestions and
+      comments about extending the editor or automatically generation of
+      JavaScript code or other documents are also welcome. 
+    </para>
+  </section>
+</article>

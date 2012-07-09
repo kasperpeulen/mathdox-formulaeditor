@@ -1,0 +1,9 @@
+To include: 
+1) copy the files in this directory to ant/footer/*
+2) edit footer.properies to change the paths
+3) add an <import/> tag inside the <project/> tag in the main build.xml as below:
+
+  <import file="ant/footer/footer.xml"/>
+
+4) the new target "footer" should create footer.xhtml files
+5) to do this automatically add this to the depends attribute of the mathdox target

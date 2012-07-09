@@ -11,7 +11,9 @@
         alert("org already defined, could not set options");
       } else {
         var org = { mathdox: { formulaeditor: { options: {
+          debug: true,
 	  paletteURL : "/formulaeditor/org/mathdox/formulaeditor/palette_full.xml",
+	  paletteStyle : "border : 2px solid #99F; vertical-align : middle; cursor : text; padding : 20px; background-color:white;",
 	  indentXML : true,
 	  useBar : true
 	}}}};
@@ -75,7 +77,7 @@
 
       <h4>OpenMath conversion</h4>
 
-      <textarea id='formula1' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80'>
+      <textarea id='formula1' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80' style='padding-left:20px'>
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
 	  &lt;!-- comments now allowed --&gt;

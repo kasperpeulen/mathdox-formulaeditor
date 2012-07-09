@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<book 
+  xmlns:c="jelly:core"
+  xmlns:cont="http://www.mathdox.org/MathBook/Context"
+  xmlns:j_x="jelly:xml"
+  xmlns:macro="http://www.mathdox.org/MathBook/Macro"
+  xmlns:mdf="http://www.mathdox.org/MathDox/Functions"
+  xmlns:monet="http://monet.nag.co.uk/monet/ns"
+  xmlns:om="http://www.openmath.org/OpenMath"
+  xmlns:q="http://www.mathdox.org/MathBook/Query"
+  xmlns:x="jelly:xml"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+
+<sect1>
+<title>MathDox FormulaEditor</title>
+
+<para>
+<ulink url="index.xml">Contents</ulink>
+</para>
+
+</sect1>
+<sect1>
+<title>FormulaEditor Overview</title>
+<para>
+<ulink url="intro1.xml">Introduction</ulink>
+</para>
+<para>
+<ulink url="intro1b.xml">Requirements</ulink>
+</para>
+<para>
+<ulink url="intro1c.xml">Presentation and Semantic Trees</ulink>
+</para>
+<para>
+<ulink url="intro2.xml">Status</ulink>
+</para>
+</sect1>
+<sect1>
+<title>Adapting the Formulaeditor</title>
+<para>
+<ulink url="usage.xml">Different Options</ulink>
+</para>
+<para>
+<ulink url="usage1.xml">Palette</ulink>
+</para>
+<para>
+<ulink url="models.xml">Adding new symbols</ulink>
+</para>
+</sect1>
+<sect1>
+<title>Applications</title>
+<para>
+      <ulink url="http://mathdox.org/phrasebook/">Online Services</ulink>
+</para>
+<para>
+      <ulink url="http://mathdox.org/mathdoxeditor/">MathDox Editor</ulink>
+</para>
+</sect1>
+<sect1>
+    <title>Summary</title>
+<para>
+      <ulink url="intro3.xml">Future work</ulink>
+</para>
+</sect1>
+</book>

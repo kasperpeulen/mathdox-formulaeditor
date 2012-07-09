@@ -1,0 +1,302 @@
+/* *********** Nederlands ****************** */	
+
+/* ***********GENERAL**************** */
+
+
+body {
+  
+  background:white;
+  background-color:white;  
+  background-repeat: no-repeat;
+  margin: 10px 40px 10px 350px;
+  padding: 0 0 0 0;
+  color:#333333;
+  font-family:verdana,helvetica;
+ 
+  
+}
+
+
+
+.applet{
+  position:relative;
+  float:left;
+  clear:left;
+  width:80%;
+  padding:20px 0px 20px 20px;
+  margin:0px 0px 0px 0px;
+  right:0px;
+  z-index:3;
+  color:blue;
+  text-align:center;
+}
+
+
+
+
+
+div.mediaobject, span.mediaobject {
+  position:relative;
+  float:left;
+  clear:left;
+  padding:20px 20px 20px 20px;
+  margin:0px 0px 0px 0px;
+  right:0px;
+  width:80%;
+}
+
+
+
+
+a {color:darkblue;font-family:verdana,helvetica;}
+
+a:hover {color:red;text-decoration: none;}
+b {color:#ff0000;}
+
+.example b {color:#00ff00;}
+
+
+
+
+div.geogebra {
+   position:relative;
+   color:#333333;
+   font-family:verdana,helvetica;font-size:130%;
+   width:60%;
+   left:40px;
+    margin:5px 5px 5px 5px;
+}
+
+div.informalequation {
+   position:relative;
+   color:#333333;
+   font-family:verdana,helvetica;
+   width:60%;
+   left:40px;
+    margin:5px 5px 5px 5px;
+}
+
+div.assertion {
+position:relative;
+   color:#333333;
+   font-family:verdana,helvetica;font-size:120%;
+   border-style:solid;
+   border-left-width:2px;
+    border-top-width:0px;
+      border-bottom-width:0px; 
+      border-right-width:0px; 
+   border-color:blue;
+   left:0px;
+   background-color:white; 
+   margin:20px 5px 5px 10px;
+   padding:20px 5px 5px 10px;
+  
+}
+
+div.definition {
+   position:relative;
+   color:#333333;
+   font-family:verdana,helvetica;font-size:120%;
+   border-style:solid;
+   border-left-width:2px;
+    border-top-width:0px;
+      border-bottom-width:0px; 
+      border-right-width:0px; 
+   border-color:lightgreen;
+   left:0px;
+   background-color:white; 
+   margin:20px 5px 5px 10px;
+   padding:20px 5px 5px 10px;
+  
+}
+div.example {
+   position:relative;
+   color:#333333;
+   font-family:verdana,helvetica;
+   font-size:100%;
+   max-width:100%;
+   left:0px;
+  
+}
+
+div.authorgroup {
+ position:relative;
+   color:#333333;
+   font-family:verdana,helvetica;font-size:120%;
+   border-style:solid;
+   border-left-width:2px;
+    border-top-width:0px;
+      border-bottom-width:0px; 
+      border-right-width:0px; 
+   border-color:lightblue;
+   left:0px;
+   background-color:white; 
+   margin:10px 5px 5px 10px;
+   padding:0px 5px 5px 10px;
+  
+
+}
+div.affiliation{ color:#333333;}
+
+
+ul {font-family:verdana,helvetica; margin-left: 15px;}
+
+.itemizedlist ul {list-style-type:disc;font-family:verdana,helvetica;}
+
+ol {list-style-type: lower-alpha;font-family:verdana,helvetica;}
+
+
+
+
+table {   
+left:60px; 
+margin:20px 5px 5px 10px;
+  background-color:white;  
+border:3pt;
+cellpadding:2pt;
+cellspacing:2pt;
+font-size:100%;}
+
+
+td {align:center;}
+
+tbody {background-color:#eeeeee;color:#333333;}
+
+
+
+p {color:#333333;
+  width:80%;
+  font-weight:normal;}
+
+.itemizedlist li{position:relative;display:run-in;}
+
+.itemizedlist p{color:#333333;display:run-in;}
+
+div.itemizedlist{font-weight:bold;}
+
+.typeset {
+  font-size:105%;
+}
+
+
+
+/* ***********Title**************** */
+
+
+div.titlepage {
+  color:#333333;
+  font-style:small-caps;
+  padding:0 0 0 0;
+  } 
+
+.titlepage hr{
+  border:0;
+  height:0;
+}
+
+
+
+h1.title {
+  font-size:150%;
+  color:darkblue;
+  font-family:verdana,helvetica;
+  font-weight:bold;
+  margin: 0px;
+  padding: 0 10px 0 10px;
+  background:lightblue;
+  width:80%;
+  height: 50px;
+  line-height: 50px;
+}
+
+h2.title, h3.title {
+  font-size:130%;
+  color:darkblue;
+  font-family:verdana,helvetica;
+  font-weight:bold;
+  margin: 0.3em 0 0 0;
+  padding: 10 10 10 10;
+  background:lightblue;
+  width:80%;
+}
+
+h2.author, h3.author {
+  font-size:100%;
+  color:#333333;
+  font-family:verdana,helvetica;
+  font-weight:bold;
+  margin: 0.3em 0 0 0;
+  padding: 0 0 0 0;
+ 
+}
+
+h2.subtitle a:hover, h3.subtitle a:hover {
+  color:red;text-decoration:none;
+}
+
+form {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+div {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+
+span.math {font-size:110%;}
+
+
+p { padding: 0 0 0 30;}
+
+
+pre.programlisting {padding:  0 0 0 80;}
+
+
+/* ***********MENU**************** */
+
+div#menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 330px;  
+  padding-top: 60px;
+    
+}
+
+div#menutitle {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 330px;
+  height: 50px;
+  line-height: 50px;
+  font-size:150%;  
+  color:darkblue;
+  font-family:verdana,helvetica;
+  font-weight:bold;
+  text-align: center;
+  background:lightblue;  
+}
+
+div.menucontent {
+  width: 330px;
+  background-color:#eeeeee;
+  color:#333333;
+  padding: 2px 0 2px 0;
+  margin: 0 0 10px 0;
+}
+
+div.menucontent p {
+  padding: 0 5px 0 10px;
+  height: 20px;
+  line-height: 20px;
+}
+
+div.menucontent p.title {
+  font-weight: bold;
+}
+
+div#menu a.selected {
+  font-weight: bold;
+}

@@ -1,0 +1,17 @@
+<article>
+  <title>Libraries used</title>
+  <section>
+    <title>External libraries used</title>
+  </section>
+  <para>
+    <link
+      xlink:href="http://code.google.com/explorercanvas/">ExplorerCanvas</link> :
+      HTML canvas support for Internet Explorer.
+  </para>
+  <para>
+    <link xlink:href="http://www.math.union.edu/~dpvc/jsMath/download/extra-fonts/welcome.html">jsMath sprite fonts : source of the symbols</link>
+  </para>
+  <para>
+    <link xlink:href="http://www.youngpup.net/projects/dom-drag/">DOM-drag : simple dragging library for movable palette</link>
+  </para>
+</article>

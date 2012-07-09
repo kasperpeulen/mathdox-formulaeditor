@@ -1,0 +1,39 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Entering mathematics</title>
+
+    <itemizedlist>
+      <listitem>Easy to use: WYSIWYG and intuitive</listitem>
+      <listitem>Produces a semantic representation: OpenMath</listitem>
+      <listitem>No plugins needed, not using JAVA</listitem>
+      <listitem>Easily to integrate</listitem>
+      <listitem>Open Source License (LGPL)</listitem>
+      <listitem>Easy to extend or to adapt</listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Current status</title>
+    <itemizedlist>
+      <listitem>A lot of symbols are supported</listitem>
+      <listitem>Easy to extend with new keywords and also possible to use prefix
+      	notation for unknown symbols</listitem>
+      <listitem>Fairly easy to add new complicated symbols</listitem>
+      <listitem>Optional palette, which is easy to customize</listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Future work</title>
+    <itemizedlist>
+      <listitem>Better documentation</listitem>
+      <listitem>More output formats (like CAS native languages)</listitem>
+      <listitem>Movable palette</listitem>
+      <listitem>Selection, copy, paste, undo</listitem>
+    </itemizedlist>
+  </section>
+</article>

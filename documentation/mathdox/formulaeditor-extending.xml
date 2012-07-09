@@ -1,0 +1,118 @@
+<article
+  xmlns:mathdox='http://www.mathdox.org/MathDox'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+    <xforms:model>
+      <xforms:instance>
+        <variables>
+	  <formula/>
+	</variables>
+      </xforms:instance>
+    </xforms:model>
+
+  <xhtml:script type='text/javascript'>
+  </xhtml:script>
+  <title>MathDox FormulaEditor: extending</title>
+  <section>
+    <title>Adding symbols with templates</title>
+    <para>
+      It is possible to use templates to add new symbols. The user only needs
+      to edit an XML file to add new symbols to the formulaeditor.
+    </para>
+    <example>
+      <title>Infix example</title>
+    <programlisting> <![CDATA[
+  <!-- arith1.plus -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/arith1/plus.js"
+  >
+    <model:cd>arith1</model:cd>
+    <model:name>plus</model:name>
+    <model:precedence>120</model:precedence>
+    <model:precedence2>130</model:precedence2>
+    <model:symbol_enter>+</model:symbol_enter>
+    <model:symbol_mathml>+</model:symbol_mathml>
+    <model:symbol_screen>+</model:symbol_screen>
+  </model:instance>
+      ]]></programlisting>
+    </example>
+    <example>
+      <title>Unary example</title>
+    <programlisting> <![CDATA[
+  <!-- integer1.factorial -->
+  <model:instance model="models/unary.xml"
+    target="org/mathdox/formulaeditor/modules/integer1/factorial.js"
+  >
+    <model:cd>integer1</model:cd>
+    <model:name>factorial</model:name>
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter_pre></model:symbol_enter_pre>
+    <model:symbol_enter_post>!</model:symbol_enter_post>
+    <model:symbol_mathml_pre></model:symbol_mathml_pre>
+    <model:symbol_mathml_post>!</model:symbol_mathml_post>
+    <model:symbol_screen_pre></model:symbol_screen_pre>
+    <model:symbol_screen_post>!</model:symbol_screen_post>
+  </model:instance>
+    ]]></programlisting>
+    </example>
+    <example>
+      <title>Keyword example</title>
+    <programlisting> <![CDATA[
+    <!-- arith1.gcd -->
+    <model:instance>
+      <model:cd>arith1</model:cd>
+      <model:keyword>gcd</model:keyword>
+      <model:mathml>&lt;mi&gt;gcd&lt;/mi&gt;</model:mathml>
+      <model:name>gcd</model:name>
+      <model:onscreen>gcd</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    ]]></programlisting>
+    </example>
+  </section>
+  <section>
+    <title>Modifying the palette</title>
+    <para>
+      The palette is described in OpenMath with some special symbols in a
+      private CD describing the palette-rows palette-entries and input-boxes.
+    </para>
+    <para>
+      If is furthermore possible to select the palette using javascript: ( the
+      URL should be local to the webpage calling the javascript).
+    </para>
+    <programlisting>
+      <![CDATA[
+  <script type='text/javascript'>
+    if (org) {
+      alert("org already defined, could not set options");
+    } else {
+      var org = { mathdox: { formulaeditor: { options: {
+        paletteURL : "transc1.xml",
+        indentXML : true
+      }}}};
+    }
+  </script>
+  <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+  </script>
+    ]]>
+    </programlisting>
+    <para> 
+      In MathDox this can also be done by adding an <tag>xforms:textarea</tag>-element.
+    </para>
+    <programlisting>
+      <![CDATA[
+  <xforms:textarea ref='formula' class='math-editor' 
+    mathdox:options='{ 
+      fontSize: 300, 
+      paletteURL : "palette_transc1.xml" 
+    }' 
+  />
+      ]]>
+    </programlisting>
+    <para>
+      <xforms:textarea ref='formula' class='math-editor' mathdox:options='{ fontSize: 300, paletteURL : "palette_transc1.xml" }' />
+    </para>
+  </section>
+</article>

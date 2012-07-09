@@ -1,0 +1,20 @@
+<toc>
+  <title>FormulaEditor</title>
+  <tocdiv>
+    <tocentry>
+      <ulink url="../index.xml">Contents</ulink>
+    </tocentry>
+  </tocdiv>
+  <tocdiv>
+    <title>Customization</title>
+    <tocentry>
+      <ulink url="example1.xml">Draggable Palette</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="example2.xml">Different Palette</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="example3.xml">Different Style</ulink>
+    </tocentry>
+  </tocdiv>
+</toc>

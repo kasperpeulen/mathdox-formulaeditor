@@ -164,6 +164,11 @@ $main(function(){
           var fontSize  = canvas.fontSize;
           var character = String.fromCharCode(event.charCode);
 
+	  // XXX enter, fire DOMActivate event in the future
+	  if (event.charCode == 13) {
+		  return false;
+	  }
+
           // see whether there is a character for pressed key in current font
           if (canvas.getSymbolData(character)) {
 
@@ -180,7 +185,7 @@ $main(function(){
                        ((character >= 'A') && (character <='Z'))) {
               moveright = this.insert(editor.cursor.position.index, 
                 new Symbol(character, "math"));
-            } else {
+	    } else {
               moveright = this.insert(editor.cursor.position.index, 
                 new Symbol(character));
             }

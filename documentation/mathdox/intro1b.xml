@@ -1,0 +1,27 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Requirements</title>
+
+    <para>
+      Context e-learning
+    </para>
+
+    <itemizedlist>
+      <listitem>Easy to use: WYMIWYG and intuitive</listitem>
+      <listitem>Produces a semantic representation: OpenMath (for evaluation)</listitem>
+      <listitem>No plugins needed</listitem>
+      <listitem>implemented in Javascript</listitem>
+      <listitem>Drawing sprites on an HTML Canvas</listitem>
+      <listitem>Easy to integrate (using a hidden HTML TextArea)</listitem>
+      <listitem>Easy to extend or to adapt</listitem>
+      <listitem>Open Source License (LGPL)</listitem>
+    </itemizedlist>
+
+  </section>
+</article>

@@ -1,0 +1,15 @@
+<article>
+  <title>Some things about a large Javascript project</title>
+  <section>
+    <title>About the implementation</title>
+    <para>
+      Modular setup.
+    </para>
+    <para>
+      More than 80 different Javascript files.
+    </para>
+    <para>
+      Only a few files are added to the DOM tree. 
+    </para>
+  </section>
+</article>

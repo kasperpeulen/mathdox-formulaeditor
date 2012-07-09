@@ -1,0 +1,33 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Introduction</title>
+
+<!--    <itemizedlist>
+      <listitem>Easy to use: WYSIWYM and intuitive</listitem>
+      <listitem>Produces a semantic representation: OpenMath</listitem>
+      <listitem>No plugins needed, not using JAVA</listitem>
+      <listitem>Written in JavaScript</listitem>
+      <listitem>Drawing sprites on an HTML Canvas</listitem>
+      <listitem>Easy to integrate (using a hidden HTML TextArea)</listitem>
+      <listitem>Easy to extend or to adapt</listitem>
+      <listitem>Open Source License (LGPL)</listitem>
+    </itemizedlist>
+-->
+    <para>
+      Several ways exist to enter mathematics : no <emphasis>standard</emphasis>.
+    </para>
+    <itemizedlist>
+    <listitem>LaTeX (not intuitive, but can be small)</listitem>
+    <listitem>Clicking on a Palette (often large editors, with many symbols)</listitem>
+    </itemizedlist>
+    <para>
+      Goal: create an easy to use mathematical input editor for use on the web, that combines the best of all editors.
+    </para>
+  </section>
+</article>

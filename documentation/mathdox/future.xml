@@ -1,0 +1,30 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Future work</title>
+    <itemizedlist>
+      <listitem>selection</listitem>
+      <listitem>different fontsizes for subscript/superscript</listitem>
+      <listitem>continue work on services and integration</listitem>
+      <listitem>continue work on MathDox Editor</listitem>
+      <listitem>configurable parsing rules (with tests)</listitem>
+      <listitem>multiple input line (what does this mean)</listitem>
+      <listitem>names for palette tabs</listitem>
+    </itemizedlist>
+    <section>
+      <title>More documentation</title>
+      <itemizedlist>
+        <listitem>extend the manual</listitem>
+        <listitem>create more documention for the implementation/api</listitem>
+        <listitem>create help for within the page containing the formulaeditor (or maybe a tooltip)</listitem>
+        <listitem>create example page with inline mathml display (not just the xml code)</listitem>
+	<listitem>these page are already a good start</listitem>
+      </itemizedlist>
+    </section>
+  </section>
+</article>

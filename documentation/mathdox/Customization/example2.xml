@@ -1,0 +1,29 @@
+<article xmlns:xforms="http://www.w3.org/2002/xforms"
+xmlns:mathdox='http://www.mathdox.org/MathDox'
+>
+  <title>A simple page with a formulaeditor </title>
+  <section>
+    <title>Customizing the palette</title>
+    <para>
+      The layout of the Palette can be customized. The Palette can be
+      described using OpenMath with the additional Content Dictionary
+      <varname>editor1</varname>. This can then be added by setting the option
+      <varname>paletteURL</varname> .
+    </para>
+  <programlisting><![CDATA[
+  <script type='text/javascript'>
+    if (org) {
+      alert("org already defined, could not set options");
+    } else {
+      var org = { mathdox: { formulaeditor: { options: {
+        paletteURL : "palette_full.xml"
+      }}}};
+    }
+  </script>
+  <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+  </script>
+  ]]>
+        </programlisting>
+     <xforms:textarea ref='formula' class='math-editor' mathdox:options='{ paletteURL : "palette_full.xml" }' />
+  </section>
+</article>

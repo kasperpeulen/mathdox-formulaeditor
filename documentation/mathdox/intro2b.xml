@@ -1,0 +1,16 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Presentation and Semantic trees</title>
+    <mediaobject>
+      <imageobject>
+        <imagedata format="SVG" fileref="trees.svg" contentwidth="100%"/>
+      </imageobject>
+    </mediaobject>
+  </section>
+</article>

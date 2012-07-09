@@ -1,0 +1,74 @@
+<article>
+  <title>Introduction</title>
+  <section>
+    <title>Entering Mathematics on a webpage</title>
+    <para>
+      On the web HTML Forms are often used to obtain information from someone
+      who is visiting a webpage. If a mathematical formula needs to be entered
+      it is often more interesting what the formula means then in what form it
+      is entered. For example <code>x+1</code> is different from
+      <code>1+x</code> but is for most purposes equivalent.
+    </para>
+    <para>
+      OpenMath is a language in which it is possible to describe what a formula
+      means, i.e. the <emphasis>semantics</emphasis> of the formula. It is an
+      XML format, for which several interfaces are written (in Java) with
+      Computer Algebra Systems. It is possible to call a computer algebra
+      system to verify if a formula is equivalent to another. In particular,
+      it is possible to test if the entered formula is equivalent to the
+      correct answer of a question.
+    </para>
+    <para>
+      OpenMath, however, is not easy to enter by hand. This leads to the desire
+      of a WYSIWYM (What You See Is What You Mean) input method. 
+      It would be preferrable if this input method could be coupled to the
+      usual way of input in HTML: Forms. The logical element would be
+      a TextArea, since the OpenMath would generally not fit on a single line.
+    </para>
+    <para>
+      The server can then process the Form correctly if the TextArea contains
+      what the user means (in OpenMath) and the user will see the formula and
+      not the OpenMath.
+    </para>
+  </section>
+  <section>
+    <title>The MathDox Formula Editor</title>
+    <para>
+      The MathDox formula editor is a web-based editor designed to enable
+      entering mathematical formulas in webpages as described above. It has
+      been developed at the Technische Universiteit Eindhoven as a means for
+      students to enter formulas in an e-learning environment. Its main
+      features are listed below.
+    </para>
+    <itemizedlist>
+      <listitem>It has a two-dimensional WYSIWYM interface.</listitem>
+      <listitem>It can produce a semantic representation of the formula.</listitem>
+      <listitem>No plugins need to be installed in the browser to use the editor.</listitem>
+      <listitem>It can be easily integrated into existing HTML pages.</listitem>
+      <listitem>It is available under an open source license.</listitem>
+    </itemizedlist>
+    <para>
+       The editor is written in Javascript and uses the HTML5 canvas element in
+       combination with jsMath sprite fonts to render mathematics.
+    </para>
+    <para>
+       Any questions or comments about the editor are welcome and can be
+       directed at <email>info@mathdox.org</email>.
+    </para>
+  </section>
+  <section>
+    <title>Future Work</title>
+    <para>
+      Some things that would be nice to have in the future are:
+    </para>
+    <itemizedlist>
+      <listitem>selection</listitem>
+      <listitem>communication with services that translate to a native language of a computer algebra system or evaluate expressions</listitem>
+      <listitem>multiple line input (possibly with new editors)</listitem>
+      <listitem>extend the manual</listitem>
+      <listitem>create documention for the implementation/api</listitem>
+      <listitem>create help for within the page containing the formulaeditor (or maybe a tooltip)</listitem>
+      <listitem>create example page with inline mathml display (not just the xml code)</listitem>
+    </itemizedlist>
+  </section>
+</article>

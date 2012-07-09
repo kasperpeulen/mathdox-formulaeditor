@@ -1,0 +1,95 @@
+<OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'>
+  <OMA>
+    <OMS cd='editor1' name='palette'/>
+    <OMA>
+      <OMS cd='editor1' name='palette_tab'/>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMA>
+          <OMS cd='transc1' name='cos'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='sin'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='tan'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMA>
+          <OMS cd='transc1' name='cosh'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='sinh'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='tanh'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMA>
+          <OMS cd='transc1' name='arccos'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='arcsin'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='arctan'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMA>
+          <OMS cd='transc1' name='arccosh'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='arcsinh'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='arctanh'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+    </OMA>
+    <OMA>
+      <OMS cd='editor1' name='palette_tab'/>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+	<OMI>1</OMI>
+	<OMI>2</OMI>
+	<OMI>3</OMI>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+	<OMI>4</OMI>
+	<OMI>5</OMI>
+	<OMI>6</OMI>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+	<OMI>7</OMI>
+	<OMI>8</OMI>
+	<OMI>9</OMI>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+	<OMS cd='arith1' name='plus'/>
+	<OMI>0</OMI>
+	<OMS cd='arith1' name='minus'/>
+      </OMA>
+    </OMA>
+  </OMA>
+</OMOBJ>

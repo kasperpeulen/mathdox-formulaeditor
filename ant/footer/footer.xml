@@ -1,0 +1,27 @@
+<!--
+  Creates the mathdox manual zipfile.
+  2008-05-19
+  Jan Willem Knopper, TU/e
+-->
+<project basedir='.' name='footer'>
+
+  <!-- footer.xml -->
+  <dirname property="footer.basedir" file="${ant.file.footer}"/>
+
+  <property file="${footer.basedir}/footer.properties"/>
+
+  <target name='footer' 
+    description='Create a copy for deployment (no .svn dir)'
+  >
+    <xslt basedir='${footer.source}'
+      includes='**/footer.xml'
+      style='${footer.basedir}/source/xsl/footer.xsl'
+      destdir='${footer.target}'
+      force='true'
+      extension='.xhtml'
+      processor='trax'
+      classpathref='saxon.classpath'
+    />
+  </target>
+  
+</project>

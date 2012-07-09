@@ -1,0 +1,41 @@
+<article>
+  <title>Communication with a Computer Algebra System</title>
+  <section>
+    <title>Phrasebooks</title>
+    <para>
+      A CAS can be invoked using a <emphasis>MONET</emphasis> query. 
+    </para>
+    <para>
+      A <emphasis>phrasebook</emphasis> translates
+      <emphasis>OpenMath</emphasis> to the <emphasis>native language</emphasis>
+      of the CAS.
+    </para>
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref='om-model1.png' format='PNG' align='center'/>
+      </imageobject>
+      <textobject>
+        <phrase>
+        MathDox - (OpenMath) - phrasebook - (native language) - CAS
+	</phrase>
+      </textobject>
+      <caption>
+        external phrasebook
+      </caption>
+    </mediaobject>
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref='om-model2.png' format='PNG' align='center'/>
+      </imageobject>
+      <textobject>
+        <phrase>
+	MathDox - (OpenMath) - phrasebook - (native language) - CAS [with
+	phrasebook and direct OpenMath link to MathDox]
+	</phrase>
+      </textobject>
+      <caption>
+        phrasebook partially inside the CAS
+      </caption>
+    </mediaobject>
+  </section>
+</article>

@@ -2,9 +2,11 @@
   The Mathdox Formula Editor build file.
   2007-04-26
   Mark Spanbroek, TU/e
+  Jan Willem Knopper, TU/e
 -->
 <project basedir='.' default='default'>
 
+  <import file="ant/footer/footer.xml"/>
   <!--
     Load properties from the build.properties file.
   -->
@@ -295,6 +297,18 @@
       <report format='noframes' todir="build/tests/report"/>
     </junitreport>
 
+  </target>
+
+  <target name='doc' depends='footer'>
+    <copy todir="build/mathdox" overwrite="true">
+      <fileset dir="documentation/mathdox">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
+    <zip destfile='build/release/formulaeditor-doc-${version}.jar'>
+      <zipfileset dir='build/mathdox' prefix='formulaeditor-${version}'/>
+    </zip>
   </target>
 
   <!--

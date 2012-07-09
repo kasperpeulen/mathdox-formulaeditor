@@ -1,0 +1,40 @@
+<article xmlns:xforms="http://www.w3.org/2002/xforms"
+xmlns:mathdox='http://www.mathdox.org/MathDox'
+>
+  <title>A simple page with a formulaeditor </title>
+  <section>
+       <title>changing the layout of the MathDox Formula Editor</title>
+      <para>
+        The fontsize of the Formula Editor can be changed by pressing 
+        <keycombo><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> or
+        <keycombo><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>. 
+        It is also possible to do this using the <varname>fontSize</varname> option.
+      </para>
+      <para>
+        It is possible to change the style of the Formula Editor Canvas and
+        Formula Editor Palette. 
+        The default is to copy the style of the textarea (but this is not done
+        if <varname>ignoreTextareaStyle</varname> is <code>true</code>) and
+        then modify some settings. This can be changed by setting the
+        <varname>inputStyle</varname> and/or <varname>paletteStyle</varname>
+        variables. These contain a string containing the style of the Editor
+        Canvas and Palette Canvas respectively.
+     </para>
+ <programlisting><![CDATA[
+  <script type='text/javascript'>
+    if (org) {
+      alert("org already defined, could not set options");
+    } else {
+      var org = { mathdox: { formulaeditor: { options: {
+        fontSize : 300,
+        paletteStyle : "background-color : yellow;"
+      }}}};
+    }
+  </script>
+  <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
+  </script>
+  ]]>
+  </programlisting>
+   </section>
+    <xforms:textarea ref='formula' class='math-editor' mathdox:options='{ fontSize : 300, paletteStyle : "background_color: yellow;" }' />
+</article>

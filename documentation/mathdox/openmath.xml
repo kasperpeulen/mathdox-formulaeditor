@@ -1,0 +1,57 @@
+<article
+  xmlns:ev='http://www.w3.org/2001/xml-events'
+  xmlns:mathdox='http://www.mathdox.org/MathDox'
+  xmlns:xforms="http://www.w3.org/2002/xforms"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+>
+  <title>The MathDox Formula Editor</title>
+  <section>
+    <title>Demo showing OpenMath code</title>
+
+    <!-- TODO highlights from FE manpage -->
+    <para>
+      A demo page that shows how the <link
+      xlink:href='http://dam02.win.tue.nl/formulaeditor/'>MathDox Formula
+      Editor</link> can be used to enter mathematics.
+    </para>
+
+    <xforms:model>
+      <xforms:instance>
+        <variables>
+	  <formula>
+	    &lt;OMOBJ&gt;
+	      &lt;OMS cd='editor1' name='input_box'/&gt;
+	    &lt;/OMOBJ&gt;
+	  </formula>
+	  <!-- U+25A1 white square -->
+	  <mathml>
+	   &lt;mi&gt;&#x25a1;&lt;/mi&gt;
+	  </mathml>
+	</variables>
+      </xforms:instance>
+    </xforms:model>
+
+    <para>
+      <xforms:textarea id='formula1' ref='formula' xhtml:rows="10" xhtml:cols="80" class='math-editor mathdoxvisibletextarea' mathdox:options='{indentXML:true, dragPalette:false}'/>
+      <xforms:trigger>
+        <xforms:label>Update MathML</xforms:label>
+	<xforms:action ev:event="DOMActivate">
+	  <xxforms:script>
+	     var mathml = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").getMathML();
+
+	     var textarea = document.getElementById("mathml1");
+
+	     textarea.value = mathml;
+	  </xxforms:script>
+	</xforms:action>
+      </xforms:trigger>
+    </para>
+    <para>
+      <xforms:textarea id='mathml1' ref='mathml' xhtml:rows="10" xhtml:cols="80"/>
+    </para>
+
+
+  </section>
+</article>

@@ -37,16 +37,15 @@ $main(function(){
       },
 
       getMathML : function() {
-	var base = this.operands[0].getMathML();
-	var index = this.operands[1].getMathML();
+	var base = this.operands[0];
+	var index = this.operands[1];
 
 	// TODO: also generate msqrt if index is integer, value 2
-	if (index instanceof semantics.Integer && index.value == 2) {
+	if (index instanceof semantics.Integer && index && index.value == 2) {
+	  // note: inferred mrow, but we might produce one
           return "<msqrt>" + base.getMathML() + "</msqrt>";
 	} else {
-	  // note: inferred mrow, but we might produce one
-	  org.mathdox.formulaeditor.FormulaEditor.addDebug("index.value: "+index.value);
-          return "<mroot>" + base + index + "</mroot>";
+          return "<mroot>" + base.getMathML() + index.getMathML() + "</mroot>";
 	}
       }
 

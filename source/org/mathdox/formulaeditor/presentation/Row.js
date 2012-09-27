@@ -104,6 +104,58 @@ $main(function(){
       },
 
       /**
+       * Returns the MathML presentation of the node.
+       */
+      getMathML: function(mrow) {
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var result = [];
+        var mode = "none";
+        var newmode = "none";
+        var arg = [];
+
+        /* for all children add the corresponding mathml */
+        /* TODO: do tricks for mi/mo/mn */
+
+        var i;
+
+        for (i = 0; i < this.children.length; i++) {
+          if (this.children[i] instanceof presentation.Symbol) {
+            newmode = "symbol";
+          } else {
+            newmode = "none";
+          }
+
+          if (newmode != mode) {
+            if (mode != "none") {
+              // TODO: do magic stuff
+              // add result to result var
+              arg = [];
+            }
+            if (newmode != "none") {
+              arg = [];
+            }
+          } 
+          if (newmode == "none") {
+            result.push(this.children[i].getMathML());
+          } else { // mode = "symbol"
+            arg.push(this.children[i].value);
+          }
+
+          mode = newmode;
+        }
+
+        /**
+         * wrap in mrow when not implicit
+         * if length is 1, then skip (already 1 term, no row needed)
+         */
+        if (mrow !== undefined && mrow !== null && mrow === true && result.length != 1) {
+          result = "<mrow>" + result.join("") + "</mrow>";
+        } else {
+          result = result.join("");
+        }
+      },
+
+      /**
        * Handles an onkeydown event from the browser. Returns false when the
        * event has been handled and should not be handled by the browser,
        * returns true otherwise.
@@ -130,7 +182,7 @@ $main(function(){
               }
               return false;
 
-            case 46: // delete 
+            case 46: // delete
               this.remove(editor.cursor.position.index);
               // after deleting the last character, add a new input box
               if (this.isEmpty()) {
@@ -164,10 +216,10 @@ $main(function(){
           var fontSize  = canvas.fontSize;
           var character = String.fromCharCode(event.charCode);
 
-	  // XXX enter, fire DOMActivate event in the future
-	  if (event.charCode == 13) {
-		  return false;
-	  }
+          // XXX enter, fire DOMActivate event in the future
+          if (event.charCode == 13) {
+            return false;
+          }
 
           // see whether there is a character for pressed key in current font
           if (canvas.getSymbolData(character)) {
@@ -179,14 +231,14 @@ $main(function(){
             // insert the character into the row, and move the cursor
             if (character == " ") {
               // spaces do not have a value
-              moveright = this.insert(editor.cursor.position.index, 
+              moveright = this.insert(editor.cursor.position.index,
                 new Symbol([""," "]));
             } else if (((character >= 'a') && (character <='z'))||
                        ((character >= 'A') && (character <='Z'))) {
-              moveright = this.insert(editor.cursor.position.index, 
+              moveright = this.insert(editor.cursor.position.index,
                 new Symbol(character, "math"));
-	    } else {
-              moveright = this.insert(editor.cursor.position.index, 
+            } else {
+              moveright = this.insert(editor.cursor.position.index,
                 new Symbol(character));
             }
             if (moveright) {
@@ -197,7 +249,7 @@ $main(function(){
             editor.save();
             return false;
 
-          } 
+          }
 
         }
 
@@ -262,7 +314,7 @@ $main(function(){
       },
 
       getLastCursorPosition : function(index) {
-        if (index === null || index === undefined || 
+        if (index === null || index === undefined ||
             index < this.children.length) {
           return this.getPrecedingCursorPosition();
         }
@@ -376,7 +428,7 @@ $main(function(){
               bestIndex = i;
             }
           }
-          if (this.children[bestIndex] !== null && 
+          if (this.children[bestIndex] !== null &&
             this.children[bestIndex] !== undefined) {
             return this.children[bestIndex].getLowerCursorPosition(null, x);
           }
@@ -413,7 +465,7 @@ $main(function(){
               bestIndex = i;
             }
           }
-          if (this.children[bestIndex] !== null && 
+          if (this.children[bestIndex] !== null &&
             this.children[bestIndex] !== undefined) {
             return this.children[bestIndex].getHigherCursorPosition(null, x);
           }
@@ -442,10 +494,10 @@ $main(function(){
           node = new BlockSymbol();
         }
 
-        if (fillempty && index<=this.children.length && 
+        if (fillempty && index<=this.children.length &&
           this.children[index] instanceof BlockSymbol) {
           this.children.splice(index, 1, node);
-        } else if (fillempty && index-1>=0 && 
+        } else if (fillempty && index-1>=0 &&
             this.children[index-1] instanceof BlockSymbol) {
           this.children.splice(index-1, 1, node);
           newindex = index - 1;
@@ -483,22 +535,22 @@ $main(function(){
       getSemantics : function(context, begin, end, start, backward) {
 
         // assign default values to parameters
-        if (begin    === null || begin    === undefined ) { 
+        if (begin    === null || begin    === undefined ) {
           begin    = 0;
         }
-        if (end      === null || end      === undefined ) { 
-          end      = this.children.length; 
+        if (end      === null || end      === undefined ) {
+          end      = this.children.length;
         }
-        if (start    === null || start    === undefined) { 
+        if (start    === null || start    === undefined) {
           start    = "start";
         }
-        if (backward === null || backward === undefined) { 
+        if (backward === null || backward === undefined) {
           backward = false;
         }
 
         // use the expressionparser to parse the elements of the row
-	var ContextParser;
-	ContextParser = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser;
+        var ContextParser;
+        ContextParser = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser;
 
         var Parser;
         Parser = new ContextParser().getParser(context); //for now use empty context
@@ -525,11 +577,11 @@ $main(function(){
 
               // if the row element is a symbol, add its value to input string
               input = input + child.value;
-              
+
               if (child.value == "") {
                 // special case: space, count it
                 adjustIndex=adjustIndex+1;
-              } 
+              }
             }
             else {
 
@@ -567,7 +619,7 @@ $main(function(){
             }
 
           })();
-          
+
           // adjust the index for this position
           originalIndex[i] = i + adjustIndex;
         }

@@ -86,33 +86,18 @@ $main(function(){
     handlemtext: function(node, context) {
       return this.handleTextNode(node, context);
     },
-    /* general layout schemata */
+    /** 
+     * generaa layout schemata
+     *
+     * supported elements:
+     * mrow, mfrac, msqrt, mroot, mstyle(*), merror(*), mpadded(*),
+     * mphantom(**), mfenced, menclose(*)
+     *
+     * notes: 
+     *  * treated as mrow
+     *  ** returns null
+     */
 
-    /* general layout : math:mfrac */
-    handlemfrac: function(node, context) {
-      var children = node.getChildNodes();
-      var entries = [];
-      var presentation = org.mathdox.formulaeditor.presentation;
-
-      for (var i=0; i<children.length; i++) {
-        var child = this.handle(children.item(i), context);
-
-        entries.push(child);
-      }
-
-      return new presentation.Fraction(entries[0], entries[1]);
-    },    
-    /* general layout : math:mroot */
-    handlemroot: function(node, context) {
-      var children = node.getChildNodes();
-
-      var base = this.handle(children.item(0), context);
-      var index = this.handle(children.item(1), context);
-
-      var presentation = org.mathdox.formulaeditor.presentation;
-
-      return new presentation.Root(index, base);
-    },
     /* general layout : math:mrow */
     handlemrow: function(node, context) {
       var children = node.getChildNodes();
@@ -132,6 +117,22 @@ $main(function(){
       row.initialize.apply(row, entries);
       return row;
     },
+
+    /* general layout : math:mfrac */
+    handlemfrac: function(node, context) {
+      var children = node.getChildNodes();
+      var entries = [];
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      for (var i=0; i<children.length; i++) {
+        var child = this.handle(children.item(i), context);
+
+        entries.push(child);
+      }
+
+      return new presentation.Fraction(entries[0], entries[1]);
+    },    
+
     /* general layout : math:sqrt */
     handlemsqrt: function(node, context) {
       var presentation = org.mathdox.formulaeditor.presentation;
@@ -141,13 +142,95 @@ $main(function(){
 
       return new presentation.Root(index, base);
     },
+
+    /* general layout : math:mroot */
+    handlemroot: function(node, context) {
+      var children = node.getChildNodes();
+
+      var base = this.handle(children.item(0), context);
+      var index = this.handle(children.item(1), context);
+
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      return new presentation.Root(index, base);
+    },
+
     /*
      * general layout : math:mstyle 
      * currently : ignore, treat as row
      */
     handlemstyle: function(node, context) {
       return this.handlemrow(node, context);
+    },
+
+    /*
+     * general layout : math:merror 
+     * currently : ignore, treat as row
+     */
+    handlemerror: function(node, context) {
+      return this.handlemrow(node, context);
+    },
+
+    /*
+     * general layout : math:mpadded 
+     * currently : ignore, treat as row
+     */
+    handlempadded: function(node, context) {
+      return this.handlemrow(node, context);
+    },
+
+    /*
+     * general layout : math:mphantom 
+     * currently : return null
+     */
+    handlempadded: function(node, context) {
+      return this.handlemrow(node, context);
+    },
+
+    /*
+     * general layout : math:mphantom 
+     */
+    handlemfenced: function(node, context) {
+      var opensymbol = node.getAttribute("open");
+      var closesymbol = node.getAttribute("close");
+      var separators = node.getAttribute("separators");
+      var children = node.getChildNodes();
+
+      var presentation = org.mathdox.formulaeditor.presentation;
+      var entries = [];
+
+      if (opensymbol === null || opensymbol === undefined) {
+	opensymbol = '(';
+      } 
+      entries.push(new presentation.Symbol(opensymbol));
+      
+      if (separators === null || separators === undefined) {
+	separators = ',';
+      } else {
+        // remove spaces
+      }
+
+      // for each child : add child and possibly separator
+      for (var i = children.length - 1; i>=0; i--) {
+        if (i>0) {
+	  // add separator
+	}
+      }
+
+      if (closesymbol === null || closesymbol === undefined) {
+	closesymbol = ')';
+      } 
+      entries.push(new presentation.Symbol(closesymbol));
+    },
+
+    /*
+     * general layout : math:menclose 
+     * currently : ignore, treat as row
+     */
+    handlemenclose: function(node, context) {
+      return this.handlemrow(node, context);
     }
+
   });
 
 });

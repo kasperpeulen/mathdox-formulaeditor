@@ -119,6 +119,14 @@ $main(function(){
     },
 
     /**
+     * Returns the MathML presentation of the node. This is an abstract method,
+     * so it is expected that subclasses will override this method.
+     */
+    getMathML : function(mrow) {
+      throw new Error("abstract method called");
+    },
+
+    /**
      * Method which is called whenever this node changes. Calls the parent's
      * onchange method by default.
      */

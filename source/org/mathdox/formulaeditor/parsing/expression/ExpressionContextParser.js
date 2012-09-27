@@ -51,11 +51,13 @@ $main(function() {
         var Options = new org.mathdox.formulaeditor.Options();
 
         /* set context options based on options */
+	/* XXX move this to options.getCachedContext() */
 
         cachedContext = {
           decimalMark : Options.getDecimalMark(),
           listSeparator : Options.getListSeparator(),
 	  optionArith1DivideMode: Options.getArith1DivideMode(),
+	  optionArith1PowerInversePrefix: Options.getArith1PowerOptionInversePrefix(),
 	  optionArith1PowerPrefix: Options.getArith1PowerOptionPrefix(),
 	  styleTransc1Log: Options.getTransc1LogStyle(),
 	  symbolArith1Times: Options.getArith1TimesSymbol()

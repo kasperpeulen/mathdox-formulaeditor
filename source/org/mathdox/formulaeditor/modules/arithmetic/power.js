@@ -1,7 +1,8 @@
-
+$identify("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 
@@ -87,6 +88,92 @@ $main(function(){
         return oper;
       };
 
+      var func_powInvCheck = function(oper) {
+        return false;
+      };
+
+      var func_powInvUpdate = function(oper) {
+        return oper;
+      };
+
+      var names = [
+        "arccos", "arccosh", "arccot", "arccoth", "arccsc", "arccsch",
+        "arcsec", "arcsech", "arcsin", "arcsinh", "arctan", "arctanh", "cos",
+        "cosh", "cot", "coth", "csc", "csch", /* "exp", "ln", "log", */ "sec",
+        "sech", "sin", "sinh", "tan", "tanh"
+      ];
+
+      if (context.optionArith1PowerInversePrefix === "true") {
+        func_powInvCheck = function(operInput) {
+            var oper;
+  
+            oper = operInput;
+            // oper should be a function application
+            if (! (oper instanceof semantics.FunctionApplication) ) {
+              return false;
+            }
+  
+            // symbol should exist
+            if (oper.symbol === undefined || oper.symbol === null) {
+              return false;
+            } 
+  
+            oper = oper.symbol;
+  
+            if (! (oper instanceof semantics.Power) ) {
+              return false;
+            }
+            
+            if (!((oper.operands[0] instanceof semantics.Keyword) && oper.operands[0].cd == "transc1")) {
+              // base of power is not a transc1 function
+              return false;
+            }
+  
+            if (names.indexOf(oper.operands[0].name) === -1 ) {
+              return false;
+            }
+
+            // exponent should be negative
+            if (oper.operands[1] instanceof semantics.Arith1Unary_minus) {
+              return true;
+            }
+  
+            return false;
+          };
+          func_powInvUpdate = function(oper) {
+  
+            if (func_powInvCheck(oper)) {
+              var oldsymbol = oper.symbol.operands[0];
+              var oldname = oldsymbol.name;
+              var newname;
+
+              if (oldname.substring(0,3) == "arc") {
+                newname = oldname.substring(3);
+              } else {
+                newname = "arc" + oldname;
+              }
+
+              var basename = oldsymbol.cd + "__" + newname;
+              var base = org.mathdox.formulaeditor.parsing.openmath.KeywordList[basename];
+
+              var negativeExponent = oper.symbol.operands[1]; 
+              var exponent = negativeExponent.operands[0]; 
+
+              var power;
+
+              if (exponent instanceof semantics.Integer && exponent.value == 1) {
+                power = base;
+              } else {
+                power = new semantics.Power(base, exponent);
+              }
+
+              return new semantics.FunctionApplication(power, oper.operands, oper.style);
+            } else {
+              return oper;
+            }
+          };
+        } 
+
       if (context.optionArith1PowerPrefix === "true") {
         func_powCheck = function(operInput) {
           var oper;
@@ -102,21 +189,27 @@ $main(function(){
             return false;
           } 
 
-	  oper = oper.symbol;
+          oper = oper.symbol;
 
           if (! (oper instanceof semantics.Power) ) {
             return false;
           }
           
-	  if ((oper.operands[0] instanceof semantics.Keyword) && oper.operands[1].cd == "transc1") {
+          if (!((oper.operands[0] instanceof semantics.Keyword) && oper.operands[0].cd == "transc1")) {
+            // base of power is not a transc1 function
+            return false;
+          }
+
+          if (names.indexOf(oper.operands[0].name) === -1 ) {
+            return false;
+          }
+
+          // exponent should be variable: sin^n (x) or an integer: sin^2(x)
+          if ((oper.operands[1] instanceof semantics.Variable) ) {
             return true;
           }
 
-	  if ((oper.operands[1] instanceof semantics.Variable) ) {
-            return true;
-          }
-
-	  if ((oper.operands[1] instanceof semantics.Integer) && oper.operands[1].value > 0 ) {
+          if ((oper.operands[1] instanceof semantics.Integer) && oper.operands[1].value > 0 ) {
             return true;
           }
 
@@ -129,7 +222,7 @@ $main(function(){
 
             var base = new semantics.FunctionApplication(symbol, oper.operands);
 
-	    var exponent = oper.symbol.operands[1]; 
+            var exponent = oper.symbol.operands[1]; 
 
             return new semantics.Power(base, exponent);
           } else {
@@ -162,7 +255,7 @@ $main(function(){
       // note copy from ExpressionParser
       func_Update: function(oper) {
         var parent = arguments.callee.parent;
-        return parent.func_Update( func_powUpdate(oper) );
+        return parent.func_Update( func_powUpdate( func_powInvUpdate( oper ) ) );
       },
 
       

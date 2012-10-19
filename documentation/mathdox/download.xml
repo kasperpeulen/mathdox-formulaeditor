@@ -19,6 +19,9 @@
     <para>
       Download <xlink href='formulaeditor-@version@.zip'>formulaeditor-@version@.zip</xlink>.
     </para>
+    <para>
+      A public subversion repository is also available at: <code>https://mathdox.org/svn/repos/public/formulaeditor</code>.
+    </para>
   </section>
 </article>
 

@@ -37,7 +37,7 @@
       <listitem><para><code>fontSize</code>: 50, 60, 70, 85, 100, 120, 144, 173, 207, 249, 298, 358, 430</para></listitem>
       <listitem><para><code>inputStyle</code></para></listitem>
       <listitem><para><code>onloadFocus</code>: <code>true</code>, <emphasis><code>false</code></emphasis>, <quote>&lt;id&gt;</quote></para></listitem>
-      <listitem><para><code>undo</code>: <code>true</code>, <emphasis><code>false</code></emphasis>&lt;id&gt;</quote></para></listitem>
+      <listitem><para><code>undo</code>: <code>true</code>, <emphasis><code>false</code></emphasis></para></listitem>
     </itemizedlist>
   </section>
   <section>

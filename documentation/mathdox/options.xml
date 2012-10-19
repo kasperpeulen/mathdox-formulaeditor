@@ -28,17 +28,101 @@
       indentXML
       inputStyle
   -->
+
+      <listitem><para><code></code></para></listitem>
+
   <section>
     <title>Generic Options</title>
+    <itemizedlist>
+      <listitem><para><code>fontSize</code>: 50, 60, 70, 85, 100, 120, 144, 173, 207, 249, 298, 358, 430</para></listitem>
+      <listitem><para><code>inputStyle</code></para></listitem>
+      <listitem><para><code>onloadFocus</code>: <code>true</code>, <emphasis><code>false</code></emphasis>, <quote>&lt;id&gt;</quote></para></listitem>
+      <listitem><para><code>undo</code>: <code>true</code>, <emphasis><code>false</code></emphasis>&lt;id&gt;</quote></para></listitem>
+    </itemizedlist>
   </section>
   <section>
     <title>Palette Options</title>
+    <itemizedlist>
+      <listitem><para><code>dragPalette</code>: <code>true</code>, <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><code>paletteHighlight</code>: <emphasis><code>true</code></emphasis>, <code>false</code></para></listitem>
+      <listitem><para><code>paletteShow</code></para>: <quote>all</quote>, <quote>none</quote>, <emphasis><quote>one</quote></emphasis></listitem>
+      <listitem><para><code>paletteStyle</code></para></listitem>
+      <listitem><para><code>paletteURL</code></para></listitem>
+      <listitem><para><code>useBar</code>: <emphasis><code>true</code></emphasis>, <code>false</code></para></listitem>
+    </itemizedlist>
   </section>
   <section>
     <title>Formula Options</title>
+    <itemizedlist>
+      <listitem><para><code>decimalMark</code>: <quote>.</quote> or <quote>,</quote></para></listitem>
+      <listitem><para><code>modeArith1Divide</code>: <quote>normal</quote> or <quote>restricted</quote></para></listitem>
+      <listitem><para><code>optionArith1PowerInversePrefix</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><code>optionArith1PowerPrefix</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><code>styleArith1Times</code></para>: <emphasis><quote>dot</quote></emphasis>, <quote>cross</quote>, <quote>star</quote></listitem>
+      <listitem><para><code>styleTransc1Log</code></para>: <emphasis><quote>function</quote></emphasis>, <quote>prefix</quote>, <quote>postfix</quote></listitem>
+    </itemizedlist>
   </section>
   <section>
     <title>Options for advanced users</title>
+    <itemizedlist>
+      <listitem><para><code>AncientOrbeon</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><code>debug</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><code>indentXML</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Documentation as found in Options.js:</title>
+    <programlisting>
+    <![CDATA[
+// ancientOrbeon: if set to true: do not warn about old orbeon
+// contextParsingExpression: set to an object describing the context for the ExpressionParser
+// debug: is debug enabled ?
+// decimalMark: character for decimal mark
+// - '.' : use period as in US
+// - ',' : use comma as in Europe
+// dragPalette: if set to true: enable draggable Palette
+// fontSize: set font size 
+// paletteHighlight: highlight Palette
+// - true (default): highlight Palette onmouseover
+// - false: do not highlight Palette
+// indentXML: indent created XML
+// inputStyle: set default style for Editor Canvases
+// modeArith1Divide: set mode for handling arith1.divide
+// - normal: automatically put unary minus and times expressions as enumerators
+// - restricted: only parse power and higher priority
+// optionArith1PowerInversePrefix
+// - true : allow sin^-1(x) -> arcsin(x)
+// - false : (default)
+// optionArith1PowerPrefix
+// - true : allow sin^2(x)
+// - false : (default)
+// onloadFocus: set focus on load 
+// - true gives focus to the first formulaeditor
+// - <id> as string gives focus to the formulaeditor corresponding to the
+//   textarea with id <id>
+// paletteShow : default behaviour when showing palettes, choices : 
+// - "all" gives a palette if not specified by class
+// - "none" gives no palette if not specified by class
+// - "one" (default) gives a palette if not specified by class when there
+//   is none in the page yet, 
+// paletteStyle: set default style for Palette Canvases
+// paletteURL: url for palette
+// styleArith1Times: behavior for times symbol
+// - "dot" show a middle dot (default)
+// - "cross" show a cross
+// - "star" show an asterisk
+// styleTransc1Log: behavior for logarithm symbol
+// - "function" log(10, x)
+// - "prefix"   ^10 log (x)
+// - "postfix"  log_10(x)
+// undo: whether to enable experimental undo
+// - true (default): enable undo
+// - false: disable undo
+// useBar : enable Bar to turn palette on/off
+// - true (default): enable bar
+// - false: disable bar 
+    ]]>
+    </programlisting>
   </section>
   <!--
     <section>

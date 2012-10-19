@@ -26,10 +26,13 @@
   <tocdiv>
     <title>Customization</title>
     <tocentry>
-      <ulink url="usage.xml">Usage</ulink>
+      <ulink url="options.xml">Options</ulink>
     </tocentry>
     <tocentry>
-      <ulink url="usage1.xml">Options: Palette</ulink>
+      <ulink url="usage.xml">Usage (old)</ulink>
+    </tocentry>
+    <tocentry>
+      <ulink url="usage1.xml">Options: Palette (old)</ulink>
     </tocentry>
     <tocentry>
       <ulink url="models.xml">Adding new symbols</ulink>

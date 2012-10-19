@@ -1,0 +1,175 @@
+<article>
+  <title>Global Functions in the MathDox Formula Editor</title>
+  <section>
+    <title>dynamically adding textareas</title>
+    <section>
+      <title>updateByTextAreas</title>
+      <programlisting>
+<![CDATA[
+  /**
+   * Update the editor list, based on the current tree, focusing on which
+   * textareas are present.
+   *
+   * In effect, create a new editor for each *relevant* textarea that has no 
+   * corresponding editor. Here relevant means having the class
+   * mathdoxformulaeditor.
+   * 
+   * clean: boolean, if true also do the following:
+   *   - remove all editors for which no textarea is present
+   *   - remove all *relevant* canvases for which no editor is present
+   *     (here relevant means having the class ???)
+   */
+  org.mathdox.formulaeditor.FormulaEditor.updateByTextAreas = function(clean) 
+]]>
+      </programlisting>
+    </section>
+  </section>
+  <section>
+    <title>cleanup functions</title>
+    <para>
+      The cleanup functions can be useful when <tagname>textarea</tagname> or <tagname>canvas</tagname> elements are moved or removed.
+    </para>
+    <section>
+      <title>cleanup</title>
+      <para>
+        The following function calls all the cleanup operations in order:
+      </para>
+      <programlisting>
+<![CDATA[
+  /**
+   * Perform several cleanup operations
+   * 
+   * - Check all Formula Editor objects in editors
+   *   + check if the textarea and canvas still exist (and are visible)
+   *   + if the canvas doesn't exist anymore; remove the Formula Editor (and
+   *     textarea)
+   *   + if the textarea doesn't exist anymore, it should be reconstructed (?)
+   * - Check all *mathdoxformula* canvases and remove those without Editor
+   * - Check all *mathdoxformula* textareas and remove those without Editor
+   * - Make sure for all editors that the textarea is placed directly after the
+   *   canvas.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanup = function() {
+    this.cleanupEditors();
+    this.cleanupCanvases();
+    this.cleanupTextareas();
+    this.cleanupGroup();
+  };
+]]>
+      </programlisting>
+    </section>
+    <section>
+      <title>cleanupEditors</title>
+      <programlisting>
+<![CDATA[
+  /**
+   * Perform some cleanup operations
+   * 
+   * - Check all Formula Editor objects in editors
+   *   + check if the textarea and canvas still exist (and are visible)
+   *   + if the canvas doesn't exist anymore; remove the Formula Editor (and
+   *     textarea)
+   *   + if the textarea doesn't exist anymore, remove the Formula Editor (and
+   *     canvas) 
+   *     in the future : maybe reconstructed it ?
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupEditors = function()
+]]>
+      </programlisting>
+    </section>
+    <section>
+      <title>cleanupCanvases</title>
+      <programlisting>
+<![CDATA[
+ /**
+   * Perform some cleanup operations
+   * 
+   * - Check all *mathdoxformula* canvases and remove those without Editor
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupCanvases = function() 
+]]>
+      </programlisting>
+    </section>
+    <section>
+      <title>cleanupTextareas</title>
+      <programlisting>
+<![CDATA[
+ /**
+   * Perform some cleanup operations
+   * 
+   * - Check all *mathdoxformula* textareas and remove those without Editor
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupTextareas = function()
+]]>
+      </programlisting>
+    </section>
+    <section>
+      <title>cleanupGroup</title>
+      <programlisting>
+<![CDATA[
+  /**
+   * Perform some cleanup operations
+   * 
+   * - Make sure for all editors that the textarea is placed directly after the
+   *   canvas.
+   * 
+   * returns true if all editors have a textarea and canvas and false otherwise
+   */
+  org.mathdox.formulaeditor.FormulaEditor.cleanupGroup = function()
+]]>
+      </programlisting>
+    </section>
+  </section>
+  <section>
+    <title>Other functions</title>
+    <section>
+      <title>getEditorByCanvas</title>
+      <programlisting>
+<![CDATA[
+  /**
+   * Add the static getEditorByCanvas(canvas) method, that returns the
+   * formula editor corresponding to a certain canvas. 
+   * 
+   * canvas - a string or an HTMLElement
+   *
+   * NOTE: might not work in IE if canvas is not an HTMLElement (check)
+   *
+   * It returns null when none of the editors in the page corresponds to the 
+   * canvas given as argument.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getEditorByCanvas = function(canvas) 
+]]>
+      </programlisting>
+    </section>
+    <section>
+      <title>getEditorByTextArea</title>
+      <programlisting>
+<![CDATA[
+  /**
+   * Add the static getEditorByTextArea(textarea) method, that returns the
+   * formula editor corresponding to a certain textarea. 
+   * 
+   * textarea - a string or an HTMLTextAreaElement
+   *
+   * It returns null when none of the editors in the page corresponds to the 
+   * textarea given as argument.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea = function(textarea)
+]]>
+      </programlisting>
+    </section>
+    <section>
+      <title>getFocusedEditor</title>
+      <programlisting>
+<![CDATA[
+  /**
+   * Add the static getFocusedEditor() method, that returns the formula editor
+   * that currently has focus. Returns null when none of the editors in the page
+   * have focus.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor = function()
+]]>
+      </programlisting>
+    </section>
+  </section>
+</article>

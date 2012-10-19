@@ -63,9 +63,10 @@
 </para>
 </sect1>
 <sect1>
-    <title>Summary</title>
+    <title>Other</title>
 <para>
-      <ulink url="intro3.xml">Future work</ulink>
+  <!-- <ulink url="intro3.xml">Future work</ulink> -->
+  <ulink url='global-functions.xml'>Global Functions</ulink>
 </para>
 </sect1>
 </book>

@@ -54,7 +54,10 @@
     </tocentry>
   </tocdiv>
   <tocdiv>
-    <title>Summary</title>
+    <title>Other</title>
+    <tocentry>
+      <ulink url="global-functions.xml">Global functions</ulink>
+    </tocentry>
     <tocentry>
       <ulink url="future.xml">Future work</ulink>
     </tocentry>

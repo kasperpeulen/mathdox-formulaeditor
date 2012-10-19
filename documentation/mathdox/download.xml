@@ -17,7 +17,7 @@
       Note that all versions with rc in the name are development versions.
     </para>
     <para>
-      Download <link xlink:href='formulaeditor-@version@.zip'>formulaeditor-@version@.zip</link>.
+      Download <link xlink:href='/downloads/formulaeditor/formulaeditor-@version@.zip'>formulaeditor-@version@.zip</link>.
     </para>
     <para>
       A public subversion repository is also available at: <code>https://mathdox.org/svn/repos/public/formulaeditor</code>.

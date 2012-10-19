@@ -300,7 +300,12 @@
   </target>
 
   <target name='doc' depends='footer'>
-    <copy todir="build/mathdox" overwrite="true">
+    <filter token='version' value='${version}'/>
+    <copy 
+      todir="build/mathdox" 
+      overwrite="true"
+      filtering="true"
+    >
       <fileset dir="documentation/mathdox">
         <include name="**"/>
       </fileset>

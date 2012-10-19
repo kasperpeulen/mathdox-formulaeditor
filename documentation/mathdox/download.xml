@@ -1,0 +1,24 @@
+<article 
+  xmlns:c="jelly:core"
+  xmlns:cont="http://www.mathdox.org/MathBook/Context"
+  xmlns:j_x="jelly:xml"
+  xmlns:macro="http://www.mathdox.org/MathBook/Macro"
+  xmlns:mdf="http://www.mathdox.org/MathDox/Functions"
+  xmlns:monet="http://monet.nag.co.uk/monet/ns"
+  xmlns:om="http://www.openmath.org/OpenMath"
+  xmlns:q="http://www.mathdox.org/MathBook/Query"
+  xmlns:x="jelly:xml"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+
+  <section>
+    <title>MathDox FormulaEditor</title>
+    <para>
+      Note that all versions with rc in the name are development versions.
+    </para>
+    <para>
+      Download <xlink href='formulaeditor-@version@.zip'>formulaeditor-@version@.zip</xlink>.
+    </para>
+  </section>
+</article>
+

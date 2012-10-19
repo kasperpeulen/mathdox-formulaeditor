@@ -29,45 +29,43 @@
       inputStyle
   -->
 
-      <listitem><para><code></code></para></listitem>
-
   <section>
     <title>Generic Options</title>
     <itemizedlist>
-      <listitem><para><code>fontSize</code>: 50, 60, 70, 85, 100, 120, 144, 173, 207, 249, 298, 358, 430</para></listitem>
-      <listitem><para><code>inputStyle</code></para></listitem>
-      <listitem><para><code>onloadFocus</code>: <code>true</code>, <emphasis><code>false</code></emphasis>, <quote>&lt;id&gt;</quote></para></listitem>
-      <listitem><para><code>undo</code>: <code>true</code>, <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><phrase>fontSize</phrase>: 50, 60, 70, 85, 100, 120, 144, 173, 207, 249, 298, 358, 430</para></listitem>
+      <listitem><para><phrase>inputStyle</phrase></para></listitem>
+      <listitem><para><phrase>onloadFocus</phrase>: <phrase>true</phrase>, <emphasis><phrase>false</phrase></emphasis>, <quote>&lt;id&gt;</quote></para></listitem>
+      <listitem><para><phrase>undo</phrase>: <phrase>true</phrase>, <emphasis><phrase>false</phrase></emphasis></para></listitem>
     </itemizedlist>
   </section>
   <section>
     <title>Palette Options</title>
     <itemizedlist>
-      <listitem><para><code>dragPalette</code>: <code>true</code>, <emphasis><code>false</code></emphasis></para></listitem>
-      <listitem><para><code>paletteHighlight</code>: <emphasis><code>true</code></emphasis>, <code>false</code></para></listitem>
-      <listitem><para><code>paletteShow</code></para>: <quote>all</quote>, <quote>none</quote>, <emphasis><quote>one</quote></emphasis></listitem>
-      <listitem><para><code>paletteStyle</code></para></listitem>
-      <listitem><para><code>paletteURL</code></para></listitem>
-      <listitem><para><code>useBar</code>: <emphasis><code>true</code></emphasis>, <code>false</code></para></listitem>
+      <listitem><para><phrase>dragPalette</phrase>: <phrase>true</phrase>, <emphasis><phrase>false</phrase></emphasis></para></listitem>
+      <listitem><para><phrase>paletteHighlight</phrase>: <emphasis><phrase>true</phrase></emphasis>, <phrase>false</phrase></para></listitem>
+      <listitem><para><phrase>paletteShow</phrase>: <quote>all</quote>, <quote>none</quote>, <emphasis><quote>one</quote></emphasis></para></listitem>
+      <listitem><para><phrase>paletteStyle</phrase></para></listitem>
+      <listitem><para><phrase>paletteURL</phrase></para></listitem>
+      <listitem><para><phrase>useBar</phrase>: <emphasis><phrase>true</phrase></emphasis>, <phrase>false</phrase></para></listitem>
     </itemizedlist>
   </section>
   <section>
     <title>Formula Options</title>
     <itemizedlist>
-      <listitem><para><code>decimalMark</code>: <quote>.</quote> or <quote>,</quote></para></listitem>
-      <listitem><para><code>modeArith1Divide</code>: <quote>normal</quote> or <quote>restricted</quote></para></listitem>
-      <listitem><para><code>optionArith1PowerInversePrefix</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
-      <listitem><para><code>optionArith1PowerPrefix</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
-      <listitem><para><code>styleArith1Times</code></para>: <emphasis><quote>dot</quote></emphasis>, <quote>cross</quote>, <quote>star</quote></listitem>
-      <listitem><para><code>styleTransc1Log</code></para>: <emphasis><quote>function</quote></emphasis>, <quote>prefix</quote>, <quote>postfix</quote></listitem>
+      <listitem><para><phrase>decimalMark</phrase>: <quote>.</quote> or <quote>,</quote></para></listitem>
+      <listitem><para><phrase>modeArith1Divide</phrase>: <quote>normal</quote> or <quote>restricted</quote></para></listitem>
+      <listitem><para><phrase>optionArith1PowerInversePrefix</phrase>: <phrase>true</phrase> or <emphasis><phrase>false</phrase></emphasis></para></listitem>
+      <listitem><para><phrase>optionArith1PowerPrefix</phrase>: <phrase>true</phrase> or <emphasis><phrase>false</phrase></emphasis></para></listitem>
+      <listitem><para><phrase>styleArith1Times</phrase>: <emphasis><quote>dot</quote></emphasis>, <quote>cross</quote>, <quote>star</quote></para></listitem>
+      <listitem><para><phrase>styleTransc1Log</phrase>: <emphasis><quote>function</quote></emphasis>, <quote>prefix</quote>, <quote>postfix</quote></para></listitem>
     </itemizedlist>
   </section>
   <section>
     <title>Options for advanced users</title>
     <itemizedlist>
-      <listitem><para><code>AncientOrbeon</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
-      <listitem><para><code>debug</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
-      <listitem><para><code>indentXML</code>: <code>true</code> or <emphasis><code>false</code></emphasis></para></listitem>
+      <listitem><para><phrase>AncientOrbeon</phrase>: <phrase>true</phrase> or <emphasis><phrase>false</phrase></emphasis></para></listitem>
+      <listitem><para><phrase>debug</phrase>: <phrase>true</phrase> or <emphasis><phrase>false</phrase></emphasis></para></listitem>
+      <listitem><para><phrase>indentXML</phrase>: <phrase>true</phrase> or <emphasis><phrase>false</phrase></emphasis></para></listitem>
     </itemizedlist>
   </section>
   <section>

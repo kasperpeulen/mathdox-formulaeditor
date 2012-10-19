@@ -41,10 +41,13 @@
 <sect1>
 <title>Adapting the Formulaeditor</title>
 <para>
-<ulink url="usage.xml">Different Options</ulink>
+<ulink url="options.xml">Options (under construction)</ulink>
 </para>
 <para>
-<ulink url="usage1.xml">Palette</ulink>
+<ulink url="usage.xml">Options (old)</ulink>
+</para>
+<para>
+<ulink url="usage1.xml">Palette (old)</ulink>
 </para>
 <para>
 <ulink url="models.xml">Adding new symbols</ulink>

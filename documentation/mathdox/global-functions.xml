@@ -1,5 +1,30 @@
-<article>
+<article
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
   <title>Global Functions in the MathDox Formula Editor</title>
+  <section>
+    <title>Introduction</title>
+    <para>
+      This page contains some information about global functions available in
+      the MathDox Formula Editor. Most of these are for developers who modify
+      the DOM-tree.
+    </para>
+    <para>
+      After creating a new <tag>textarea</tag> it is possible to a
+      corresponding editor by calling <code>updateByTextAreas</code>.
+    </para>
+    <para>
+      After moving some elements around it is possible to call some cleanup
+      functions to make sure no orphaned <tag>canvas</tag>es or
+      <tag>textarea</tag>s remain.
+    </para>
+    <para>
+      Most of these functions were added for the <link xlink:href="http://dam03.win.tue.nl/mexicoeditor/">MathDox Mexico Editor</link>.
+    </para>
+    <para>
+      <emphasis>This page is under construction. It is up to date, but it needs reformatting and some internal linking.</emphasis>
+    </para>
+  </section>
   <section>
     <title>dynamically adding textareas</title>
     <section>
@@ -27,7 +52,7 @@
   <section>
     <title>cleanup functions</title>
     <para>
-      The cleanup functions can be useful when <tagname>textarea</tagname> or <tagname>canvas</tagname> elements are moved or removed.
+      The cleanup functions can be useful when <tag>textarea</tag> or <tag>canvas</tag> elements are moved or removed.
     </para>
     <section>
       <title>cleanup</title>

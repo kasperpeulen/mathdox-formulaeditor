@@ -1448,7 +1448,7 @@ $main(function(){
         
         if (j==textareas.length) {
           /* textarea not found, delete the editor */
-          this.deleteFormulaEditor(i);
+          this.deleteEditor(i);
         } else {
           i=i+1;
         }

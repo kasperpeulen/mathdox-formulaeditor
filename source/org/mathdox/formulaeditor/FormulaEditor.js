@@ -140,7 +140,10 @@ $main(function(){
         // copy style attributes from the textarea to the canvas
         for (x in this.textarea.style) {
           try {
-            palcanvas.style[x] = this.textarea.style[x];
+            // fix for opera: do not do it for height
+	    if (x != "height") {
+              palcanvas.style[x] = this.textarea.style[x];
+	    }
           }
           catch(exception) {
             // skip

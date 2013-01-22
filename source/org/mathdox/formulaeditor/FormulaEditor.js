@@ -147,9 +147,14 @@ $main(function(){
           }
         }
       }
-      // fix for opera: do not do it for height
-      if (palcanvas.style.height !== undefined) {
-	delete palcanvas.style.height;
+
+      // fix for opera
+      if (palcanvas.style.getPropertyValue("height") != "") {
+        try {
+          palcanvas.style.removeProperty("height");
+        } catch(exception) {
+          // skip
+        }
       }
 
       // set the style attributes that determine the look of the palette
@@ -333,8 +338,12 @@ $main(function(){
           }
 
           // fix for opera
-	  if (canvas.style.height !== undefined) {
-            delete canvas.style.height;
+	  if (canvas.style.getPropertyValue("height") != "") {
+            try {
+              canvas.style.removeProperty("height");
+	    } catch(exception) {
+	      // skip
+	    }
 	  }
 
           canvas.className = "mathdoxformula";

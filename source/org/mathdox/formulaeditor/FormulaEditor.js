@@ -140,15 +140,16 @@ $main(function(){
         // copy style attributes from the textarea to the canvas
         for (x in this.textarea.style) {
           try {
-            // fix for opera: do not do it for height
-	    if (x != "height") {
-              palcanvas.style[x] = this.textarea.style[x];
-	    }
+            palcanvas.style[x] = this.textarea.style[x];
           }
           catch(exception) {
             // skip
           }
         }
+      }
+      // fix for opera: do not do it for height
+      if (palcanvas.style.height !== undefined) {
+	delete palcanvas.style.height;
       }
 
       // set the style attributes that determine the look of the palette
@@ -323,17 +324,18 @@ $main(function(){
           if (! org.mathdox.formulaeditor.options.ignoreTextareaStyle) {
             for (x in textarea.style) {
               try {
-		if (x!= "height") {
-                  canvas.style[x] = textarea.style[x];
-		} else {
-	          alert("debug: height");
-		}
+                canvas.style[x] = textarea.style[x];
               }
               catch(exception) {
                 // skip
               }
             }
           }
+
+          // fix for opera
+	  if (canvas.style.height !== undefined) {
+            delete canvas.style.height;
+	  }
 
           canvas.className = "mathdoxformula";
 

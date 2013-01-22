@@ -323,7 +323,11 @@ $main(function(){
           if (! org.mathdox.formulaeditor.options.ignoreTextareaStyle) {
             for (x in textarea.style) {
               try {
-                canvas.style[x] = textarea.style[x];
+		if (x!= "height") {
+                  canvas.style[x] = textarea.style[x];
+		} else {
+	          alert("debug: height");
+		}
               }
               catch(exception) {
                 // skip

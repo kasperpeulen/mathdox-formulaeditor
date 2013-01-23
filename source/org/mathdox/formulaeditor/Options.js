@@ -21,7 +21,10 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // inputStyle: set default style for Editor Canvases
 // modeArith1Divide: set mode for handling arith1.divide
 // - normal: automatically put unary minus and times expressions as enumerators
-// - restricted: only parse power and higher priority
+// - restricted: only parse power and higher priority (default)
+// - inline: just insert a symbol (default: slash)
+//     NOTE: if styleArith1Divide is set to colon, div or slash then the mode
+//     automatically becomes inline
 // optionArith1PowerInversePrefix
 // - true : allow sin^-1(x) -> arcsin(x)
 // - false : (default)
@@ -39,6 +42,11 @@ $identify("org/mathdox/formulaeditor/Options.js");
 //   is none in the page yet, 
 // paletteStyle: set default style for Palette Canvases
 // paletteURL: url for palette
+// styleArith1Divide: behavior for divide symbol
+// - "colon" inline with a ratio symbol (U+2236 or :)
+// - "div" inline with a division sign symbol (U+00F7)
+// - "mfrac" display style with a line between the arguments
+// - "slash" inline with a slash symbol (U+2215 or /)
 // styleArith1Times: behavior for times symbol
 // - "dot" show a middle dot (default)
 // - "cross" show a cross
@@ -75,11 +83,29 @@ $main(function() {
     },
     getArith1DivideMode : function () {
       var option = this.getOption("modeArith1Divide");
+      var style = this.getOption("styleArith1Divide");
 
-      if (option == 'normal' || option == 'restricted') {
+      if (style == 'colon' || style == 'div' || style == 'slash') {
+	return "inline";
+      } else if (option == 'normal' || option == 'restricted' || option == 'inline') {
       	return option;
       } else {
         return "restricted";
+      }
+    },
+    getArith1DivideSymbol : function () {
+      var option = this.getOption("styleArith1Divide");
+
+      if (option == 'colon') {
+        return ':'; // normal colon, 
+	// NOTE: it might be better to return U+2236 ratio, but that would be
+	// confusing to the user
+      } else if (option == 'div') {
+        return '÷'; // U+00F7 is division sign 
+      } else if (option == 'slash') {
+        return '∕'; // U+2215 is division slash
+      } else {
+        return '∕'; // U+2215 is division slash
       }
     },
     getArith1PowerOptionInversePrefix : function () {

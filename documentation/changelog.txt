@@ -1,0 +1,5 @@
+1.1rc22 support for :
+  with option modeArith1Divide: 'inline' and styleArith1Divide
+
+1.1rc21 added a fix for opera 
+  (Opera sets a height 0 attribute to a canvas, which is now removed)

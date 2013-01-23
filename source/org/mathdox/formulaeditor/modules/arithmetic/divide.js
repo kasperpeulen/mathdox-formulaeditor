@@ -26,10 +26,20 @@ $main(function(){
       getPresentation : function(context) {
 
         var presentation = org.mathdox.formulaeditor.presentation;
-        return new presentation.Row(new presentation.Fraction(
-          this.operands[0].getPresentation(context),
-          this.operands[1].getPresentation(context)
-        ));
+        var options = new org.mathdox.formulaeditor.Options;
+
+        if (options.getArith1DivideMode() == "inline") {
+          return new presentation.Row(
+            this.operands[0].getPresentation(context),
+            new presentation.Symbol(options.getArith1DivideSymbol()),
+            this.operands[1].getPresentation(context)
+          );
+        } else {
+          return new presentation.Row(new presentation.Fraction(
+            this.operands[0].getPresentation(context),
+            this.operands[1].getPresentation(context)
+          ));
+        }
 
       },
 
@@ -70,43 +80,68 @@ $main(function(){
   /**
    * Add the parsing code for division.
    */
+  var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
-  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
-    function(context) { return {
-
-      // expression160 = divide | super.expression160
-      expression160 : function() {
-        var parent = arguments.callee.parent;
-        pG.alternation(
-          pG.rule("divide"),
-          pG.rule("divide_silent_addition"),
-          parent.expression160).apply(this, arguments);
-      },
-
-      // divide = never
-      divide : pG.never,
-
-      divide_silent_addition : 
-        pG.transform(
+  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( function(context) { 
+    if (context.optionArith1DivideMode == "inline") {
+      return {
+        // expression130 = divide | super.expression130
+        expression130 : function() {
+          var parent = arguments.callee.parent;
+          pG.alternation(
+            pG.rule("divide"),
+            parent.expression130).apply(this, arguments);
+        },
+        
+        // divide = expression130 <div-symbol> expression140
+        divide : pG.transform(
           pG.concatenation(
-            pG.rule("integer"),
-            pG.rule("divide")),
+            pG.rule("expression130"),
+            pG.literal(context.symbolArith1Divide),
+            pG.rule("expression140")
+          ),
           function(result) {
-            var semantics = org.mathdox.formulaeditor.semantics; 
-            var plus = new semantics.Arith1Plus(result[0],result[1]);
-            plus.style="invisible";
-            return plus;
+            return new semantics.Divide(result[0], result[2]);
           }
-        ),
-
-      // parseNumber = divide | divide_silent_addition | parseNumber
-      parseNumber : function() {
-        var parent = arguments.callee.parent;
-        pG.alternation(
-          pG.rule("divide"),
-          pG.rule("divide_silent_addition"),
-          parent.parseNumber).apply(this, arguments);
+        )
+      };
+    } else {
+      return {
+  
+        // expression160 = divide | super.expression160
+        expression160 : function() {
+          var parent = arguments.callee.parent;
+          pG.alternation(
+            pG.rule("divide"),
+            pG.rule("divide_silent_addition"),
+            parent.expression160).apply(this, arguments);
+        },
+  
+        // divide = never
+        divide : pG.never,
+  
+        divide_silent_addition : 
+          pG.transform(
+            pG.concatenation(
+              pG.rule("integer"),
+              pG.rule("divide")),
+            function(result) {
+              var semantics = org.mathdox.formulaeditor.semantics; 
+              var plus = new semantics.Arith1Plus(result[0],result[1]);
+              plus.style="invisible";
+              return plus;
+            }
+          ),
+  
+        // parseNumber = divide | divide_silent_addition | parseNumber
+        parseNumber : function() {
+          var parent = arguments.callee.parent;
+          pG.alternation(
+            pG.rule("divide"),
+            pG.rule("divide_silent_addition"),
+            parent.parseNumber).apply(this, arguments);
+        }
       }
     };
   });
@@ -128,6 +163,20 @@ $main(function(){
 
           // check whether the '/' key has been pressed
           if (String.fromCharCode(event.charCode) == "/") {
+
+            if (editor.getExpressionParsingContext().optionArith1DivideMode == 'inline') {
+              // inline case: insert symbol
+              // substitute the charCode of "·" for "*".
+              var newEvent = {};
+              for (var x in event) {
+                newEvent[x] = event[x];
+              }
+              newEvent.charCode = editor.getPresentationContext().symbolArith1Divide.charCodeAt(0);
+              event = newEvent;
+
+              // call the overridden method
+              return arguments.callee.parent.onkeypress.call(this, event, editor);
+            }
 
             var Fraction = org.mathdox.formulaeditor.presentation.Fraction;
             var index    = editor.cursor.position.index;

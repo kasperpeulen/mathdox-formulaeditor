@@ -60,6 +60,7 @@ $main(function() {
 	  optionArith1PowerInversePrefix: Options.getArith1PowerOptionInversePrefix(),
 	  optionArith1PowerPrefix: Options.getArith1PowerOptionPrefix(),
 	  styleTransc1Log: Options.getTransc1LogStyle(),
+	  symbolArith1Divide: Options.getArith1DivideSymbol(),
 	  symbolArith1Times: Options.getArith1TimesSymbol()
         };
       }

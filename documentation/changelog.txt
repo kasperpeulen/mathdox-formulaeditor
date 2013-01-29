@@ -1,3 +1,8 @@
+1.1rc23 added option
+  - verboseStyle: support for exporting times and divide options (not used for
+    import)
+  - styleArith1Divide now changes mathml output 
+
 1.1rc22 support for :
   with option modeArith1Divide: 'inline' and styleArith1Divide
 

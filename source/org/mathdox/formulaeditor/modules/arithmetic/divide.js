@@ -43,12 +43,37 @@ $main(function(){
 
       },
 
-      getMathML : function() {
+      getSymbolMathML : function() {
+        var options = new org.mathdox.formulaeditor.Options();
+        return "<mo>"+ options.getArith1DivideSymbol() +"</mo>";
+      },
 
-        return "<mfrac>" +
-          this.operands[0].getMathML() +
-          this.operands[1].getMathML() +
-          "</mfrac>";
+      getSymbolOpenMath : function() {
+        var options = new org.mathdox.formulaeditor.Options();
+        var result;
+        if (options.getVerboseStyleOption() == "true") {
+          var arr = this.symbol.openmath.split("/");
+          result = arr.join(" style='" + options.getArith1DivideStyle()  + "'/");
+        } else {
+          result = this.symbol.openmath;
+        }
+        return result;
+      },
+
+
+      getMathML : function() {
+        var options = new org.mathdox.formulaeditor.Options();
+
+	if (options.getArith1DivideMode() == "normal" || options.getArith1DivideMode() == "restricted") {
+          return "<mfrac>" +
+            this.operands[0].getMathML() +
+            this.operands[1].getMathML() +
+            "</mfrac>";
+	} else {
+	  // inline, use the default method
+	  var parent = arguments.callee.parent;
+	  return parent.getMathML.apply(this, arguments);
+	}
 
       }
 
@@ -237,5 +262,5 @@ $main(function(){
       }
 
     });
-
+    
 });

@@ -31,6 +31,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // optionArith1PowerPrefix
 // - true : allow sin^2(x)
 // - false : (default)
+// optionVerboseStyle
+// - "true": add style to divide and times
+// - "false": (default)
 // onloadFocus: set focus on load 
 // - true gives focus to the first formulaeditor
 // - <id> as string gives focus to the formulaeditor corresponding to the
@@ -69,6 +72,9 @@ $main(function() {
       decimalMark: '.',
       featureUndo: true,
       modeArith1Divide: 'restricted',
+      optionVerboseStyle: 'false',
+      styleArith1Divide: 'mfrac',
+      styleArith1Times: 'dot',
       styleTransc1Log: 'function',
       symbolArith1Times: '·' // U+00B7 Middle dot
     },
@@ -93,13 +99,22 @@ $main(function() {
         return "restricted";
       }
     },
+    getArith1DivideStyle : function () {
+      var option = this.getOption("styleArith1Divide");
+
+      if (option == 'colon' || option == 'div' || option == 'mfrac' || option == 'slash') {
+	return option;
+      }
+
+      return this.defaultOptions.styleArith1Divide;
+    },
     getArith1DivideSymbol : function () {
       var option = this.getOption("styleArith1Divide");
 
       if (option == 'colon') {
         return ':'; // normal colon, 
-	// NOTE: it might be better to return U+2236 ratio, but that would be
-	// confusing to the user
+        // NOTE: it might be better to return U+2236 ratio, but that would be
+        // confusing to the user
       } else if (option == 'div') {
         return '÷'; // U+00F7 is division sign 
       } else if (option == 'slash') {
@@ -125,6 +140,15 @@ $main(function() {
       } else {
         return "false";
       }
+    },
+    getArith1TimesStyle : function () {
+      var option = this.getOption("styleArith1Times");
+
+      if (option == 'dot' || option == 'cross' || option == 'star') {
+	return option;
+      }
+
+      return this.defaultOptions.styleArith1Times;
     },
     getArith1TimesSymbol : function () {
       var option = this.getOption("styleArith1Times");
@@ -167,6 +191,15 @@ $main(function() {
       } 
 
       return this.defaultOptions.styleTransc1Log;
+    },
+    getVerboseStyleOption : function() {
+      var option = this.getOption("optionVerboseStyle");
+
+      if (option == 'true' || option == 'false') {
+        return option;
+      } 
+
+      return this.defaultOptions.optionVerboseStyle;
     }
   });
 });

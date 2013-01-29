@@ -54,6 +54,10 @@ $main(function(){
         return this.symbol.onscreen;
       },
 
+      getSymbolOpenMath : function(context) {
+        return this.symbol.openmath;
+      },
+
       /**
        * The precedence level of the operator.
        */
@@ -156,7 +160,7 @@ $main(function(){
           result = result + " style='" + this.style + "'";
         }
 
-        result = result + ">" + this.symbol.openmath;
+        result = result + ">" + this.getSymbolOpenMath();
         for (var i=0; i<this.operands.length; i++) {
           result = result + this.operands[i].getOpenMath();
         }

@@ -56,6 +56,18 @@ $main(function(){
         return "<mo>"+ options.getArith1TimesSymbol() +"</mo>";
       },
 
+      getSymbolOpenMath : function() {
+        var options = new org.mathdox.formulaeditor.Options();
+	var result;
+	if (options.getVerboseStyleOption() == "true") {
+	  var arr = this.symbol.openmath.split("/");
+          result = arr.join(" style='" + options.getArith1TimesStyle()  + "'/");
+	} else {
+	  result = this.symbol.openmath;
+	}
+        return result;
+      },
+
       precedence : 130,
       precedence : 140
 

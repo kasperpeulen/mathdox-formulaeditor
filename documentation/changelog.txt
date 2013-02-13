@@ -1,3 +1,7 @@
+1.1rc24
+  - OMF now with single quotes (was one of the few with double quotes)
+  - openmath2.html now uses relative path
+
 1.1rc23 added option
   - verboseStyle: support for exporting times and divide options (not used for
     import)

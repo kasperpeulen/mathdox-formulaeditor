@@ -108,7 +108,7 @@ $main(function(){
         var i; // counter
         
         result.push("<OMBIND>");
-        result.push("<OMS cd=\"fns1\" name=\"lambda\"/>");
+        result.push("<OMS cd='fns1' name='lambda'/>");
         
         // bound variables
         result.push("<OMBVAR>");

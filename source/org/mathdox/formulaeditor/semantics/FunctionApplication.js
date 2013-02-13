@@ -149,7 +149,7 @@ $main(function(){
 	}
 
         if (this.style !== null) {
-          result = "<OMA style=\""+this.style+"\">";
+          result = "<OMA style='"+this.style+"'>";
         } else {
           result = "<OMA>";
         }

@@ -200,7 +200,20 @@ $main(function() {
       } 
 
       return this.defaultOptions.optionVerboseStyle;
+    },
+
+    getPresentationContext: function() {
+      return {
+        decimalMark        : this.getDecimalMark(),
+        listSeparator      : this.getListSeparator(),
+        modeArith1Divide   : this.getArith1DivideMode(),
+        styleTransc1Log    : this.getTransc1LogStyle(),
+        symbolArith1Divide : this.getArith1DivideSymbol(),
+        symbolArith1Times  : this.getArith1TimesSymbol()
+      };
     }
+
+
   });
 });
 

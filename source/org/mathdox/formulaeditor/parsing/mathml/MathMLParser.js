@@ -87,7 +87,7 @@ $main(function(){
       return this.handleTextNode(node, context);
     },
     /** 
-     * generaa layout schemata
+     * general layout schemata
      *
      * supported elements:
      * mrow, mfrac, msqrt, mroot, mstyle(*), merror(*), mpadded(*),
@@ -229,8 +229,62 @@ $main(function(){
      */
     handlemenclose: function(node, context) {
       return this.handlemrow(node, context);
-    }
+    },
 
+    /* 
+     * script and limit schemata 
+     *
+     * supported elements:
+     * msub, msup, msubsup
+     *
+     * not supported elements:
+     * munder, mover, mmultiscripts
+     */
+     
+    /* script and limit schemata : math:msub */
+    handlemsub: function(node, context) {
+      var children = node.getChildNodes();
+      var entries = [];
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      for (var i=0; i<children.length; i++) {
+        var child = this.handle(children.item(i), context);
+
+        entries.push(child);
+      }
+
+      return new presentation.Row(entries[0], new presentation.Subscript(entries[1]));
+    },
+
+    /* script and limit schemata : math:msup */
+    handlemsup: function(node, context) {
+      var children = node.getChildNodes();
+      var entries = [];
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      for (var i=0; i<children.length; i++) {
+        var child = this.handle(children.item(i), context);
+
+        entries.push(child);
+      }
+
+      return new presentation.Row(entries[0], new presentation.Superscript(entries[1]));
+    },
+
+    /* script and limit schemata : math:msubsup */
+    handlemsubsup: function(node, context) {
+      var children = node.getChildNodes();
+      var entries = [];
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      for (var i=0; i<children.length; i++) {
+        var child = this.handle(children.item(i), context);
+
+        entries.push(child);
+      }
+
+      return new presentation.Row(entries[0], new presentation.Subscript(entries[1]), new presentation.Superscript(entries[2]));
+    }
   });
 
 });

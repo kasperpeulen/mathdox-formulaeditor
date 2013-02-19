@@ -1099,14 +1099,7 @@ $main(function(){
     getPresentationContext: function() {
       Options = new org.mathdox.formulaeditor.Options();
 
-      return {
-        decimalMark        : Options.getDecimalMark(),
-        listSeparator      : Options.getListSeparator(),
-        modeArith1Divide   : Options.getArith1DivideMode(),
-        styleTransc1Log    : Options.getTransc1LogStyle(),
-        symbolArith1Divide : Options.getArith1DivideSymbol(),
-        symbolArith1Times  : Options.getArith1TimesSymbol()
-      };
+      return Options.getPresentationContext();
     }
   });
 

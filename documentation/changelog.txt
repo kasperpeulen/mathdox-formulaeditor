@@ -1,3 +1,10 @@
+1.1rc25
+  - added license for cheeaun-tappable (MIT)
+  - (untested) fix for IE 8 bug 288
+  - fix for MathML bug (vector output) 289
+  - fix for bug #220 (brackets and power)
+  - added mathml support for msub/msup/msubsup
+
 1.1rc24
   - OMF, Lambda, and FunctionApplication (style attribute) now with single
     quotes (closes 287)

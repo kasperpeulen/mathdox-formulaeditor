@@ -66,7 +66,7 @@ $main(function(){
 
       symbol : {
 
-        mathml   : ["<mo>[</mo>",",","<mo>]</mo>"],
+        mathml   : ["<mo>[</mo>","<mo>,</mo>","<mo>]</mo>"],
         onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg2' name='vector'/>"
 

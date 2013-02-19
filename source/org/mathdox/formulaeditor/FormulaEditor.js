@@ -149,11 +149,13 @@ $main(function(){
       }
 
       // fix for opera
-      if (palcanvas.style.getPropertyValue("height") != "") {
-        try {
-          palcanvas.style.removeProperty("height");
-        } catch(exception) {
-          // skip
+      if ( G_vmlCanvasManager === undefined) {
+        if (palcanvas.style.getPropertyValue("height") != "") {
+          try {
+            palcanvas.style.removeProperty("height");
+          } catch(exception) {
+            // skip
+          }
         }
       }
 
@@ -338,13 +340,15 @@ $main(function(){
           }
 
           // fix for opera
-	  if (canvas.style.getPropertyValue("height") != "") {
-            try {
-              canvas.style.removeProperty("height");
-	    } catch(exception) {
-	      // skip
-	    }
-	  }
+          if ( G_vmlCanvasManager === undefined) {
+  	    if (canvas.style.getPropertyValue("height") != "") {
+                try {
+                  canvas.style.removeProperty("height");
+  	      } catch(exception) {
+  	        // skip
+  	      }
+  	    }
+  	  }
 
           canvas.className = "mathdoxformula";
 

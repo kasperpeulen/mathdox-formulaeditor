@@ -773,27 +773,40 @@ $main(function(){
         } else {
           computedStyle = getComputedStyle(element, null);
         }
-        var tmp;
+        var tmpp,tmpb;
 
-        tmp = parseInt(computedStyle.borderLeftWidth);
-        if ( isFinite(tmp)) {
-          x += tmp;
-        }
+	// only add maximum of tmpp, tmpb
+	// if only 1 is finite, that is the maximum
+        tmpb = parseInt(computedStyle.borderLeftWidth);
+        tmpp = parseInt(computedStyle.paddingLeft);
 
-        tmp = parseInt(computedStyle.paddingLeft);
-        if ( isFinite(tmp)) {
-          x += tmp;
-        }
-        
-        tmp = parseInt(computedStyle.borderTopWidth);
-        if ( isFinite(tmp)) {
-          y += tmp;
-        }
+        if ( isFinite(tmpp) && isFinite(tmpb)) {
+	  if (tmpp>tmpb) {
+            x += tmpb;
+	  } else {
+            x += tmpp;
+	  }
+        } else if (isFinite(tmpp)) {
+          x += tmpp;
+	} else if (isFinite(tmpb)) {
+          x += tmpb;
+	}
 
-        tmp = parseInt(computedStyle.paddingTop);
-        if ( isFinite(tmp)) {
-          y += tmp;
-        }
+        tmpb = parseInt(computedStyle.borderTopWidth);
+        tmpp = parseInt(computedStyle.paddingTop);
+	// only add maximum of tmpp, tmpb
+	// if only 1 is finite, that is the maximum
+        if ( isFinite(tmpp) && isFinite(tmpb)) {
+	  if (tmpp>tmpb) {
+            y += tmpb;
+	  } else {
+            y += tmpp;
+	  }
+        } else if (isFinite(tmpp)) {
+          y += tmpp;
+	} else if (isFinite(tmpb)) {
+          y += tmpb;
+	}
 
         element = element.offsetParent;
       }
@@ -1601,11 +1614,13 @@ $main(function(){
           onmousemove: function(event) {
             var mouseinfo = palette.mouseeventinfo(event);
   
-            var pTabContainer = palette.presentation.children[0];
+	    if (mouseinfo) {
+              var pTabContainer = palette.presentation.children[0];
   
-            /* mouse over update function */
-            pTabContainer.handleMouseMove(mouseinfo.x,mouseinfo.y,redrawFunction);
-  
+              /* mouse over update function */
+              pTabContainer.handleMouseMove(mouseinfo.x,mouseinfo.y,redrawFunction);
+ 
+	    }
             return true;
           },
           onmouseout: function(event) {

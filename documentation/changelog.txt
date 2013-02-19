@@ -1,3 +1,6 @@
+1.1rc26
+  - fixed bug #221 (formatting)
+
 1.1rc25
   - added license for cheeaun-tappable (MIT)
   - (untested) fix for IE 8 bug 288

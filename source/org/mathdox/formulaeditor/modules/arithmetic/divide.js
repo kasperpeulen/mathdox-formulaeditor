@@ -35,10 +35,10 @@ $main(function(){
             this.operands[1].getPresentation(context)
           );
         } else {
-          return new presentation.Row(new presentation.Fraction(
+          return new presentation.Fraction(
             this.operands[0].getPresentation(context),
             this.operands[1].getPresentation(context)
-          ));
+          );
         }
 
       },

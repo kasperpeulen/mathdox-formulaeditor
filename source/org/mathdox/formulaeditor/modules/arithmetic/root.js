@@ -30,10 +30,10 @@ $main(function(){
 
         var presentation = org.mathdox.formulaeditor.presentation;
 
-        return new presentation.Row(new presentation.Root(
+        return new presentation.Root(
           this.operands[0].getPresentation(context),
           this.operands[1].getPresentation(context)
-        ));
+        );
       },
 
       getMathML : function() {

@@ -760,53 +760,54 @@ $main(function(){
       var width  = element.offsetWidth;
       var height = element.offsetHeight;
 
+      // check for padding and border
+        
+      var computedStyle;
+      if (element.currentStyle !== undefined && element.currentStyle!== null) {
+        // IE method 
+        computedStyle = element.currentStyle;
+      } else {
+        computedStyle = getComputedStyle(element, null);
+      }
+
+      var tmpp,tmpb;
+
+      // only add maximum of tmpp, tmpb
+      // if only 1 is finite, that is the maximum
+      tmpb = parseInt(computedStyle.borderLeftWidth);
+      tmpp = parseInt(computedStyle.paddingLeft);
+
+      if ( isFinite(tmpp) && isFinite(tmpb)) {
+        if (tmpp>tmpb) {
+          x += tmpp;
+        } else {
+          x += tmpb;
+        }
+      } else if (isFinite(tmpp)) {
+        x += tmpp;
+      } else if (isFinite(tmpb)) {
+        x += tmpb;
+      }
+
+      tmpb = parseInt(computedStyle.borderTopWidth);
+      tmpp = parseInt(computedStyle.paddingTop);
+      // only add maximum of tmpp, tmpb
+      // if only 1 is finite, that is the maximum
+      if ( isFinite(tmpp) && isFinite(tmpb)) {
+        if (tmpp>tmpb) {
+          y += tmpp;
+        } else {
+          y += tmpb;
+        }
+      } else if (isFinite(tmpp)) {
+        y += tmpp;
+      } else if (isFinite(tmpb)) {
+        y += tmpb;
+      }
+
       while (element) {
         x += element.offsetLeft;
         y += element.offsetTop;
-
-        // check for padding and border
-          
-        var computedStyle;
-        if (element.currentStyle !== undefined && element.currentStyle!== null) {
-          // IE method 
-          computedStyle = element.currentStyle;
-        } else {
-          computedStyle = getComputedStyle(element, null);
-        }
-        var tmpp,tmpb;
-
-	// only add maximum of tmpp, tmpb
-	// if only 1 is finite, that is the maximum
-        tmpb = parseInt(computedStyle.borderLeftWidth);
-        tmpp = parseInt(computedStyle.paddingLeft);
-
-        if ( isFinite(tmpp) && isFinite(tmpb)) {
-	  if (tmpp>tmpb) {
-            x += tmpb;
-	  } else {
-            x += tmpp;
-	  }
-        } else if (isFinite(tmpp)) {
-          x += tmpp;
-	} else if (isFinite(tmpb)) {
-          x += tmpb;
-	}
-
-        tmpb = parseInt(computedStyle.borderTopWidth);
-        tmpp = parseInt(computedStyle.paddingTop);
-	// only add maximum of tmpp, tmpb
-	// if only 1 is finite, that is the maximum
-        if ( isFinite(tmpp) && isFinite(tmpb)) {
-	  if (tmpp>tmpb) {
-            y += tmpb;
-	  } else {
-            y += tmpp;
-	  }
-        } else if (isFinite(tmpp)) {
-          y += tmpp;
-	} else if (isFinite(tmpb)) {
-          y += tmpb;
-	}
 
         element = element.offsetParent;
       }

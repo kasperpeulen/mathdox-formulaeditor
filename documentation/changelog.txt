@@ -1,11 +1,13 @@
 1.1rc26
   - fixed bug #221 (formatting)
+  - fix for bug #220/242 (now also brackets around root and fraction)
 
 1.1rc25
   - added license for cheeaun-tappable (MIT)
   - (untested) fix for IE 8 bug 288
   - fix for MathML bug (vector output) 289
   - fix for bug #220 (brackets and power)
+  - fix for bug #271 (brackets and power)
   - added mathml support for msub/msup/msubsup
 
 1.1rc24

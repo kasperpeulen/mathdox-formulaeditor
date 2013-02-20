@@ -23,14 +23,13 @@ $main(function(){
       precedence : 150,
 
       getPresentation : function(context) {
-
         var presentation = org.mathdox.formulaeditor.presentation;
-        var semantics = org.mathdox.formulaeditor.semantics;
+        
         // add braces to base, if necessary
-	var positiveint = (this.operands[0] instanceof semantics.Integer && this.operands[0].value >=0 );
 
         var base = this.operands[0].getPresentation(context);
-        if (positiveint === false && base instanceof presentation.Row && base.children.length > 1) {
+
+        if (this.useBrackets(this.operands[0], base) === true) {
           base = new presentation.Row(new presentation.Symbol("("), base, 
             new presentation.Symbol(")"));
         }
@@ -42,18 +41,15 @@ $main(function(){
       },
 
       getMathML : function() {
-        var presentation = org.mathdox.formulaeditor.presentation;
-        var semantics = org.mathdox.formulaeditor.semantics;
 	var Options = new org.mathdox.formulaeditor.Options();
 
         // add braces to base, if necessary
 	// use same method as for presentation (unfortunately this means getting the presentation)
-	var positiveint = (this.operands[0] instanceof semantics.Integer && this.operands[0].value >=0 );
 
         var basePres = this.operands[0].getPresentation(Options.getPresentationContext());
         var base = this.operands[0].getMathML();
 
-        if (positiveint === false && basePres instanceof presentation.Row && basePres.children.length > 1) {
+        if (this.useBrackets(this.operands[0], basePres) === true) {
 	  // NOTE: nicer would be to add an option bracketed to getMathML of base
 	  // no double mrow then
           base = "<mrow><mo>(</mo>" + base + "<mo>)</mo></mrow>";
@@ -62,6 +58,27 @@ $main(function(){
         return "<msup>" + base +
           this.operands[1].getMathML() +
           "</msup>";
+      },
+
+      useBrackets : function(sem, pres) {
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var semantics = org.mathdox.formulaeditor.semantics;
+
+	var positiveint = (sem instanceof semantics.Integer && sem.value >=0 );
+
+	var brackets = false;
+
+	if (positiveint === true) {
+          brackets = false;
+	} else if (pres instanceof presentation.Row && pres.children.length > 1) {
+          brackets = true;
+        } else if (pres instanceof presentation.Root) {
+          brackets = true;
+        } else if (pres instanceof presentation.Fraction) {
+          brackets = true;
+        }
+
+        return brackets;
       }
     });
 

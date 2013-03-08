@@ -248,6 +248,25 @@
     <model:symbol_mathml>=</model:symbol_mathml>
     <model:symbol_screen>=</model:symbol_screen>
   </model:instance>
+  <!-- set1.in -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/set1/in.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>set1</model:cd>
+    <model:name>in</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&#x2208;</model:symbol_enter>
+    <!-- U+2208 element of -->
+    <model:symbol_mathml>&#x2208;</model:symbol_mathml>
+    <!-- U+2208 element of -->
+    <model:symbol_screen>&#x2208;</model:symbol_screen>
+  </model:instance>
+
+  <!--
+    Keywords
+  -->
   <model:group model="models/keywords.xml" 
     target="org/mathdox/formulaeditor/modules/keywords.js"
   >
@@ -376,6 +395,16 @@
       <model:mathml>&lt;mi&gt;sgn&lt;/mi&gt;</model:mathml>
       <model:name>sign</model:name>
       <model:onscreen>sgn</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- plangeo7.triangle -->
+    <model:instance>
+      <model:argcount>3</model:argcount>
+      <model:cd>plangeo7</model:cd>
+      <model:keyword>triangle</model:keyword>
+      <model:mathml>&lt;mo&gt;&#x25B3;&lt;/mo&gt;</model:mathml>
+      <model:name>triangle</model:name>
+      <model:onscreen>&#x25B3;</model:onscreen>
       <model:type>function</model:type>
     </model:instance>
     <!-- setname1.C -->

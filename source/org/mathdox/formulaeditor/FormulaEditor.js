@@ -81,6 +81,8 @@ $require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/neq.js");
 
+$require("org/mathdox/formulaeditor/modules/set1/in.js");
+
 $main(function(){
 
   /**

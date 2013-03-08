@@ -1,6 +1,8 @@
 1.1rc26
   - fixed bug #221 (formatting)
   - fix for bug #220/242 (now also brackets around root and fraction)
+  - added support for plangeo7.triangle (private)
+  - added support for set1.in
 
 1.1rc25
   - added license for cheeaun-tappable (MIT)

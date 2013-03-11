@@ -3,6 +3,7 @@
   - fix for bug #220/242 (now also brackets around root and fraction)
   - added support for plangeo7.triangle (private)
   - added support for set1.in
+  - correct comment for U+00DF latin small letter sharp s
 
 1.1rc25
   - added license for cheeaun-tappable (MIT)

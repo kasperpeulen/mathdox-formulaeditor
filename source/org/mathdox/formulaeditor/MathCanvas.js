@@ -740,7 +740,7 @@ $main(function(){
       // U+00B0 Degree sign
       [ null, null,  '`',  '´', null, null, null,  '°', 
       // U+00B8 Cedilla (spacing)
-      // U+00D7 Latin small letter sharp s
+      // U+00DF Latin small letter sharp s
       // U+00E6 Latin small letter ae
       // U+0152 Latin small ligature oe
       // U+00F8 Latin small letter o with stroke
@@ -782,7 +782,7 @@ $main(function(){
       // U+00B0 Degree sign
       [ null, null, 'b`', 'b´', null, null, null, 'b°',
       // U+00B8 Cedilla (spacing)
-      // U+00D7 Latin small letter sharp s
+      // U+00DF Latin small letter sharp s
       // U+00E6 Latin small letter ae
       // U+0152 Latin small ligature oe
       // U+00F8 Latin small letter o with stroke

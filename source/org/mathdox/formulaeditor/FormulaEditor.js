@@ -937,13 +937,22 @@ $main(function(){
       }
 
       try {
-        omstring =
-          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
-          "cdbase='http://www.openmath.org/cd'>" +
-          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getOpenMath() +
-          "</OMOBJ>";
-        success = true;
-        errorString = null;
+        var semantics = this.presentation.getSemantics(this.getExpressionParsingContext());
+
+        if (semantics === null || semantics.value === null) {
+          omstring = "<OME>" +
+	      "<OMS cd='moreerrors' name='encodingError'/>" +
+                "<OMSTR>invalid expression entered. Presentation was: " +
+                  this.presentation +
+	        "</OMSTR>" +
+	    "</OME>";
+
+          success = false;
+        } else {
+          omstring = semantics.value.getOpenMath();
+          success = true;
+          errorString = null;
+        }
       }
       catch(exception) {
         // IE doesn't provide a useful .toString for errors, use name and
@@ -951,16 +960,20 @@ $main(function(){
         // old code: errorString = exception.toString();
         errorString = exception.name + " : "+exception.message;
         omstring =
-          "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " +
-          "cdbase='http://www.openmath.org/cd'>" +
             "<OME>" +
               "<OMS cd='moreerrors' name='encodingError'/>" +
-              "<OMSTR>invalid expression entered</OMSTR>" +
-              errorString + 
-            "</OME>" +
-          "</OMOBJ>";
+              "<OMSTR>invalid expression entered" +
+                errorString + 
+	        ". "+
+	        " Presentation was: "+
+                this.presentation +
+	      "</OMSTR>" +
+            "</OME>";
         success = false;
       }
+
+      omstring = "<OMOBJ xmlns='http://www.openmath.org/OpenMath' version='2.0' " + 
+        "cdbase='http://www.openmath.org/cd'>" + omstring + "</OMOBJ>";
       
       if (returnErrorInfo) {
         /* return information about whether an error did occur */

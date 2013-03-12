@@ -1,3 +1,6 @@
+1.1rc27
+  - now added presentation info to parse errors (enhancement #296)
+
 1.1rc26
   - fixed bug #221 (formatting)
   - fix for bug #220/242 (now also brackets around root and fraction)

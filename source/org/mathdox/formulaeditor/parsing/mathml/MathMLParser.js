@@ -2,8 +2,10 @@ $package("org.mathdox.formulaeditor.parsing.mathml");
 
 $identify("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 
-//$require("org/mathdox/formulaeditor/parsing/mathml/KeywordList.js");
-//$require("org/mathdox/formulaeditor/parsing/mathml/VariableList.js");
+// NOTE: expression is on purpose, there is no keyword/variable list for mathml parsing yet
+$require("org/mathdox/formulaeditor/Options.js");
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/expression/VariableList.js");
 $require("org/mathdox/formulaeditor/parsing/xml/XMLParser.js");
 $require("org/mathdox/formulaeditor/presentation/Root.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -28,7 +30,6 @@ $main(function(){
     handleTextNode: function(node, context, style) {
       // TODO:
       // - create symbols here
-      // - use style option
       // - ignore some symbols
       // - what to do with symbols that can't be shown
       var presentation = org.mathdox.formulaeditor.presentation;
@@ -36,7 +37,21 @@ $main(function(){
       // use ""+... to force casting to string
       var value = ""+node.getFirstChild().getNodeValue();
 
-      var row = new presentation.Row(value);
+      var row;
+
+      if (style === null || style === undefined) {
+      	row = new presentation.Row(value);
+      } else {
+	var arr = [];
+	var i;
+
+	for (i=0; i<value.length; i++) {
+	  arr.push(new presentation.Symbol(value.charAt(i), style));
+	}
+	row = new presentation.Row();
+	row.initialize.apply(row, arr);
+     }
+
       return row;
     },
 
@@ -58,9 +73,24 @@ $main(function(){
     /* 3.2 token elements */
     /* token math:mi */
     handlemi: function(node, context) {
-      // TODO: check for keywords and do not style them math
-      // or use layout information
-      return this.handleTextNode(node, context, "math");
+      // TODO: check for layout information
+      var result;
+      var value = ""+node.getFirstChild().getNodeValue();
+      var parsing = org.mathdox.formulaeditor.parsing;
+      var options = new org.mathdox.formulaeditor.Options();
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      if (parsing.expression.KeywordList[value] !== undefined) {
+        result = new presentation.Row(
+            parsing.expression.KeywordList[value].getPresentation(options.getPresentationContext()));
+      } else if (parsing.expression.VariableList[value] !== undefined) {
+        result = new presentation.Row(
+	    parsing.expression.VariableList[value].getPresentation(options.getPresentationContext()));
+      } else {
+        result = this.handleTextNode(node, context, "math");
+      }
+
+      return result;
     },
     /* token math:mn */
     handlemn: function(node, context) {

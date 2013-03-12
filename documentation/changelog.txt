@@ -4,6 +4,9 @@
   - added support for plangeo7.triangle (private)
   - added support for set1.in
   - correct comment for U+00DF latin small letter sharp s
+  - mathml parsing of mi: now drawing variables italic 
+  - mathml parsing of mi: now using keywordlist and variablelist from
+    expression parser for special handling of keywords and special variables
 
 1.1rc25
   - added license for cheeaun-tappable (MIT)

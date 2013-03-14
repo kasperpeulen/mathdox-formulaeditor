@@ -1,3 +1,6 @@
+1.1.29
+  - colon support rewritten. Can now only co-exist with normal fractions.
+
 1.1.28
   - removed rc in numbering in favor of . 
   - now added presentation/SymbolAliases

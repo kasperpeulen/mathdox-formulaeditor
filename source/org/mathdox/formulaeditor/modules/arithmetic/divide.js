@@ -15,12 +15,12 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       symbol : {
-
         openmath : "<OMS cd='arith1' name='divide'/>"
-
       },
 
-      precedence : 160,
+      style: "mfrac",
+
+      //precedence : 160,
       precedence : 170,
 
       getPresentation : function(context) {
@@ -28,24 +28,11 @@ $main(function(){
         var presentation = org.mathdox.formulaeditor.presentation;
         var options = new org.mathdox.formulaeditor.Options;
 
-        if (options.getArith1DivideMode() == "inline") {
-          return new presentation.Row(
-            this.operands[0].getPresentation(context),
-            new presentation.Symbol(options.getArith1DivideSymbol()),
-            this.operands[1].getPresentation(context)
-          );
-        } else {
-          return new presentation.Fraction(
-            this.operands[0].getPresentation(context),
-            this.operands[1].getPresentation(context)
-          );
-        }
+        return new presentation.Fraction(
+          this.operands[0].getPresentation(context),
+          this.operands[1].getPresentation(context)
+        );
 
-      },
-
-      getSymbolMathML : function() {
-        var options = new org.mathdox.formulaeditor.Options();
-        return "<mo>"+ options.getArith1DivideSymbol() +"</mo>";
       },
 
       getSymbolOpenMath : function() {
@@ -53,31 +40,49 @@ $main(function(){
         var result;
         if (options.getVerboseStyleOption() == "true") {
           var arr = this.symbol.openmath.split("/");
-          result = arr.join(" style='" + options.getArith1DivideStyle()  + "'/");
+          result = arr.join(" style='" + this.style  + "'/");
         } else {
           result = this.symbol.openmath;
         }
         return result;
       },
 
-
       getMathML : function() {
-        var options = new org.mathdox.formulaeditor.Options();
-
-	if (options.getArith1DivideMode() == "normal" || options.getArith1DivideMode() == "restricted") {
-          return "<mfrac>" +
-            this.operands[0].getMathML() +
-            this.operands[1].getMathML() +
-            "</mfrac>";
-	} else {
-	  // inline, use the default method
-	  var parent = arguments.callee.parent;
-	  return parent.getMathML.apply(this, arguments);
-	}
-
+        return "<mfrac>" +
+          this.operands[0].getMathML() +
+          this.operands[1].getMathML() +
+          "</mfrac>";
       }
 
   });
+  
+  org.mathdox.formulaeditor.semantics.DivideInline =
+    $extend(org.mathdox.formulaeditor.semantics.Divide, {
+      //precedence : 130,
+      precedence : 140,
+
+      style: "colon",
+      
+      symbol : {
+        mathml: "<mo>:</mo>",
+	onscreen: ":",
+        openmath : "<OMS cd='arith1' name='divide'/>"
+      },
+
+      getMathML : function() {
+	// parent = Divide, parent.parent is MultaryOperation
+	// use the default MultaryOperation method
+        return arguments.callee.parent.getMathML.parent.getMathML.call(this);
+      },
+
+      getPresentation : function() {
+	// parent = Divide, parent.parent is MultaryOperation
+	// use the default MultaryOperation method
+        return arguments.callee.parent.getPresentation.parent.getPresentation.call(this, arguments);
+      }
+
+  });
+
 
   /**
   * Extend the OpenMathParser object with parsing code for arith1.divide.
@@ -96,10 +101,16 @@ $main(function(){
         var right = this.handle(children.item(2));
 
         // construct a divide object
-        return new org.mathdox.formulaeditor.semantics.Divide(left, right);
+	var result;
 
+	if (node.getAttribute("style") == "colon") {
+          result = new org.mathdox.formulaeditor.semantics.DivideInline(left, right);
+	} else {
+          result = new org.mathdox.formulaeditor.semantics.Divide(left, right);
+	}
+
+        return result;
       }
-
   });
 
   /**
@@ -109,64 +120,61 @@ $main(function(){
   var pG = new org.mathdox.parsing.ParserGenerator();
 
   org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( function(context) { 
-    if (context.optionArith1DivideMode == "inline") {
-      return {
-        // expression130 = divide | super.expression130
-        expression130 : function() {
-          var parent = arguments.callee.parent;
-          pG.alternation(
-            pG.rule("divide"),
-            parent.expression130).apply(this, arguments);
-        },
-        
-        // divide = expression130 <div-symbol> expression140
-        divide : pG.transform(
+    return {
+
+      // expression130 = divide_inline | super.expression130
+      expression130 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("divide_inline"),
+          parent.expression130).apply(this, arguments);
+      },
+
+      // expression160 = divide | divide_silent_addition | super.expression160
+      expression160 : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("divide"),
+          pG.rule("divide_silent_addition"),
+          parent.expression160).apply(this, arguments);
+      },
+
+      // divide = never
+      divide : pG.never,
+
+      // divide_inline = expression130 ":" expression140
+      divide_inline :
+        pG.transform(
           pG.concatenation(
             pG.rule("expression130"),
-            pG.literal(context.symbolArith1Divide),
+            pG.literal(':'),
             pG.rule("expression140")
           ),
           function(result) {
-            return new semantics.Divide(result[0], result[2]);
+            return new semantics.DivideInline(result[0], result[2]);
           }
-        )
-      };
-    } else {
-      return {
-  
-        // expression160 = divide | super.expression160
-        expression160 : function() {
-          var parent = arguments.callee.parent;
-          pG.alternation(
-            pG.rule("divide"),
-            pG.rule("divide_silent_addition"),
-            parent.expression160).apply(this, arguments);
-        },
-  
-        // divide = never
-        divide : pG.never,
-  
-        divide_silent_addition : 
-          pG.transform(
-            pG.concatenation(
-              pG.rule("integer"),
-              pG.rule("divide")),
-            function(result) {
-              var semantics = org.mathdox.formulaeditor.semantics; 
-              var plus = new semantics.Arith1Plus(result[0],result[1]);
-              plus.style="invisible";
-              return plus;
-            }
-          ),
-  
-        // parseNumber = divide | divide_silent_addition | parseNumber
-        parseNumber : function() {
-          var parent = arguments.callee.parent;
-          pG.alternation(
-            pG.rule("divide"),
-            pG.rule("divide_silent_addition"),
-            parent.parseNumber).apply(this, arguments);
-        }
+        ),
+
+      divide_silent_addition : 
+        pG.transform(
+          pG.concatenation(
+            pG.rule("integer"),
+            pG.rule("divide")),
+          function(result) {
+            var semantics = org.mathdox.formulaeditor.semantics; 
+            var plus = new semantics.Arith1Plus(result[0],result[1]);
+            plus.style="invisible";
+            return plus;
+          }
+        ),
+
+      // parseNumber = divide | divide_silent_addition | parseNumber
+      parseNumber : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("divide"),
+          pG.rule("divide_silent_addition"),
+          parent.parseNumber).apply(this, arguments);
       }
     };
   });
@@ -188,20 +196,6 @@ $main(function(){
 
           // check whether the '/' key has been pressed
           if (String.fromCharCode(event.charCode) == "/") {
-
-            if (editor.getExpressionParsingContext().optionArith1DivideMode == 'inline') {
-              // inline case: insert symbol
-              // substitute the charCode of "·" for "*".
-              var newEvent = {};
-              for (var x in event) {
-                newEvent[x] = event[x];
-              }
-              newEvent.charCode = editor.getPresentationContext().symbolArith1Divide.charCodeAt(0);
-              event = newEvent;
-
-              // call the overridden method
-              return arguments.callee.parent.onkeypress.call(this, event, editor);
-            }
 
             var Fraction = org.mathdox.formulaeditor.presentation.Fraction;
             var index    = editor.cursor.position.index;

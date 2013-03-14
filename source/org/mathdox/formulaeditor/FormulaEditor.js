@@ -1468,7 +1468,7 @@ $main(function(){
    * editor that last had focus. Returns null when none of the editors in
    * the page have had focus.
    */
-  org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor = function() {
+  org.mathdox.formulaeditor.FormulaEditor.getLastFocusedEditor = function() {
     var current = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
 
     if (current !== null) {

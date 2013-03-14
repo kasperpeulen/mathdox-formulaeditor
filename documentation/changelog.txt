@@ -1,6 +1,7 @@
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.
   - mathml: now parsing invisibletimes and invisibleplus operators
+  - added global org.mathdox.formulaeditor.FormulaEditor.getLastFocusedEditor
 
 1.1.28
   - removed rc in numbering in favor of . 

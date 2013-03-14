@@ -948,6 +948,7 @@ $main(function(){
 	    "</OME>";
 
           success = false;
+          errorString = null;
         } else {
           omstring = semantics.value.getOpenMath();
           success = true;

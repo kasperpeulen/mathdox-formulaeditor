@@ -10,6 +10,7 @@ $require("org/mathdox/formulaeditor/parsing/xml/XMLParser.js");
 $require("org/mathdox/formulaeditor/presentation/Root.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
+$require("org/mathdox/formulaeditor/presentation/SymbolAliases.js");
 
 $main(function(){
 
@@ -39,18 +40,21 @@ $main(function(){
 
       var row;
 
-      if (style === null || style === undefined) {
-      	row = new presentation.Row(value);
-      } else {
-	var arr = [];
-	var i;
+      var arr = [];
+      var i;
 
-	for (i=0; i<value.length; i++) {
-	  arr.push(new presentation.Symbol(value.charAt(i), style));
+      for (i=0; i<value.length; i++) {
+        var ch = value.charAt(i);
+	if (org.mathdox.formulaeditor.presentation.SymbolAliases[ch] !== null) {
+          if (style === null || style === undefined) {
+	    arr.push(new presentation.Symbol(ch));
+          } else {
+	    arr.push(new presentation.Symbol(ch, style));
+	  }
 	}
-	row = new presentation.Row();
-	row.initialize.apply(row, arr);
-     }
+      }
+      row = new presentation.Row();
+      row.initialize.apply(row, arr);
 
       return row;
     },

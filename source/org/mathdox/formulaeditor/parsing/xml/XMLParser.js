@@ -2,12 +2,6 @@ $package("org.mathdox.formulaeditor.parsing.xml");
 
 $identify("org/mathdox/formulaeditor/parsing/xml/XMLParser.js");
 
-//var SAXDriver;
-//$require("net/sf/xmljs/xmlsax.js", function() { return SAXDriver; });
-
-//var DOMImplementation;
-//$require("net/sf/xmljs/xmlw3cdom.js", function() { return DOMImplementation; });
-
 $main(function(){
 
   org.mathdox.formulaeditor.parsing.xml.XMLParser = $extend(Object, {
@@ -39,6 +33,7 @@ $main(function(){
       /* remove comment nodes, since we don't want to parse them */
       if (rootnode !== null) {
         this.removeComments(rootnode);
+        this.removeWhitespace(rootnode);
       } else {
         return null;
       }
@@ -89,10 +84,32 @@ $main(function(){
         var child = children.item(i);
 
         if (child) {
-          if (child.nodeType == DOMNode.COMMENT_NODE) {
+          if (child.nodeType == 8) { // 8: COMMENT_NODE
             node.removeChild(child);
           } else if (child.hasChildNodes()) {
             this.removeComments(child);
+          }
+        }
+      }
+    },
+
+    /**
+     * Removes all whitespace text nodes from a DOM XML tree
+     */
+    removeWhitespace: function(node) {
+      var children = node.childNodes;
+
+      for (var i=children.length - 1; i>=0; i--) {
+        var child = children.item(i);
+
+        if (child) {
+          if (child.nodeType == 3) { // 3: TEXT_NODE
+            var value = child.nodeValue.trim();
+	    if (value === "") {
+              node.removeChild(child);
+	    }
+          } else if (child.hasChildNodes()) {
+            this.removeWhitespace(child);
           }
         }
       }

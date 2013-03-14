@@ -3,6 +3,7 @@ $package("org.mathdox.formulaeditor.presentation");
 $identify("org/mathdox/formulaeditor/presentation/Symbol.js");
 
 $require("org/mathdox/formulaeditor/presentation/Node.js");
+$require("org/mathdox/formulaeditor/presentation/SymbolAliases.js");
 
 $main(function(){
 
@@ -42,6 +43,11 @@ $main(function(){
           } else {
             this.value = arguments[0];
           }
+	  var aliases = org.mathdox.formulaeditor.presentation.SymbolAliases;
+
+	  if (aliases[this.value] !== undefined && aliases[this.value] !== null) {
+            this.value = aliases[this.value];
+	  }
         }
         if (arguments.length > 1) {
           this.typeface = arguments[1];

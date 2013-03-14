@@ -1,3 +1,9 @@
+1.1.28
+  - removed rc in numbering in favor of . 
+  - now added presentation/SymbolAliases
+  - some bugfixes with DOMParser code
+  - parsing/openmath/OpenMathParser now shares code with XMLParser
+
 1.1rc27
   - now added presentation info to parse errors (enhancement #296)
   - removed xml_for_script library (no longer needed). Adjusted code to use

@@ -1,5 +1,7 @@
 1.1rc27
   - now added presentation info to parse errors (enhancement #296)
+  - removed xml_for_script library (no longer needed). Adjusted code to use
+    DOMParser and corresponding functions
 
 1.1rc26
   - fixed bug #221 (formatting)

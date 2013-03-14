@@ -94,7 +94,7 @@ $main(function(){
       handleArith1Power : function(node) {
 
         // parse the base and exponent
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var base     = this.handle(children.item(1));
         var exponent = this.handle(children.item(2));
 

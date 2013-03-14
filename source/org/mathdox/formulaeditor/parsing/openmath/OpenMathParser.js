@@ -51,12 +51,12 @@ $main(function(){
      * <OMI> node is encountered, the handleOMI method is called.
      */
     handle: function(node) {
-      if (node.getLocalName()==="") {
+      if (node.localName === null) {
         // XML comment
         return null;
       }
 
-      var handler = "handle" + node.getLocalName();
+      var handler = "handle" + node.localName;
 
       if (handler in this) {
         return this[handler](node);
@@ -73,7 +73,7 @@ $main(function(){
      */
     handleOMOBJ: function(node) {
 
-      var child = node.getFirstChild();
+      var child = node.firstChild;
       if (child !== null) {
         return this.handle(child);
       }
@@ -93,7 +93,7 @@ $main(function(){
       var style = node.getAttribute("style");
 
       // handle <OMA>'s with as first argument an <OMS/>
-      if ("OMS" == node.getFirstChild().getLocalName()) {
+      if ("OMS" == node.firstChild.localName) {
 
         // helper function that uppercases first character of provided string
         var uppercase = function(string) {
@@ -103,22 +103,22 @@ $main(function(){
         // figure out which handler method to call; for instance, for handling 
         // an <OMA> with as first argument <OMS cd='arith1' name='plus'/>, the
         // handleArith1Plus method is called
-        var symbolname= node.getFirstChild().getAttribute("cd") + "__" + node.getFirstChild().getAttribute("name");
+        var symbolname= node.firstChild.getAttribute("cd") + "__" + node.firstChild.getAttribute("name");
 
         var handler = "handle";
 
-        handler += uppercase(node.getFirstChild().getAttribute("cd"));
-        handler += uppercase(node.getFirstChild().getAttribute("name"));
+        handler += uppercase(node.firstChild.getAttribute("cd"));
+        handler += uppercase(node.firstChild.getAttribute("name"));
 
         // call the handler method
         if (handler in this) {
           return this[handler](node, style);
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== null && org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== undefined) {
           /* return a FunctionApplication at the end */
-          symbol = this.handleOMS(node.getFirstChild());
+          symbol = this.handleOMS(node.firstChild);
         } else {
-          var cd = node.getFirstChild().getAttribute("cd");
-          var name = node.getFirstChild().getAttribute("name");
+          var cd = node.firstChild.getAttribute("cd");
+          var name = node.firstChild.getAttribute("name");
           var keywordsymbol = {
             onscreen : null,
             openmath : null,
@@ -127,11 +127,11 @@ $main(function(){
           symbol = new semantics.Keyword(cd, name, keywordsymbol, "function");
         }
 
-      } else if ("OMV" == node.getFirstChild().getLocalName()) {
+      } else if ("OMV" == node.firstChild.localName) {
         /* return a FunctionApplication at the end */
-        symbol = this.handleOMV(node.getFirstChild());
-      } else if ("OMA" == node.getFirstChild().getLocalName()) {
-        symbol = this.handleOMA(node.getFirstChild());
+        symbol = this.handleOMV(node.firstChild);
+      } else if ("OMA" == node.firstChild.localName) {
+        symbol = this.handleOMA(node.firstChild);
       } else {
         throw new Error(
           "OpenMathParser doesn't know how to handle an <OMA> that does " +
@@ -140,7 +140,7 @@ $main(function(){
       }
 
       if (symbol) {
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var operands = [];
 
         for (var i=1; i<children.length; i++) {
@@ -174,7 +174,7 @@ $main(function(){
      */
     handleOMBVAR: function(node) {
 
-      return this.handle(node.getFirstChild());
+      return this.handle(node.firstChild);
 
     },
 
@@ -196,7 +196,7 @@ $main(function(){
     handleOMI: function(node) {
 
       var semantics = org.mathdox.formulaeditor.semantics;
-      return new semantics.Integer(node.getFirstChild().getNodeValue());
+      return new semantics.Integer(node.firstChild.nodeValue);
 
     },
 
@@ -213,11 +213,11 @@ $main(function(){
         } else if (keyword.type == "infix") {
           //check if parent is palette_row
           var error = false; // set to true if an error is found
-          var parentNode = node.getParentNode();
-          var omsNode = parentNode.getFirstChild();
-          if (omsNode.getLocalName()!="OMS") {
+          var parentNode = node.parentNode;
+          var omsNode = parentNode.firstChild;
+          if (omsNode.localName!="OMS") {
             throw new Error(
-              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. First sibling is "+ omsNode.getLocalName()+".");
+              "OpenMathParser doesn't know how to handle this keyword of unknown type ("+keyword.type+"): " + node + " when it is not first in an <OMA>. First sibling is "+ omsNode.localName+".");
           }
           if (omsNode.getAttribute("cd")=="editor1" && 
             omsNode.getAttribute("name")=="palette_row") {
@@ -282,7 +282,7 @@ $main(function(){
      * Removes all comment nodes from a DOM XML tree
      */
     removeComments: function(node) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
 
       for (var i=children.length - 1; i>=0; i--) {
         var child = children.item(i);

@@ -2,11 +2,11 @@ $package("org.mathdox.formulaeditor.parsing.xml");
 
 $identify("org/mathdox/formulaeditor/parsing/xml/XMLParser.js");
 
-var SAXDriver;
-$require("net/sf/xmljs/xmlsax.js", function() { return SAXDriver; });
+//var SAXDriver;
+//$require("net/sf/xmljs/xmlsax.js", function() { return SAXDriver; });
 
-var DOMImplementation;
-$require("net/sf/xmljs/xmlw3cdom.js", function() { return DOMImplementation; });
+//var DOMImplementation;
+//$require("net/sf/xmljs/xmlw3cdom.js", function() { return DOMImplementation; });
 
 $main(function(){
 
@@ -19,8 +19,22 @@ $main(function(){
      * org.mathdox.formulaeditor.semantics.Node.
      */
     parse: function(xml, context) {
+      var rootnode;
+      var xmlDoc;
 
-      var rootnode = new DOMImplementation().loadXML(xml).getDocumentElement();
+      if (window.DOMParser)
+      {
+        parser=new DOMParser();
+        xmlDoc=parser.parseFromString(xml,"text/xml");
+      } else {
+        // XXX: old Internet Explorer
+        // test in IE 8 without this to see if we can remove legacy code
+
+        xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+        xmlDoc.async=false;
+        xmlDoc.loadXML(xml); 
+      } 
+      rootnode = xmlDoc.documentElement;
 
       /* remove comment nodes, since we don't want to parse them */
       if (rootnode !== null) {
@@ -32,8 +46,7 @@ $main(function(){
       /* do the actual parsing */
       if (rootnode !== null) {
         return this.handle(rootnode, context);
-      }
-      else {
+      } else {
         return null;
       }
 
@@ -45,12 +58,12 @@ $main(function(){
      * <OMI> node is encountered, the handleOMI method is called.
      */
     handle: function(node, context) {
-      if (node.getLocalName()==="") {
-        // XML comment
+      if (node.localName === null) {
+        // XML comment or text
         return null;
       }
 
-      var handler = "handle" + node.getLocalName();
+      var handler = "handle" + node.localName;
 
       if (handler in this) {
 	if (context !== null && context!== undefined) {
@@ -70,13 +83,13 @@ $main(function(){
      * Removes all comment nodes from a DOM XML tree
      */
     removeComments: function(node) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
 
       for (var i=children.length - 1; i>=0; i--) {
         var child = children.item(i);
 
         if (child) {
-          if (child.getNodeType() == DOMNode.COMMENT_NODE) {
+          if (child.nodeType == DOMNode.COMMENT_NODE) {
             node.removeChild(child);
           } else if (child.hasChildNodes()) {
             this.removeComments(child);

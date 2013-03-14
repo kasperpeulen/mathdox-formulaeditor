@@ -19,7 +19,7 @@ $main(function(){
       handleFns1Lambda : function(node) {
 
         // parse the children of the OMBIND
-        var children = node.getChildNodes();
+        var children = node.childNodes;
 
         // children.item(0) is OMS: fns1.lambda
         // children.item(1) is OMBVAR
@@ -35,7 +35,7 @@ $main(function(){
           alert("parsing OpenMath fns1.lambda: could not find OMBVAR node ");
           return null;
         }
-        var ombvarChildren = ombvarNode.getChildNodes();
+        var ombvarChildren = ombvarNode.childNodes;
         var variables = [];
         var i; // counter
         for (i=0; i<ombvarChildren.length; i++) {

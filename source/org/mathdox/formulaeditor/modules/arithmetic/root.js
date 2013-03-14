@@ -63,7 +63,7 @@ $main(function(){
       handleArith1Root : function(node) {
 
         // parse the left and right operands
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var middle  = this.handle(children.item(1));
         var base  = this.handle(children.item(2));
 

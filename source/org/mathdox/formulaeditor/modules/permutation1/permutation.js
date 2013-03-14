@@ -57,7 +57,7 @@ $main(function(){
         var i;
 
         for (i=1; i<node.childNodes.length; i++) {
-          operands.push(this.handle(node.getChildNodes().item(i)));
+          operands.push(this.handle(node.childNodes.item(i)));
         }
         result = new org.mathdox.formulaeditor.semantics.Cycle();
         result.initialize.apply(result, operands);
@@ -74,7 +74,7 @@ $main(function(){
         var i;
 
         for (i=1; i<node.childNodes.length; i++) {
-          operands.push(this.handle(node.getChildNodes().item(i)));
+          operands.push(this.handle(node.childNodes.item(i)));
         }
         result = new org.mathdox.formulaeditor.semantics.Permutation();
         result.initialize.apply(result, operands);

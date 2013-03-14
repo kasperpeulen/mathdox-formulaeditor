@@ -91,7 +91,7 @@ $main(function(){
       handleArith1Divide : function(node) {
 
         // parse the left and right operands
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var left  = this.handle(children.item(1));
         var right = this.handle(children.item(2));
 

@@ -23,7 +23,7 @@ $main(function(){
 
         var semantics = org.mathdox.formulaeditor.semantics;
         // parse the children of the OMA
-        var children = node.getChildNodes();
+        var children = node.childNodes;
 
         var realpart = this.handle(children.item(1));
 

@@ -36,7 +36,7 @@ $main(function(){
       handleList1List : function(node) {
 
         // parse the children of the OMA
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var operands = [];
         for (var i=1; i<children.length; i++) {
           operands.push(this.handle(children.item(i)));

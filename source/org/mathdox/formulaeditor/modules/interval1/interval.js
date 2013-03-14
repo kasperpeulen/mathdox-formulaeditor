@@ -35,7 +35,7 @@ $main(function(){
        */
       handleInterval1Interval : function(node) {
 
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var lower = this.handle(children.item(1));
         var upper = this.handle(children.item(2));
 

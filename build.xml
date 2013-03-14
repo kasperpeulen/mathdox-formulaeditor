@@ -106,16 +106,6 @@
       />
     </copy>
 
-    <!-- copy xmljs files next to the javascript files -->
-    <copy todir='build/javascript/net/sf/xmljs'>
-      <fileset dir='build/temporary/xmljs'/>
-      <regexpmapper
-        from='xml_for_script-.*/jsXMLParser/(xml.*\.js)'
-        to='\1'
-        handledirsep='true'
-      />
-    </copy>
-
     <delete dir='build/temporary'/>
 
     <!-- copy MathCanvasFill.js -->

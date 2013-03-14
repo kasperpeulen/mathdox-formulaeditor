@@ -32,7 +32,7 @@ $main(function(){
       handle<model:cd capitalize='true'/><model:name capitalize="true"/> : function(node) {
 
         // parse the children of the OMA
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var operands = new Array(children.getLength()-1);
         for (var i=1; i&lt;children.length; i++) {
           operands[i-1] = this.handle(children.item(i))

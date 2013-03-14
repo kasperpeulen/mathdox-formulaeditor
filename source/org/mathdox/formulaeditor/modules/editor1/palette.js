@@ -165,7 +165,7 @@ $main(function(){
     handleEditor1Palette : function(node) {
 
       // parse the operands of the OMA
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var operands = [];
       var child;
       for (var i=1; i<children.length; i++) {
@@ -180,11 +180,11 @@ $main(function(){
       /* check if the first child is a palette tab */
       child = children.item(1);
       if ((child !==null) && (child !== undefined) &&
-        (child.getLocalName()=="OMA")) {
-        child = child.getChildNodes().item(0);
+        (child.localName=="OMA")) {
+        child = child.childNodes.item(0);
       }
       if ((child !==null) && (child !== undefined) &&
-        (child.getLocalName()=="OMS") &&
+        (child.localName=="OMS") &&
         (child.getAttribute("cd") == "editor1") &&
         (child.getAttribute("name") == "palette_tab")) {
 
@@ -210,7 +210,7 @@ $main(function(){
     handleEditor1Palette_row : function(node) {
 
       // parse the children of the OMA
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var operands = [];
       for (var i=1; i<children.length; i++) {
         operands.push(this.handle(children.item(i)));
@@ -229,7 +229,7 @@ $main(function(){
     handleEditor1Palette_tab : function(node) {
 
       // parse the children of the OMA
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var operands = [];
       for (var i=1; i<children.length; i++) {
         operands.push(this.handle(children.item(i)));

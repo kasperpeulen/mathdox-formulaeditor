@@ -35,7 +35,7 @@ $main(function(){
       */
       handleArith1Abs : function(node) {
 
-        var operand = this.handle(node.getChildNodes().item(1));
+        var operand = this.handle(node.childNodes.item(1));
         return new org.mathdox.formulaeditor.semantics.Abs(operand);
 
       }

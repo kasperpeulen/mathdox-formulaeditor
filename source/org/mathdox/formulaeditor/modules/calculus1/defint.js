@@ -119,7 +119,7 @@ $main(function(){
        */
       handleCalculus1Defint : function(node) {
 
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
 

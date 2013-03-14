@@ -114,7 +114,7 @@ $main(function(){
        */
       handleArith1Sum : function(node) {
 
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var integer_interval = this.handle(children.item(1));
         var lambda   = this.handle(children.item(2));
 

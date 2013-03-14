@@ -35,7 +35,7 @@ $main(function(){
       var presentation = org.mathdox.formulaeditor.presentation;
 
       // use ""+... to force casting to string
-      var value = ""+node.getFirstChild().getNodeValue();
+      var value = ""+node.firstChild.nodeValue;
 
       var row;
 
@@ -57,7 +57,7 @@ $main(function(){
 
     /* 1 attribute is expected, if more are present an mrow is inferred, handle it as such.*/
     handleInferredMrow: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
 
       if (children.length != 1) {
         return this.handlemrow(node, context);
@@ -75,7 +75,7 @@ $main(function(){
     handlemi: function(node, context) {
       // TODO: check for layout information
       var result;
-      var value = ""+node.getFirstChild().getNodeValue();
+      var value = ""+node.firstChild.nodeValue;
       var parsing = org.mathdox.formulaeditor.parsing;
       var options = new org.mathdox.formulaeditor.Options();
       var presentation = org.mathdox.formulaeditor.presentation;
@@ -130,7 +130,7 @@ $main(function(){
 
     /* general layout : math:mrow */
     handlemrow: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
 
@@ -150,7 +150,7 @@ $main(function(){
 
     /* general layout : math:mfrac */
     handlemfrac: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
 
@@ -175,7 +175,7 @@ $main(function(){
 
     /* general layout : math:mroot */
     handlemroot: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
 
       var base = this.handle(children.item(0), context);
       var index = this.handle(children.item(1), context);
@@ -224,7 +224,7 @@ $main(function(){
       var opensymbol = node.getAttribute("open");
       var closesymbol = node.getAttribute("close");
       var separators = node.getAttribute("separators");
-      var children = node.getChildNodes();
+      var children = node.childNodes;
 
       var presentation = org.mathdox.formulaeditor.presentation;
       var entries = [];
@@ -273,7 +273,7 @@ $main(function(){
      
     /* script and limit schemata : math:msub */
     handlemsub: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
 
@@ -288,7 +288,7 @@ $main(function(){
 
     /* script and limit schemata : math:msup */
     handlemsup: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
 
@@ -303,7 +303,7 @@ $main(function(){
 
     /* script and limit schemata : math:msubsup */
     handlemsubsup: function(node, context) {
-      var children = node.getChildNodes();
+      var children = node.childNodes;
       var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
 

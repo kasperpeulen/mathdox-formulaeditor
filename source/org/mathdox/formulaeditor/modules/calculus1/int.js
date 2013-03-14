@@ -75,7 +75,7 @@ $main(function(){
        */
       handleCalculus1Int : function(node) {
 
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var lambda   = this.handle(children.item(1));
 
         if (lambda === null || lambda.variables.length === 0) {

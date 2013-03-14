@@ -126,7 +126,7 @@ $main(function(){
       handleLimit1Limit : function(node) {
 
 
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var value = this.handle(children.item(1));
         var method = this.handle(children.item(2));
         var lambda   = this.handle(children.item(3));

@@ -110,7 +110,7 @@ $main(function(){
       handleLinalg2Matrix : function(node) {
 
         // parse the children of the OMA
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var operands = [];
         for (var i=1; i<children.length; i++) {
           operands.push(this.handle(children.item(i)));
@@ -129,7 +129,7 @@ $main(function(){
       handleLinalg2Matrixrow : function(node) {
 
         // parse the children of the OMA
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var operands = [];
         for (var i=1; i<children.length; i++) {
           operands.push(this.handle(children.item(i)));
@@ -148,7 +148,7 @@ $main(function(){
       handleLinalg2Vector : function(node) {
 
         // parse the children of the OMA
-        var children = node.getChildNodes();
+        var children = node.childNodes;
         var operands = [];
         for (var i=1; i<children.length; i++) {
           operands.push(this.handle(children.item(i)));

@@ -892,6 +892,7 @@ $main(function(){
           ORBEON.xforms.Document.setValue(this.textarea.id, 
             this.textarea.value);
         }
+	org.mathdox.formulaeditor.FormulaEditor.lastFocused = this;
       }
       this.hasFocus = false;
       this.cursor.visible = false;
@@ -1459,7 +1460,24 @@ $main(function(){
     return null;
 
   };
+  
+  org.mathdox.formulaeditor.FormulaEditor.lastFocused = null;
 
+  /**
+   * Add the static getLastFocusedEditor() method, that returns the formula
+   * editor that last had focus. Returns null when none of the editors in
+   * the page have had focus.
+   */
+  org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor = function() {
+    var current = org.mathdox.formulaeditor.FormulaEditor.getFocusedEditor();
+
+    if (current !== null) {
+      return current;
+    }
+    
+    return org.mathdox.formulaeditor.FormulaEditor.lastFocused;
+  };
+ 
   /**
    * Update the editor list, based on the current tree, focusing on which
    * textareas are present.

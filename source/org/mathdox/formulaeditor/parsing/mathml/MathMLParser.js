@@ -232,29 +232,74 @@ $main(function(){
 
       var presentation = org.mathdox.formulaeditor.presentation;
       var entries = [];
+      var i;
 
       if (opensymbol === null || opensymbol === undefined) {
 	opensymbol = '(';
       } 
       entries.push(new presentation.Symbol(opensymbol));
       
+      var separr;
       if (separators === null || separators === undefined) {
 	separators = ',';
+	separr = [ separators ];
       } else {
-        // remove spaces
+	separr = separators.split("\\s+");
+	// check for empty parts
+	if (separr[0] === "") {
+	  // remove first element
+	  separr = separr.slice(1);
+	}
+
+	if (separr.length>0) {
+	  if (separr[separr.length] === "") {
+	    // remove last element
+	    separr.splice(separr.length-1);
+          }
+	}
+
+	// check if length is 1, and if so update
+	if (separr.length==1) {
+	  var arr = [];
+
+	  for (i=0;i<separr[0].length;i++) {
+	    arr.push(separr[0].charAt(i));
+	  }
+	  separr = arr;
+	}
       }
 
       // for each child : add child and possibly separator
-      for (var i = children.length - 1; i>=0; i--) {
+      for (i = children.length - 1; i>=0; i--) {
         if (i>0) {
-	  // add separator
+          // separator-attribute is not empty
+	  var sep;
+	  if (separr.length>0) { 
+	    if (i<=separr.length) {
+	      sep = separr[i];
+	    } else {
+	      sep = separr[0];
+	    }
+	  }
+	  for (var j=0;j<sep.length;j++) {
+            entries.push(new presentation.Symbol(sep.charAt[j]));
+	  }
 	}
+
+	// add child
+        var child = this.handle(children.item(i), context);
+
+	entries.push(child);
       }
 
       if (closesymbol === null || closesymbol === undefined) {
 	closesymbol = ')';
       } 
       entries.push(new presentation.Symbol(closesymbol));
+
+      var row = new presentation.Row();
+      row.initialize.apply(row, entries);
+      return row;
     },
 
     /*

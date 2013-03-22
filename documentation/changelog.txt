@@ -1,3 +1,6 @@
+1.1.30
+  - fixed support for mfenced (#309)
+
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.
   - mathml: now parsing invisibletimes and invisibleplus operators

@@ -62,6 +62,13 @@ $main(function(){
        * The precedence level of the operator.
        */
       precedence : 0,
+
+      getPrecedence : function(context) {
+	return this.precedence;
+      },
+      getInnerPrecedence : function(context) {
+	return this.getPrecedence(context);
+      },
  
       /**
        * Is the operator associative
@@ -113,9 +120,12 @@ $main(function(){
             }
           }
           //if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
-          if (operand.precedence && ((operand.precedence < this.precedence) || 
-	     (operand.precedence == this.precedence && 
-	         (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath))))) {
+          if (operand.getPrecedence && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
+	     (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
+	       (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath) ||
+		(this.operands.length == 1)
+		)) 
+	     )) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));

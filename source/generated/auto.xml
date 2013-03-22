@@ -27,21 +27,6 @@
     <model:symbol_mathml_invisible>&#x2064;</model:symbol_mathml_invisible>
     <model:symbol_screen>+</model:symbol_screen>
   </model:instance>
-  <!-- arith1.unary_minus -->
-  <model:instance model="models/unary.xml"
-    target="org/mathdox/formulaeditor/modules/arith1/unary_minus.js"
-  >
-    <model:cd>arith1</model:cd>
-    <model:name>unary_minus</model:name>
-    <model:precedence>140</model:precedence>
-    <model:precedence2>150</model:precedence2>
-    <model:symbol_enter_pre>-</model:symbol_enter_pre>
-    <model:symbol_enter_post></model:symbol_enter_post>
-    <model:symbol_mathml_pre>-</model:symbol_mathml_pre>
-    <model:symbol_mathml_post></model:symbol_mathml_post>
-    <model:symbol_screen_pre>-</model:symbol_screen_pre>
-    <model:symbol_screen_post></model:symbol_screen_post>
-  </model:instance>
   <!-- integer1.factorial -->
   <model:instance model="models/unary.xml"
     target="org/mathdox/formulaeditor/modules/integer1/factorial.js"

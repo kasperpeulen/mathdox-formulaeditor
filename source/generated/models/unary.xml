@@ -5,6 +5,7 @@ $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/presentation/Superscript.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
 
 $main(function(){
 
@@ -17,6 +18,12 @@ $main(function(){
     mathmlSymbol[2] = "&lt;mo&gt;<model:symbol_mathml_post/>&lt;/mo&gt;";
   }
 
+  var symbol =  {
+    onscreen : ["<model:symbol_screen_pre/>","","<model:symbol_screen_post/>"],
+    openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/&gt;",
+    mathml   : mathmlSymbol
+  };
+
   /**
    * Defines a semantic tree node that represents a unary minus.
    */
@@ -25,11 +32,9 @@ $main(function(){
       
 
       symbol : {
-
-        onscreen : ["<model:symbol_screen_pre/>","","<model:symbol_screen_post/>"],
-        openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/&gt;",
+        onscreen : symbol.onscreen,
+        openmath : symbol.openmath,
         mathml   : mathmlSymbol
-
       },
 
       precedence : <model:precedence/>
@@ -53,6 +58,8 @@ $main(function(){
       }
 
     });
+
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new org.mathdox.formulaeditor.semantics.Keyword("<model:cd/>", "<model:name/>", symbol, "unary");
 
   /**
    * Add the parsing code for unary symbol.

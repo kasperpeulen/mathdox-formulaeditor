@@ -54,6 +54,8 @@ $main(function(){
        *    arguments
        * "infix"    : infix operator like arith1.plus which can only occur
        *    without arguments in special places like an editor1.palette_row
+       * "unary"    : unary operator like logic.not which can only occur
+       *    without arguments in special places like an editor1.palette_row
        * "type"     : function or symbol
        * "argcount": number of arguments for a function
        */
@@ -90,6 +92,7 @@ $main(function(){
         var presentation = org.mathdox.formulaeditor.presentation;
         var string;
         var symbolOnscreen = this.getSymbolOnscreen(context);
+	var result;
 
         // XXX make case distinction for U+25A1 white square 
         // to become BlockSymbol
@@ -109,7 +112,23 @@ $main(function(){
             } else {
               string=" ";
             }
-          } else {
+          } else if (symbolOnscreen instanceof Array) {
+            var arr = [];
+
+            if (symbolOnscreen[0] != "") {
+              arr.push(new presentation.Symbol(symbolOnscreen[0]));
+            }
+            if (symbolOnscreen[0] != "" && symbolOnscreen[2]!= "") {
+              arr.push(new presentation.BlockSymbol());
+            }
+            if (symbolOnscreen[2] != "") {
+              arr.push(new presentation.Symbol(symbolOnscreen[2]));
+            }
+            result = new presentation.Row();
+
+            result.initialize.apply(result, arr);
+            return result;
+	  } else {
             string = symbolOnscreen.toString();
           }
         } else {
@@ -122,7 +141,7 @@ $main(function(){
           symbols[i] = new presentation.Symbol(string.charAt(i));
         }
 
-        var result = new presentation.Row();
+        result = new presentation.Row();
         result.initialize.apply(result, symbols);
         return result;
       },

@@ -42,7 +42,7 @@ $require("org/mathdox/formulaeditor/modules/arithmetic/product.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/root.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/sum.js");
 $require("org/mathdox/formulaeditor/modules/arithmetic/times.js");
-$require("org/mathdox/formulaeditor/modules/arith1/unary_minus.js");
+$require("org/mathdox/formulaeditor/modules/arithmetic/unary_minus.js");
 
 $require("org/mathdox/formulaeditor/modules/calculus1/defint.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/int.js");

@@ -28,6 +28,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // optionArith1PowerPrefix
 // - true : allow sin^2(x)
 // - false : (default)
+// optionArith1UnaryMinusBrackets
+// - true: lower priority unary_minus, e.g. 1 + (-2)
+// - false: "normal" priority unary_minus e.g. 1 + -2 (default)
 // optionVerboseStyle
 // - "true": add style to divide and times
 // - "false": (default)
@@ -65,6 +68,7 @@ $main(function() {
       featureUndo: true,
       modeArith1Divide: 'restricted',
       optionVerboseStyle: 'false',
+      optionArith1UnaryMinusBrackets : 'false',
       styleArith1Divide: 'mfrac',
       styleArith1Times: 'dot',
       styleTransc1Log: 'function',
@@ -141,6 +145,15 @@ $main(function() {
       }
       return this.defaultOptions.symbolArith1Times;
     },
+    getArith1UnaryMinusOptionBrackets : function() {
+     var option = this.getOption("optionArith1UnaryMinusBrackets");
+
+      if (option == 'true') {
+      	return "true";
+      } else {
+        return "false";
+      }
+    },
     getDecimalMark: function() {
       var mark = this.getOption("decimalMark");
       if (mark === '.' || mark === ',') {
@@ -181,13 +194,27 @@ $main(function() {
       return this.defaultOptions.optionVerboseStyle;
     },
 
+    getExpressionParsingContext: function() {
+      return {
+        decimalMark                    : this.getDecimalMark(),
+        listSeparator                  : this.getListSeparator(),
+        optionArith1DivideMode         : this.getArith1DivideMode(),
+        optionArith1PowerInversePrefix : this.getArith1PowerOptionInversePrefix(),
+        optionArith1PowerPrefix        : this.getArith1PowerOptionPrefix(),
+        optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
+        styleTransc1Log                : this.getTransc1LogStyle(),
+        symbolArith1Times              : this.getArith1TimesSymbol()
+      };
+    },
+
     getPresentationContext: function() {
       return {
-        decimalMark        : this.getDecimalMark(),
-        listSeparator      : this.getListSeparator(),
-        modeArith1Divide   : this.getArith1DivideMode(),
-        styleTransc1Log    : this.getTransc1LogStyle(),
-        symbolArith1Times  : this.getArith1TimesSymbol()
+        decimalMark                    : this.getDecimalMark(),
+        listSeparator                  : this.getListSeparator(),
+        modeArith1Divide               : this.getArith1DivideMode(),
+        optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
+        styleTransc1Log                : this.getTransc1LogStyle(),
+        symbolArith1Times              : this.getArith1TimesSymbol()
       };
     }
 

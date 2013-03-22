@@ -41,7 +41,7 @@ $main(function(){
               array.push(new presentation.Row(this.symbol.onscreen));
             }
           }
-          if (operand.precedence && operand.precedence < this.precedence) {
+          if (operand.getPrecedence && operand.getPrecedence(context) < this.getPrecedence(context)) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));

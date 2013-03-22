@@ -161,7 +161,7 @@ $main(function(){
       if (keyword !== null && keyword !== undefined) {
         if (keyword.type == "constant" || keyword.type == "function") {
           return keyword;
-        } else if (keyword.type == "infix") {
+        } else if (keyword.type == "infix" || keyword.type == "unary") {
           //check if parent is palette_row
           var error = false; // set to true if an error is found
           var parentNode = node.parentNode;

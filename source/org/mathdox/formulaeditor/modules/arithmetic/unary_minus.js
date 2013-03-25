@@ -65,7 +65,7 @@ $main(function(){
 
         var operand = this.operands[0];
 
-        if (operand.getPrecedence && 
+        if (operand.getPrecedence && operand.getPrecedence(context) != 0 &&
 	    operand.getPrecedence(context) < this.getInnerPrecedence(context)) {
           array.push(new presentation.Symbol("("));
           array.push(operand.getPresentation(context));

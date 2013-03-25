@@ -120,7 +120,7 @@ $main(function(){
             }
           }
           //if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
-          if (operand.getPrecedence && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
+          if (operand.getPrecedence && operand.getPrecedence(context) != 0 && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
 	     (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
 	       (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath) ||
 		(this.operands.length == 1)

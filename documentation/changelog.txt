@@ -1,5 +1,6 @@
 1.1.30
   - fixed support for mfenced (#309)
+  - fixed precedence 0 case (#310)
 
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.

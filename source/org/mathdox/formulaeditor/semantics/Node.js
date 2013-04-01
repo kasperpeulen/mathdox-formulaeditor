@@ -64,6 +64,13 @@ $main(function(){
      */
     getMathML : function() {
       throw new Error("abstract method called");
+    },
+
+    /**
+     * get the value as a string, useful when multiple internal representations are possible
+     */
+    getValueAsString : function() {
+      return this.value.toString();
     }
 
   });

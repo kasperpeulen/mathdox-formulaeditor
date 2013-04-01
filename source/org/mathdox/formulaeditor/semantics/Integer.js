@@ -24,7 +24,17 @@ $main(function(){
        * specified value.
        */
       initialize : function(value) {
-        this.value = value;
+	// check for allowed types
+	// 1: integer
+	if (value === undefined || value === null) {
+          this.value = 0;
+	} else {
+	  if (! ((typeof value == "int") || (typeof value == "object" && value.rule == "bigint"))) {
+            console.log("MFE WARNING: integer object created with unknown type");
+	  }
+	  this.value = value;
+	}
+
       },
 
       /**
@@ -50,14 +60,29 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMI>" + this.value + "</OMI>";
+        return "<OMI>" + this.getValueAsString() + "</OMI>";
       },
 
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
       getMathML : function() {
-        return "<mn>" + this.value + "</mn>";
+        return "<mn>" + this.getValueAsString() + "</mn>";
+      },
+
+      getValueAsString: function() {
+	if (typeof this.value == "number") {
+	  return this.value.toString();
+	} else if (typeof this.value == "string") { 
+          console.log("MFE WARNING: found integer with unexpected type: string");
+	  return this.value;
+	} else if (typeof this.value == "object" && this.value.rule == "bigint") {
+	  // bigint encoding, value.value is the string representation
+	  return this.value.value;
+	} else { // unknown type
+          console.log("MFE ERROR: integer of unknown type");
+	  return this.value.toString();
+	}
       }
 
     });

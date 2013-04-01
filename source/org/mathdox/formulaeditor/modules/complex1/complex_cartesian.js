@@ -38,7 +38,7 @@ $main(function(){
         if (imagpart instanceof semantics.Arith1Unary_minus) {
           complexpart = new semantics.Times(imagpart.operands[0], complexI);
           result = new semantics.Arith1Minus(realpart, complexpart);
-        } else if (imagpart instanceof semantics.Integer || imagpart.value.charAt(0)=='-') {
+        } else if (imagpart instanceof semantics.Integer || imagpart.getValueAsString().charAt(0)=='-') {
           var posInt = new semantics.Integer(imagpart.value.slice(1));
           complexpart = new semantics.Times(posInt, complexI);
           result = new semantics.Arith1Minus(realpart, complexpart);

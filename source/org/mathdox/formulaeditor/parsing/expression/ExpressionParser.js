@@ -259,6 +259,8 @@ $main(function() {
             pG.rule("omSymbol")
           ),
 
+        biginteger : pG.never,
+
         // integer = [0..9]+
         integer :
           pG.transform(
@@ -266,7 +268,30 @@ $main(function() {
               pG.range('0','9')
             ),
             function(result) {
-              return new semantics.Integer(Number(result.join("")));
+              var numstr = result.join("");
+
+              // remove starting 0s
+              pos = 0;
+              while (pos < numstr.length && numstr.charAt(pos) == '0') {
+                pos++;
+              }
+              if (pos > 0) {
+                if (pos == numstr.length) {
+                  numstr = "0";
+                } else {
+                  numstr = numstr.substr(pos);
+                }
+              }
+
+	      if (numstr.length <= 10) {
+                return new semantics.Integer(Number(result.join("")));
+              } else {
+                return new semantics.Integer( {
+                    value : numstr,
+                    rule : "bigint"
+                  }
+                );
+	      }
             }
           ),
 
@@ -313,6 +338,7 @@ $main(function() {
         parseNumber :
           pG.alternation(
             pG.rule("parseFloat"),
+            pG.rule("biginteger"),
             pG.rule("integer")
           ),
 

@@ -3,6 +3,7 @@ $package("org.mathdox.formulaeditor.semantics");
 $identify("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
 
 $require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 $require("org/mathdox/formulaeditor/semantics/Node.js");
 $require("org/mathdox/formulaeditor/semantics/Variable.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -67,8 +68,14 @@ $main(function(){
           style = "firstsuper";
         }
 
+	if (this.symbol instanceof semantics.MultaryOperation) {
+          array.push(new presentation.Symbol("("));
+	}
 	if (style != "firstsuper") {
           array.push(this.symbol.getPresentation(context));
+	}
+	if (this.symbol instanceof semantics.MultaryOperation) {
+          array.push(new presentation.Symbol(")"));
 	}
         if (style != "sub" && style != "firstsub" && style != "firstsuper") {
 	  // no brackets in subscript style "sub" or if the first argument is

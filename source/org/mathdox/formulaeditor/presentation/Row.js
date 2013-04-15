@@ -31,6 +31,12 @@ $main(function(){
         }
         else {
           var children = Array.prototype.slice.call(arguments);
+
+          if (children.length === 0) {
+            children = [];
+            children.push(null);
+          }
+
           for (i=0; i<children.length; i++) {
             // an "empty" box is a symbol with the empty string
             if ((children[i] === null) || (children[i] === undefined)) {

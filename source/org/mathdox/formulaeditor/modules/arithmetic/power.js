@@ -1,10 +1,15 @@
 $identify("org/mathdox/formulaeditor/modules/arithmetic/power.js");
 
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
-$require("org/mathdox/formulaeditor/presentation/Superscript.js");
+$require("org/mathdox/formulaeditor/modules/arithmetic/unary_minus.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/presentation/Row.js");
+$require("org/mathdox/formulaeditor/presentation/Superscript.js");
+$require("org/mathdox/formulaeditor/semantics/FunctionApplication.js");
+$require("org/mathdox/formulaeditor/semantics/Integer.js");
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
 

@@ -5,6 +5,8 @@
   - fixed a bug with not adding brackets for FunctionApplication in
     presentation (#313)
   - fix for 300: x^ -> does not parse, (no row created)
+  - fix for #308: unable to delete after FE Load mathml of a fraction with a
+    root in the numerator
 
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.

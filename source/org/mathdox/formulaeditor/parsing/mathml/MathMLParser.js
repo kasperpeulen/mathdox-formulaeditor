@@ -174,7 +174,7 @@ $main(function(){
       var index = this.handleInferredMrow(node, context);
       var base = new presentation.Row("2");
 
-      return new presentation.Root(index, base);
+      return new presentation.Row(new presentation.Root(index, base));
     },
 
     /* general layout : math:mroot */

@@ -7,6 +7,9 @@
   - fix for 300: x^ -> does not parse, (no row created)
   - fix for #308: unable to delete after FE Load mathml of a fraction with a
     root in the numerator
+  - fix for #317: unsupported symbols now 
+    - no longer cause an alert (changed to console.log)
+    - no longer halt the editor (instead a red box is displayed)
 
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.

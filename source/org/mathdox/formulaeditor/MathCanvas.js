@@ -418,6 +418,16 @@ $main(function(){
 
       // retrieve font and symbol data
       var symbolData = this.getSymbolData(symbol, typeface, fontSizeModifier);
+
+      if (symbolData === null) {
+	// draw an invisible box instead. Another option would be a red box
+	var box =  this.drawFBox(x, y, true, null, typeface, fontSizeModifier);
+	if (invisible !== true) {
+	  this.drawBox(box, "rgba(255,0,0, 1.0)");
+	}
+	return box;
+      }
+
       var font = symbolData.font;
 
       // calculate the position of the topleft corner, the width and the height
@@ -555,7 +565,7 @@ $main(function(){
         
       if (!symbolData) {
         // should not happen any more
-        alert("symbol: '"+symbol+"' cannot be gotten by position");
+        console.log("ALERT: unsupported symbol '"+symbol+"' cannot be gotten by position");
       }
 
       // no symbol data found, return null

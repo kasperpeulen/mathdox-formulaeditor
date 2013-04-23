@@ -31,6 +31,13 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // optionArith1UnaryMinusBrackets
 // - true: lower priority unary_minus, e.g. 1 + (-2)
 // - false: "normal" priority unary_minus e.g. 1 + -2 (default)
+// optionInterval1Brackets
+// - object with 4 strings
+//   lo: left symbol for left-open interval
+//   lc: left symbol for left-closed interval
+//   ro: right symbol for right-open interval
+//   rc: right symbol for right-closed interval
+//   default: { lo: "(", lc: "[", ro: ")", rc: "]" }
 // optionVerboseStyle
 // - "true": add style to divide and times
 // - "false": (default)
@@ -69,6 +76,7 @@ $main(function() {
       modeArith1Divide: 'restricted',
       optionVerboseStyle: 'false',
       optionArith1UnaryMinusBrackets : 'false',
+      optionInterval1Brackets : {lo: '(', lc: '[', ro: ')', rc:']'},
       styleArith1Divide: 'mfrac',
       styleArith1Times: 'dot',
       styleTransc1Log: 'function',
@@ -163,6 +171,16 @@ $main(function() {
         return this.defaultOptions.decimalMark;
       }
     },
+    getInterval1BracketsOption: function() {
+     var option = this.getOption("optionInterval1Brackets");
+
+      if (typeof option === "object" && typeof option.lo === "string" && typeof option.lc === "string" && typeof option.ro === "string" && typeof option.rc === "string") {
+      	return option;
+      } else {
+        console.log("ERROR: invalid option for Interval1Brackets: "+option);
+	return this.defaultOptions.optionInterval1Brackets;
+      }
+    },
     getListSeparator : function() {
       var mark = this.getDecimalMark();
       
@@ -213,6 +231,7 @@ $main(function() {
         listSeparator                  : this.getListSeparator(),
         modeArith1Divide               : this.getArith1DivideMode(),
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
+        optionInterval1Brackets        : this.getInterval1BracketsOption(),
         styleTransc1Log                : this.getTransc1LogStyle(),
         symbolArith1Times              : this.getArith1TimesSymbol()
       };

@@ -29,8 +29,8 @@ $main(function(){
 	if (value === undefined || value === null) {
           this.value = 0;
 	} else {
-	  if (! ((typeof value == "int") || (typeof value == "object" && value.rule == "bigint"))) {
-            console.log("MFE WARNING: integer object created with unknown type");
+	  if (! ((typeof value == "number") || (typeof value == "object" && value.rule == "bigint"))) {
+            console.log("MFE WARNING: integer object created with unknown type "+(typeof value));
 	  }
 	  this.value = value;
 	}

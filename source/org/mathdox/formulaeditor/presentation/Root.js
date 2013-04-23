@@ -299,6 +299,9 @@ $main(function(){
               row[ this.functionsFromRow[i] ];
           }
         }
+
+	/* check if the base should be displayed */
+
         this.updateChildren();
       },
 
@@ -319,8 +322,8 @@ $main(function(){
       getSemantics : function(context) {
         var root;
 
-        var presentation = org.mathdox.formulaeditor.semantics;
-        root = new presentation.Arith1Root(this.middle.getSemantics(context).value, 
+        var semantics = org.mathdox.formulaeditor.semantics;
+        root = new semantics.Arith1Root(this.middle.getSemantics(context).value, 
           this.base.getSemantics(context).value);
         return {
           value : root,

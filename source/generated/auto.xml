@@ -42,6 +42,38 @@
     <model:symbol_screen_pre></model:symbol_screen_pre>
     <model:symbol_screen_post>!</model:symbol_screen_post>
   </model:instance>
+  <!-- interval1.interval_cc -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_cc.js"
+  >
+    <model:oo>cc</model:oo>
+    <model:leftOpen>false</model:leftOpen>
+    <model:rightOpen>false</model:rightOpen>
+  </model:instance>
+  <!-- interval1.interval_co -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_co.js"
+  >
+    <model:oo>co</model:oo>
+    <model:leftOpen>false</model:leftOpen>
+    <model:rightOpen>true</model:rightOpen>
+  </model:instance>
+  <!-- interval1.interval_oc -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_oc.js"
+  >
+    <model:oo>oc</model:oo>
+    <model:leftOpen>true</model:leftOpen>
+    <model:rightOpen>false</model:rightOpen>
+  </model:instance>
+  <!-- interval1.interval_oo -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_oo.js"
+  >
+    <model:oo>oo</model:oo>
+    <model:leftOpen>true</model:leftOpen>
+    <model:rightOpen>true</model:rightOpen>
+  </model:instance>
   <!-- logic1.and -->
   <model:instance model="models/infix.xml"
     target="org/mathdox/formulaeditor/modules/logic1/and.js"

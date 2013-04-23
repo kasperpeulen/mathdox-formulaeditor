@@ -1,4 +1,7 @@
-$identify("org/mathdox/formulaeditor/modules/interval1/interval_oo.js");
+<model:model xmlns:model="local:model">
+$identify("org/mathdox/formulaeditor/modules/interval1/interval_<model:oo/>.js");
+
+$package("org.mathdox.formulaeditor.semantics");
 
 $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/modules/interval1/interval_multi.js");
@@ -9,18 +12,18 @@ $main(function(){
   /**
    * Defines a semantic tree node that represents an interval.
    */
-  org.mathdox.formulaeditor.semantics.Interval1Interval_oo =
+  org.mathdox.formulaeditor.semantics.Interval1Interval_<model:oo/> =
     $extend(org.mathdox.formulaeditor.semantics.Interval1Interval_multi, {
 
       symbol : {
 
-        openmath : "<OMS cd='interval1' name='interval_oo'/>"
+        openmath : "&lt;OMS cd='interval1' name='interval_<model:oo/>'/&gt;"
 
       },
 
-      leftOpen: true,
-      rightOpen: true,
-      className: "Interval1Interval_oo",
+      leftOpen: <model:leftOpen>true</model:leftOpen>,
+      rightOpen: <model:rightOpen>true</model:rightOpen>,
+      className: "Interval1Interval_<model:oo/>"
 
     });
 
@@ -34,12 +37,12 @@ $main(function(){
       /**
        * Returns an Interval object based on the OpenMath node.
        */
-      handleInterval1Interval_oo : function(node) {
+      handleInterval1Interval_<model:oo/> : function(node) {
 
         var children = node.childNodes;
 	var arr = [];
 
-	for (var i = 1; i<children.length; i++) {
+	for (var i = 1; i&lt;children.length; i++) {
 	  var child = this.handle(children.item(i));
 	  if (child !== null) {
             /* ignore comments */
@@ -47,7 +50,7 @@ $main(function(){
 	  }
 	}
 
-	var result = new org.mathdox.formulaeditor.semantics.Interval1Interval_oo();
+	var result = new org.mathdox.formulaeditor.semantics.Interval1Interval_<model:oo/>();
 	result.initialize.apply(result, arr);
 
         return result;
@@ -56,3 +59,4 @@ $main(function(){
     });
 
 });
+</model:model>

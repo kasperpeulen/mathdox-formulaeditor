@@ -55,6 +55,9 @@ $require("org/mathdox/formulaeditor/modules/fns1/lambda.js");
 
 $require("org/mathdox/formulaeditor/modules/integer1/factorial.js");
 
+$require("org/mathdox/formulaeditor/modules/interval1/interval_cc.js");
+$require("org/mathdox/formulaeditor/modules/interval1/interval_co.js");
+$require("org/mathdox/formulaeditor/modules/interval1/interval_oc.js");
 $require("org/mathdox/formulaeditor/modules/interval1/interval_oo.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");

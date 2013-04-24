@@ -83,6 +83,54 @@ $main(function(){
       return result;
     },
 
+    getCursorPosition : function(x, y) {
+      /* starting minimum is distance to closest side border */
+      var dmin = Math.min(Math.abs(x- this.dimensions.left),Math.abs((this.dimensions.left+this.dimensions.width) - x));
+      var dx;
+      var idx = -1;
+      
+      for (var i = 0; i< this.children.length; i++) {
+        var child = this.children[i];
+        if (x < child.dimensions.left) {
+          dx = child.dimensions.left - x;
+        } else if (x <= child.dimensions.left + child.dimensions.width) {
+          dx = 0;
+        } else {
+          dx = x - (child.dimensions.left + child.dimensions.width);
+        }
+        
+	if (dx<dmin) {
+          idx = i;
+          dmin = dx;
+        }
+      }
+
+      var pos;
+      if (idx >=0) {
+        pos = this.children[idx].getCursorPosition(x,y);
+        if (pos !== null) {
+          return pos;
+        } else {
+          if (x >= this.children[idx].dimensions.left + this.children[idx].dimensions.width) {
+            return this.children[idx].getPrecedingCursorPosition();
+          } else {
+            return this.children[idx].getFollowingCursorPosition();
+          }
+        }
+      } else { /* code from Node.js */
+        if (this.parent !== null) {
+          if (x < this.dimensions.left + this.dimensions.width / 2) {
+            return this.parent.getPrecedingCursorPosition(this.index+1,false);
+          }
+          else {
+            return this.parent.getFollowingCursorPosition(this.index,false);
+          }
+        } else {
+          return null;
+        }
+      }
+    },
+
     getSemantics : function(context) {
       var values = [];
       var i;

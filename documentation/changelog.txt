@@ -10,6 +10,9 @@
   - fix for #317: unsupported symbols now 
     - no longer cause an alert (changed to console.log)
     - no longer halt the editor (instead a red box is displayed)
+  - now support for boxed elements
+  - support for interval1.interval_[co][co]
+  - configurable symbols for open/closed intervals
 
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.

@@ -30,8 +30,10 @@ $main(function(){
 
       // should we draw boxes ?
       drawBox : false,
+      
+      drawBase : false,
 
-      drawBaseQ: function(canvas) {
+      drawBaseQ: function() {
         var context;
         context = org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.getContext();
 
@@ -59,7 +61,7 @@ $main(function(){
           fontSizeModifier = context.fontSizeModifier;
         }
 
-	var baseContext = { fontSizeModifier : 0 };
+        var baseContext = { fontSizeModifier : 0 };
         for (var name in context) {
           baseContext[name] = context[name];
         }
@@ -72,7 +74,7 @@ $main(function(){
         middleheight = this.middle.dimensions.height + this.lineWidth + 
           this.margin*2;
 
-        drawBase = this.drawBaseQ(canvas);
+        drawBase = this.drawBase;
 
         if (drawBase) {
           this.base.draw(canvas, baseContext, 0, 0, true);
@@ -179,7 +181,7 @@ $main(function(){
         var dimensions;
 
         // check for base
-        if (this.drawBaseQ()) {
+        if (this.drawBase) {
           dimensions = this.base.dimensions;
           if (x < dimensions.left + dimensions.width) {
             return this.base.getCursorPosition(x,y);
@@ -188,7 +190,7 @@ $main(function(){
 
         // check for middle
         dimensions = this.middle.dimensions;
-        if (! this.drawBaseQ()) {
+        if (! this.drawBase) {
           if (x < dimensions.left) {
             return { row: this.parent, index: this.index };
           }
@@ -208,7 +210,7 @@ $main(function(){
 
         // when index is not specified, return the first position in the array
         if (index === null || index === undefined) {
-          if (this.drawBaseQ()) {
+          if (this.drawBase) {
             return this.base.getFollowingCursorPosition();
           } else {
             return this.middle.getFollowingCursorPosition();
@@ -219,7 +221,7 @@ $main(function(){
 
         if (index === 0) {
           if (descend) {
-            if (this.drawBaseQ()) {
+            if (this.drawBase) {
               result = this.base.getFollowingCursorPosition();
             } else {
               return this.middle.getFollowingCursorPosition();
@@ -259,7 +261,7 @@ $main(function(){
             result = this.middle.getPrecedingCursorPosition();
           }
           if (result === null) {
-            if (this.drawBaseQ()) {
+            if (this.drawBase) {
               result = this.base.getPrecedingCursorPosition();
             }
           }
@@ -300,7 +302,8 @@ $main(function(){
           }
         }
 
-	/* check if the base should be displayed */
+        /* check if the base should be displayed */
+        this.drawBase = this.drawBaseQ();
 
         this.updateChildren();
       },

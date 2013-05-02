@@ -36,7 +36,7 @@ $main(function(){
       }
 
       if (!invisible) {
-        canvas.drawBox(this.dimensions);
+        canvas.drawBox(this.dimensions,"#7F7F7F");
         this.presentation.draw(canvas, context, x + this.margin, y, false);
       }
 

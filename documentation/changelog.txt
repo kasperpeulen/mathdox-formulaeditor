@@ -14,6 +14,8 @@
   - support for interval1.interval_[co][co]
   - configurable symbols for open/closed intervals
   - fix for #274 : input of 2nd degree root hides the degree
+  - changed color of boxed to grey
+  - added option listseparatorfixed (for , in boxed-interval)
 
 1.1.29
   - colon support rewritten. Can now only co-exist with normal fractions.

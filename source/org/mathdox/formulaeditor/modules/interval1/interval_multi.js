@@ -27,10 +27,10 @@ $main(function(){
         var presentation = org.mathdox.formulaeditor.presentation;
         var semantics = org.mathdox.formulaeditor.semantics;
 
-	var result = [];
+	var contents = [];
 	var children = [];
 	var child;
-        /* TODO: configure open brackets */
+
 	var option = context.optionInterval1Brackets;
 
 	var bracket;
@@ -45,14 +45,19 @@ $main(function(){
 
 	child = new presentation.Row(this.operands[0].getPresentation(context));
 	children.push(child);
-	result.push(child);
+	contents.push(child);
 
-	/* TODO: configure seperator */
-	result.push(new presentation.Symbol(","));
+	/* use the fixed list separator string from the context */
+	var listSep = context.listSeparatorFixed;
 
-	child=new presentation.Row(this.operands[1].getPresentation(context));
+	var i;
+	for (i = 0; i<listSep.length; i++) {
+	  contents.push(new presentation.Symbol(listSep.charAt(i)));
+	}
+
+	child = new presentation.Row(this.operands[1].getPresentation(context));
 	children.push(child);
-	result.push(child);
+	contents.push(child);
 
 	if (this.rightOpen) {
 	  bracket = option.ro;
@@ -61,10 +66,10 @@ $main(function(){
 	}
 
         var right = new presentation.Bracket(bracket);
-	var brow = new presentation.PseudoRow();
-	brow.initialize.apply(brow, result);
+	var prow = new presentation.PseudoRow();
+	prow.initialize.apply(prow, contents);
 
-	var row = new presentation.Row(new presentation.Bracketed(left, brow, right));
+	var row = new presentation.Row(new presentation.Bracketed(left, prow, right));
 
 	return new presentation.Boxed(semantics[this.className], children, row);
       }

@@ -21,8 +21,8 @@ $main(function(){
 
       },
 
-      leftOpen: <model:leftOpen>true</model:leftOpen>,
-      rightOpen: <model:rightOpen>true</model:rightOpen>,
+      leftOpen: <model:leftOpen/>,
+      rightOpen: <model:rightOpen/>,
       className: "Interval1Interval_<model:oo/>"
 
     });

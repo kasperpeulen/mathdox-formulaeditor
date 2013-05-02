@@ -38,6 +38,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 //   ro: right symbol for right-open interval
 //   rc: right symbol for right-closed interval
 //   default: { lo: "(", lc: "[", ro: ")", rc: "]" }
+// optionListSeparatorFixed
+// - list separator for non-editable lists
+//   default : same as getListSeparator()
 // optionVerboseStyle
 // - "true": add style to divide and times
 // - "false": (default)
@@ -193,6 +196,16 @@ $main(function() {
         return null;
       }
     },
+    getListSeparatorFixed : function() {
+      var option = this.getOption("optionListSeparatorFixed");
+      var sep = this.getListSeparator();
+      
+      if (option !== null) {
+	return option;
+      } else {
+	return sep;
+      }
+    },
     getTransc1LogStyle : function () {
       var option = this.getOption("styleTransc1Log");
 
@@ -229,6 +242,7 @@ $main(function() {
       return {
         decimalMark                    : this.getDecimalMark(),
         listSeparator                  : this.getListSeparator(),
+        listSeparatorFixed             : this.getListSeparatorFixed(),
         modeArith1Divide               : this.getArith1DivideMode(),
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
         optionInterval1Brackets        : this.getInterval1BracketsOption(),

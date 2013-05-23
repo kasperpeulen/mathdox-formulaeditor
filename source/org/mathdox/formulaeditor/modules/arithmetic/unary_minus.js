@@ -85,7 +85,7 @@ $main(function(){
         result.initialize.apply(result, array);
         return result;
 
-      },
+      }
 
     });
 

@@ -12,6 +12,7 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Column =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
+      slowDelete: true,
       /*
        * the margin between the entries
        */
@@ -117,6 +118,17 @@ $main(function(){
           rowInfo[row].baseline -= usedBaseline;
         }
 
+        this.dimensions = {
+          top: y + rowInfo[0].top,
+          left: x,
+          width: maxWidth,
+          height: totalHeight
+        };
+
+        if (!invisible) {
+          this.drawHighlight(canvas);
+	}
+
         // center of the column
         var center = x + maxWidth/2;
 
@@ -125,14 +137,6 @@ $main(function(){
           this.children[row].draw(canvas, childContextArray[row], childLeft, y + rowInfo[row].baseline, 
             invisible);
         }
-
-        this.dimensions = {
-          top: y + rowInfo[0].top,
-          left: x,
-          width: maxWidth,
-          height: totalHeight
-        };
-
 
         if ((!invisible) && this.drawBox) {
           canvas.drawBoxWithBaseline(this.dimensions,y);

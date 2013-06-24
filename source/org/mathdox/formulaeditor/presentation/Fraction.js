@@ -11,6 +11,7 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Fraction =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
+      slowDelete : true,
 
       /**
        * Draws the fraction on the canvas.
@@ -52,6 +53,17 @@ $main(function(){
         var height = upperDimensions.height + lowerDimensions.height + 
 	  2 * margin + lineWidth;
 
+        this.dimensions = {
+          left   : left,
+          top    : top,
+          width  : width,
+          height : height
+        };
+
+        if (!invisible) {
+          this.drawHighlight(canvas);
+        }
+
         // draw upper part
         upper.draw(
           canvas, context,
@@ -80,13 +92,6 @@ $main(function(){
           x + (width/2) - (lowerDimensions.width/2),
           y + margin - lowerDimensions.top + 1,
           invisible);
-
-        this.dimensions = {
-          left   : left,
-          top    : top,
-          width  : width,
-          height : height
-        };
 
         return this.dimensions;
 

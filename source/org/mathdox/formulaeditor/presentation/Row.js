@@ -177,11 +177,16 @@ $main(function(){
             case  8: // backspace
               var position = editor.cursor.position;
               if (position.index > 0) {
-                this.remove(position.index - 1);
-                position.index--;
-                // after deleting the last character, add a new input box
-                if (this.isEmpty()) {
-                  this.insert(0);
+                // test if we should delete
+                var del = this.children[position.index - 1].deleteItem();
+
+                if (del) {
+                  this.remove(position.index - 1);
+                  position.index--;
+                  // after deleting the last character, add a new input box
+                  if (this.isEmpty()) {
+                    this.insert(0);
+                  }
                 }
                 editor.redraw();
                 editor.save();
@@ -189,17 +194,23 @@ $main(function(){
               return false;
 
             case 46: // delete
-              this.remove(editor.cursor.position.index);
-              // after deleting the last character, add a new input box
-              if (this.isEmpty()) {
-                this.insert(0);
+              var position = editor.cursor.position;
+              if (position.index <this.children.length) {
+                // test if we should delete
+                var del = this.children[position.index].deleteItem();
+
+                if (del) {
+                  this.remove(position.index);
+                  // after deleting the last character, add a new input box
+                  if (this.isEmpty()) {
+                    this.insert(0);
+                  }
+                }
+                editor.redraw();
+                editor.save();
               }
-              editor.redraw();
-              editor.save();
               return false;
-
           }
-
         }
 
         // pass the event back to the browser

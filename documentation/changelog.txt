@@ -1,3 +1,7 @@
+1.1.31
+  - two-step delete (with highlighting) support (slowDelete) in presentation
+    objects with a drawHighlight(canvas)
+  - enabled for fractions, bracketed, vector, root
 1.1.30
   - fixed support for mfenced (#309)
   - fixed precedence 0 case (#310)

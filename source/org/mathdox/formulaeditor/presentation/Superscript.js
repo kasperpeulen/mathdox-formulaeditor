@@ -11,6 +11,7 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Superscript =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
+      slowDelete : true,
 
       draw : function(canvas, context, x, y, invisible) {
 
@@ -35,11 +36,12 @@ $main(function(){
 
         var tmp = superscript.draw(canvas,modifiedContext,0,0,true);
 
+        // warning drawing twice, should be possible to combine first dim1 with tmp
         var dim1 = superscript.draw(
           canvas,modifiedContext,
           dim0.left + dim0.width,
           dim0.top - (tmp.height + tmp.top),
-          invisible);
+          true);
 
         var left   = dim1.left;
         var top    = Math.min(dim0.top,  dim1.top );
@@ -52,6 +54,16 @@ $main(function(){
           width  : right - left,
           height : bottom - top
         };
+
+        if (invisible === false || invisible === null || invisible === undefined) {
+          this.drawHighlight(canvas);
+          // warning drawing twice
+          superscript.draw(
+            canvas,modifiedContext,
+            dim0.left + dim0.width,
+            dim0.top - (tmp.height + tmp.top),
+            invisible);
+        }
 
         return this.dimensions;
 

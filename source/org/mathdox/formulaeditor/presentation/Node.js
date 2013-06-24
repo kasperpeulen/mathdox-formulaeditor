@@ -31,6 +31,18 @@ $main(function(){
     dimensions : null,
 
     /**
+     * Indicate if this should be drawn with a highlight. Note: not all items
+     * might support highlights.
+     */
+    highlight: false,
+
+    /**
+     * Indicate if this should not be deleted directly. The item will be
+     * highlighted instead.
+     */
+    slowDelete: false,
+
+    /**
      * The arguments to the constructor are the children of this node.
      */
     initialize : function() {
@@ -95,6 +107,27 @@ $main(function(){
     },
 
     /**
+     * Test to see if we can delete this item.
+     *
+     * Result: 
+     *   Returns true if this can be deleted. Returns false if this should not
+     *   be deleted yet. This allows highlighting an item before deleting it.
+     */
+    deleteItem: function() {
+      if (this.slowDelete === true) {
+        if (this.highlight === true) {
+          return true;
+        } else {
+          this.setHighlight(true);
+
+          return false;
+        }
+      } else {
+        return true;
+      }
+    },
+
+    /**
      * Draws the node on the specified canvas context. This is an abstract
      * method, so it is expected that subclasses will override this method.
      *
@@ -116,6 +149,21 @@ $main(function(){
 
       throw new Error("abstract method called");
 
+    },
+
+    /**
+     * draws the background when highlighted
+     *
+     * Parameter dimensions: the size of the object
+     */
+    drawHighlight : function(canvas, dimensions) {
+      if (dimensions === null || dimensions === undefined) {
+        dimensions = this.dimensions;
+      }
+      if (this.highlight === true) {
+        canvas.drawBox(dimensions, "#66C", "rgba(160,160,255,0.5)");
+        //canvas.drawBox(dimensions, "#66C", "rgba(255,0,0,0.5)");
+      }
     },
 
     /**
@@ -327,6 +375,26 @@ $main(function(){
         };
       }
       return maxdim;
+    },
+
+    /**
+     * Parameter highlight:
+     *   true if this should be highlighted.
+     */
+    setHighlight: function(highlight) {
+      if (highlight === true || highlight === false) {
+        this.highlight = highlight;
+      } else {
+        console.log('presentation.Node.setHighlight: invalid argument '+highlight+', was expecting true or false.');
+      }
+      if (highlight === false && this.children.length>0) {
+        var i;
+        // NOTE: going through all children, could be done cheaper (but the
+        // assumption is a redraw is done anyway, so this shouldn't matter)
+        for (i=0;i<this.children.length;i++) {
+          this.children[i].setHighlight(false);
+        }
+      }
     }
 
   });

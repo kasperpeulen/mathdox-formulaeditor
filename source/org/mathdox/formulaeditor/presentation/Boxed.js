@@ -14,6 +14,8 @@ $main(function(){
     children : null,
 
     margin : 5,
+
+    slowDelete: true,
     
     initialize : function(semanticClass, children, presentation) {
       this.semanticClass = semanticClass;
@@ -36,7 +38,8 @@ $main(function(){
       }
 
       if (!invisible) {
-        canvas.drawBox(this.dimensions,"#7F7F7F");
+        this.drawHighlight(canvas, this.dimensions);
+        canvas.drawBox(this.dimensions, "#7F7F7F");
         this.presentation.draw(canvas, context, x + this.margin, y, false);
       }
 

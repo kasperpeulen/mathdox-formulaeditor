@@ -90,6 +90,7 @@ $main(function(){
       var position = editor.presentation.getCursorPosition(x,y);
 
       if (position) {
+	this.position.row.setHighlight(false);
 	this.position = position;
       } else {
 	editor.presentation.onmousedown(event, editor, x, y);
@@ -105,12 +106,13 @@ $main(function(){
 
       var row   = this.position.row;
       var index = this.position.index;
-
+      
       var newPosition = row.getFollowingCursorPosition(index);
       if (newPosition !== null) {
         this.position = newPosition;
       }
 
+      row.setHighlight(false);
     },
 
     moveLeft : function() {
@@ -123,6 +125,7 @@ $main(function(){
         this.position = newPosition;
       }
 
+      row.setHighlight(false);
     },
 
     moveDown : function() {
@@ -135,6 +138,7 @@ $main(function(){
         this.position = newPosition;
       }
 
+      row.setHighlight(false);
     },
 
     moveUp : function() {
@@ -147,6 +151,7 @@ $main(function(){
         this.position = newPosition;
       }
 
+      row.setHighlight(false);
     },
 
     moveFirst : function() {
@@ -159,6 +164,7 @@ $main(function(){
         this.position = newPosition;
       }
 
+      row.setHighlight(false);
     },
 
     moveLast : function() {
@@ -171,6 +177,7 @@ $main(function(){
         this.position = newPosition;
       }
 
+      row.setHighlight(false);
     },
 
     getX : function() {

@@ -21,6 +21,8 @@ $main(function(){
       rightBracket : null,
       // should we draw boxes ?
       drawBox : false,
+      // enable slow deleting
+      slowDelete : true,
 
       /**
        * Draws the matrix to the canvas.
@@ -74,6 +76,8 @@ $main(function(){
           top : y + this.middle.dimensions.top - yAdjust
         };
         
+	this.drawHighlight(canvas);
+
         this.leftBracket.minimumHeight = this.middle.dimensions.height;
         this.leftBracket.draw(canvas, context,  
           x - this.leftBracket.dimensions.left, 

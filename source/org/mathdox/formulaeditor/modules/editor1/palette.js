@@ -68,6 +68,8 @@ $main(function(){
     
     precedence : 0,
 
+    title : null,
+
     getPaletteEntry : function(context,semanticEntry) {
       var modifiedContext = {};
       for (var name in context) {
@@ -149,7 +151,30 @@ $main(function(){
       pArray.initialize.apply(pArray,rows);
 
       return pArray;
+    }, 
+
+    initialize : function() {
+      if (arguments[0] instanceof org.mathdox.formulaeditor.semantics.Editor1Palette_tabname) {
+        this.title = arguments[0];
+	/* arguments is not really an array, arguments.slice(1) has to be done in a different way */
+        this.operands = Array.prototype.slice.call(arguments,[1]);
+      } else {
+        this.title = null;
+        this.operands = arguments;
+      }
     }
+  });
+
+  org.mathdox.formulaeditor.semantics.Editor1Palette_tabname =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryListOperation, {
+
+    symbol : {
+      mathml   : ["<mtr><mtd>","","</mtd></mtr>"],
+      onscreen : ["", "" , ""],
+      openmath : "<OMS cd='editor1' name='palette_tabname'/>"
+    },
+    
+    precedence : 0,
   });
 
   // XXX todo parse parsing palette/palette_row in OM
@@ -240,7 +265,24 @@ $main(function(){
       result.initialize.apply(result,operands);
       return result;
 
-    }
+    },
 
+    /**
+     * Returns a Editor1Palette_tabname object based on the OpenMath node.
+     */
+    handleEditor1Palette_tabname : function(node) {
+
+      // parse the children of the OMA
+      var children = node.childNodes;
+      var operands = [];
+      for (var i=1; i<children.length; i++) {
+        operands.push(this.handle(children.item(i)));
+      }
+
+      // construct a Editor1Palette_tabname object
+      var result = new org.mathdox.formulaeditor.semantics.Editor1Palette_tabname();
+      result.initialize.apply(result,operands);
+      return result;
+    }
   });
 });

@@ -4,6 +4,10 @@
     <OMA>
       <OMS cd='editor1' name='palette_tab'/>
       <OMA>
+        <OMS cd='editor1' name='palette_tabname'/>
+        <OMSTR>basic</OMSTR>
+      </OMA>
+      <OMA>
         <OMS cd='editor1' name='palette_row'/>
         <OMS cd='arith1' name='plus'/>
         <OMS cd='arith1' name='minus'/>
@@ -91,6 +95,10 @@
     </OMA>
     <OMA>
       <OMS cd='editor1' name='palette_tab'/>
+      <OMA>
+        <OMS cd='editor1' name='palette_tabname'/>
+        <OMSTR>large</OMSTR>
+      </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>
         <OMA>
@@ -244,6 +252,10 @@
     </OMA>
     <OMA>
       <OMS cd='editor1' name='palette_tab'/>
+      <OMA>
+        <OMS cd='editor1' name='palette_tabname'/>
+        <OMSTR>intervals</OMSTR>
+      </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>
         <OMA>

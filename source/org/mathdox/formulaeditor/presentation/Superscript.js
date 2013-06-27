@@ -56,7 +56,7 @@ $main(function(){
         };
 
         if (invisible === false || invisible === null || invisible === undefined) {
-          this.drawHighlight(canvas);
+          this.drawHighlight(canvas, invisible);
           // warning drawing twice
           superscript.draw(
             canvas,modifiedContext,

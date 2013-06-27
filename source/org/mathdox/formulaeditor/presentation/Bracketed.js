@@ -76,7 +76,7 @@ $main(function(){
           top : y + this.middle.dimensions.top - yAdjust
         };
         
-	this.drawHighlight(canvas);
+	this.drawHighlight(canvas, invisible);
 
         this.leftBracket.minimumHeight = this.middle.dimensions.height;
         this.leftBracket.draw(canvas, context,  
@@ -221,6 +221,17 @@ $main(function(){
        */
       copy : function () {
         return this.clone(this.leftBracket.copy(), this.children[0].copy(), this.rightBracket.copy());
+      },
+      getSemantics: function(context) {
+	console.log("getSemantics called in Bracketed");// XXX
+	var sem = this.middle.getSemantics(context);
+	var result = {
+	  rule: sem.rule,
+	  value: sem.value
+	};
+	console.log("rule: "+result.rule);// XXX
+	console.log(result);// XXX
+        return result;
       }
 
     });

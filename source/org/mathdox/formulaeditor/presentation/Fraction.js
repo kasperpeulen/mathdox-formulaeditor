@@ -60,9 +60,7 @@ $main(function(){
           height : height
         };
 
-        if (!invisible) {
-          this.drawHighlight(canvas);
-        }
+        this.drawHighlight(canvas, invisible);
 
         // draw upper part
         upper.draw(

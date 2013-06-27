@@ -41,6 +41,10 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // optionListSeparatorFixed
 // - list separator for non-editable lists
 //   default : same as getListSeparator()
+// optionResizeBrackets
+// - true : use Bracketed when loading openmath
+// - false : do not use Bracketed
+//   NOTE: Bracketed can only be deleted completely.
 // optionVerboseStyle
 // - "true": add style to divide and times
 // - "false": (default)
@@ -80,6 +84,7 @@ $main(function() {
       optionVerboseStyle: 'false',
       optionArith1UnaryMinusBrackets : 'false',
       optionInterval1Brackets : {lo: '(', lc: '[', ro: ')', rc:']'},
+      optionResizeBrackets: true,
       styleArith1Divide: 'mfrac',
       styleArith1Times: 'dot',
       styleTransc1Log: 'function',
@@ -206,6 +211,16 @@ $main(function() {
 	return sep;
       }
     },
+    getResizeBracketsOption : function() {
+      var option = this.getOption("optionResizeBrackets");
+
+      if (option == true || option == false) {
+        return option;
+      } 
+
+      return this.defaultOptions.optionResizeBrackets;
+    },
+
     getTransc1LogStyle : function () {
       var option = this.getOption("styleTransc1Log");
 
@@ -246,12 +261,11 @@ $main(function() {
         modeArith1Divide               : this.getArith1DivideMode(),
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
         optionInterval1Brackets        : this.getInterval1BracketsOption(),
+        optionResizeBrackets           : this.getResizeBracketsOption(),
         styleTransc1Log                : this.getTransc1LogStyle(),
         symbolArith1Times              : this.getArith1TimesSymbol()
       };
     }
-
-
   });
 });
 

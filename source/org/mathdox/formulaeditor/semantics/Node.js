@@ -1,5 +1,9 @@
 $package("org.mathdox.formulaeditor.semantics");
 
+$require("org/mathdox/formulaeditor/presentation/Bracket.js");
+$require("org/mathdox/formulaeditor/presentation/Bracketed.js");
+$require("org/mathdox/formulaeditor/presentation/Row.js");
+
 $identify("org/mathdox/formulaeditor/semantics/Node.js");
 
 
@@ -71,8 +75,54 @@ $main(function(){
      */
     getValueAsString : function() {
       return this.value.toString();
-    }
+    },
 
+    /**
+     * Utility method to add a bracket to presentation array
+     *
+     * Note: pres structure should be:
+     * pres.array: presentation items
+     * pres.old: old presentation structure containing array and possibly leftBracket
+     * pres.leftBracket: left Bracket
+     * rightBracket: closing Bracket
+     */
+    addPresentationBracketOpen : function(context, pres, bracket) {
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      if (context.optionResizeBrackets === true) {
+	var tmp = {
+	  array: pres.array,
+	  leftBracket: pres.leftBracket,
+	  old: pres.old
+	};
+	pres.old = tmp;
+
+        pres.leftBracket = new presentation.Bracket(bracket);
+        pres.array = [];
+      } else {
+	pres.array.push(new presentation.Bracket(bracket));
+      }
+    },
+    addPresentationBracketClose : function(context, pres, bracket) {
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      if (context.optionResizeBrackets === true) {
+        var rightBracket = new presentation.Bracket(bracket);
+
+	var row = new presentation.Row();
+	row.initialize.apply(row, pres.array);
+
+        var bracketed = new presentation.Bracketed(pres.leftBracket, row, rightBracket);
+
+        pres.array = pres.old.array;
+        pres.leftBracket = pres.old.leftBracket;
+        pres.old = pres.old.old;
+
+        pres.array.push(bracketed);
+      } else {
+        pres.array.push(new presentation.Bracket(bracket));
+      }
+    }
   });
 
 });

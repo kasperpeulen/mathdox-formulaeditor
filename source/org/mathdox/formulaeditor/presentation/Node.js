@@ -156,11 +156,9 @@ $main(function(){
      *
      * Parameter dimensions: the size of the object
      */
-    drawHighlight : function(canvas, dimensions) {
-      if (dimensions === null || dimensions === undefined) {
-        dimensions = this.dimensions;
-      }
-      if (this.highlight === true) {
+    drawHighlight : function(canvas, invisible) {
+      var dimensions = this.dimensions;
+      if ( (invisible === undefined || invisible === null || invisible === false ) && this.highlight === true) {
         canvas.drawBox(dimensions, "#66C", "rgba(160,160,255,0.5)");
         //canvas.drawBox(dimensions, "#66C", "rgba(255,0,0,0.5)");
       }

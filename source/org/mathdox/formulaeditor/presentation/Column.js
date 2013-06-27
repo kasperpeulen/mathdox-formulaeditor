@@ -125,9 +125,7 @@ $main(function(){
           height: totalHeight
         };
 
-        if (!invisible) {
-          this.drawHighlight(canvas);
-	}
+        this.drawHighlight(canvas, invisible);
 
         // center of the column
         var center = x + maxWidth/2;

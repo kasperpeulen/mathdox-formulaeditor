@@ -37,8 +37,9 @@ $main(function(){
         top : dim.top + y - this.margin 
       }
 
+      this.drawHighlight(canvas, invisible);
+
       if (!invisible) {
-        this.drawHighlight(canvas, this.dimensions);
         canvas.drawBox(this.dimensions, "#7F7F7F");
         this.presentation.draw(canvas, context, x + this.margin, y, false);
       }

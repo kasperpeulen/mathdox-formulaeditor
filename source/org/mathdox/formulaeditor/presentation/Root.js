@@ -128,9 +128,7 @@ $main(function(){
           top : y - this.leftBracket.dimensions.height + yAdjust/2 - yAdjustMiddle
         };
      
-        if (!invisible) {
-          this.drawHighlight(canvas);
-        }
+        this.drawHighlight(canvas, invisible);
 
         if (drawBase) {
           this.base.draw(canvas, baseContext,

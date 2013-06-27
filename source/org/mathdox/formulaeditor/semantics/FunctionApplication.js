@@ -53,8 +53,10 @@ $main(function(){
 
         // construct an array of the presentation of operand nodes interleaved
         // with operator symbols
-        var array = [];
-        var pres;
+        var pres = {}
+        pres.array = [];
+
+        var bracketed;
 
         var style = this.style;
 
@@ -68,36 +70,37 @@ $main(function(){
           style = "firstsuper";
         }
 
-	if (this.symbol instanceof semantics.MultaryOperation) {
-          array.push(new presentation.Symbol("("));
-	}
-	if (style != "firstsuper") {
-          array.push(this.symbol.getPresentation(context));
-	}
-	if (this.symbol instanceof semantics.MultaryOperation) {
-          array.push(new presentation.Symbol(")"));
-	}
+        if (this.symbol instanceof semantics.MultaryOperation) {
+          this.addPresentationBracketOpen(context, pres, "(");
+        }
+        if (style != "firstsuper") {
+          pres.array.push(this.symbol.getPresentation(context));
+        }
+        if (this.symbol instanceof semantics.MultaryOperation) {
+          this.addPresentationBracketClose(context, pres, ")");
+        }
         if (style != "sub" && style != "firstsub" && style != "firstsuper") {
-	  // no brackets in subscript style "sub" or if the first argument is
-	  // handled differently
-          array.push(new presentation.Symbol("("));
+          // no brackets in subscript style "sub" or if the first argument is
+          // handled differently
+          this.addPresentationBracketOpen(context, pres, "(");
         }
         for (var i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
+	  var sym;
           if (i>0) {
-            pres = new presentation.Symbol(context.listSeparator);
+            sym = new presentation.Symbol(context.listSeparator);
             if (style == "sub") {
               // subscript style
-              array.push(new presentation.Subscript(pres));
-	      // first subscript (after the symbol)
+              pres.array.push(new presentation.Subscript(sym));
+              // first subscript (after the symbol)
             } else if ((style == "firstsub" ||style == "firstsuper") && i==1) {
-              array.push(new presentation.Symbol("("));
+              this.addPresentationBracketOpen(context, pres, "(");
             } else if (style == "firstsuper" && i==0) {
-	      // first superscript (before the symbol); 
-	      // print nothing yet
+              // first superscript (before the symbol); 
+              // print nothing yet
             } else {
               // normal style
-              array.push(pres);
+              pres.array.push(sym);
             }
           }
           
@@ -107,29 +110,29 @@ $main(function(){
             alert("operands[0]: "+this.operands[0]);
             alert("operands[1]: "+this.operands[1]);
           }
-          pres = operand.getPresentation(context);
+          sym = operand.getPresentation(context);
           if (style == "sub") {
             // subscript style
-            array.push(new presentation.Subscript(pres));
+            pres.array.push(new presentation.Subscript(sym));
           } else if (style == "firstsub" && i==0) {
-            array.push(new presentation.Subscript(pres));
+            pres.array.push(new presentation.Subscript(sym));
           } else if (style == "firstsuper" && i==0) {
-            array.push(new presentation.Superscript(pres));
-              array.push(this.symbol.getPresentation(context));
+            pres.array.push(new presentation.Superscript(sym));
+              pres.array.push(this.symbol.getPresentation(context));
           } else {
             // normal style
-            array.push(pres);
+            pres.array.push(sym);
           }
         }
         
         if (style != "sub") {
           // no brackets in subscript style "sub"
-          array.push(new presentation.Symbol(")"));
+          this.addPresentationBracketClose(context, pres, ")");
         }
 
         // create and return new presentation row using the constructed array
         var result = new presentation.Row();
-        result.initialize.apply(result, array);
+        result.initialize.apply(result, pres.array);
 
         return result;
 
@@ -142,7 +145,7 @@ $main(function(){
         var semantics = org.mathdox.formulaeditor.semantics;
         var result;
 
-	/* check number of arguments */
+        /* check number of arguments */
         if (this.symbol instanceof semantics.Keyword) {
           var argtest = this.symbol.checkArguments(this.operands);
 
@@ -153,7 +156,7 @@ $main(function(){
             return result;
           }
           /* otherwise: everything is fine; continue */
-	}
+        }
 
         if (this.style !== null) {
           result = "<OMA style='"+this.style+"'>";

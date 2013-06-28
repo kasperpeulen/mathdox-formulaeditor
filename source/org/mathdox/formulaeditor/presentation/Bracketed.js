@@ -223,15 +223,20 @@ $main(function(){
         return this.clone(this.leftBracket.copy(), this.children[0].copy(), this.rightBracket.copy());
       },
       getSemantics: function(context) {
-	console.log("getSemantics called in Bracketed");// XXX
-	var sem = this.middle.getSemantics(context);
-	var result = {
-	  rule: sem.rule,
-	  value: sem.value
+	var sem = this.middle.getSemantics(context, null, null, "separatedArguments", null);
+	var value = sem.value;
+
+	if (value instanceof Array && value.length === 1) {
+	  return {
+            rule: "braces",
+            value: value[0]
+          };
+	} else {
+          return {
+	    rule: "bracesWithSeparatedArguments",
+	    value: value
+          };
 	};
-	console.log("rule: "+result.rule);// XXX
-	console.log(result);// XXX
-        return result;
       }
 
     });

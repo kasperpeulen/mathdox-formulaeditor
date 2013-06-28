@@ -462,6 +462,38 @@ $main(function() {
             }
           ),
 
+        separatedArguments :
+          pG.transform(
+            pG.concatenation(
+              pG.rule("expression"),
+              pG.repetition(
+                pG.concatenation(
+                  pG.literal(context.listSeparator),
+                  pG.rule("expression")
+                )
+              )
+            ),
+            function(result) {
+              var array = [];
+              var i;
+              for (i=0;i<result.length;i+=2) {
+                array.push(result[i]);
+              }
+              return array;
+            }
+          ),
+        bracesWithSeparatedArguments :
+	  pG.transform(
+	    pG.concatenation(
+              pG.literal('('),
+	      pG.rule("separaratedArguments"),
+              pG.literal(')')
+            ),
+            function (result) {
+              return result[1];
+            }
+          ),
+
         // function = variable '(' expr ( ',' expr ) * ')'
         func : function() {
 	  var obj = this;
@@ -470,52 +502,32 @@ $main(function() {
             pG.concatenation(
               pG.rule("func_symbol"),
               pG.repetitionplus(
-                pG.concatenation(
-                  pG.literal('('),
-                  pG.rule("expression"),
-                  pG.repetition(
-                    pG.concatenation(
-                      pG.literal(context.listSeparator),
-                      pG.rule("expression")
-                    )
-                  ),
-                  pG.literal(')')
+		pG.alternation(
+                  pG.rule("braces"),
+                  pG.rule("bracesWithSeparatedArguments")
                 )
               )
             ),
             function(result) {
               var array;
-              var i,j; // counters
+              var i; 
               
               var oper = result[0];
               
-              var str;
-
-              i=1;
-              while (i < result.length) {
-                // current position = '('
-                array = [];
-                i++;
-                // current position should be a variable
-                while (i<result.length && result[i] != ')') {
-                  // function argument
+              for (i=1; i<result.length; i++) {
+                if (result[i] instanceof Array) {
+                  array = result[i];
+                } else {
+                  array = [];
                   array.push(result[i]);
-                  i++;
-
-                  if (i<result.length && result[i]==context.listSeparator) {
-                    // comma -> skip
-                    i++;
-                  }
                 }
-                // current position should be ')'
+
                 if (oper.parseResultFun !== undefined) {
                   // special case: result function in operation
                   oper = oper.parseResultFun(oper, array);
                 } else {
                   oper = new org.mathdox.formulaeditor.semantics.FunctionApplication(oper, array);
                 }
-
-                i++;
               }
 
               // check for log_2(x) updates

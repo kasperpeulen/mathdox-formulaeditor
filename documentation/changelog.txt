@@ -2,6 +2,8 @@
   - two-step delete (with highlighting) support (slowDelete) in presentation
     objects with a drawHighlight(canvas)
   - enabled for fractions, bracketed, vector, root
+  - support for resizable brackets for function application and
+    multaryoperation
 1.1.30
   - fixed support for mfenced (#309)
   - fixed precedence 0 case (#310)

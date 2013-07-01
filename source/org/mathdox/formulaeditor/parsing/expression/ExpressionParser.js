@@ -466,7 +466,7 @@ $main(function() {
           pG.transform(
             pG.concatenation(
               pG.rule("expression"),
-              pG.repetition(
+              pG.repetitionplus(
                 pG.concatenation(
                   pG.literal(context.listSeparator),
                   pG.rule("expression")
@@ -482,11 +482,18 @@ $main(function() {
               return array;
             }
           ),
+        // NOTE: produces an object for the first rule and an array for the second
+        // for use with presentation/Bracketed.js parsing
+	functionArguments : 
+	  pG.alternation(
+            pG.rule("expression"),
+            pG.rule("separatedArguments")
+          ),
         bracesWithSeparatedArguments :
 	  pG.transform(
 	    pG.concatenation(
               pG.literal('('),
-	      pG.rule("separaratedArguments"),
+	      pG.rule("separatedArguments"),
               pG.literal(')')
             ),
             function (result) {

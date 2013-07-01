@@ -223,10 +223,16 @@ $main(function(){
         return this.clone(this.leftBracket.copy(), this.children[0].copy(), this.rightBracket.copy());
       },
       getSemantics: function(context) {
-	var sem = this.middle.getSemantics(context, null, null, "separatedArguments", null);
+	var sem = this.middle.getSemantics(context, null, null, "functionArguments", null);
 	var value = sem.value;
 
-	if (value instanceof Array && value.length === 1) {
+	if (!(value instanceof Array)) {
+	  return {
+            rule: "braces",
+            value: value
+          };
+	} else if (value.length === 1) {
+	  // NOTE: probably should not occur
 	  return {
             rule: "braces",
             value: value[0]
@@ -236,9 +242,7 @@ $main(function(){
 	    rule: "bracesWithSeparatedArguments",
 	    value: value
           };
-	};
+        }
       }
-
     });
-
 });

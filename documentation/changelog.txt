@@ -1,3 +1,6 @@
+1.1.31b
+  - fixed a parsing bug with function brackets. It is recommended to not use
+    1.1.31 any further.
 1.1.31
   - two-step delete (with highlighting) support (slowDelete) in presentation
     objects with a drawHighlight(canvas)

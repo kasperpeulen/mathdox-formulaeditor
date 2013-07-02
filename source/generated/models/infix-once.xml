@@ -86,17 +86,19 @@ $main(function(){
 
       // <model:cd/><model:name/> = 
       //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
-      <model:cd/><model:name/> :
-        pG.transform(
-          pG.concatenation(
-            pG.rule("expression<model:precedence/>"),
-            pG.literal("<model:symbol_enter/>"),
-            pG.rule("expression<model:precedence2/>")
-          ),
-          function(result) {
-            return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
-          }
-        )
+      <model:cd/><model:name/> : function() {
+          var parent = arguments.callee.parent;
+          return pG.transform(
+            pG.concatenation(
+              pG.rule("expression<model:precedence/>"),
+              pG.literal("<model:symbol_enter/>"),
+              pG.rule("expression<model:precedence2/>")
+            ),
+            function(result) {
+              return parent.infix_Update(new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]));
+            }
+          ).apply(this, arguments);
+        }
       };
     });
   } else { // allow alternative as displayed on the screen
@@ -114,20 +116,22 @@ $main(function(){
 
       // <model:cd/><model:name/> = 
       //    expression<model:precedence/> ("<model:symbol_enter/>"|"<model:symbol_screen/>") expression<model:precedence2/>
-      <model:cd/><model:name/> :
-        pG.transform(
-          pG.concatenation(
-            pG.rule("expression<model:precedence/>"),
-	    pG.alternation(
-	      pG.literal("<model:symbol_enter/>"),
-	      pG.literal("<model:symbol_screen/>")
-	    ),
-            pG.rule("expression<model:precedence2/>")
-          ),
-          function(result) {
-            return new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]);
-          }
-        )
+      <model:cd/><model:name/> : function() {
+          var parent = arguments.callee.parent;
+          return pG.transform(
+            pG.concatenation(
+              pG.rule("expression<model:precedence/>"),
+  	    pG.alternation(
+  	      pG.literal("<model:symbol_enter/>"),
+  	      pG.literal("<model:symbol_screen/>")
+  	    ),
+              pG.rule("expression<model:precedence2/>")
+            ),
+            function(result) {
+              return parent.infix_Update(new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]));
+            }
+          ).apply(this, arguments);
+        }
       };
     });
   }

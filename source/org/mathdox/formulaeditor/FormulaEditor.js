@@ -85,6 +85,8 @@ $require("org/mathdox/formulaeditor/modules/relation1/gt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/leq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/lt.js");
 $require("org/mathdox/formulaeditor/modules/relation1/neq.js");
+// for rewriting 1<x<2
+$require("org/mathdox/formulaeditor/modules/relation1/IntervalNotation.js");
 
 $require("org/mathdox/formulaeditor/modules/set1/in.js");
 

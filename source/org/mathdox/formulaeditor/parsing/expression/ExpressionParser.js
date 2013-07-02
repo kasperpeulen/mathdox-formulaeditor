@@ -632,6 +632,10 @@ $main(function() {
           ),
         func_super: rule_func_super,
 	func_Update: func_subUpdate,
+	// update function for infix expression
+	infix_Update : function(expr) {
+	  return expr;
+	},
           // subscript : rule only occurs from presentation
         subscript: pG.never,
           // superscript : rule only occurs from presentation

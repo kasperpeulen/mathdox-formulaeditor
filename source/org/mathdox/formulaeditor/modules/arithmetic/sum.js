@@ -50,6 +50,22 @@ $main(function(){
           this.operands[1].getOpenMath() +
         "</OMA>";
       
+      },
+
+      getMathML : function() {
+        return "<mrow>"+
+	  "<munderover>" +
+	  "<mrow>"+
+          this.operands[1].variables[0].getMathML() +
+          "<mo>=</mo>"+
+          this.operands[0].operands[0].getMathML() +
+	  "</mrow>"+
+          // U+03A3 greek capital letter sigma
+	  "<mo>Σ</mo>"+
+          this.operands[0].operands[1].getMathML() +
+          "</munderover>"+
+          this.operands[1].expression.getMathML() +
+	  "</mrow>";
       }
     
     });

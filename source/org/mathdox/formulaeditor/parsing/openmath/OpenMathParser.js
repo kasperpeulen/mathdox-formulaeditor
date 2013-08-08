@@ -147,7 +147,7 @@ $main(function(){
     handleOMI: function(node) {
 
       var semantics = org.mathdox.formulaeditor.semantics;
-      return new semantics.Integer(node.firstChild.nodeValue);
+      return new semantics.Integer(parseInt(node.firstChild.nodeValue));
 
     },
 

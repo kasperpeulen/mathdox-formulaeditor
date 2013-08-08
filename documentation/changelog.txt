@@ -1,4 +1,5 @@
 1.1.31d
+  - added support for calculus1.diff and calculus1.nthdiff (using ')
   - added mathml output for arith1.sum and arith1.product
 c - added support for inequality rewriting: 1<2<3 to 1<2 and 2<3
 b - fixed a parsing bug with function brackets. It is recommended to not use

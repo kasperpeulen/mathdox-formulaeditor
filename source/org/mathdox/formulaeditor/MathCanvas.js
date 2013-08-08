@@ -75,10 +75,11 @@ $main(function(){
      * symbol of that size is known it will be tried to construct it, if that
      * fails a smaller symbol will be used. See also drawSymbol.
      */
-    drawBracket : function(bracket, x, y, minimumHeight, invisible, fontSizeModifier) {
+    drawBracket : function(bracket, x, y, minimumHeight, invisible, fontSizeModifier, center) {
 
       // retrieve font and symbol data
       var symbolData;
+      var ex = this.getFontUnitEx(fontSizeModifier);
 
       // see if a standard symbol can be used
       for (var i=4 ; i>=1; i--) {
@@ -580,8 +581,12 @@ $main(function(){
       var newFontSizeIndex;
       if (fontSizeModifier!== undefined && fontSizeModifier !== null) {
 	newFontSizeIndex = this.fontSizeIdx + fontSizeModifier;
-	if (0<=newFontSizeIndex && newFontSizeIndex <= this.fontSizes.length) {
+	if (0<=newFontSizeIndex && newFontSizeIndex < this.fontSizes.length) {
 	  fontSize = this.fontSizes[newFontSizeIndex];
+	} else if (newFontSizeIndex<0) {
+	  fontSize = this.fontSizes[0];
+	} else if (newFontSizeIndex>this.fontSizes.length) {
+	  fontSize = this.fontSizes[this.fontSizes.length-1];
 	}
       }
 
@@ -609,6 +614,18 @@ $main(function(){
 
       return fBP[positionInfo.font][fontSize][ positionInfo.row * 16 +
         positionInfo.col ];
+    },
+
+    getFontUnitEm: function (fontSizeModifier) {
+      var data = this.getSymbolDataByPosition("M", fontSizeModifier);
+
+      return data.width;
+    },
+
+    getFontUnitEx: function (fontSizeModifier) {
+      var data = this.getSymbolDataByPosition("x", fontSizeModifier);
+
+      return data.height;
     },
 
     /**
@@ -951,13 +968,14 @@ $main(function(){
       // U+2199 south west arrow
       // U+221D proportional to
          '⇐',  '⇒',  '⇑',  '⇓',  '⇔',  '↖',  '↙',  '∝' ],
+      // U+2032 [superscript] prime
       // U+221E infinity
       // U+2208 element of
       // U+220B contains as member
       // U+25B3 white up-pointing triangle
       // U+25BD white down-pointing triangle
       // U+2215 division slash
-      [ null,  '∞',  '∈',  '∋',  '△',  '▽',  '∕', null,
+      [  '′',  '∞',  '∈',  '∋',  '△',  '▽',  '∕', null,
       // U+2200 for all
       // U+2203 there exists
       // U+00AC not sign

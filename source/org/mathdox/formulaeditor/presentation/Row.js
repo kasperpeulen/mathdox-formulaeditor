@@ -5,6 +5,8 @@ $identify("org/mathdox/formulaeditor/presentation/Row.js");
 //$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/BlockSymbol.js");
+$require("org/mathdox/formulaeditor/presentation/Symbol.js");
+$require("org/mathdox/formulaeditor/presentation/SuperscriptSymbol.js");
 
 $main(function(){
 
@@ -17,6 +19,7 @@ $main(function(){
 
       initialize : function() {
 
+        var SuperscriptSymbol = org.mathdox.formulaeditor.presentation.SuperscriptSymbol;
         var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
         var BlockSymbol = org.mathdox.formulaeditor.presentation.BlockSymbol;
         var i; // counter
@@ -25,7 +28,7 @@ $main(function(){
           var string = arguments[0];
           var array = [];
           for (i=0; i<string.length; i++) {
-            array.push(new Symbol(string.charAt(i)));
+            array.push(this.newSymbol(string.charAt(i)));
           }
           return arguments.callee.parent.initialize.apply(this, array);
         }
@@ -162,6 +165,27 @@ $main(function(){
       },
 
       /**
+       * Generates a symbol in the correct style
+       */
+      newSymbol: function(character) {
+	var SuperscriptSymbol = org.mathdox.formulaeditor.presentation.SuperscriptSymbol;
+	var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
+
+        if (character == " ") {
+          // spaces do not have a value
+          return new Symbol([""," "]);
+        } else if (((character >= 'a') && (character <='z'))||
+                   ((character >= 'A') && (character <='Z'))) {
+          return new Symbol(character, "math");
+        } else if (character == "'" || character =="′" ) {
+          // quote or U+2032 prime
+          return new SuperscriptSymbol(character);
+        } else {
+          return new Symbol(character);
+        }
+      },
+
+      /**
        * Handles an onkeydown event from the browser. Returns false when the
        * event has been handled and should not be handled by the browser,
        * returns true otherwise.
@@ -241,23 +265,12 @@ $main(function(){
           // see whether there is a character for pressed key in current font
           if (canvas.getSymbolData(character)) {
 
-            var Symbol   = org.mathdox.formulaeditor.presentation.Symbol;
-            var Row   = org.mathdox.formulaeditor.presentation.Row;
             var moveright;
 
             // insert the character into the row, and move the cursor
-            if (character == " ") {
-              // spaces do not have a value
-              moveright = this.insert(editor.cursor.position.index,
-                new Symbol([""," "]));
-            } else if (((character >= 'a') && (character <='z'))||
-                       ((character >= 'A') && (character <='Z'))) {
-              moveright = this.insert(editor.cursor.position.index,
-                new Symbol(character, "math"));
-            } else {
-              moveright = this.insert(editor.cursor.position.index,
-                new Symbol(character));
-            }
+	    moveright = this.insert(editor.cursor.position.index,
+	      this.newSymbol(character));
+
             if (moveright) {
               editor.cursor.moveRight();
             }

@@ -59,7 +59,7 @@ $main(function(){
         var primes=[];
         var i=0;
 
-        for (i=0;i<this.operands[0];i++) {
+        for (i=0;i<this.operands[0].value;i++) {
           // U+2032 [superscript] prime
           primes.push("′");
         }
@@ -80,6 +80,29 @@ $main(function(){
         symbol.push(primes.join(""));
 
         return symbol;
+      },
+
+      getMathML: function(context) {
+        var array = [];
+        var operand = this.operands[1];
+	
+	array.push("<mrow>");
+
+        if (operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context)) {
+          array.push("<mfenced>");
+	  array.push(operand.getMathML(context));
+          array.push("</mfenced>");
+        } else {
+	  array.push(operand.getMathML(context));
+        }
+
+        var symbol_mathml = this.getSymbolMathML();
+        array.push(symbol_mathml[2]);
+        
+        // join row to result string
+        var result = array.join("");
+
+        return result;
       },
 
       getPresentation: function(context) {
@@ -145,12 +168,19 @@ $main(function(){
   org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
     function(context) { return {
 
-      // expression140 = integer1factorial | super.expression140
+      // expression150 = calculus1diff | super.expression150
       expression150 : function() {
         var parent = arguments.callee.parent;
         pG.alternation(
           pG.rule("calculus1diff"),
           parent.expression150).apply(this, arguments);
+      },
+
+      func_symbol : function() {
+        var parent = arguments.callee.parent;
+        pG.alternation(
+          pG.rule("calculus1diff"),
+          parent.func_symbol).apply(this, arguments);
       },
 
       // calculus1diff = expression160 "′*"
@@ -176,43 +206,5 @@ $main(function(){
         )
     };
   });
-
-  /**
-   * Add a key handler for the ''' key.
-   */
-  // U+2032 [superscript] prime
-  var prime_charcode = "′".charCodeAt(0);
-  org.mathdox.formulaeditor.presentation.Row =
-    $extend(org.mathdox.formulaeditor.presentation.Row, {
-
-      /**
-       * Override the onkeypress method to handle the ''' key.
-       */
-      onkeypress : function(event, editor) {
-
-        // only handle keypresses where alt and ctrl are not held
-        if (!event.altKey && !event.ctrlKey) {
-
-          // check whether the ''' key has been pressed
-          if (String.fromCharCode(event.charCode) == "'") {
-
-            // substitute the charCode for the replacement
-            var newEvent = {};
-            for (var x in event) {
-              newEvent[x] = event[x];
-            }
-            newEvent.charCode = prime_charcode;
-            event = newEvent;
-
-          }
-
-        }
-
-        // call the overridden method
-        return arguments.callee.parent.onkeypress.call(this, event, editor);
-
-      }
-
-    });
 
 });

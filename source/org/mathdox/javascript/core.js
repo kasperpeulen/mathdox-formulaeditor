@@ -68,6 +68,8 @@ var $setOptions;
 
     var parts = string.split(".");
     var parent = global;
+    var i;
+
     for (i=0; i<parts.length; i++) {
       if (!parent[parts[i]]) {
         parent[parts[i]] = {};

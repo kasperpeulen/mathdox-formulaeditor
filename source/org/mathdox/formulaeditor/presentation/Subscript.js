@@ -11,6 +11,7 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Subscript =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
+      onBaseline : false,
 
       draw : function(canvas, context, x, y, invisible) {
 

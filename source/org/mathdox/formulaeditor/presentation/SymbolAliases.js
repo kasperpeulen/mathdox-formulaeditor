@@ -11,6 +11,8 @@ $main(function(){
     // U+2217 asterisk operator -> U+002A asterisk
     '∗' : '*',
     // U+22C5 dot operator -> U+00B7 middle dot
-    '⋅' : '·'
+    '⋅' : '·',
+    // quote -> U+2032 [superscript] prime
+    "'" : '′'
   };
 });

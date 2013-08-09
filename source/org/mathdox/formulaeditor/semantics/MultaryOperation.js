@@ -205,9 +205,9 @@ $main(function(){
             }
           }
           if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
-            result = result + "<mo>(</mo>";
+            result = result + "<mfenced>";
             result = result + this.operands[i].getMathML();
-            result = result + "<mo>)</mo>";
+            result = result + "</mfenced>";
           }
           else {
             result = result + this.operands[i].getMathML();

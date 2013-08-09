@@ -12,6 +12,7 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Superscript =
     $extend(org.mathdox.formulaeditor.presentation.Node, {
       slowDelete : true,
+      onBaseline : false,
 
       draw : function(canvas, context, x, y, invisible) {
 
@@ -26,8 +27,30 @@ $main(function(){
         }
         modifiedContext.fontSizeModifier = modifiedContext.fontSizeModifier - 1;
 
-        if (this.parent instanceof presentation.Row && this.index > 0) {
-          dim0 = this.parent.children[this.index - 1].dimensions;
+	/*
+	 * Find a character earlier in the row on the baseline
+	 */
+        var index = 0;
+	var xdim0, ydim0;
+        if (this.parent instanceof presentation.Row) {
+          index = this.index -1;
+	  if (index>=0) { 
+            xdim0 = this.parent.children[index].dimensions;
+	  }
+          while (index>0 && this.parent.children[index].onBaseline !== true) {
+            index--;
+	  }
+        }
+
+        if (index >= 0) {
+	  //console.log("on baseline: "+this.parent.children[index].onBaseline);
+          ydim0 = this.parent.children[index].dimensions;
+	  dim0 = {
+            left: xdim0.left,
+            top: ydim0.top,
+            width: xdim0.width,
+            height: ydim0.height
+	  }
         }
         else {
           dim0 = new presentation.Symbol("x").draw(canvas,modifiedContext,x,y,true);

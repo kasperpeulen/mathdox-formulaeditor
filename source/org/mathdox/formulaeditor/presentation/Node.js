@@ -43,6 +43,11 @@ $main(function(){
     slowDelete: false,
 
     /**
+     * Indicate this is on the baseline (for superscript/subscript drawing)
+     */
+    onBaseline: true,
+
+    /**
      * The arguments to the constructor are the children of this node.
      */
     initialize : function() {

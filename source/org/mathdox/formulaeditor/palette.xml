@@ -44,6 +44,7 @@
             <OMS cd='editor1' name='input_box'/>
           </OMBIND>
         </OMA>
+        <OMS cd='editor1' name='palette_whitespace'/>
         <OMA>
           <OMS cd='interval1' name='interval_cc'/>
   	  <OMS cd='editor1' name='input_box'/>

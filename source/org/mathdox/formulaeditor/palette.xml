@@ -44,6 +44,11 @@
             <OMS cd='editor1' name='input_box'/>
           </OMBIND>
         </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_cc'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
       </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>
@@ -93,7 +98,12 @@
         </OMA>
         <OMA>
           <OMS cd='linalg1' name='determinant'/>
-  	<OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_co'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
         </OMA>
       </OMA>
       <OMA>
@@ -143,6 +153,11 @@
             <OMS cd='editor1' name='input_box'/>
             <OMS cd='editor1' name='input_box'/>
           </OMA>
+        </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_oc'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
         </OMA>
       </OMA>
       <OMA>
@@ -224,6 +239,10 @@
             <OMS cd='editor1' name='input_box'/>
           </OMA>
         </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_oo'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
       </OMA>
     </OMA>
   </OMA>

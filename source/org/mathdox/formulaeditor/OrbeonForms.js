@@ -45,12 +45,10 @@ $main(function(){
     
     if (xformsHandleResponse) {
       oldXformsHandleResponse = xformsHandleResponse;
-    } else if (ORBEON.xforms.Server) {
-      if (ORBEON.xforms.Server.handleResponse) {
-        oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
-      } else if (ORBEON.xforms.Server.handleResponseDom) {
-        oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
-      }
+    } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponse) {
+      oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
+    } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponseDom) {
+      oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
     } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
       oldXformsHandleResponse = ORBEON.xforms.server.AJAXServer.handleResponseDom;
     } else {

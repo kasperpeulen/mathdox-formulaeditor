@@ -45,10 +45,14 @@ $main(function(){
     
     if (xformsHandleResponse) {
       oldXformsHandleResponse = xformsHandleResponse;
-    } else if (ORBEON.xforms.Server.handleResponse) {
-      oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
-    } else if (ORBEON.xforms.Server.handleResponseDom) {
-      oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
+    } else if (ORBEON.xforms.Server) {
+      if (ORBEON.xforms.Server.handleResponse) {
+        oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
+      } else if (ORBEON.xforms.Server.handleResponseDom) {
+        oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
+      }
+    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
+      oldXformsHandleResponse = ORBEON.xforms.server.AJAXServer.handleResponseDom;
     } else {
       if (org.mathdox.formulaeditor.options.ancientOrbeon !== undefined &&
         org.mathdox.formulaeditor.options.ancientOrbeon == true) {
@@ -90,10 +94,12 @@ $main(function(){
     
     if (xformsHandleResponse) {
       xformsHandleResponse = newXformsHandleResponse;
-    } else if (ORBEON.xforms.Server.handleResponse) {
+    } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponse) {
       ORBEON.xforms.Server.handleResponse = newXformsHandleResponse;
-    } else if (ORBEON.xforms.Server.handleResponseDom) {
+    } else if (ORBEON.xforms.Server && OORBEON.xforms.Server.handleResponseDom) {
       ORBEON.xforms.Server.handleResponseDom = newXformsHandleResponse;
+    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && OORBEON.xforms.server.AJAXServer.handleResponseDom) {
+      ORBEON.xforms.server.AJAXServer.handleResponseDom = newXformsHandleResponse;
     } 
 
   }

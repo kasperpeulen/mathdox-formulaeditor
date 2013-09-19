@@ -49,8 +49,9 @@ $main(function(){
       oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
     } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponseDom) {
       oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
-    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
-      oldXformsHandleResponse = ORBEON.xforms.server.AJAXServer.handleResponseDom;
+    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AjaxServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
+      // orbeon 3.9
+      oldXformsHandleResponse = ORBEON.xforms.server.AjaxServer.handleResponseDom;
     } else {
       if (org.mathdox.formulaeditor.options.ancientOrbeon !== undefined &&
         org.mathdox.formulaeditor.options.ancientOrbeon == true) {

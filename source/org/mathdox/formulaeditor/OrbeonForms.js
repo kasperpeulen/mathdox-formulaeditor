@@ -95,9 +95,9 @@ $main(function(){
       xformsHandleResponse = newXformsHandleResponse;
     } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponse) {
       ORBEON.xforms.Server.handleResponse = newXformsHandleResponse;
-    } else if (ORBEON.xforms.Server && OORBEON.xforms.Server.handleResponseDom) {
+    } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponseDom) {
       ORBEON.xforms.Server.handleResponseDom = newXformsHandleResponse;
-    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && OORBEON.xforms.server.AJAXServer.handleResponseDom) {
+    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
       ORBEON.xforms.server.AJAXServer.handleResponseDom = newXformsHandleResponse;
     } 
 

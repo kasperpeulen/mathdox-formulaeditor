@@ -1,4 +1,6 @@
-1.1.31e
+1.1.31f
+  - fixed a typo in orbeon support AJAXServer -> AjaxServer
+e - added support for orbeon 3.9
   - added support for calculus1.diff and calculus1.nthdiff (using ')
 d - added mathml output for arith1.sum and arith1.product
 c - added support for inequality rewriting: 1<2<3 to 1<2 and 2<3

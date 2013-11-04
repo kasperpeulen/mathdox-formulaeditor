@@ -49,7 +49,7 @@ $main(function(){
       oldXformsHandleResponse = ORBEON.xforms.Server.handleResponse;
     } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponseDom) {
       oldXformsHandleResponse = ORBEON.xforms.Server.handleResponseDom;
-    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AjaxServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
+    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AjaxServer && ORBEON.xforms.server.AjaxServer.handleResponseDom) {
       // orbeon 3.9
       oldXformsHandleResponse = ORBEON.xforms.server.AjaxServer.handleResponseDom;
     } else {
@@ -97,8 +97,8 @@ $main(function(){
       ORBEON.xforms.Server.handleResponse = newXformsHandleResponse;
     } else if (ORBEON.xforms.Server && ORBEON.xforms.Server.handleResponseDom) {
       ORBEON.xforms.Server.handleResponseDom = newXformsHandleResponse;
-    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AJAXServer && ORBEON.xforms.server.AJAXServer.handleResponseDom) {
-      ORBEON.xforms.server.AJAXServer.handleResponseDom = newXformsHandleResponse;
+    } else if (ORBEON.xforms.server && ORBEON.xforms.server.AjaxServer && ORBEON.xforms.server.AjaxServer.handleResponseDom) {
+      ORBEON.xforms.server.AjaxServer.handleResponseDom = newXformsHandleResponse;
     } 
 
   }

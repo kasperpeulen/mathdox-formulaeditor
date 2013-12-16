@@ -467,7 +467,7 @@ $main(function(){
           }
         }
         else {
-          return arguments.callee.parent.getLowerCursorPosition.call(this, index, x);
+          return this.parent.getLowerCursorPosition(this.index, x);
         }
       },
 
@@ -504,7 +504,7 @@ $main(function(){
           }
         }
         else {
-          return arguments.callee.parent.getHigherCursorPosition.call(this, index, x);
+          return this.parent.getHigherCursorPosition(this.index, x);
         }
       },
 

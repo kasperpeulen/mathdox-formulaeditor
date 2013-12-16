@@ -1,5 +1,6 @@
-1.1.31f
-  - fixed a typo in orbeon support AJAXServer -> AjaxServer
+1.1.31g
+  - fixed a bug with fractions: construction presentation from openmath 
+f - fixed a typo in orbeon support AJAXServer -> AjaxServer
 e - added support for orbeon 3.9
   - added support for calculus1.diff and calculus1.nthdiff (using ')
 d - added mathml output for arith1.sum and arith1.product

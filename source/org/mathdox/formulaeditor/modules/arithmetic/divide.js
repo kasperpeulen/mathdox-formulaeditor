@@ -24,13 +24,11 @@ $main(function(){
       precedence : 170,
 
       getPresentation : function(context) {
-
         var presentation = org.mathdox.formulaeditor.presentation;
-        var options = new org.mathdox.formulaeditor.Options;
 
         return new presentation.Fraction(
-          this.operands[0].getPresentation(context),
-          this.operands[1].getPresentation(context)
+          new presentation.Row(this.operands[0].getPresentation(context)),
+          new presentation.Row(this.operands[1].getPresentation(context))
         );
 
       },

@@ -76,6 +76,8 @@ $require("org/mathdox/formulaeditor/modules/logic1/implies.js");
 $require("org/mathdox/formulaeditor/modules/logic1/not.js");
 $require("org/mathdox/formulaeditor/modules/logic1/or.js");
 
+$require("org/mathdox/formulaeditor/modules/nums1/rational.js");
+
 $require("org/mathdox/formulaeditor/modules/permutation1/left_compose.js");
 $require("org/mathdox/formulaeditor/modules/permutation1/permutation.js");
 

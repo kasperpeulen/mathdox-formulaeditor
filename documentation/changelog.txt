@@ -1,4 +1,5 @@
 1.1.31h
+  - added feature #323 (breaking brackets from within)
   - fix for #324 (broken prefix log)
 g - added support for nums1.rational (now parsed as arith1.divide)
   - fixed a bug with fractions: construction presentation from openmath 

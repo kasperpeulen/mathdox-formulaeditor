@@ -52,6 +52,16 @@ $main(function(){
       },
 
       /**
+       * checks for special delete/backspace
+       * to be extended later
+       *
+       * position should be start (with backspace) or end (with delete)
+       * extend using arguments.callee.parent.checkRemove.call(this, position);
+       */
+      checkRemove: function(editor, position) {
+      },
+
+      /**
        * Draws the row to the canvas.
        *
        * See also: org.mathdox.formulaeditor.presentation.Node.draw
@@ -212,9 +222,13 @@ $main(function(){
                     this.insert(0);
                   }
                 }
-                editor.redraw();
-                editor.save();
-              }
+              } else {
+		this.checkRemove(editor, 'start');
+	      }
+
+              editor.redraw();
+              editor.save();
+
               return false;
 
             case 46: // delete
@@ -230,9 +244,13 @@ $main(function(){
                     this.insert(0);
                   }
                 }
-                editor.redraw();
-                editor.save();
-              }
+              } else {
+		this.checkRemove(editor, 'end');
+	      }
+
+              editor.redraw();
+              editor.save();
+
               return false;
           }
         }

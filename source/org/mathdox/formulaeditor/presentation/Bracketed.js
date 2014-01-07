@@ -245,4 +245,83 @@ $main(function(){
         }
       }
     });
+
+  var presentation = org.mathdox.formulaeditor.presentation;
+
+  org.mathdox.formulaeditor.presentation.Row =
+    $extend(org.mathdox.formulaeditor.presentation.Row, {
+      checkRemove : function(editor, position) {
+	/* call checkRemove from parent */
+	arguments.callee.parent.checkRemove(this, position);
+
+        if (this.parent && this.parent instanceof presentation.Bracketed && 
+            this.parent.parent && this.parent.parent instanceof presentation.Row) {
+          var index = this.parent.index;
+          var moveright;
+          var i;
+	  var value;
+          
+          if (position == "start") {
+            if (this.parent.rightBracket !== null && this.parent.rightBracket !== undefined) {
+	      value = this.parent.rightBracket.value;
+              if (value !== null && value!==undefined && value !== "")  {
+
+                moveright = this.parent.parent.insert(index, new presentation.Symbol(value));
+                if (moveright) {
+                  index++;
+                }
+                index--;
+              }
+            }
+
+            for (i=0; i<this.children.length; i++) {
+              moveright = this.parent.parent.insert(index, this.children[i]);
+
+              if (moveright) {
+                index++;
+              }
+              index--;
+            }
+
+            this.parent.parent.remove(this.parent.index);
+            this.parent.parent.updateChildren();
+
+	    editor.cursor.position = { 
+	      row : this.parent.parent,
+	      index : index
+	    };
+          }
+
+          if (position == "end") {
+            if (this.parent.leftBracket !== null && this.parent.leftBracket !== undefined) {
+	      value = this.parent.leftBracket.value;
+              if (value !== null && value!==undefined && value !== "")  {
+                moveright = this.parent.parent.insert(index, new presentation.Symbol(value));
+
+                if (moveright) {
+                  index++;
+                }
+	      }
+            }
+
+            for (i=0; i<this.children.length; i++) {
+              moveright = this.parent.parent.insert(index, this.children[i]);
+
+              if (moveright) {
+                index++;
+              }
+            }
+
+            this.parent.parent.remove(this.parent.index);
+            this.parent.parent.updateChildren();
+	    
+	    editor.cursor.position = { 
+	      row : this.parent.parent,
+	      index : index
+	    };
+          }
+        }
+      }
+    });
+  
 });

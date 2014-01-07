@@ -165,32 +165,28 @@ $main(function() {
                 pG.rule("variable"),
                 pG.rule("omSymbol")
               ),
-              pG.literal('('),
-              pG.rule("expression"),
-              pG.repetition(
-                pG.concatenation(
-                  pG.literal(context.listSeparator),
-                  pG.rule("expression")
-                )
-              ),
-              pG.literal(')')
+              pG.alternation(
+                pG.rule("braces"),
+                pG.rule("bracesWithSeparatedArguments")
+	      )
 	    ),
           function(result) {
             var array = [];
-            var i,j; // counters
             var semantics = org.mathdox.formulaeditor.semantics;
            
 	    array.push(result[0]);
 	    var oper = result[1];
             var str;
 
-	    // 2 : literal '('
-            i=3;
-            while (i < result.length) {
-              array.push(result[i]);
-
-              i=i+2;
+	    // 2 : arguments 
+            if (result[2] instanceof Array) {
+              // bracesWithSeparatedArguments
+              array = result[2];
+            } else {
+              // braces
+              array.push(result[2]);
             }
+
             return new semantics.FunctionApplication(oper, array);
           }
 	);

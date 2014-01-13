@@ -15,6 +15,8 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Matrix =
     $extend(org.mathdox.formulaeditor.presentation.Bracketed, {
+      // cannot be split like a simple bracket
+      separable : false,
       // variable to store the array to get the semantics
       pArray : null,
 

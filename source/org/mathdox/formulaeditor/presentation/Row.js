@@ -56,9 +56,31 @@ $main(function(){
        * to be extended later
        *
        * position should be start (with backspace) or end (with delete)
-       * extend using arguments.callee.parent.checkRemove.call(this, position);
+       * extend using arguments.callee.parent.checkRemove.call(this, editor, position);
        */
       checkRemove: function(editor, position) {
+        if (this.parent && this.parent.slowDelete == true &&
+            this.parent.parent && this.parent.parent instanceof org.mathdox.formulaeditor.presentation.Row) {
+
+          var parentRow = this.parent.parent;
+	  var del = this.parent.deleteItem();
+
+	  if (del) {
+	    var index = this.parent.index;
+            parentRow.remove(index);
+            // after deleting the last character, add a new input box
+            if (parentRow.isEmpty()) {
+              parentRow.insert(0);
+            }
+	    editor.cursor.position = {
+              index: index,
+              row: parentRow
+	    };
+          }
+	} else {
+          console.log(this.parent);
+          console.log(this);
+        }
       },
 
       /**

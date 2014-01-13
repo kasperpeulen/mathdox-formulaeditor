@@ -14,6 +14,9 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Vector =
     $extend(org.mathdox.formulaeditor.presentation.Bracketed, {
+      // cannot be split like a simple bracket
+      separable : false,
+
       // variable to store the array to get the semantics
       entries : null,
 

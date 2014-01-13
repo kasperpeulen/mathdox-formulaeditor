@@ -19,6 +19,8 @@ $main(function(){
    */
   org.mathdox.formulaeditor.presentation.Root =
     $extend(org.mathdox.formulaeditor.presentation.Bracketed, {
+      // cannot be split like a simple bracket
+      separable: false,
       // base of the root (especially if not 2)
       base : null,
 

@@ -69,7 +69,10 @@ $main(function(){
 	var prow = new presentation.PseudoRow();
 	prow.initialize.apply(prow, contents);
 
-	var row = new presentation.Row(new presentation.Bracketed(left, prow, right));
+	var bracketed = new presentation.Bracketed(left, prow, right);
+	bracketed.separable = false;
+
+	var row = new presentation.Row(bracketed);
 
 	return new presentation.Boxed(semantics[this.className], children, row);
       }

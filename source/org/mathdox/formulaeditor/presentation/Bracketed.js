@@ -23,6 +23,8 @@ $main(function(){
       drawBox : false,
       // enable slow deleting
       slowDelete : true,
+      // enable splitting into brackets and content
+      separable : true,
 
       /**
        * Draws the matrix to the canvas.
@@ -251,10 +253,7 @@ $main(function(){
   org.mathdox.formulaeditor.presentation.Row =
     $extend(org.mathdox.formulaeditor.presentation.Row, {
       checkRemove : function(editor, position) {
-	/* call checkRemove from parent */
-	arguments.callee.parent.checkRemove(this, position);
-
-        if (this.parent && this.parent instanceof presentation.Bracketed && 
+        if (this.parent && this.parent instanceof presentation.Bracketed && this.parent.separable === true &&
             this.parent.parent && this.parent.parent instanceof presentation.Row) {
           var index = this.parent.index;
           var moveright;
@@ -269,7 +268,7 @@ $main(function(){
                 moveright = this.parent.parent.insert(index, new presentation.Symbol(value));
                 if (moveright) {
                   index++;
-                }
+                }    
                 index--;
               }
             }
@@ -320,8 +319,10 @@ $main(function(){
 	      index : index
 	    };
           }
-        }
+        } else {
+	  /* call checkRemove from parent */
+	  arguments.callee.parent.checkRemove.call(this, editor, position);
+	}
       }
     });
-  
 });

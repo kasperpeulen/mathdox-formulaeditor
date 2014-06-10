@@ -6,6 +6,7 @@ $identify("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/BlockSymbol.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
+$require("org/mathdox/formulaeditor/presentation/SymbolAliases.js");
 $require("org/mathdox/formulaeditor/presentation/SuperscriptSymbol.js");
 
 $main(function(){
@@ -27,8 +28,13 @@ $main(function(){
         if (arguments.length == 1 && typeof(arguments[0]) == "string") {
           var string = arguments[0];
           var array = [];
+	  var symbol;
+
           for (i=0; i<string.length; i++) {
-            array.push(this.newSymbol(string.charAt(i)));
+	    var symbol = this.newSymbol(string.charAt(i));
+	    if (symbol !== null) {
+              array.push(symbol);
+	    }
           }
           return arguments.callee.parent.initialize.apply(this, array);
         }
@@ -208,6 +214,7 @@ $main(function(){
       newSymbol: function(character) {
 	var SuperscriptSymbol = org.mathdox.formulaeditor.presentation.SuperscriptSymbol;
 	var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
+	var aliases = org.mathdox.formulaeditor.presentation.SymbolAliases;
 
         if (character == " ") {
           // spaces do not have a value
@@ -218,6 +225,8 @@ $main(function(){
         } else if (character == "'" || character =="′" ) {
           // quote or U+2032 prime
           return new SuperscriptSymbol(character);
+        } else if (aliases[character] !== undefined && aliases[character] === null) {
+          return null;
         } else {
           return new Symbol(character);
         }

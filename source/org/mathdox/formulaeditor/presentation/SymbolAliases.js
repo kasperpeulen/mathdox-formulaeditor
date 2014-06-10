@@ -4,6 +4,8 @@ $identify("org/mathdox/formulaeditor/presentation/SymbolAliases.js");
 
 $main(function(){
   org.mathdox.formulaeditor.presentation.SymbolAliases = {
+    // U+2061 function application  -> '' empty string
+    '⁡' : null,
     // U+2062 invisible times -> '' empty string
     '⁢': null,
     // U+2064 invisible plus -> '' empty string

@@ -1,6 +1,9 @@
 1.1.31h
+  - mathml parser: added check for whitespace characters resulting in empty
+    textnodes (fixes #342)
   - added feature #323 (breaking brackets from within)
   - fix for #324 (broken prefix log)
+  - fix for #339 (complex_cartesian with negative imaginary part)
 g - added support for nums1.rational (now parsed as arith1.divide)
   - fixed a bug with fractions: construction presentation from openmath 
 f - fixed a typo in orbeon support AJAXServer -> AjaxServer

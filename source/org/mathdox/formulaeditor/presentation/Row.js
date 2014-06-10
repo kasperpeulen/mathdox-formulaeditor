@@ -90,6 +90,12 @@ $main(function(){
        */
       draw : function(canvas, context, x, y, invisible) {
 
+	var modifiedContext = { rowLevel : 0 };
+        for (var name in context) {
+          modifiedContext[name] = context[name];
+        }
+        modifiedContext.rowLevel = modifiedContext.rowLevel + 1;
+
         if (this.children.length > 0) {
 
           // use following variables to maintain track of the bounding rectangle
@@ -105,7 +111,7 @@ $main(function(){
             var child = this.children[i];
 
             // draw the current child node
-            var dimensions = child.draw(canvas, context, right, y, invisible);
+            var dimensions = child.draw(canvas, modifiedContext, right, y, invisible);
 
             // update the dimensions of the bounding rectangle
             left   = Math.min(left, dimensions.left);
@@ -128,14 +134,14 @@ $main(function(){
         }
         else {
           var fontSizeModifier = 0;
-          if (context.fontSizeModifier!== undefined && context.fontSizeModifier !== null) {
-            fontSizeModifier = context.fontSizeModifier;
+          if (modifiedContext.fontSizeModifier!== undefined && modifiedContext.fontSizeModifier !== null) {
+            fontSizeModifier = modifiedContext.fontSizeModifier;
           }
 
           this.dimensions = canvas.drawFBox(x, y, true, null, null, fontSizeModifier);
 
           if (!invisible && this.parent) {
-            canvas.drawFBox(x, y, invisible);
+            canvas.drawFBox(x, y, invisible, null, null, fontSizeModifier);
           }
 
           return this.dimensions;

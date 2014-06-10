@@ -36,7 +36,7 @@ $main(function(){
       }
 
       this.dimensions = canvas.drawFBox(
-        Math.round(x), Math.round(y), invisible, this.onscreen, this.typeface, fontSizeModifier);
+        Math.round(x), Math.round(y), invisible, this.onscreen, this.typeface, context);
 
       return this.dimensions;
     }

@@ -45,16 +45,23 @@ $main(function(){
 
       for (i=0; i<value.length; i++) {
         var ch = value.charAt(i);
+	console.log("character '"+ch+"' at position: "+i);
 	if (org.mathdox.formulaeditor.presentation.SymbolAliases[ch] !== null) {
           if (style === null || style === undefined) {
 	    arr.push(new presentation.Symbol(ch));
           } else {
 	    arr.push(new presentation.Symbol(ch, style));
 	  }
+	} else {
+	  console.log("null character at position: "+i);
 	}
       }
-      row = new presentation.Row();
-      row.initialize.apply(row, arr);
+      if (arr.length>0) {
+        row = new presentation.Row();
+        row.initialize.apply(row, arr);
+      } else {
+	row = null;
+      }
 
       return row;
     },
@@ -142,7 +149,7 @@ $main(function(){
         var child = this.handle(children.item(i), context);
 
         if (child !== null) { 
-          // ignore comments
+          // ignore comments and empty textnodes
           entries.push(child);
         }
       }

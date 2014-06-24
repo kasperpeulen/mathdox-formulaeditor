@@ -58,6 +58,11 @@ $main(function(){
       HTTP.post(this.url, values, onreturn); 
     },
 
+    openmath2jsxgraph : function(openmath, callback) {
+      return this.perform("jsxgraph", "translate_openmath_native", openmath, 
+        callback);
+    },
+
     openmath2gap : function(openmath, callback) {
       return this.perform("gap", "translate_openmath_native", openmath, 
         callback);

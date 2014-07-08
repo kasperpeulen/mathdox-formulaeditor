@@ -321,12 +321,17 @@ $main(function(){
      * script and limit schemata 
      *
      * supported elements:
-     * msub, msup, msubsup
+     * mover, msub, msup, msubsup, munder
      *
      * not supported elements:
-     * munder, mover, mmultiscripts
+     * mmultiscripts
      */
-     
+
+    /* script and limit schemata : math:mover like math:msup */
+    handlemover: function(node, context) {
+      return this.handlemsup(node, context);
+    },
+
     /* script and limit schemata : math:msub */
     handlemsub: function(node, context) {
       var children = node.childNodes;
@@ -370,7 +375,13 @@ $main(function(){
       }
 
       return new presentation.Row(entries[0], new presentation.Subscript(entries[1]), new presentation.Superscript(entries[2]));
+    },
+
+    /* script and limit schemata : math:munder like math:msub */
+    handlemunder: function(node, context) {
+      return this.handlemsub(node, context);
     }
+
   });
 
 });

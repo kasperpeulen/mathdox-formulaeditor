@@ -38,6 +38,10 @@
 	var textarea = document.getElementById("mathml1");
 
 	textarea.value = mathml;
+
+	var mathmlDiv = document.getElementById("mathml2");
+
+	mathmlDiv.innerHTML = mathml;
       };
       loadMathML = function() {
 	var textarea = document.getElementById("mathml1");
@@ -95,6 +99,9 @@
       <button type="button" name="MathML" value='MathML' onclick='updateMathML()'>
 	Update MathML
       </button>
+      <div id='mathml2'>
+      </div>
+
       <button type="button" name="MathML" value='MathML' onclick='loadMathML()'>
 	Load MathML
       </button>

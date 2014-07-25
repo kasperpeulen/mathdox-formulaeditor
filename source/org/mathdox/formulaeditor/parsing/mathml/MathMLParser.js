@@ -189,7 +189,7 @@ $main(function(){
       var children = node.childNodes;
 
       var base = this.handle(children.item(1), context);
-      var index = this.handle(children.item(2), context);
+      var index = this.handle(children.item(0), context);
 
       var presentation = org.mathdox.formulaeditor.presentation;
 

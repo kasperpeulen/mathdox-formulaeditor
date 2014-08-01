@@ -10,6 +10,8 @@ $main(function(){
     '⁢': null,
     // U+2064 invisible plus -> '' empty string
     '⁤' : null,
+    // U+2212, minus sign -> hyphen-minus
+    '−' : '-',
     // U+2217 asterisk operator -> U+002A asterisk
     '∗' : '*',
     // U+22C5 dot operator -> U+00B7 middle dot

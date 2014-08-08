@@ -50,6 +50,16 @@
         org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
           "formula1").redraw();
       };
+      docopy = function() {
+	var presCopy = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
+			"formula1").presentation.copy();
+
+	var editor2 = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula2");
+	editor2.presentation = presCopy;
+	presCopy.updateChildren();
+	editor2.save();
+	editor2.redraw();
+      };
     </script>
     <script type='text/javascript' src='org/mathdox/formulaeditor/main.js'>
     </script>
@@ -96,13 +106,32 @@
         &lt;/OMOBJ&gt;
 
       </textarea>
+      <textarea id='formula2' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80'>
+        &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
+          &lt;OMA&gt;
+            &lt;OMS cd="linalg3" name="matrix"/&gt;
+            &lt;OMA&gt;
+              &lt;OMS cd="linalg3" name="matrixcolumn"/&gt;
+              &lt;OMI&gt;1&lt;/OMI&gt;
+              &lt;OMI&gt;2&lt;/OMI&gt;
+            &lt;/OMA&gt;
+            &lt;OMA&gt;
+              &lt;OMS cd="linalg3" name="matrixcolumn"/&gt;
+              &lt;OMI&gt;3&lt;/OMI&gt;
+              &lt;OMI&gt;4&lt;/OMI&gt;
+            &lt;/OMA&gt;
+          &lt;/OMA&gt;
+        &lt;/OMOBJ&gt;
+      </textarea>
       <button type="button" name="MathML" value='MathML' onclick='updateMathML()'>
 	Update MathML
       </button>
       <div id='mathml2'>
       </div>
-
-      <button type="button" name="MathML" value='MathML' onclick='loadMathML()'>
+      <button type="button" name="MathML2" value='MathML' onclick='docopy()'>
+	Copy presentation 
+      </button>
+      <button type="button" name="MathML3" value='MathML' onclick='loadMathML()'>
 	Load MathML
       </button>
       <textarea id='mathml1' style='margin-right: 2em' rows='10' cols='80'>

@@ -62,6 +62,7 @@ $require("org/mathdox/formulaeditor/modules/interval1/interval_oc.js");
 $require("org/mathdox/formulaeditor/modules/interval1/interval_oo.js");
 
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
+$require("org/mathdox/formulaeditor/modules/linalg/matrix3.js");
 
 $require("org/mathdox/formulaeditor/modules/limit1/limit.js");
 

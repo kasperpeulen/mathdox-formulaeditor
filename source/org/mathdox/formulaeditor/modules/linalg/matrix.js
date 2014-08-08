@@ -74,6 +74,8 @@ $main(function(){
 
       precedence : 0,
 
+      transpose: false,
+
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
         var entries = [];

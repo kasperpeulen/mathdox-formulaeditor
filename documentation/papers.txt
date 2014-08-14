@@ -1,0 +1,25 @@
+There are some background papers by other authors. They used to be in
+documentation/papers, but for copyright reasons they have been moved to our
+private subversion: https://mathdox.org/svn/repos/private/formulaeditor/papers/
+
+Titels and authors are below.
+
+An Investigation on the Dynamics of Direct-Manipulation Editors for Mathematics 
+  Luca Padovani and Riccardo Solmi
+  in A.Asperti et al. (Eds.): MKM 2004, LNCS 3119, pp. 302-316 2004. Springer-Verlag Berlin Heidelberg 2004
+
+XPress: A Novice Interface for the Real-Time Communication of Mathematical Expressions
+  Marco Pollanen, Thomas Wisniewski, and Xiao Yu
+  TODO reference
+
+Squibs and Discussions, Memoization in Top-Down Parsing
+  Marc Johnson
+  Computational Logistics, Volume 21, Number 3, 1994. Association for Computational Logistics, pp 405-418
+
+Natural Editing of Algebraic Expressions
+  Jean-François Nicaud
+  TODO reference
+
+Linear syntax for communicating elementary mathematics
+  C J Sangwin, P. Ramsden
+  TODO reference

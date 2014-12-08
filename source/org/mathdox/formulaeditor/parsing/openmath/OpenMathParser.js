@@ -152,7 +152,7 @@ $main(function(){
 
       if (String(parseInt(nodeValue)) == nodeValue) {
 	// parses as integer
-	value = nodeValue;
+	value = parseInt(nodeValue);
       } else if (nodeValue.match("^-?[0-9]+$") !== null) {
 	// big integer
 	value = { 

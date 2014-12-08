@@ -43,7 +43,7 @@ $main(function(){
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
 
-        var string = this.value.toString();
+        var string = this.getValueAsString();
         var symbols = [];
 
         for (var i=0; i<string.length; i++) {

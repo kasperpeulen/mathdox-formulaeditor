@@ -147,8 +147,24 @@ $main(function(){
     handleOMI: function(node) {
 
       var semantics = org.mathdox.formulaeditor.semantics;
-      return new semantics.Integer(parseInt(node.firstChild.nodeValue));
+      var nodeValue = node.firstChild.nodeValue;
+      var value;
 
+      if (String(parseInt(nodeValue)) == nodeValue) {
+	// parses as integer
+	value = nodeValue;
+      } else if (nodeValue.match("^-?[0-9]+$") !== null) {
+	// big integer
+	value = { 
+          rule: "bigint",
+	  value: nodeValue
+	};
+      } else {
+	// not an integer
+	value = 0;
+	console.log("while parsing OMI: integer expected but found \""+nodeValue+"\" using value 0.");
+      }
+      return new semantics.Integer(value);
     },
 
     /**

@@ -46,6 +46,7 @@ $main(function(){
 
         var paContents = [];
         var children = [];
+        var focusChildren = [];
         var child;
         var row;
 
@@ -60,6 +61,7 @@ $main(function(){
 
         var parray = new presentation.PArray();
 	parray.initialize.apply(parray, paContents);
+	focusChildren.push(parray);
 
         var prowContents = [];
         prowContents.push(parray);
@@ -70,12 +72,12 @@ $main(function(){
         var prow = new presentation.PseudoRow();
         prow.initialize.apply(prow, prowContents);
 
-        var bracketed = new presentation.Bracketed(left, prow, right);
+        var bracketed = new presentation.Bracketed(left, parray, right);
         bracketed.separable = false;
 
         var row = new presentation.Row(bracketed);
 
-        return new presentation.Boxed(semantics.Logic1And_system, children, row);
+        return new presentation.Boxed(semantics.Logic1And_system, children, row, focusChildren);
       }
 
     });

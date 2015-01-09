@@ -12,16 +12,22 @@ $main(function(){
     semanticClass : null,
 
     children : null,
+    focusChildren : null,
 
     margin : 5,
 
     slowDelete: true,
     
-    initialize : function(semanticClass, children, presentation) {
+    initialize : function(semanticClass, children, presentation, focusChildren) {
       this.semanticClass = semanticClass;
       this.children = children;
       this.presentation = presentation;
       this.updateChildren();
+      if (focusChildren !== null &&focusChildren !== undefined) {
+        this.focusChildren = focusChildren;
+      } else {
+        this.focusChildren = children;
+      }
     },
 
     draw : function(canvas, context, x, y, invisible) { 
@@ -60,8 +66,8 @@ $main(function(){
 
       if (index === null||index === undefined ) {
 	result = this.children[0].getFirstCursorPosition();
-      } else if (index + 1 < this.children.length) {
-	result = this.children[index+1].getFollowingCursorPosition();
+      } else if (index + 1 < this.focusChildren.length) {
+	result = this.focusChildren[index+1].getFollowingCursorPosition();
       }
 
       if (((result === null)|| (result === undefined)) && (this.parent !== null)) {
@@ -77,7 +83,7 @@ $main(function(){
       if (index === null||index === undefined ) {
 	result = this.children[this.children.length -1].getLastCursorPosition();
       } else if (index - 1 >= 0) {
-	result = this.children[index-1].getPrecedingCursorPosition();
+	result = this.focusChildren[index-1].getPrecedingCursorPosition();
       }
 
       if (((result === null)|| (result === undefined)) && (this.parent !== null)) {
@@ -93,8 +99,8 @@ $main(function(){
       var dx;
       var idx = -1;
       
-      for (var i = 0; i< this.children.length; i++) {
-        var child = this.children[i];
+      for (var i = 0; i< this.focusChildren.length; i++) {
+        var child = this.focusChildren[i];
         if (x < child.dimensions.left) {
           dx = child.dimensions.left - x;
         } else if (x <= child.dimensions.left + child.dimensions.width) {
@@ -111,14 +117,14 @@ $main(function(){
 
       var pos;
       if (idx >=0) {
-        pos = this.children[idx].getCursorPosition(x,y);
+        pos = this.focusChildren[idx].getCursorPosition(x,y);
         if (pos !== null) {
           return pos;
         } else {
-          if (x >= this.children[idx].dimensions.left + this.children[idx].dimensions.width) {
-            return this.children[idx].getPrecedingCursorPosition();
+          if (x >= this.focusChildren[idx].dimensions.left + this.focusChildren[idx].dimensions.width) {
+            return this.focusChildren[idx].getPrecedingCursorPosition();
           } else {
-            return this.children[idx].getFollowingCursorPosition();
+            return this.focusChildren[idx].getFollowingCursorPosition();
           }
         }
       } else { /* code from Node.js */

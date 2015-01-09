@@ -2,7 +2,7 @@ $identify("org/mathdox/formulaeditor/modules/logic1/and_system.js");
 
 $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
-$require("org/mathdox/formulaeditor/parsing/OpenMathParser.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/presentation/Boxed.js");
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
 $require("org/mathdox/formulaeditor/presentation/Bracketed.js");
@@ -52,7 +52,9 @@ $main(function(){
           paContents.push(row);
         }
 
-        var parray = new presentation.PArray(paContents);
+        var parray = new presentation.PArray();
+	parray.initialize.apply(parray, paContents);
+
         var prowContents = [];
         prowContents.push(parray);
 

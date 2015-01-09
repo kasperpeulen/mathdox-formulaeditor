@@ -33,26 +33,39 @@ $main(function(){
        */
       draw : function(canvas, context, x, y, invisible) {
         var height;
+        var ldheight = 0, rdheight = 0;
+        var bracketheight=0;
+        var ldwidth = 0, rdwidth = 0;
 
         // invisible drawing of array to set dimensions
         
         this.middle.draw(canvas, context, 0, 0, true);
 
         // if the left and right symbols are brackets set the height
-        // XXX check if they are brackets
-        this.leftBracket.minimumHeight = 
-          this.middle.dimensions.height;
-        this.rightBracket.minimumHeight = 
-          this.middle.dimensions.height;
-
         // invisible drawing of brackets to set dimensions
-        this.leftBracket.draw(canvas, context, 0, 0, true);
-        this.rightBracket.draw(canvas, context, 0, 0, true);
+        
+        if (this.leftBracket !== null && this.leftBracket !== undefined) {
+          this.leftBracket.minimumHeight = this.middle.dimensions.height;
+          this.leftBracket.draw(canvas, context, 0, 0, true);
+          ldheight = this.leftBracket.dimensions.height;
+          bracketheight = ldheight;
+          ldwidth = this.leftBracket.dimensions.width;
+        }
+        if (this.rightBracket !== null && this.rightBracket !== undefined) {
+          this.rightBracket.minimumHeight = this.middle.dimensions.height;
+          this.rightBracket.draw(canvas, context, 0, 0, true);
+          rdheight = this.rightBracket.dimensions.height;
+          if (bracketheight === 0 ) {
+            bracketheight = rdheight;
+          }
+          rdwidth = this.rightBracket.dimensions.width;
+        }
+
 
         height = Math.max(
-            this.leftBracket.dimensions.height,
+            ldheight,
             this.middle.dimensions.height,
-            this.rightBracket.dimensions.height);
+            rdheight);
 
         var yAdjust = 0;
         var yAdjustBrackets = 0;
@@ -64,45 +77,57 @@ $main(function(){
 
         // brackets are smaller than the array
         // assuming right bracket has the same size as the left bracket
-        if (this.leftBracket.dimensions.height<height) {
-          yAdjustBrackets = (height - this.leftBracket.dimensions.height)/2;
+
+        if (bracketheight<height) {
+          yAdjustBrackets = (height - bracketheight)/2;
         }
 
         this.dimensions = { 
           height : height,
           width : 
-            this.leftBracket.dimensions.width +
+            ldwidth + 
             this.middle.dimensions.width +
-            this.rightBracket.dimensions.width,
+            rdwidth,
           left : x,
           top : y + this.middle.dimensions.top - yAdjust
         };
         
-	this.drawHighlight(canvas, invisible);
+        this.drawHighlight(canvas, invisible);
 
-        this.leftBracket.minimumHeight = this.middle.dimensions.height;
-        this.leftBracket.draw(canvas, context,  
-          x - this.leftBracket.dimensions.left, 
-          this.dimensions.top + yAdjustBrackets - 
-          this.leftBracket.dimensions.top, 
-          invisible);
+        if (this.leftBracket !== null && this.leftBracket !== undefined) {
+          this.leftBracket.minimumHeight = this.middle.dimensions.height;
+          this.leftBracket.draw(canvas, context,  
+            x - this.leftBracket.dimensions.left, 
+            this.dimensions.top + yAdjustBrackets - 
+            this.leftBracket.dimensions.top, 
+            invisible);
+        }
 
         this.middle.draw(canvas, context,  
-          x + this.leftBracket.dimensions.width - this.middle.dimensions.left, 
+          x + ldwidth - this.middle.dimensions.left, 
           y, invisible);
 
-        this.rightBracket.minimumHeight = this.middle.dimensions.height;
-        this.rightBracket.draw(canvas, context, 
-          x + this.rightBracket.dimensions.width + 
-            this.middle.dimensions.width - this.rightBracket.dimensions.left,
-          this.dimensions.top + yAdjustBrackets - 
-          this.rightBracket.dimensions.top, 
-          invisible);
+        if (this.rightBracket !== null && this.rightBracket !== undefined) {
+          this.rightBracket.minimumHeight = this.middle.dimensions.height;
+          this.rightBracket.draw(canvas, context, 
+            x + this.rightBracket.dimensions.width + 
+              this.middle.dimensions.width - this.rightBracket.dimensions.left,
+            this.dimensions.top + yAdjustBrackets - 
+            this.rightBracket.dimensions.top, 
+            invisible);
+        }
         
         if ((!invisible) &&this.drawBox) {
           canvas.drawBox(this.middle.dimensions);
-          canvas.drawBoxWithBaseline(this.leftBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
-          canvas.drawBoxWithBaseline(this.rightBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+
+          if (this.leftBracket !== null && this.leftBracket !== undefined) {
+            canvas.drawBoxWithBaseline(this.leftBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+          }
+
+          if (this.rightBracket !== null && this.rightBracket !== undefined) {
+            canvas.drawBoxWithBaseline(this.rightBracket.dimensions, this.dimensions.top + this.dimensions.height - yAdjustBrackets);
+          }
+
           canvas.drawBoxWithBaseline(this.dimensions,y);
         }
 
@@ -225,24 +250,24 @@ $main(function(){
         return this.clone(this.leftBracket.copy(), this.children[0].copy(), this.rightBracket.copy());
       },
       getSemantics: function(context) {
-	var sem = this.middle.getSemantics(context, null, null, "functionArguments", null);
-	var value = sem.value;
+        var sem = this.middle.getSemantics(context, null, null, "functionArguments", null);
+        var value = sem.value;
 
-	if (!(value instanceof Array)) {
-	  return {
+        if (!(value instanceof Array)) {
+          return {
             rule: "braces",
             value: value
           };
-	} else if (value.length === 1) {
-	  // NOTE: probably should not occur
-	  return {
+        } else if (value.length === 1) {
+          // NOTE: probably should not occur
+          return {
             rule: "braces",
             value: value[0]
           };
-	} else {
+        } else {
           return {
-	    rule: "bracesWithSeparatedArguments",
-	    value: value
+            rule: "bracesWithSeparatedArguments",
+            value: value
           };
         }
       }
@@ -258,11 +283,11 @@ $main(function(){
           var index = this.parent.index;
           var moveright;
           var i;
-	  var value;
+          var value;
           
           if (position == "start") {
             if (this.parent.rightBracket !== null && this.parent.rightBracket !== undefined) {
-	      value = this.parent.rightBracket.value;
+              value = this.parent.rightBracket.value;
               if (value !== null && value!==undefined && value !== "")  {
 
                 moveright = this.parent.parent.insert(index, new presentation.Symbol(value));
@@ -285,22 +310,22 @@ $main(function(){
             this.parent.parent.remove(this.parent.index);
             this.parent.parent.updateChildren();
 
-	    editor.cursor.position = { 
-	      row : this.parent.parent,
-	      index : index
-	    };
+            editor.cursor.position = { 
+              row : this.parent.parent,
+              index : index
+            };
           }
 
           if (position == "end") {
             if (this.parent.leftBracket !== null && this.parent.leftBracket !== undefined) {
-	      value = this.parent.leftBracket.value;
+              value = this.parent.leftBracket.value;
               if (value !== null && value!==undefined && value !== "")  {
                 moveright = this.parent.parent.insert(index, new presentation.Symbol(value));
 
                 if (moveright) {
                   index++;
                 }
-	      }
+              }
             }
 
             for (i=0; i<this.children.length; i++) {
@@ -313,16 +338,16 @@ $main(function(){
 
             this.parent.parent.remove(this.parent.index);
             this.parent.parent.updateChildren();
-	    
-	    editor.cursor.position = { 
-	      row : this.parent.parent,
-	      index : index
-	    };
+            
+            editor.cursor.position = { 
+              row : this.parent.parent,
+              index : index
+            };
           }
         } else {
-	  /* call checkRemove from parent */
-	  arguments.callee.parent.checkRemove.call(this, editor, position);
-	}
+          /* call checkRemove from parent */
+          arguments.callee.parent.checkRemove.call(this, editor, position);
+        }
       }
     });
 });

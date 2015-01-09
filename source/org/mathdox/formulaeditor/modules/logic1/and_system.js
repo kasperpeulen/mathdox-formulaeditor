@@ -2,6 +2,7 @@ $identify("org/mathdox/formulaeditor/modules/logic1/and_system.js");
 
 $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/presentation/Boxed.js");
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
@@ -9,6 +10,7 @@ $require("org/mathdox/formulaeditor/presentation/Bracketed.js");
 $require("org/mathdox/formulaeditor/presentation/PseudoRow.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
 
@@ -20,6 +22,10 @@ $main(function(){
 
       /* display style is "system" */
       style: "system",
+
+      symbol: {
+        openmath: "<OMS cd='logic1' name='and'/>"
+      },
 
       getMathML: function() {
         var result = "<mfenced open=\"{\" close=\"\"><mtable>";
@@ -69,19 +75,19 @@ $main(function(){
 
         var row = new presentation.Row(bracketed);
 
-        return new presentation.Boxed(semantics.LogicAnd_system, children, row);
+        return new presentation.Boxed(semantics.Logic1And_system, children, row);
       }
 
     });
 
   /**
-   * Extend the OpenMathParser object with parsing code for arith1.times.
+   * Extend the OpenMathParser object with parsing code for logic1.and with style system
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
 
       /**
-       * Returns a Times object based on the OpenMath node.
+       * Returns a Logic1And object based on the style 
        */
       handleLogic1And : function(node, style) {
 

@@ -72,6 +72,7 @@ $require("org/mathdox/formulaeditor/presentation/Editor.js");
 $require("org/mathdox/formulaeditor/presentation/Root.js");
 
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
+$require("org/mathdox/formulaeditor/modules/logic1/and_system.js");
 $require("org/mathdox/formulaeditor/modules/logic1/equivalent.js");
 $require("org/mathdox/formulaeditor/modules/logic1/implies.js");
 $require("org/mathdox/formulaeditor/modules/logic1/not.js");

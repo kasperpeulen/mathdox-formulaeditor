@@ -1,12 +1,13 @@
 $identify("org/mathdox/formulaeditor/modules/logic1/and_system.js");
 
 $require("org/mathdox/formulaeditor/Options.js");
+$require("org/mathdox/formulaeditor/modules/logic1/and.js");
+$require("org/mathdox/formulaeditor/parsing/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/presentation/Boxed.js");
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
 $require("org/mathdox/formulaeditor/presentation/Bracketed.js");
 $require("org/mathdox/formulaeditor/presentation/PseudoRow.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
-$require("org/mathdox/formulaeditor/presentation/Symbol.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryListOperation.js");
 
 $main(function(){
@@ -70,4 +71,38 @@ $main(function(){
       }
 
     });
+
+  /**
+   * Extend the OpenMathParser object with parsing code for arith1.times.
+   */
+  org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
+    $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
+
+      /**
+       * Returns a Times object based on the OpenMath node.
+       */
+      handleLogic1And : function(node, style) {
+
+        // construct an And object
+	if (style == "system") {
+	  // parse the children of the OMA
+          var children = node.childNodes;
+          var operands = [];
+
+          for (var i=1; i<children.length; i++) {
+            operands.push(this.handle(children.item(i)));
+          }
+
+          var result = new org.mathdox.formulaeditor.semantics.Logic1And_system();
+          result.initialize.apply(result, operands);
+
+          return result;
+        } else {
+	  /* use parent method */
+	  return arguments.callee.parent.handleLogic1And.call(this, node, style);
+	}
+      }
+
+    });
+
 });

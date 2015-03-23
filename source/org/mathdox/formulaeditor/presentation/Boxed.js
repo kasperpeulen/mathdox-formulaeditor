@@ -3,11 +3,12 @@ $package("org.mathdox.formulaeditor.presentation");
 $identify("org/mathdox/formulaeditor/presentation/Boxed.js");
 
 $require("org/mathdox/formulaeditor/presentation/Node.js");
+$require("org/mathdox/formulaeditor/presentation/PArray.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 
 $main(function(){
   org.mathdox.formulaeditor.presentation.Boxed =
-    $extend(org.mathdox.formulaeditor.presentation.Node, {
+    $extend(org.mathdox.formulaeditor.presentation.PArray, {
 
     semanticClass : null,
 
@@ -18,16 +19,37 @@ $main(function(){
 
     slowDelete: true,
     
-    initialize : function(semanticClass, children, presentation, focusChildren) {
+    initialize : function(semanticClass, children, presentation, focusEntries) {
+      console.log("initializing box");
       this.semanticClass = semanticClass;
+
+      /* fill entries from focusEntries */
+
+      if (focusEntries === null || focusEntries === undefined) {
+        focusEntries = children;
+      }
+      if ((focusEntries instanceof Array) && (focusEntries.length>0) && (!(focusEntries[0] instanceof Array))) {
+        this.entries = [];
+        this.entries.push(focusEntries);
+      } else {
+        this.entries = focusEntries;
+      }
+      this.rows = this.entries.length;
+      this.columns = this.entries[0].length;
+
+      /* for all elements in entries: add them to focusChildren */
+      this.focusChildren = [];
+      for (var row = 0; row < this.rows; row++) {
+        for (var col = 0; col < this.columns; col++) {
+          this.focusChildren.push(this.entries[row][col]);
+        }
+      }
+
       this.children = children;
+      console.log("updating children");
       this.presentation = presentation;
       this.updateChildren();
-      if (focusChildren !== null &&focusChildren !== undefined) {
-        this.focusChildren = focusChildren;
-      } else {
-        this.focusChildren = children;
-      }
+      console.log("finished initializing box");
     },
 
     draw : function(canvas, context, x, y, invisible) { 
@@ -59,38 +81,6 @@ $main(function(){
     
     getLastCursorPosition : function(index) {
       return this.getPrecedingCursorPosition();
-    },
-
-    getFollowingCursorPosition : function(index) {
-      var result = null;
-
-      if (index === null||index === undefined ) {
-	result = this.children[0].getFirstCursorPosition();
-      } else if (index + 1 < this.focusChildren.length) {
-	result = this.focusChildren[index+1].getFollowingCursorPosition();
-      }
-
-      if (((result === null)|| (result === undefined)) && (this.parent !== null)) {
-        result = this.parent.getFollowingCursorPosition(this.index, false);
-      }
-
-      return result;
-    },
-
-    getPrecedingCursorPosition : function(index) {
-      var result = null;
-
-      if (index === null||index === undefined ) {
-	result = this.children[this.children.length -1].getLastCursorPosition();
-      } else if (index - 1 >= 0) {
-	result = this.focusChildren[index-1].getPrecedingCursorPosition();
-      }
-
-      if (((result === null)|| (result === undefined)) && (this.parent !== null)) {
-        return { row: this.parent, index: this.index };
-      }
-
-      return result;
     },
 
     getCursorPosition : function(x, y) {

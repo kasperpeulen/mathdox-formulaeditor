@@ -46,7 +46,7 @@ $main(function(){
 
         var paContents = [];
         var children = [];
-        var focusChildren = [];
+        var focusEntries;
         var child;
         var row;
 
@@ -61,7 +61,7 @@ $main(function(){
 
         var parray = new presentation.PArray();
 	parray.initialize.apply(parray, paContents);
-	focusChildren.push(parray);
+	focusEntries = paContents;
 
         var prowContents = [];
         prowContents.push(parray);
@@ -77,7 +77,7 @@ $main(function(){
 
         var row = new presentation.Row(bracketed);
 
-        return new presentation.Boxed(semantics.Logic1And_system, children, row, focusChildren);
+        return new presentation.Boxed(semantics.Logic1And_system, children, row, focusEntries);
       }
 
     });

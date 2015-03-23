@@ -325,12 +325,15 @@ $main(function(){
         return result;
       }
 
-      if (index>0) {
+      if (index >= 0) {
         row = Math.floor(index / this.columns);
         col = index % this.columns;
         if (col>0) {
           result = this.entries[row][col-1].getLastCursorPosition();
         } 
+	if (col === 0 && this.parent !== null) {
+          return { row: this.parent, index: this.index };
+	}
       }
 
       if (((result === null) || (result === undefined))&& (this.parent !== null)) {

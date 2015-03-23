@@ -3,6 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/logic1/and_system.js");
 $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/modules/logic1/and.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/presentation/Boxed.js");
 $require("org/mathdox/formulaeditor/presentation/Bracket.js");
@@ -114,5 +115,15 @@ $main(function(){
       }
 
     });
+
+    org.mathdox.formulaeditor.parsing.expression.KeywordList.andsystem = {
+      parseResultFun : function(oper, array) {
+        var semantics = org.mathdox.formulaeditor.semantics;
+        var oper = new semantics.Logic1And_System();
+        oper.initialize.apply(oper, array);
+
+        return oper;
+      }
+    };
 
 });

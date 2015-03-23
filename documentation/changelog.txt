@@ -1,6 +1,7 @@
-1.1.31i
-  - added and_system
-  - added alias for U+2212 -> '-'
+1.1.31 
+  - added alias andsystem(...) for and_system
+i - added and_system
+h - added alias for U+2212 -> '-'
   - mathml parser: bugfix in mroot parsing (fixes #344)
   - mathml parser: added check for whitespace characters resulting in empty
     textnodes (fixes #342)

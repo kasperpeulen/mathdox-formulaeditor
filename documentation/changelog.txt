@@ -1,4 +1,6 @@
 1.1.31 
+  - updated models so that model_screen is no longer needed for infix symbols
+    and the produced file is smaller
   - added model support for model:if-exists model:if-not-exists
   - added alias andsystem(...) for and_system
 i - added and_system

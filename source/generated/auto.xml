@@ -10,7 +10,6 @@
     <model:precedence2>130</model:precedence2>
     <model:symbol_enter>-</model:symbol_enter>
     <model:symbol_mathml>-</model:symbol_mathml>
-    <model:symbol_screen>-</model:symbol_screen>
   </model:instance>
   <!-- arith1.plus -->
   <model:instance model="models/infix.xml"
@@ -25,7 +24,6 @@
     <model:symbol_mathml>+</model:symbol_mathml>
     <!-- U+2064 invisible plus -->
     <model:symbol_mathml_invisible>&#x2064;</model:symbol_mathml_invisible>
-    <model:symbol_screen>+</model:symbol_screen>
   </model:instance>
   <!-- integer1.factorial -->
   <model:instance model="models/unary.xml"
@@ -88,7 +86,6 @@
     <!-- U+2219 bullet operator -->
     <model:symbol_mathml>&#x00D7;</model:symbol_mathml>
     <!-- U+2219 bullet operator -->
-    <model:symbol_screen>&#x00D7;</model:symbol_screen>
   </model:instance>
   <!-- linalg1.scalarproduct a.k.a. inner product-->
   <model:instance model="models/infix-once.xml"
@@ -238,7 +235,6 @@
     <model:precedence2>120</model:precedence2>
     <model:symbol_enter>&gt;</model:symbol_enter>
     <model:symbol_mathml>&amp;gt;</model:symbol_mathml>
-    <model:symbol_screen>&gt;</model:symbol_screen>
   </model:instance>
   <!-- relation1.leq -->
   <model:instance model="models/infix-once.xml"
@@ -266,7 +262,6 @@
     <model:precedence2>120</model:precedence2>
     <model:symbol_enter>&lt;</model:symbol_enter>
     <model:symbol_mathml>&amp;lt;</model:symbol_mathml>
-    <model:symbol_screen>&lt;</model:symbol_screen>
   </model:instance>
   <!-- relation1.neq -->
   <model:instance model="models/infix-once.xml"
@@ -295,7 +290,6 @@
     <model:precedence2>120</model:precedence2>
     <model:symbol_enter>=</model:symbol_enter>
     <model:symbol_mathml>=</model:symbol_mathml>
-    <model:symbol_screen>=</model:symbol_screen>
   </model:instance>
   <!-- set1.in -->
   <model:instance model="models/infix-once.xml"
@@ -310,7 +304,6 @@
     <!-- U+2208 element of -->
     <model:symbol_mathml>&#x2208;</model:symbol_mathml>
     <!-- U+2208 element of -->
-    <model:symbol_screen>&#x2208;</model:symbol_screen>
   </model:instance>
 
   <!--

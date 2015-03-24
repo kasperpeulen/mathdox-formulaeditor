@@ -10,7 +10,7 @@ $require("org/mathdox/formulaeditor/semantics/Keyword.js");
 $main(function(){
 
   var symbol = {
-    onscreen         : "<model:symbol_screen/>",
+    onscreen         : "<model:if-exists name='symbol_screen'><model:symbol_screen/></model:if-exists><model:if-not-exists name='symbol_screen'><model:symbol_enter/></model:if-not-exists>",
     openmath         : null, // use default with model:cd and model:name
     mathml           : "&lt;mo&gt;<model:symbol_mathml/>&lt;/mo&gt;",
     mathml_invisible : ( "<model:symbol_mathml_invisible default=''/>" != "" ? "&lt;mo&gt;<model:symbol_mathml_invisible default=''/>&lt;/mo&gt;" : null )

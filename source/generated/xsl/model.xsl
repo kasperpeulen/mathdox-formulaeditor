@@ -108,6 +108,34 @@
   </xsl:template>
 
   <!--
+    mode: model, if-exists ; only process contents if variable exists in instance (empty is allowed)
+  -->
+  <xsl:template match='model:if-exists' mode='model'>
+    <xsl:param name='instance' as='node()' tunnel='yes'/>
+    <xsl:variable name='name' select='@name'/>
+
+    <xsl:if test='$instance/*[local-name()]=$name'>
+      <xsl:apply-templates select='node()' mode='#current'>
+	<xsl:with-param name='instance' select='$instance' tunnel='yes' as='node()'/>
+      </xsl:apply-templates>
+    </xsl:if>
+  </xsl:template>
+
+  <!--
+    mode: model, if-not-exists ; only process contents if variable *does not* exist in instance (empty still exists)
+  -->
+  <xsl:template match='model:if-not-exists' mode='model'>
+    <xsl:param name='instance' as='node()' tunnel='yes'/>
+    <xsl:variable name='name' select='@name'/>
+
+    <xsl:if test='not($instance/*[local-name()]=$name)'>
+      <xsl:apply-templates select='node()' mode='#current'>
+	<xsl:with-param name='instance' select='$instance' tunnel='yes' as='node()'/>
+      </xsl:apply-templates>
+    </xsl:if>
+  </xsl:template>
+
+  <!--
     mode: model, substitute the rest, using tunnel parameter instance (the
     instance from the auto.xml file, containing the substitutions)
   -->

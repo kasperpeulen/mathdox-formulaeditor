@@ -74,6 +74,36 @@
     <model:leftOpen>true</model:leftOpen>
     <model:rightOpen>true</model:rightOpen>
   </model:instance>
+  <!-- linalg1.outerproduct -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/linalg1/outerproduct.js"
+  >
+    <model:cd>linalg1</model:cd>
+    <model:name>outerproduct</model:name> 
+    <!-- precedence higher than multiplication -->
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter>**</model:symbol_enter>
+    <!-- U+2219 bullet operator -->
+    <model:symbol_mathml>&#x00D7;</model:symbol_mathml>
+    <!-- U+2219 bullet operator -->
+    <model:symbol_screen>&#x00D7;</model:symbol_screen>
+  </model:instance>
+  <!-- linalg1.scalarproduct a.k.a. inner product-->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/linalg1/scalarproduct.js"
+  >
+    <model:cd>linalg1</model:cd>
+    <model:name>scalarproduct</model:name> 
+    <!-- precedence higher than multiplication -->
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter>..</model:symbol_enter>
+    <!-- U+2219 bullet operator -->
+    <model:symbol_mathml>&#x2219;</model:symbol_mathml>
+    <!-- U+2219 bullet operator -->
+    <model:symbol_screen>&#x2219;</model:symbol_screen>
+  </model:instance>
   <!-- logic1.and -->
   <model:instance model="models/infix.xml"
     target="org/mathdox/formulaeditor/modules/logic1/and.js"

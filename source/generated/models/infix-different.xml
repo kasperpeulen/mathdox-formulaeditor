@@ -104,7 +104,10 @@ $main(function(){
   var semantics = org.mathdox.formulaeditor.semantics;
   var pG = new org.mathdox.parsing.ParserGenerator();
 
+  <model:if-exists name='symbol_screen'>
   if ( "<model:symbol_enter/>" == "<model:symbol_screen/>" ) {
+  </model:if-exists>
+  <!-- always code for one expression -->
     // only one expression, same on screen
   org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
     function(context) { return {
@@ -159,6 +162,8 @@ $main(function(){
         )
       };
     });
+  <!-- only if both exist -->
+  <model:if-exists name='symbol_screen'>
   } else { // allow alternative as displayed on the screen
   org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
     function(context) { return {
@@ -214,5 +219,6 @@ $main(function(){
       };
     });
   }
+  </model:if-exists>
 });
 </model:model>

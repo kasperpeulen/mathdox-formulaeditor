@@ -78,6 +78,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/linalg1/outerproduct.js"
   >
+    <model:associative>false</model:associative>
     <model:cd>linalg1</model:cd>
     <model:name>outerproduct</model:name> 
     <!-- precedence higher than multiplication -->
@@ -93,6 +94,7 @@
   <model:instance model="models/infix-once.xml"
     target="org/mathdox/formulaeditor/modules/linalg1/scalarproduct.js"
   >
+    <model:associative>false</model:associative>
     <model:cd>linalg1</model:cd>
     <model:name>scalarproduct</model:name> 
     <!-- precedence higher than multiplication -->

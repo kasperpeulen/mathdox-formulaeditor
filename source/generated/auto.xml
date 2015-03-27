@@ -78,14 +78,17 @@
   >
     <model:associative>false</model:associative>
     <model:cd>linalg1</model:cd>
+    <!-- only if the times symbol is not the same as the cross product -->
+    <model:condition>context.symbolArith1Times !== '&#x00D7;'</model:condition>
     <model:name>outerproduct</model:name> 
     <!-- precedence higher than multiplication -->
     <model:precedence>140</model:precedence>
     <model:precedence2>150</model:precedence2>
-    <model:symbol_enter>**</model:symbol_enter>
-    <!-- U+2219 bullet operator -->
+    <model:symbol_enter>&gt;&lt;</model:symbol_enter>
+    <!-- U+00D7 multiplication sign -->
     <model:symbol_mathml>&#x00D7;</model:symbol_mathml>
-    <!-- U+2219 bullet operator -->
+    <!-- U+00D7 multiplication sign -->
+    <model:symbol_screen>&#x00D7;</model:symbol_screen>
   </model:instance>
   <!-- linalg1.scalarproduct a.k.a. inner product-->
   <model:instance model="models/infix-once.xml"

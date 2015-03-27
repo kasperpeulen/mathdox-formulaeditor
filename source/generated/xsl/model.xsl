@@ -114,7 +114,7 @@
     <xsl:param name='instance' as='node()' tunnel='yes'/>
     <xsl:variable name='name' select='@name'/>
 
-    <xsl:if test='$instance/*[local-name()]=$name'>
+    <xsl:if test='$instance/*[local-name()=$name]'>
       <xsl:apply-templates select='node()' mode='#current'>
 	<xsl:with-param name='instance' select='$instance' tunnel='yes' as='node()'/>
       </xsl:apply-templates>
@@ -128,7 +128,7 @@
     <xsl:param name='instance' as='node()' tunnel='yes'/>
     <xsl:variable name='name' select='@name'/>
 
-    <xsl:if test='not($instance/*[local-name()]=$name)'>
+    <xsl:if test='not($instance/*[local-name()=$name])'>
       <xsl:apply-templates select='node()' mode='#current'>
 	<xsl:with-param name='instance' select='$instance' tunnel='yes' as='node()'/>
       </xsl:apply-templates>

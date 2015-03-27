@@ -77,68 +77,82 @@ $main(function(){
   <!-- always code for one expression -->
     // only one expression, same on screen
     org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
-      function(context) { return {
-
-      // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
-      expression<model:precedence/> : function() {
-        var parent = arguments.callee.parent;
-        pG.alternation(
-          pG.rule("<model:cd/><model:name/>"),
-          parent.expression<model:precedence/>).apply(this, arguments);
-      },
-
-      // <model:cd/><model:name/> = 
-      //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
-      <model:cd/><model:name/> : function() {
-          var parent = arguments.callee.parent;
-          return pG.transform(
-            pG.concatenation(
-              pG.rule("expression<model:precedence/>"),
-              pG.literal("<model:symbol_enter/>"),
-              pG.rule("expression<model:precedence2/>")
-            ),
-            function(result) {
-              return parent.infix_Update(new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]));
-            }
-          ).apply(this, arguments);
-        }
-      };
-    });
+      function(context) { 
+        <model:if-exists name='condition'>
+          if (<model:condition/>) { 
+        </model:if-exists>
+        return {
+          // expression<model:precedence/> = <model:name/> | super.expression<model:precedence/>
+          expression<model:precedence/> : function() {
+            var parent = arguments.callee.parent;
+            pG.alternation(
+              pG.rule("<model:cd/><model:name/>"),
+              parent.expression<model:precedence/>).apply(this, arguments);
+          },
+    
+          // <model:cd/><model:name/> = 
+          //    expression<model:precedence/> "<model:symbol_enter/>" expression<model:precedence2/>
+          <model:cd/><model:name/> : function() {
+            var parent = arguments.callee.parent;
+            return pG.transform(
+              pG.concatenation(
+                pG.rule("expression<model:precedence/>"),
+                pG.literal("<model:symbol_enter/>"),
+                pG.rule("expression<model:precedence2/>")
+              ),
+              function(result) {
+                return parent.infix_Update(new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]));
+              }
+            ).apply(this, arguments);
+          }
+        };
+        <model:if-exists name='condition'>
+          } else { return {}; };
+        </model:if-exists>
+      }
+    );
   <!-- only if both exist -->
   <model:if-exists name='symbol_screen'>
   } else { // allow alternative as displayed on the screen
     org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
-      function(context) { return {
+      function(context) { 
+        <model:if-exists name='condition'>
+          if (<model:condition/>) { 
+        </model:if-exists>
+        return {
+          // expression<model:precedence/> = <model:cd/><model:name/> | 
+          //   super.expression<model:precedence/>
+          expression<model:precedence/> : function() {
+            var parent = arguments.callee.parent;
+            pG.alternation(
+              pG.rule("<model:cd/><model:name/>"),
+              parent.expression<model:precedence/>).apply(this, arguments);
+          },
 
-      // expression<model:precedence/> = <model:cd/><model:name/> | 
-      //   super.expression<model:precedence/>
-      expression<model:precedence/> : function() {
-        var parent = arguments.callee.parent;
-        pG.alternation(
-          pG.rule("<model:cd/><model:name/>"),
-          parent.expression<model:precedence/>).apply(this, arguments);
-      },
-
-      // <model:cd/><model:name/> = 
-      //    expression<model:precedence/> ("<model:symbol_enter/>"|"<model:symbol_screen/>") expression<model:precedence2/>
-      <model:cd/><model:name/> : function() {
-          var parent = arguments.callee.parent;
-          return pG.transform(
-            pG.concatenation(
-              pG.rule("expression<model:precedence/>"),
-  	    pG.alternation(
-  	      pG.literal("<model:symbol_enter/>"),
-  	      pG.literal("<model:symbol_screen/>")
-  	    ),
-              pG.rule("expression<model:precedence2/>")
-            ),
-            function(result) {
-              return parent.infix_Update(new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]));
-            }
-          ).apply(this, arguments);
-        }
-      };
-    });
+          // <model:cd/><model:name/> = 
+          //    expression<model:precedence/> ("<model:symbol_enter/>"|"<model:symbol_screen/>") expression<model:precedence2/>
+          <model:cd/><model:name/> : function() {
+            var parent = arguments.callee.parent;
+            return pG.transform(
+              pG.concatenation(
+                pG.rule("expression<model:precedence/>"),
+  	        pG.alternation(
+  	          pG.literal("<model:symbol_enter/>"),
+  	          pG.literal("<model:symbol_screen/>")
+  	        ),
+                pG.rule("expression<model:precedence2/>")
+              ),
+              function(result) {
+                return parent.infix_Update(new semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>(result[0], result[2]));
+              }
+            ).apply(this, arguments);
+          }
+        };
+        <model:if-exists name='condition'>
+          } else { return {}; };
+        </model:if-exists>
+      }
+    );
   }
   </model:if-exists>
 });

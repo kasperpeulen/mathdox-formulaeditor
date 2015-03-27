@@ -1,4 +1,9 @@
-1.1.31 
+1.1.32 
+  - fixing whitespace in models
+  - adding condition support to infix symbols
+  - added condition to linalg1.outerproduct (only define parse rule if times
+    doesn't use the same symbol)
+  - added linalg1.scalarproduct
   - updated models so that model_screen is no longer needed for infix symbols
     and the produced file is smaller
   - added model support for model:if-exists model:if-not-exists

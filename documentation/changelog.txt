@@ -1,3 +1,4 @@
+a - added linalg2 vs linalg3; proper column/row vectors
 1.1.32 
   - fixing whitespace in models
   - adding condition support to infix symbols

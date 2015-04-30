@@ -20,6 +20,9 @@ $main(function(){
       // variable to store the array to get the semantics
       entries : null,
 
+      // default is row vector
+      semanticVectorName : "Linalg2Vector",
+
       initialize : function () {
         var presentation = org.mathdox.formulaeditor.presentation;
         var leftBracket = new presentation.Bracket('(');
@@ -45,12 +48,13 @@ $main(function(){
         var semanticEntries;
         var vector;
 
-        var semantics = org.mathdox.formulaeditor.semantics;
+	var semantics = org.mathdox.formulaeditor.semantics;
+
         semanticEntries = [];
         for (var i=0;i<this.middle.children.length;i++) {
           semanticEntries.push(this.middle.children[i].getSemantics(context).value);
         }
-        vector = new semantics.Linalg2Vector();
+        vector = new semantics[this.semanticVectorName]();
         vector.initialize.apply(vector, semanticEntries);
 
         return {

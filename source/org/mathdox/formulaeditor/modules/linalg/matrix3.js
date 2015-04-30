@@ -57,8 +57,8 @@ $main(function(){
           entries.push(this.operands[i].getPresentation(modifiedContext));
         }
        
-	// XXX add transpose option
         vector.initialize.apply(vector, entries);
+	vector.semanticVectorName = "Linalg3Vector";
 
         return vector;
       }
@@ -139,7 +139,7 @@ $main(function(){
           operands.push(this.handle(children.item(i)));
         }
 
-        // construct a Linalg2Vector object
+        // construct a Linalg3Vector object
         var result = new org.mathdox.formulaeditor.semantics.Linalg3Vector();
         result.initialize.apply(result, operands);
         return result;

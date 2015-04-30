@@ -79,23 +79,40 @@ $main(function(){
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
         var entries = [];
-        var vector = new presentation.Vector();
 
-        // add inVector to a copy of the context
-        // XXX see if an extend like function can be used
-        var modifiedContext = {};
-        for (var name in context) {
-          modifiedContext[name] = context[name];
-        }
-        modifiedContext.inVector = true;
+	if (context.styleLinalg2Vector == "column") {
+          var vector = new presentation.Vector();
 
-        for (var i=0; i<this.operands.length; i++) {
-          entries.push(this.operands[i].getPresentation(modifiedContext));
-        }
+          // add inVector to a copy of the context
+          // XXX see if an extend like function can be used
+          var modifiedContext = {};
+          for (var name in context) {
+            modifiedContext[name] = context[name];
+          }
+          modifiedContext.inVector = true;
+
+          for (var i=0; i<this.operands.length; i++) {
+            entries.push(this.operands[i].getPresentation(modifiedContext));
+          }
        
-        vector.initialize.apply(vector, entries);
+          vector.initialize.apply(vector, entries);
 
-        return vector;
+          return vector;
+        } else { // "row"
+	  var row = new presentation.Row();
+
+          entries.push(new presentation.Symbol("["));
+          for (var i=0; i<this.operands.length; i++) {
+            if (i>0) {
+              entries.push(new presentation.Symbol(context.listSeparator));
+            }
+            entries.push(this.operands[i].getPresentation(context));
+          }
+          entries.push(new presentation.Symbol("]"));
+
+	  row.initialize.apply(row, entries);
+          return row;
+        }
       }
 
     });

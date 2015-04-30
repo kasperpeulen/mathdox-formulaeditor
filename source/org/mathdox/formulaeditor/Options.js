@@ -63,6 +63,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - "dot" show a middle dot (default)
 // - "cross" show a cross
 // - "star" show an asterisk
+// styleLinalg2Vector: behavior for row vector
+// - "column" (default) use a column
+// - "row" use a row (to be expected for a row vector)
 // styleTransc1Log: behavior for logarithm symbol
 // - "function" log(10, x)
 // - "prefix"   ^10 log (x)
@@ -87,6 +90,7 @@ $main(function() {
       optionResizeBrackets: true,
       styleArith1Divide: 'mfrac',
       styleArith1Times: 'dot',
+      styleLinalg2Vector: 'column',
       styleTransc1Log: 'function',
       symbolArith1Times: '·' // U+00B7 Middle dot
     },
@@ -189,6 +193,15 @@ $main(function() {
 	return this.defaultOptions.optionInterval1Brackets;
       }
     },
+    getLinalg2VectorStyle : function() {
+     var option = this.getOption("styleLinalg2Vector");
+
+      if (option == "row") {
+      	return "row";
+      } else {
+        return "column";
+      }
+    },
     getListSeparator : function() {
       var mark = this.getDecimalMark();
       
@@ -248,6 +261,7 @@ $main(function() {
         optionArith1PowerInversePrefix : this.getArith1PowerOptionInversePrefix(),
         optionArith1PowerPrefix        : this.getArith1PowerOptionPrefix(),
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
+	styleLinalg2Vector             : this.getLinalg2VectorStyle(),
         styleTransc1Log                : this.getTransc1LogStyle(),
         symbolArith1Times              : this.getArith1TimesSymbol()
       };
@@ -262,6 +276,7 @@ $main(function() {
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
         optionInterval1Brackets        : this.getInterval1BracketsOption(),
         optionResizeBrackets           : this.getResizeBracketsOption(),
+	styleLinalg2Vector             : this.getLinalg2VectorStyle(),
         styleTransc1Log                : this.getTransc1LogStyle(),
         symbolArith1Times              : this.getArith1TimesSymbol()
       };

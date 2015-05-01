@@ -364,9 +364,33 @@ $main(function(){
 
     /* script and limit schemata : math:msubsup */
     handlemsubsup: function(node, context) {
+      // special cases, definite integral, product, sum
       var children = node.childNodes;
-      var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
+      
+      var first = children.item(0);
+
+      if ( first.localName == "mo" ) {
+        var symbol = first.firstChild.nodeValue.trim();
+        var above, below;
+        below = this.handle(children.item(1));
+        above = this.handle(children.item(2));
+
+        // U+03A0 greek capital letter pi
+        if (symbol == "Π") {
+          return new presentation.Product(above, below);
+        // U+03A3 greek capital letter sigma
+        } else if (symbol == "Σ") {
+          return new presentation.Sum(above, below);
+        // U+222B integral
+        } else if (symbol == "∫") {
+          return new presentation.Defint(below,above);
+        } 
+      } 
+
+      /* default handling */
+
+      var entries = [];
 
       for (var i=0; i<children.length; i++) {
         var child = this.handle(children.item(i), context);
@@ -380,6 +404,10 @@ $main(function(){
     /* script and limit schemata : math:munder like math:msub */
     handlemunder: function(node, context) {
       return this.handlemsub(node, context);
+    },
+
+    handlemunderover: function(node, context) {
+      return this.handlemsubsup(node, context);
     }
 
   });

@@ -103,6 +103,12 @@ $main(function() {
 	return null;
       }
     },
+    setOption : function(name, value) {
+      if ( name!==null && name!==undefined) {
+      	org.mathdox.formulaeditor.options[name] = value;
+      	org.mathdox.formulaeditor.FormulaEditor.redrawAll();
+      }
+    },
     getArith1DivideMode : function () {
       var option = this.getOption("modeArith1Divide");
 

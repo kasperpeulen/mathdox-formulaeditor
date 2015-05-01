@@ -1489,6 +1489,21 @@ $main(function(){
     
     return org.mathdox.formulaeditor.FormulaEditor.lastFocused;
   };
+
+  /**
+   * Redraw all formulaeditors and palettes.
+   * This is useful when the options are changed.
+   * uses global editors variable
+   */
+  org.mathdox.formulaeditor.FormulaEditor.redrawAll = function() {
+    var i;
+    for (i=0; i<editors.length; i++) {
+      editors[i].redraw();
+    }
+    for (i=0; i<palettes.length; i++) {
+      palettes[i].redraw();
+    }
+  }
  
   /**
    * Update the editor list, based on the current tree, focusing on which

@@ -34,21 +34,26 @@ $main(function(){
       } else {
         this.entries = focusEntries;
       }
-      this.rows = this.entries.length;
-      this.columns = this.entries[0].length;
 
-      /* for all elements in entries: add them to focusChildren */
-      this.focusChildren = [];
-      for (var row = 0; row < this.rows; row++) {
-        for (var col = 0; col < this.columns; col++) {
-          this.focusChildren.push(this.entries[row][col]);
+      if (this.entries !== null && this.entries !== undefined) {
+        this.rows = this.entries.length;
+        this.columns = this.entries[0].length;
+
+        /* for all elements in entries: add them to focusChildren */
+        this.focusChildren = [];
+        for (var row = 0; row < this.rows; row++) {
+          for (var col = 0; col < this.columns; col++) {
+            this.focusChildren.push(this.entries[row][col]);
+          }
         }
       }
 
       this.children = children;
-      console.log("updating children");
-      this.presentation = presentation;
-      this.updateChildren();
+      if (this.children !== null && this.children !== undefined) {
+        console.log("updating children");
+        this.presentation = presentation;
+        this.updateChildren();
+      }
       console.log("finished initializing box");
     },
 
@@ -85,9 +90,11 @@ $main(function(){
 
     getCursorPosition : function(x, y) {
       /* starting minimum is distance to closest side border */
-      var dmin = Math.min(Math.abs(x- this.dimensions.left),Math.abs((this.dimensions.left+this.dimensions.width) - x));
-      var dx;
-      var idx = -1;
+      var dminx = Math.min(Math.abs(x- this.dimensions.left),Math.abs((this.dimensions.left+this.dimensions.width) - x));
+      var dminy = Math.min(Math.abs(y- this.dimensions.top),Math.abs((this.dimensions.top+this.dimensions.height) - y));
+      var dmin = dminx+dminy;
+      var dx,dy;
+      var id = -1;
       
       for (var i = 0; i< this.focusChildren.length; i++) {
         var child = this.focusChildren[i];
@@ -98,23 +105,30 @@ $main(function(){
         } else {
           dx = x - (child.dimensions.left + child.dimensions.width);
         }
-        
-	if (dx<dmin) {
-          idx = i;
-          dmin = dx;
+        if (y < child.dimensions.top) {
+          dy = child.dimensions.top - y;
+        } else if (y <= child.dimensions.top + child.dimensions.height) {
+          dy = 0;
+        } else {
+          dy = y - (child.dimensions.top + child.dimensions.height);
+        }
+         
+	if (dx+dy<dmin) {
+          id = i;
+          dmin = dx+dy;
         }
       }
 
       var pos;
-      if (idx >=0) {
-        pos = this.focusChildren[idx].getCursorPosition(x,y);
+      if (id >=0) {
+        pos = this.focusChildren[id].getCursorPosition(x,y);
         if (pos !== null) {
           return pos;
         } else {
-          if (x >= this.focusChildren[idx].dimensions.left + this.focusChildren[idx].dimensions.width) {
-            return this.focusChildren[idx].getPrecedingCursorPosition();
+          if (x >= this.focusChildren[id].dimensions.left + this.focusChildren[idx].dimensions.width) {
+            return this.focusChildren[id].getPrecedingCursorPosition();
           } else {
-            return this.focusChildren[idx].getFollowingCursorPosition();
+            return this.focusChildren[id].getFollowingCursorPosition();
           }
         }
       } else { /* code from Node.js */

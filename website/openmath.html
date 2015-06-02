@@ -87,7 +87,14 @@
 	styleTransc1Log : [ "function", "prefix", "postfix"]
       };
 
+      var optionsAdded = false;
+
       showOptions = function() {
+	if (optionsAdded === true) {
+          return;
+	}
+        optionsAdded = true;
+
         var form = document.getElementById("OptionForm");
         var option;
         var table = document.createElement("table");

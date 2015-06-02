@@ -1,4 +1,5 @@
-b - mathml loading support for arith1.product, arith1.sum, calculus1.defint
+b - mathml loading support for logic1.and_system
+  - mathml loading support for arith1.product, arith1.sum, calculus1.defint
   - first work on adding options to openmath page, options are there, 
     but not all will be visible immediately
 a - added linalg2 vs linalg3; proper column/row vectors

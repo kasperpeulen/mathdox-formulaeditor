@@ -224,7 +224,7 @@ $main(function(){
      * general layout : math:mphantom 
      * currently : return null
      */
-    handlempadded: function(node, context) {
+    handlemphantom: function(node, context) {
       return this.handlemrow(node, context);
     },
 
@@ -408,6 +408,36 @@ $main(function(){
 
     handlemunderover: function(node, context) {
       return this.handlemsubsup(node, context);
+    },
+
+    /* convert an mtable with mtr/mtd to an array of presentation items */
+    parsemtable: function(node, context) {
+      /**
+       * assume node is an mtable
+       * parse table into rows and columns
+       */
+
+      var table = [];
+      var children = node.childNodes;
+      var i,j;
+
+      for ( i=0; i<children.length; i++) {
+        if ((children.item(i)).localName == "mtr") {
+          var row = [];
+          
+          var entries = (children.item(i)).childNodes;
+
+          for ( j=0; j<entries.length; j++) {
+            if ((entries.item(j)).localName == "mtd") {
+              var pres = this.handlemrow(entries.item(j), context);
+              row.push(pres);
+            }
+          }
+          table.push(row);
+        }
+      }
+
+      return table;
     }
 
   });

@@ -5,6 +5,7 @@ $package("org.mathdox.formulaeditor.semantics");
 
 $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/modules/interval1/interval_multi.js");
+$require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 
 $main(function(){
@@ -25,6 +26,24 @@ $main(function(){
       rightOpen: <model:rightOpen/>,
       className: "Interval1Interval_<model:oo/>"
 
+    });
+
+  /**
+   * Extend the MathML object with parsing code for mfenced
+   */
+  org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
+    $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {
+      handlemfenced: function(node, context) {
+        var result = this.handlemfencedinterval(node, context, <model:leftOpen/>, <model:rightOpen/>, "Interval1Interval_<model:oo/>");
+
+        if (result !== null) {
+          return result;
+        }
+
+        /* default: call parent */
+        var parent = arguments.callee.parent;
+        return parent.handlemfenced.call(this, node, context);
+      }
     });
 
   /**

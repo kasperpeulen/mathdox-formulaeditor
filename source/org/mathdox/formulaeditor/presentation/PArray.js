@@ -380,6 +380,23 @@ $main(function(){
 
       return null;
     },
+
+    getMathML: function() {
+      var result="<mtable>";
+      var row, col;
+      for (row=0; row<this.rows; row++) {
+        result = result + "<mtr>";
+        for (col=0; col<this.columns; col++) {
+          result = result + "<mtd>";
+          result = result + this.entries[row][col].getMathML(true);
+          result = result + "</mtd>";
+        }
+        result = result + "</mtr>";
+      }
+      result = result + "</mtable>";
+      return result;
+    },
+
     initialize : function() {
       this.rowInfo = [];
       this.colInfo = [];

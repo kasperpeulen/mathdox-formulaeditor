@@ -112,7 +112,7 @@ $main(function(){
     });
 
   /**
-   * Extend the OpenMathParser object with parsing code for logic1.and with style system
+   * Extend the MathML object with parsing code for mfenced systems of equations
    */
   org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
     $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {

@@ -55,8 +55,8 @@ $main(function(){
       getMathML : function() {
         return "<mrow>"+
 	  "<munderover>" +
-          // U+03A3 greek capital letter sigma
-	  "<mo>Σ</mo>"+
+          // U+2211 n-ary summation
+	  "<mo>∑</mo>"+
 	  "<mrow>"+
           this.operands[1].variables[0].getMathML() +
           "<mo>=</mo>"+
@@ -84,8 +84,8 @@ $main(function(){
     initialize : function(above, below) {
 
       var parent = arguments.callee.parent;
-      // U+03A3 greek capital letter sigma
-      var sigma  = new org.mathdox.formulaeditor.presentation.Symbol("Σ");
+      // U+2211 n-ary summation
+      var sigma  = new org.mathdox.formulaeditor.presentation.Symbol("∑");
       return parent.initialize.call(this, above, sigma, below);
 
     },

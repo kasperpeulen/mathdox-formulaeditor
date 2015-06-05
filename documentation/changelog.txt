@@ -1,4 +1,7 @@
-b - mathml export/import support for interval1.interval_[co][co]
+b - now using U+2211 n-ary sum for sum character, was U+03A3 Greek capital
+    letter sigma
+  - expanded palette_full with linalg3.vector and linalg3.matrix examples
+  - mathml export/import support for interval1.interval_[co][co]
   - mathml loading support for logic1.and_system
   - mathml loading support for arith1.product, arith1.sum, calculus1.defint
   - first work on adding options to openmath page, options are there, 

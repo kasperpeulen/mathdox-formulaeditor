@@ -756,9 +756,9 @@ $main(function(){
       // U+039E Greek capital letter xi
       // U+039B Greek capital letter lamda
       // U+03A0 Greek capital letter pi
-      // U+03A3 Greek capital letter sigma
+      // U+2211 N-ary summation
       // U+03D2 Greek upsilon with hook symbol
-      [  'Γ',  'Δ',  'Θ',  'Ξ',  'Λ',  'Π',  'Σ',  'ϒ',
+      [  'Γ',  'Δ',  'Θ',  'Ξ',  'Λ',  'Π',  '∑',  'ϒ',
       // U+03A6 Greek capital letter phi
       // U+03A8 Greek capital letter psi
       // U+03A9 Greek capital letter omega
@@ -798,9 +798,9 @@ $main(function(){
       // U+039B Greek capital letter lamda
       // U+039E Greek capital letter xi
       // U+03A0 Greek capital letter pi
-      // U+03A3 Greek capital letter sigma
+      // U+2211 N-ary summation
       // U+03D2 Greek upsilon with hook symbol
-      [ 'bΓ', 'bΔ', 'bΘ', 'bΛ', 'bΞ', 'bΠ', 'bΣ', 'bϒ', 
+      [ 'bΓ', 'bΔ', 'bΘ', 'bΛ', 'bΞ', 'bΠ', 'b∑', 'bϒ', 
       // U+03A6 Greek capital letter phi
       // U+03A8 Greek capital letter psi
       // U+03A9 Greek capital letter omega
@@ -862,9 +862,9 @@ $main(function(){
       // U+039E Greek capital letter xi
       // U+039B Greek capital letter lamda
       // U+03A0 Greek capital letter pi
-      // U+03A3 Greek capital letter sigma
+      // U+2211 N-ary summation
       // U+03D2 Greek upsilon with hook symbol
-      [ 'mΓ', 'mΔ', 'mΘ', 'mΛ', 'mΞ', 'mΠ', 'mΣ', 'mϒ',
+      [ 'mΓ', 'mΔ', 'mΘ', 'mΛ', 'mΞ', 'mΠ', 'm∑', 'mϒ',
       // U+03A6 Greek capital letter phi
       // U+03A8 Greek capital letter psi
       // U+03A9 Greek capital letter omega

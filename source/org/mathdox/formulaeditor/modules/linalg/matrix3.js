@@ -16,7 +16,7 @@ $main(function(){
 
       symbol : {
 
-        mathml   : ["<mo>(</mo><mtable><mtr><mtd>","</mtd></mtr><mtr><mtd>","</mtd></mtr></mtable></mo>)</mo>"],
+        mathml   : ["<mfenced open='(' close =')'><mtable><mtr><mtd>","</mtd></mtr><mtr><mtd>","</mtd></mtr></mtable></mfenced>"],
         onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg3' name='matrixcolumn'/>"
 
@@ -31,7 +31,7 @@ $main(function(){
 
       symbol : {
 
-        mathml   : ["<mo>(</mo><mtable><mtr><mtd>","</mtd></mtr><mtr><mtd>","</mtd></mtr></mtable></mo>)</mo>"],
+        mathml   : ["<mfenced open='(' close=')'><mtable><mtr><mtd>","</mtd></mtr><mtr><mtd>","</mtd></mtr></mtable></mfenced>"],
         onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg3' name='vector'/>"
 

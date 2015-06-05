@@ -379,8 +379,9 @@ $main(function(){
         // U+03A0 greek capital letter pi
         if (symbol == "Π") {
           return new presentation.Product(above, below);
-        // U+03A3 greek capital letter sigma
-        } else if (symbol == "Σ") {
+        // U+2211 N-ary summation
+        // U+03A3 Greek capital letter sigma
+        } else if (symbol == "∑" || symbol == "Σ") {
           return new presentation.Sum(above, below);
         // U+222B integral
         } else if (symbol == "∫") {

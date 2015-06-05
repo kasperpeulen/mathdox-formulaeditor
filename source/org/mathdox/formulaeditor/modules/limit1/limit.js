@@ -89,7 +89,6 @@ $main(function(){
     initialize : function(below) {
 
       var parent = arguments.callee.parent;
-      // U+03A3 greek capital letter sigma
       
       var lim  = new org.mathdox.formulaeditor.semantics.Keyword("limit1","limit",{onscreen:"lim"},"function").getPresentation();
       return parent.initialize.call(this, lim, below);

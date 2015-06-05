@@ -55,8 +55,8 @@ $main(function(){
       getMathML : function() {
         return "<mrow>"+
 	  "<munderover>" +
-          // U+03A0 greek capital letter pi
-	  "<mo>Π</mo>"+
+          // U+220F N-ary product
+	  "<mo>∏</mo>"+
 	  "<mrow>"+
           this.operands[1].variables[0].getMathML() +
           "<mo>=</mo>"+
@@ -84,8 +84,8 @@ $main(function(){
       initialize : function(above, below) {
 
         var parent = arguments.callee.parent;
-        // U+03A0 greek capital letter pi
-        var pi  = new org.mathdox.formulaeditor.presentation.Symbol("Π");
+        // U+220F N-ary product
+        var pi  = new org.mathdox.formulaeditor.presentation.Symbol("∏");
         return parent.initialize.call(this, above, pi, below);
 
       },

@@ -1,4 +1,8 @@
-b - now using U+2211 n-ary sum for sum character, was U+03A3 Greek capital
+b 
+  - added support for mathml input of limit
+  - now using U+220F n-ary product for product character, was U+03A0 Greek
+    capital letter pi
+  - now using U+2211 n-ary sum for sum character, was U+03A3 Greek capital
     letter sigma
   - expanded palette_full with linalg3.vector and linalg3.matrix examples
   - mathml export/import support for interval1.interval_[co][co]

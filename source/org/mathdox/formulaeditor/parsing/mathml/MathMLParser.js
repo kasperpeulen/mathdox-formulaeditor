@@ -38,6 +38,12 @@ $main(function(){
       // use ""+... to force casting to string
       var value = ""+node.firstChild.nodeValue;
 
+      // fix for differential d
+      if (node.localName == "mo" && value == "d") {
+	// U+2146 Differential d
+	value = "ⅆ";
+      }
+
       var row;
 
       var arr = [];
@@ -45,7 +51,7 @@ $main(function(){
 
       for (i=0; i<value.length; i++) {
         var ch = value.charAt(i);
-	console.log("character '"+ch+"' at position: "+i);
+	
 	if (org.mathdox.formulaeditor.presentation.SymbolAliases[ch] !== null) {
           if (style === null || style === undefined) {
 	    arr.push(new presentation.Symbol(ch));
@@ -338,6 +344,18 @@ $main(function(){
       var entries = [];
       var presentation = org.mathdox.formulaeditor.presentation;
 
+      var first = children.item(0);
+
+      if ( first.localName == "mo" ) {
+        var symbol = first.firstChild.nodeValue.trim();
+        var below;
+        below = this.handle(children.item(1));
+        
+	if (symbol == "lim") {
+          return new presentation.Limit(below);
+	}
+      }
+
       for (var i=0; i<children.length; i++) {
         var child = this.handle(children.item(i), context);
 
@@ -376,8 +394,9 @@ $main(function(){
         below = this.handle(children.item(1));
         above = this.handle(children.item(2));
 
+        // U+220F N-ary product
         // U+03A0 greek capital letter pi
-        if (symbol == "Π") {
+        if (symbol == "∏" || symbol == "Π") {
           return new presentation.Product(above, below);
         // U+2211 N-ary summation
         // U+03A3 Greek capital letter sigma

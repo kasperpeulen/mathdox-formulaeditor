@@ -56,7 +56,7 @@ $main(function(){
       getMathML : function() {
         return "<mrow>"+
           "<munder>"+
-            "<mo>lim</mo>"+
+            "<mi>lim</mi>"+
             "<mrow>"+
               this.operands[2].variables[0].getMathML() +
               // U+2192 rightwards arrow

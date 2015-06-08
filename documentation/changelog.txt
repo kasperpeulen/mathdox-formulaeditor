@@ -1,4 +1,5 @@
 b 
+  - bugfix: limit mathml input/output now using mi instead of mo
   - added support for mathml input of limit
   - now using U+220F n-ary product for product character, was U+03A0 Greek
     capital letter pi

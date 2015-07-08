@@ -449,8 +449,14 @@ $main(function(){
 
           for ( j=0; j<entries.length; j++) {
             if ((entries.item(j)).localName == "mtd") {
-              var pres = this.handlemrow(entries.item(j), context);
-              row.push(pres);
+              var entryChildren = (entries.item(j)).childNodes;
+              if (entryChildren.length == 1 && entryChildren.item(0).localName == "mtable") {
+                // special case: mtable inside mtable, happens with linalg3matrix
+                row.push(this.parsemtable(entryChildren.item(0), context));
+              } else {
+                var pres = this.handlemrow(entries.item(j), context);
+                row.push(pres);
+              }
             }
           }
           table.push(row);

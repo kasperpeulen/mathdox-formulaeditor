@@ -64,7 +64,7 @@ $main(function(){
         }
        
         vector.initialize.apply(vector, entries);
-	vector.semanticVectorName = "Linalg3Vector";
+        vector.semanticVectorName = "Linalg3Vector";
 
         return vector;
       }
@@ -100,8 +100,41 @@ $main(function(){
             }
 
             var result = new presentation.Linalg3Vector();
-	    result.initialize.apply(result, args);
+            result.initialize.apply(result, args);
 
+            return result;
+          } else if (className == "linalg3matrix" && first.localName == "mtable") {
+            var mtable = this.parsemtable(first, context);
+            var columns = [];
+            
+            /* 1 row in outer table */
+            for (var i=0; i<mtable[0].length; i++) {
+              var col = [];
+              
+              for (var j=0; j<mtable[0][i].length; j++) {
+                /* 1 column in inner table */
+                col.push(mtable[0][i][j][0]);
+              }
+
+              columns.push(col);
+            }
+
+            /* transpose matrix */
+            var rows = [];
+            
+            for (j=0; j<columns[0].length; j++) {
+              var row = [];
+
+              for (i=0; i<columns.length; i++) {
+                row.push(columns[i][j]);
+              }
+
+              rows.push(row);
+            }
+
+            var result = new presentation.Matrix();
+            result.initialize.apply(result, rows);
+       
             return result;
           }
         }
@@ -145,7 +178,7 @@ $main(function(){
         var newoperands = [];
         for (i=0; i<transposed.length; i++) {
           var row = new org.mathdox.formulaeditor.semantics.Linalg2Matrixrow();
-	  row.initialize.apply(row, transposed[i]);
+          row.initialize.apply(row, transposed[i]);
           newoperands.push(row);
         }
 

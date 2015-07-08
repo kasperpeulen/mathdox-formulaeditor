@@ -3,6 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/linalg/matrix3.js");
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/parsing/ParserGenerator.js");
 
@@ -23,6 +24,11 @@ $main(function(){
       },
     });
 
+  org.mathdox.formulaeditor.presentation.Linalg3Vector = 
+    $extend(org.mathdox.formulaeditor.presentation.Vector, {
+      semanticVectorName : "Linalg3Vector"
+    });
+
   /**
    * Define a semantic tree node that represents the linalg3.vector
    */
@@ -31,7 +37,7 @@ $main(function(){
 
       symbol : {
 
-        mathml   : ["<mfenced open='(' close=')'><mtable><mtr><mtd>","</mtd></mtr><mtr><mtd>","</mtd></mtr></mtable></mfenced>"],
+        mathml   : ["<mfenced open='(' close=')' class='linalg3vector'><mtable><mtr><mtd>","</mtd></mtr><mtr><mtd>","</mtd></mtr></mtable></mfenced>"],
         onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg3' name='vector'/>"
 
@@ -64,6 +70,48 @@ $main(function(){
       }
 
     });
+  /**
+   * Extend the MathML object with parsing code for mfenced systems of equations
+   */
+  org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
+    $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {
+      handlemfenced: function(node, context) {
+        var presentation = org.mathdox.formulaeditor.presentation;
+
+        var opensymbol = node.getAttribute("open");
+        var closesymbol = node.getAttribute("close");
+        var separators = node.getAttribute("separators");
+        var className = node.getAttribute("class");
+        var children = node.childNodes;
+        var first;
+
+        if (children.length == 1) {
+          first = children.item(0);
+  
+          if (className == "linalg3vector" && first.localName == "mtable") {
+            /* mfenced "{", ""; and 1 child: mtable; assume logic1.and system */
+            var mtable = this.parsemtable(first, context);
+
+            /* nx1 -> n array */
+            var args = [];
+            var i;
+            for (i=0; i<mtable.length; i++) {
+              args.push(mtable[i][0]);
+            }
+
+            var result = new presentation.Linalg3Vector();
+	    result.initialize.apply(result, args);
+
+            return result;
+          }
+        }
+        
+        /* default: call parent */
+        var parent = arguments.callee.parent;
+        return parent.handlemfenced.call(this, node, context);
+      }
+    });
+
   /**
    * Extend the OpenMathParser object with parsing code for linalg3
    */

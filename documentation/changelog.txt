@@ -1,4 +1,6 @@
 b 
+  - fixed a bug with logic1.and mathml input
+  - now correct mathml input/ouput for linagl3.vector
   - limit mathml input also supporting mo
   - bugfix: limit mathml input/output now using mi instead of mo
   - added support for mathml input of limit

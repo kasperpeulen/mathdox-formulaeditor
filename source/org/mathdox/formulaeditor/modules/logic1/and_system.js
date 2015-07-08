@@ -80,7 +80,7 @@ $main(function(){
       },
 
       getMathML: function() {
-        var result = "<mfenced open=\"{\" close=\"\"><mtable>";
+        var result = "<mfenced open=\"{\" close=\"\" class=\"logic1and\"><mtable>";
         var i;
 
         for (i=0; i<this.operands.length; i++) {
@@ -122,63 +122,26 @@ $main(function(){
         var opensymbol = node.getAttribute("open");
         var closesymbol = node.getAttribute("close");
         var separators = node.getAttribute("separators");
+        var className = node.getAttribute("class");
         var children = node.childNodes;
         var first;
 
-        if (children.length == 1) {
+        if (className == 'logic1and' && children.length == 1) {
           first = children.item(0);
   
           if (first.localName == "mtable") {
-            /* mfenced "{", ""; and 1 child: mtable; assume logic1.and system */
+            /* mfenced "{", ""; class logic1and and 1 child: mtable; assume logic1.and system */
             var mtable = this.parsemtable(first, context);
 
             /* nx1 -> n array */
-            var eqs = [];
+            var args = [];
             var i;
             for (i=0; i<mtable.length; i++) {
-              eqs.push(mtable[i][0]);
+              args.push(mtable[i][0]);
             }
 
-            var result = new presentation.Logic1And_system(eqs);
+            var result = new presentation.Logic1And_system(args);
             return result;
-          }
-        }
-        
-        /* default: call parent */
-        var parent = arguments.callee.parent;
-        return parent.handlemfenced.call(this, node, context);
-      }
-    });
-  /**
-   * Extend the OpenMathParser object with parsing code for logic1.and with style system
-   */
-  org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
-    $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {
-      handlemfenced: function(node, context) {
-        var semantics = org.mathdox.formulaeditor.semantics;
-
-        var opensymbol = node.getAttribute("open");
-        var closesymbol = node.getAttribute("close");
-        var separators = node.getAttribute("separators");
-        var children = node.childNodes;
-        var first;
-
-        if (children.length == 1) {
-          first = children.item(0);
-  
-          if (first.localName == "mtable") {
-            /* mfenced "{", ""; and 1 child: mtable; assume logic1.and system */
-            var mtable = this.parsemtable(first, context);
-
-            /* nx1 -> n array */
-            var eqs = [];
-            var i;
-            for (i=0; i<mtable.length; i++) {
-              eqs.push(mtable[i][0]);
-            }
-
-            var result = new semantics.Logic1And_system(eqs);
-            return result.getPresentation(context);
           }
         }
         

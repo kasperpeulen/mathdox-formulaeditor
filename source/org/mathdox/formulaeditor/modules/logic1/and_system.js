@@ -121,7 +121,6 @@ $main(function(){
 
         var opensymbol = node.getAttribute("open");
         var closesymbol = node.getAttribute("close");
-        var separators = node.getAttribute("separators");
         var className = node.getAttribute("class");
         var children = node.childNodes;
         var first;

@@ -46,6 +46,11 @@ $main(function(){
 
       },
 
+      /**
+       * add an mrow 
+       */
+      addMrow: true,
+
       getSymbolMathML : function(context) {
         return this.symbol.mathml;
       },
@@ -64,10 +69,10 @@ $main(function(){
       precedence : 0,
 
       getPrecedence : function(context) {
-	return this.precedence;
+        return this.precedence;
       },
       getInnerPrecedence : function(context) {
-	return this.getPrecedence(context);
+        return this.getPrecedence(context);
       },
  
       /**
@@ -121,11 +126,11 @@ $main(function(){
           }
           //if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
           if (operand.getPrecedence && operand.getPrecedence(context) != 0 && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
-	     (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
-	       (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath) ||
-		(this.operands.length == 1)
-		)) 
-	     )) {
+             (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
+               (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath) ||
+                (this.operands.length == 1)
+                )) 
+             )) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));
@@ -152,7 +157,7 @@ $main(function(){
        */
       getOpenMath : function() {
         var semantics = org.mathdox.formulaeditor.semantics;
-	var result;
+        var result;
 
         var argtest = this.checkArguments(this.operands);
 
@@ -183,13 +188,17 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getMathML()
        */
       getMathML : function() {
+        var result = "";
 
-        var result = "<mrow>";
+        if (this.addMrow === true) {
+          result = result + "<mrow>";
+        }
+
         var symbol_mathml = this.getSymbolMathML();
 
-	if (this.style == "invisible" && (this.symbol.mathml_invisible !== undefined && this.symbol.mathml_invisible !== null)) {
+        if (this.style == "invisible" && (this.symbol.mathml_invisible !== undefined && this.symbol.mathml_invisible !== null)) {
           symbol_mathml = this.symbol.mathml_invisible;
-	}
+        }
 
         if (symbol_mathml instanceof Array) {
           result = result + symbol_mathml[0];
@@ -218,9 +227,11 @@ $main(function(){
           result = result + symbol_mathml[2];
         }
 
-        result = result + "</mrow>";
-        return result;
+        if (this.addMrow === true) {
+          result = result + "</mrow>";
+        }
 
+        return result;
       }
 
     });

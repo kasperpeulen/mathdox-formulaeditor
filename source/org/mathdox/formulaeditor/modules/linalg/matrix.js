@@ -1,6 +1,7 @@
 $identify("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/presentation/Node.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Matrix.js");
@@ -19,7 +20,7 @@ $main(function(){
 
       symbol : {
 
-        mathml   : ["<mtable>","","</mtable>"],
+        mathml   : ["<mfenced open=\"(\" close=\")\" class=\"linalg2matrix\"><mtable>","","</mtable></mfenced>"],
         onscreen : ["[", ",", "]"],
         openmath : "<OMS cd='linalg2' name='matrix'/>"
 
@@ -247,6 +248,35 @@ $main(function(){
           }
         )
       };
+    });
+
+  /**
+   * Extend the MathML object with parsing code for mfenced systems of equations
+   */
+  org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
+    $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {
+      handlemfenced: function(node, context) {
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var children = node.childNodes;
+        var className = node.getAttribute("class");
+        var first;
+
+        if (className == 'linalg2matrix' && children.length == 1) {
+          first = children.item(0);
+  
+          if (first.localName == "mtable") {
+             /* mfenced "{", ""; class logic1and and 1 child: mtable; assume logic1.and system */
+            var mtable = this.parsemtable(first, context);
+            var result = new presentation.Matrix();
+            result.initialize.apply(result, mtable);
+            return result;
+          }
+        }
+
+        /* default: call parent */
+        var parent = arguments.callee.parent;
+        return parent.handlemfenced.call(this, node, context);
+      }
     });
 
 });

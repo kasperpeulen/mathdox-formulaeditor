@@ -40,8 +40,8 @@ $main(function(){
 
       // fix for differential d
       if (node.localName == "mo" && value == "d") {
-	// U+2146 Differential d
-	value = "ⅆ";
+        // U+2146 Differential d
+        value = "ⅆ";
       }
 
       var row;
@@ -51,22 +51,22 @@ $main(function(){
 
       for (i=0; i<value.length; i++) {
         var ch = value.charAt(i);
-	
-	if (org.mathdox.formulaeditor.presentation.SymbolAliases[ch] !== null) {
+        
+        if (org.mathdox.formulaeditor.presentation.SymbolAliases[ch] !== null) {
           if (style === null || style === undefined) {
-	    arr.push(new presentation.Symbol(ch));
+            arr.push(new presentation.Symbol(ch));
           } else {
-	    arr.push(new presentation.Symbol(ch, style));
-	  }
-	} else {
-	  console.log("null character at position: "+i);
-	}
+            arr.push(new presentation.Symbol(ch, style));
+          }
+        } else {
+          console.log("null character at position: "+i);
+        }
       }
       if (arr.length>0) {
         row = new presentation.Row();
         row.initialize.apply(row, arr);
       } else {
-	row = null;
+        row = null;
       }
 
       return row;
@@ -102,7 +102,7 @@ $main(function(){
             parsing.expression.KeywordList[value].getPresentation(options.getPresentationContext()));
       } else if (parsing.expression.VariableList[value] !== undefined) {
         result = new presentation.Row(
-	    parsing.expression.VariableList[value].getPresentation(options.getPresentationContext()));
+            parsing.expression.VariableList[value].getPresentation(options.getPresentationContext()));
       } else {
         result = this.handleTextNode(node, context, "math");
       }
@@ -122,7 +122,7 @@ $main(function(){
     handlems: function(node, context) {
       var presentation = org.mathdox.formulaeditor.presentation;
       return new presentation.Row(new presentation.Symbol("\""), this.handleTextNode(node, context), 
-	new presentation.Symbol("\""));
+        new presentation.Symbol("\""));
     },
 
     /* token math:mspace */
@@ -248,65 +248,65 @@ $main(function(){
       var i;
 
       if (opensymbol === null || opensymbol === undefined) {
-	opensymbol = '(';
+        opensymbol = '(';
       } 
       entries.push(new presentation.Symbol(opensymbol));
       
       var separr;
       if (separators === null || separators === undefined) {
-	separators = ',';
-	separr = [ separators ];
+        separators = ',';
+        separr = [ separators ];
       } else {
-	separr = separators.split("\\s+");
-	// check for empty parts
-	if (separr[0] === "") {
-	  // remove first element
-	  separr = separr.slice(1);
-	}
+        separr = separators.split("\\s+");
+        // check for empty parts
+        if (separr[0] === "") {
+          // remove first element
+          separr = separr.slice(1);
+        }
 
-	if (separr.length>0) {
-	  if (separr[separr.length] === "") {
-	    // remove last element
-	    separr.splice(separr.length-1);
+        if (separr.length>0) {
+          if (separr[separr.length] === "") {
+            // remove last element
+            separr.splice(separr.length-1);
           }
-	}
+        }
 
-	// check if length is 1, and if so update
-	if (separr.length==1) {
-	  var arr = [];
+        // check if length is 1, and if so update
+        if (separr.length==1) {
+          var arr = [];
 
-	  for (i=0;i<separr[0].length;i++) {
-	    arr.push(separr[0].charAt(i));
-	  }
-	  separr = arr;
-	}
+          for (i=0;i<separr[0].length;i++) {
+            arr.push(separr[0].charAt(i));
+          }
+          separr = arr;
+        }
       }
 
       // for each child : add child and possibly separator
       for (i = children.length - 1; i>=0; i--) {
         if (i>0) {
           // separator-attribute is not empty
-	  var sep;
-	  if (separr.length>0) { 
-	    if (i<=separr.length) {
-	      sep = separr[i];
-	    } else {
-	      sep = separr[0];
-	    }
-	  }
-	  for (var j=0;j<sep.length;j++) {
+          var sep;
+          if (separr.length>0) { 
+            if (i<separr.length) {
+              sep = separr[i];
+            } else {
+              sep = separr[0];
+            }
+          }
+          for (var j=0;j<sep.length;j++) {
             entries.push(new presentation.Symbol(sep.charAt[j]));
-	  }
-	}
+          }
+        }
 
-	// add child
+        // add child
         var child = this.handle(children.item(i), context);
 
-	entries.push(child);
+        entries.push(child);
       }
 
       if (closesymbol === null || closesymbol === undefined) {
-	closesymbol = ')';
+        closesymbol = ')';
       } 
       entries.push(new presentation.Symbol(closesymbol));
 
@@ -351,9 +351,9 @@ $main(function(){
         var below;
         below = this.handle(children.item(1));
         
-	if (symbol == "lim") {
+        if (symbol == "lim") {
           return new presentation.Limit(below);
-	}
+        }
       }
 
       for (var i=0; i<children.length; i++) {

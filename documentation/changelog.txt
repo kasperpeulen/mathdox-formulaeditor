@@ -1,4 +1,8 @@
 b 
+  - matrices now properly export/import from/to mathml
+  - set addMrow to false, to not add an mrow when exporting to mathml in
+    multary operations
+  - some white space fixes
   - fixed a bug with logic1.and mathml input
   - now correct mathml input/ouput for linagl3.vector
   - limit mathml input also supporting mo

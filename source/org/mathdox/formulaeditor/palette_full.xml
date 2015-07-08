@@ -465,8 +465,30 @@
             <OMS cd='editor1' name='input_box'/>
           </OMA>
         </OMA>
-        <OMS cd='editor1' name='palette_whitespace'/>
-        <OMS cd='editor1' name='palette_whitespace'/>
+        <OMA>
+          <OMS cd='limit1' name='limit'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='limit1' name='above'/>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="x"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
+        <OMA>
+          <OMS cd='limit1' name='limit'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='limit1' name='below'/>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="x"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
       </OMA>
     </OMA>
   </OMA>

@@ -19,7 +19,7 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
 
       // operand 0 : limiting value
-      // NOT USED YET operand 1 : method of approach
+      // TODO NOT USED YET operand 1 : method of approach
       // operand 2 : function
     
       getPresentation : function(context) {

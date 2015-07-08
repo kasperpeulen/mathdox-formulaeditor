@@ -4,8 +4,8 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
 >
   <title>MathDox FormulaEditor: extending</title>
-  <section>
-    <title>Modifying the palette</title>
+  <section id='palette_selection'>
+    <title>Selecting the palette</title>
     <para>
       The palette is described in OpenMath with some special symbols in a
       private CD describing the palette-rows palette-entries and input-boxes.
@@ -61,5 +61,16 @@
      <para>
       <xforms:textarea ref='formula' class='math-editor' mathdox:options='{ dragPalette:true,fontSize: 300, paletteURL : "palette_tabbed.xml" }' />
     </para>
+  </section>
+  <section id='palette_modification'>
+    <title>Creating your own palette</title>
+    <para>
+      It is also posible to create your own palette file (and than choose it as
+      described above). First the format will be described, followed by some
+      special symbols. At the end some examples will be given.
+    </para>
+    <section>
+      <title>Palette format</title>
+    </section>
   </section>
 </article>

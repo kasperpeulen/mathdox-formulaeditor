@@ -453,7 +453,13 @@ $main(function() {
               pG.literal(')')
             ),
             function(result) {
-              result[1].inside_braces = true;
+              // increase the bracket count
+	      if (result[l].inside_braces === null || result[l].inside_braces === undefined) {
+		result[l].inside_braces = 0;
+	      }
+
+              result[1].inside_braces += 1;
+
               return result[1];
             }
           ),

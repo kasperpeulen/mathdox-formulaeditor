@@ -346,7 +346,7 @@ $main(function(){
 
       var first = children.item(0);
 
-      if ( first.localName == "mi" ) {
+      if ( first.localName == "mi" || first.localName == "mo" ) {
         var symbol = first.firstChild.nodeValue.trim();
         var below;
         below = this.handle(children.item(1));

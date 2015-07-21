@@ -454,8 +454,8 @@ $main(function() {
             ),
             function(result) {
               // increase the bracket count
-	      if (result[l].inside_braces === null || result[l].inside_braces === undefined) {
-		result[l].inside_braces = 0;
+	      if (result[1].inside_braces === null || result[1].inside_braces === undefined) {
+		result[1].inside_braces = 0;
 	      }
 
               result[1].inside_braces += 1;

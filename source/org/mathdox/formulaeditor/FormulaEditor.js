@@ -1638,8 +1638,14 @@ $main(function(){
           this.handleMouseClick(editor, mouseinfo.x, mouseinfo.y);
 
         if ((noEditorNeeded === false) && (editor === null)) {
-          alert("No formulaeditor with focus. Please click on an editor\n"+
-                "at the position where the symbol should be entered.");
+          if (org.mathdox.formulaeditor.options.paletteCallBackNoFocus !== null &&
+          org.mathdox.formulaeditor.options.paletteCallBackNoFocus !== undefined &&
+          org.mathdox.formulaeditor.options.paletteCallBackNoFocus instanceof function) {
+            org.mathdox.formulaeditor.options.paletteCallBackNoFocus.call(this);
+          } else {
+            alert("No formulaeditor with focus. Please click on an editor\n"+
+              "at the position where the symbol should be entered.");
+          }
         }
 
         return false;

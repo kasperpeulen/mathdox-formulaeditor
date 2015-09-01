@@ -1,4 +1,6 @@
 b 
+  - added callback function option for "no editor has focus" message alert
+    <paletteCallBackNoFocus>
   - added support for option paletteShow = "id" to place it in a div with id
     <paletteShowId>
   - import from linalg3 mathml (from openmath2mathml)

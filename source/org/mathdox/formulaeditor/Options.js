@@ -52,6 +52,7 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - true gives focus to the first formulaeditor
 // - <id> as string gives focus to the formulaeditor corresponding to the
 //   textarea with id <id>
+// paletteCallBackNoFocus: set function for callback on no focus (no arguments)
 // paletteShow : default behaviour when showing palettes, choices : 
 // - "all" gives a palette if not specified by class
 // - "none" gives no palette if not specified by class

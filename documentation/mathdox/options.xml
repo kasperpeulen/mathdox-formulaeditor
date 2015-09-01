@@ -42,6 +42,7 @@
     <title>Palette Options</title>
     <itemizedlist>
       <listitem><para><phrase>dragPalette</phrase>: <phrase>true</phrase>, <emphasis><phrase>false</phrase></emphasis></para></listitem>
+      <listitem><para><phrase>paletteCallBackNoFocus</phrase>: <emphasis>function</emphasis></para></listitem>
       <listitem><para><phrase>paletteHighlight</phrase>: <emphasis><phrase>true</phrase></emphasis>, <phrase>false</phrase></para></listitem>
       <listitem><para><phrase>paletteShow</phrase>: <quote>all</quote>, <quote>none</quote>, <emphasis><quote>one</quote></emphasis>, <quote>id</quote></para></listitem>
       <listitem><para><phrase>paletteShowId</phrase></para></listitem>
@@ -99,6 +100,7 @@
 // - true gives focus to the first formulaeditor
 // - <id> as string gives focus to the formulaeditor corresponding to the
 //   textarea with id <id>
+// paletteCallBackNoFocus: set function for callback on no focus (no arguments)
 // paletteShow : default behaviour when showing palettes, choices : 
 // - "all" gives a palette if not specified by class
 // - "none" gives no palette if not specified by class

@@ -43,7 +43,8 @@
     <itemizedlist>
       <listitem><para><phrase>dragPalette</phrase>: <phrase>true</phrase>, <emphasis><phrase>false</phrase></emphasis></para></listitem>
       <listitem><para><phrase>paletteHighlight</phrase>: <emphasis><phrase>true</phrase></emphasis>, <phrase>false</phrase></para></listitem>
-      <listitem><para><phrase>paletteShow</phrase>: <quote>all</quote>, <quote>none</quote>, <emphasis><quote>one</quote></emphasis></para></listitem>
+      <listitem><para><phrase>paletteShow</phrase>: <quote>all</quote>, <quote>none</quote>, <emphasis><quote>one</quote></emphasis>, <quote>id</quote></para></listitem>
+      <listitem><para><phrase>paletteShowId</phrase></para></listitem>
       <listitem><para><phrase>paletteStyle</phrase></para></listitem>
       <listitem><para><phrase>paletteURL</phrase></para></listitem>
       <listitem><para><phrase>useBar</phrase>: <emphasis><phrase>true</phrase></emphasis>, <phrase>false</phrase></para></listitem>
@@ -103,6 +104,10 @@
 // - "none" gives no palette if not specified by class
 // - "one" (default) gives a palette if not specified by class when there
 //   is none in the page yet, 
+// - "id" creates a palette in the DOM parent specified with paletteShowId
+// paletteShowId: id for palette container
+// - <string>: name of the container
+// - "" (default) : do not look for parent
 // paletteStyle: set default style for Palette Canvases
 // paletteURL: url for palette
 // styleArith1Times: behavior for times symbol

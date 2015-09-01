@@ -1,4 +1,6 @@
 b 
+  - added support for option paletteShow = "id" to place it in a div with id
+    <paletteShowId>
   - import from linalg3 mathml (from openmath2mathml)
   - matrices now properly export/import from/to mathml
   - set addMrow to false, to not add an mrow when exporting to mathml in

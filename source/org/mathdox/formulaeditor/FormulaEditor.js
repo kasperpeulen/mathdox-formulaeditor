@@ -263,6 +263,15 @@ $main(function(){
         }
 
           this.palette.htmlelement = root;
+      } else if (org.mathdox.formulaeditor.options.paletteShow == "id" &&
+          org.mathdox.formulaeditor.options.paletteShowId !== undefined &&
+	  org.mathdox.formulaeditor.options.paletteShowId !== "") {
+        // show the palette in the container with id "paletteShowId"
+	var parentNode = document.getElementById(org.mathdox.formulaeditor.options.paletteShowId);
+
+	if (parentNode instanceof HTMLElement) {
+          parentNode.appendChild(palcanvas);
+	}
       } else {
         // insert palcanvas in the document before the textarea 
         // in case of G_vmlCanvasManager, check if the parent is a p
@@ -430,6 +439,9 @@ $main(function(){
           /* when unspecified, never show a palette */
           this.showPalette = this.showPalette && false;
         } else if (org.mathdox.formulaeditor.options.paletteShow == "once") {
+          /* only add a palette if no palette is present on the page yet */
+          this.showPalette = this.showPalette && (!palettes);
+        } else if (org.mathdox.formulaeditor.options.paletteShow == "id") {
           /* only add a palette if no palette is present on the page yet */
           this.showPalette = this.showPalette && (!palettes);
         } else {

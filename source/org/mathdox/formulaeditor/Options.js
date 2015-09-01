@@ -55,8 +55,12 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // paletteShow : default behaviour when showing palettes, choices : 
 // - "all" gives a palette if not specified by class
 // - "none" gives no palette if not specified by class
+// - "id" creates a palette in the DOM parent specified with paletteShowId
 // - "one" (default) gives a palette if not specified by class when there
 //   is none in the page yet, 
+// paletteShowId: id for palette container
+// - <string>: name of the container
+// - "" (default) : do not look for parent
 // paletteStyle: set default style for Palette Canvases
 // paletteURL: url for palette
 // styleArith1Times: behavior for times symbol

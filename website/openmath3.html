@@ -21,7 +21,10 @@
           optionArith1UnaryMinusBrackets: 'true',
           optionListSeparatorFixed: ' , ',
           optionVerboseStyle : 'true',
+	  paletteCallBackNoFocus : function() {alert("I've looked around for a formulaeditor with focus, but couldn't find any. Please click on one of them and then here again.");},
           paletteHighlight: false,
+          paletteShow: "id",
+          paletteShowId: "paletteContainer",
 	  paletteURL : "org/mathdox/formulaeditor/palette_split.xml",
           styleArith1Divide: 'colon',
           styleArith1Times: 'cross',
@@ -99,7 +102,7 @@
 
       <h4>OpenMath conversion</h4>
 
-      <textarea id='formula1' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80'>
+      <textarea id='formula1' class='mathdoxformula mathdoxvisibletextarea' rows='10' cols='80'>
 
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
 	  &lt;!-- comments now allowed --&gt;
@@ -111,11 +114,12 @@
         &lt;/OMOBJ&gt;
 
       </textarea>
-      <textarea id='formula2' class='mathdoxformula mathdoxpalette mathdoxvisibletextarea' rows='10' cols='80'>
+      <textarea id='formula2' class='mathdoxformula mathdoxvisibletextarea' rows='10' cols='80'>
         &lt;OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'&gt;
           &lt;OMS cd="editor1" name="input_box"/&gt;
         &lt;/OMOBJ&gt;
       </textarea>
+      <div id="paletteContainer"></div>
       <button type="button" name="MathML" value='MathML' onclick='updateMathML()'>
 	Update MathML
       </button>

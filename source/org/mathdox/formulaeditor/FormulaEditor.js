@@ -1640,7 +1640,7 @@ $main(function(){
         if ((noEditorNeeded === false) && (editor === null)) {
           if (org.mathdox.formulaeditor.options.paletteCallBackNoFocus !== null &&
           org.mathdox.formulaeditor.options.paletteCallBackNoFocus !== undefined &&
-          org.mathdox.formulaeditor.options.paletteCallBackNoFocus instanceof function) {
+          typeof org.mathdox.formulaeditor.options.paletteCallBackNoFocus === "function") {
             org.mathdox.formulaeditor.options.paletteCallBackNoFocus.call(this);
           } else {
             alert("No formulaeditor with focus. Please click on an editor\n"+

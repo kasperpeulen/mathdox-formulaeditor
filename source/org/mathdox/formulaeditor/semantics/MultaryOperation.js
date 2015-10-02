@@ -2,9 +2,10 @@ $package("org.mathdox.formulaeditor.semantics");
 
 $identify("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
-$require("org/mathdox/formulaeditor/semantics/Node.js");
+$require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
 $require("org/mathdox/formulaeditor/presentation/Symbol.js");
+$require("org/mathdox/formulaeditor/semantics/Node.js");
 
 $main(function(){
 
@@ -158,6 +159,7 @@ $main(function(){
       getOpenMath : function() {
         var semantics = org.mathdox.formulaeditor.semantics;
         var result;
+        var options = new org.mathdox.formulaeditor.Options();
 
         var argtest = this.checkArguments(this.operands);
 
@@ -176,7 +178,7 @@ $main(function(){
         }
 
         // add explicit brackets if present
-        if (this.hasExplicitBrackets()) {
+        if (options.getOption("optionExplicitBrackets") === true && this.hasExplicitBrackets()) {
           result = result + " brackets='" + this.getExplicitBrackets() + "'";
         }
 

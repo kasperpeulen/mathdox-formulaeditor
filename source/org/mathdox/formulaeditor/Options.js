@@ -31,6 +31,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // optionArith1UnaryMinusBrackets
 // - true: lower priority unary_minus, e.g. 1 + (-2)
 // - false: "normal" priority unary_minus e.g. 1 + -2 (default)
+// optionExplicitBrackets
+// - false: (default)
+// - true: add @brackets to openmath output when brackets are used (works only for OMA)
 // optionInterval1Brackets
 // - object with 4 strings
 //   lo: left symbol for left-open interval
@@ -91,6 +94,7 @@ $main(function() {
       modeArith1Divide: 'restricted',
       optionVerboseStyle: 'false',
       optionArith1UnaryMinusBrackets : 'false',
+      optionExplicitBrackets: false,
       optionInterval1Brackets : {lo: '(', lc: '[', ro: ')', rc:']'},
       optionResizeBrackets: true,
       styleArith1Divide: 'mfrac',

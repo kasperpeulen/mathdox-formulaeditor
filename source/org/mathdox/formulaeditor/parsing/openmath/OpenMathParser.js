@@ -42,6 +42,7 @@ $main(function(){
       var semantics = org.mathdox.formulaeditor.semantics;
 
       var style = node.getAttribute("style");
+      var result;
 
       // handle <OMA>'s with as first argument an <OMS/>
       if ("OMS" == node.firstChild.localName) {
@@ -63,7 +64,11 @@ $main(function(){
 
         // call the handler method
         if (handler in this) {
-          return this[handler](node, style);
+          result = this[handler](node, style);
+
+          this.processExplicitBrackets(node, result);
+
+          return result;
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== null && org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== undefined) {
           /* return a FunctionApplication at the end */
           symbol = this.handleOMS(node.firstChild);
@@ -103,15 +108,15 @@ $main(function(){
           }
         }
       
-        var fa;
         if (style !== "" && style !== null) {
-          fa = new semantics.FunctionApplication(symbol, operands, style);
+          result = new semantics.FunctionApplication(symbol, operands, style);
         } else {
-          fa = new semantics.FunctionApplication(symbol, operands);
+          result = new semantics.FunctionApplication(symbol, operands);
         }
 
-	this.processExplicitBrackets(node, fa);
-        return fa;
+	this.processExplicitBrackets(node, result);
+
+        return result;
       }
     },
 
@@ -121,7 +126,6 @@ $main(function(){
     handleOMBIND: function(node) {
 
       return this.handleOMA(node);
-
     },
 
     /**

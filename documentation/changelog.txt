@@ -1,6 +1,10 @@
-c - towards explicit brackets
+1.1.33 towards explicit brackets
+  - added support for explicit brackets in MathML output and with config
+    option (optionExplicitBrackets = true) to OpenMath with a @brackets='1'
+    attribute. Note: multiple brackets are output to OpenMath (@brackets='2')
+    but not used in MathML output.
   - added OpenMath bracket attribute support (not yet configurable)
-  - support for input of some OMAs with bracket attribute
+  - support for input for OMAs with bracket attribute or style='brackets'
   - added semantics explicitBrackets
   - explicitBrackets used in MultaryOperation when generating MathML
 b - added callback function option for "no editor has focus" message alert

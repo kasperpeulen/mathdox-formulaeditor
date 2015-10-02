@@ -53,7 +53,7 @@ $main(function(){
 
         // figure out which handler method to call; for instance, for handling 
         // an <OMA> with as first argument <OMS cd='arith1' name='plus'/>, the
-        // handleArith1Plus method is called
+        // handleAri!h1Plus method is called
         var symbolname= node.firstChild.getAttribute("cd") + "__" + node.firstChild.getAttribute("name");
 
         var handler = "handle";
@@ -102,12 +102,16 @@ $main(function(){
             operands.push(child);
           }
         }
-       
+      
+        var fa;
         if (style !== "" && style !== null) {
-          return new semantics.FunctionApplication(symbol, operands, style);
+          fa = new semantics.FunctionApplication(symbol, operands, style);
         } else {
-          return new semantics.FunctionApplication(symbol, operands);
+          fa = new semantics.FunctionApplication(symbol, operands);
         }
+
+	this.processExplicitBrackets(node, fa);
+        return fa;
       }
     },
 
@@ -244,6 +248,28 @@ $main(function(){
       	return new semantics.Variable(varname);
       }
 
+    },
+
+    /**
+     * library code to check for explicit brackets 
+     */
+    processExplicitBrackets: function(node, result) {
+      var brackets = node.getAttribute("brackets");
+      var style = node.getAttribute("style");
+
+      if (brackets === null || brackets === "" || isNaN(brackets) ) {
+	if (style === "brackets") {
+	  brackets = 1;
+	} else {
+          brackets = 0;
+        }
+      } else {
+        brackets = parseInt(brackets);
+      }
+
+      if (brackets > 0) {
+        result.setExplicitBrackets(brackets);
+      }
     }
 
   });

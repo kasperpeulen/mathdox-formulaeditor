@@ -61,6 +61,8 @@ $main(function(){
         result.style = style;
       }
 
+      this.processExplicitBrackets(node, result);
+
       return result;
     }
 

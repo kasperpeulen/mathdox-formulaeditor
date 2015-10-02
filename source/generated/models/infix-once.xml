@@ -57,6 +57,8 @@ $main(function(){
       var result = new org.mathdox.formulaeditor.semantics.<model:cd capitalize="true"/><model:name capitalize="true"/>();
       result.initialize.apply(result, operands);
 
+      this.processExplicitBrackets(node, result);
+
       return result;
 
     }

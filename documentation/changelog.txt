@@ -1,4 +1,8 @@
-c
+c - towards explicit brackets
+  - added OpenMath bracket attribute support (not yet configurable)
+  - support for input of some OMAs with bracket attribute
+  - added semantics explicitBrackets
+  - explicitBrackets used in MultaryOperation when generating MathML
 b - added callback function option for "no editor has focus" message alert
     <paletteCallBackNoFocus>
   - added support for option paletteShow = "id" to place it in a div with id

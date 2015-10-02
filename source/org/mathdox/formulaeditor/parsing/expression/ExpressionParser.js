@@ -454,13 +454,9 @@ $main(function() {
             ),
             function(result) {
               // increase the bracket count
-	      if (result[1].inside_braces === null || result[1].inside_braces === undefined) {
-		result[1].inside_braces = 0;
-	      }
-
-              result[1].inside_braces += 1;
-
-              return result[1];
+	      result[1].addExplicitBrackets();
+              
+	      return result[1];
             }
           ),
 

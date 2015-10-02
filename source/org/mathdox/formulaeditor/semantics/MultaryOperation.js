@@ -125,12 +125,12 @@ $main(function(){
             }
           }
           //if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
-          if (operand.getPrecedence && operand.getPrecedence(context) != 0 && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
+          if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
              (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
                (i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath) ||
                 (this.operands.length == 1)
                 )) 
-             )) {
+             )) || operand.hasExplicitBrackets() ) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));
@@ -175,6 +175,11 @@ $main(function(){
           result = result + " style='" + this.style + "'";
         }
 
+        // add explicit brackets if present
+        if (this.hasExplicitBrackets()) {
+          result = result + " brackets='" + this.getExplicitBrackets() + "'";
+        }
+
         result = result + ">" + this.getSymbolOpenMath();
         for (var i=0; i<this.operands.length; i++) {
           result = result + this.operands[i].getOpenMath();
@@ -213,7 +218,10 @@ $main(function(){
               result = result + symbol_mathml;
             }
           }
-          if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
+          if ((operand.precedence && 
+	      ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) ||
+              operand.hasExplicitBrackets()
+	     ) {
             result = result + "<mfenced>";
             result = result + this.operands[i].getMathML();
             result = result + "</mfenced>";

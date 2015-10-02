@@ -20,7 +20,6 @@ $main(function(){
     slowDelete: true,
     
     initialize : function(semanticClass, children, presentation, focusEntries) {
-      console.log("initializing box");
       this.semanticClass = semanticClass;
 
       /* fill entries from focusEntries */
@@ -50,11 +49,9 @@ $main(function(){
 
       this.children = children;
       if (this.children !== null && this.children !== undefined) {
-        console.log("updating children");
         this.presentation = presentation;
         this.updateChildren();
       }
-      console.log("finished initializing box");
     },
 
     draw : function(canvas, context, x, y, invisible) { 

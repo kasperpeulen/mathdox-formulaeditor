@@ -21,6 +21,17 @@ $main(function(){
       argcount : null,
 
       /**
+       * explicit Brackets
+       * 0 means no brackets: x
+       * 1 means one set of brackets: (x)
+       * 2 means two sets of brackets: ((x))
+       * 
+       * see the functions addExplicitBrackets, getExplicitBrackets,
+       * hasExplicitBrackets, setExplicitBrackets below
+       **/
+      explicitBrackets : 0,
+
+      /**
        * checkArguments: check the number of arguments, returns true or an error string
        */
       checkArguments : function(operands) {
@@ -122,7 +133,31 @@ $main(function(){
       } else {
         pres.array.push(new presentation.Bracket(bracket));
       }
-    }
+    },
+    /**
+     * increase the explicit bracket count by 1 
+     **/
+    addExplicitBrackets : function() {
+      this.explicitBrackets += 1;
+    },
+    /**
+     * get the explicit bracket count 
+     **/
+    getExplicitBrackets : function() {
+      return this.explicitBrackets;
+    },
+    /**
+     * check if the explicit bracket count > 0
+     **/
+    hasExplicitBrackets : function() {
+      return (this.explicitBrackets > 0) ;
+    },
+    /**
+     * set the explicit bracket count 
+     **/
+    setExplicitBrackets : function(value) {
+      this.explicitBrackets = value;
+    },
   });
 
 });

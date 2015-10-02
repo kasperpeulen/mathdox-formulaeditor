@@ -73,6 +73,9 @@ $main(function(){
       // construct the corresponding object
       var result = new org.mathdox.formulaeditor.semantics.<model:binary_cd capitalize="true"/><model:binary_name capitalize="true"/>();
       result.initialize.apply(result, operands);
+
+      this.processExplicitBrackets(node, result);
+
       return result;
 
     },
@@ -88,6 +91,9 @@ $main(function(){
       // construct the corresponding object
       var result = new org.mathdox.formulaeditor.semantics.<model:nary_cd capitalize="true"/><model:nary_name capitalize="true"/>();
       result.initialize.apply(result, operands);
+      
+      this.processExplicitBrackets(node, result);
+
       return result;
 
     }

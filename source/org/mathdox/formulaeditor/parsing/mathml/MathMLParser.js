@@ -283,7 +283,7 @@ $main(function(){
       }
 
       // for each child : add child and possibly separator
-      for (i = children.length - 1; i>=0; i--) {
+      for (i = 0; i<children.length; i++) {
         if (i>0) {
           // separator-attribute is not empty
           var sep;

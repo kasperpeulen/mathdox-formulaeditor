@@ -265,7 +265,7 @@ $main(function(){
         }
 
         if (separr.length>0) {
-          if (separr[separr.length] === "") {
+          if (separr[separr.length-1] === "") {
             // remove last element
             separr.splice(separr.length-1);
           }
@@ -295,7 +295,7 @@ $main(function(){
             }
           }
           for (var j=0;j<sep.length;j++) {
-            entries.push(new presentation.Symbol(sep.charAt[j]));
+            entries.push(new presentation.Symbol(sep.charAt(j)));
           }
         }
 

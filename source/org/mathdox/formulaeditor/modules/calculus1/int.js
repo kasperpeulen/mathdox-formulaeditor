@@ -42,7 +42,7 @@ $main(function(){
       
       getOpenMath : function() {
       
-        return "<OMA>" +
+        return "<OMA" + this.getOpenMathCommonAttributes() + ">" +
           "<OMS cd='calculus1' name='int'/>" +
           this.lambda.getOpenMath() +
         "</OMA>";

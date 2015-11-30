@@ -107,7 +107,7 @@ $main(function(){
         var result = [];
         var i; // counter
         
-        result.push("<OMBIND>");
+        result.push("<OMBIND" + this.getOpenMathCommonAttributes() + ">");
         result.push("<OMS cd='fns1' name='lambda'/>");
         
         // bound variables

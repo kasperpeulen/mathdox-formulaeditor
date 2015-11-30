@@ -147,6 +147,21 @@ $main(function(){
       return this.explicitBrackets;
     },
     /**
+     * get generic OpenMath Attributes
+     * - brackets
+     */
+    getOpenMathCommonAttributes : function() {
+      var result="";
+      var options = new org.mathdox.formulaeditor.Options();
+
+      // add explicit brackets if present
+      if (options.getOption("optionExplicitBrackets") === true && this.hasExplicitBrackets()) {
+        result = result + " brackets='" + this.getExplicitBrackets() + "'";
+      }
+
+      return result;
+    },
+    /**
      * check if the explicit bracket count > 0
      **/
     hasExplicitBrackets : function() {

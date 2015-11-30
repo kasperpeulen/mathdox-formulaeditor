@@ -19,6 +19,19 @@ $main(function(){
     name: "OpenMathParser",
 
     /**
+     * Extracts the local name of the node, and uses that to figure out which
+     * method should be called to handle this node. For instance, when an
+     * <OMI> node is encountered, the handleOMI method is called.
+     */
+    handle: function(node, context) {
+      var result = arguments.callee.parent.handle.call(this, node, context);
+
+      this.processExplicitBrackets(node, result);
+
+      return result;
+    },
+
+    /**
      * Handles an <OMOBJ> node by processing its child node.
      */
     handleOMOBJ: function(node) {
@@ -65,8 +78,6 @@ $main(function(){
         // call the handler method
         if (handler in this) {
           result = this[handler](node, style);
-
-          this.processExplicitBrackets(node, result);
 
           return result;
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== null && org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== undefined) {

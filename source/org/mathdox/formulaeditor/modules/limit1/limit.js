@@ -44,7 +44,7 @@ $main(function(){
       
       getOpenMath : function() {
       
-        return "<OMA>" +
+        return "<OMA" + this.getOpenMathCommonAttributes() + ">" +
           "<OMS cd='limit1' name='limit'/>" +
           this.operands[0].getOpenMath() +
           this.operands[1].getOpenMath() +

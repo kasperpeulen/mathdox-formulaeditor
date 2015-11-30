@@ -76,7 +76,7 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMF dec='" + this.value + "'/>";
+        return "<OMF dec='" + this.value + "'" + this.getOpenMathCommonAttributes() + "/>";
       },
 
       /**

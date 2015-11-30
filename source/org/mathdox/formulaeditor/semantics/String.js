@@ -58,7 +58,7 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMSTR>" + this.name + "</OMSTR>";
+        return "<OMSTR"+ this.getOpenMathCommonAttributes() +">" + this.name + "</OMSTR>";
       },
 
       /**

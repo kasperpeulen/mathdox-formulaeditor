@@ -83,7 +83,7 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMV name='" + this.name + "'/>";
+        return "<OMV name='" + this.name + "'" + this.getOpenMathCommonAttributes() + "/>";
       },
 
       /**

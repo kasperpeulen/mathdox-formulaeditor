@@ -60,7 +60,7 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath
        */
       getOpenMath : function() {
-        return "<OMI>" + this.getValueAsString() + "</OMI>";
+        return "<OMI" + this.getOpenMathCommonAttributes() + ">" + this.getValueAsString() + "</OMI>";
       },
 
       /**

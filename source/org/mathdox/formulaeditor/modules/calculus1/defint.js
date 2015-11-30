@@ -58,7 +58,7 @@ $main(function(){
 
       getOpenMath : function() {
       
-        return "<OMA>" +
+        return "<OMA" + this.getOpenMathCommonAttributes() + ">" +
           "<OMS cd='calculus1' name='defint'/>" +
           this.operands[0].getOpenMath() +
           this.operands[1].getOpenMath() +

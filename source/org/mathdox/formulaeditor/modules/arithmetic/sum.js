@@ -44,7 +44,7 @@ $main(function(){
       
       getOpenMath : function() {
       
-        return "<OMA>" +
+        return "<OMA" + this.getOpenMathCommonAttributes() + ">" +
           "<OMS cd='arith1' name='sum'/>" +
           this.operands[0].getOpenMath() +
           this.operands[1].getOpenMath() +

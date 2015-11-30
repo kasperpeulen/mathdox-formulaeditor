@@ -155,7 +155,7 @@ $main(function(){
         if (this.symbol.openmath !== null && this.symbol.openmath !== undefined) {
           result = this.symbol.openmath;
         } else {
-          result = "<OMS cd='" + this.cd + "' name='" + this.name + "'/>";
+          result = "<OMS cd='" + this.cd + "' name='" + this.name + "'"+ this.getOpenMathCommonAttributes()+"/>";
         }
         return result;
       },

@@ -159,10 +159,11 @@ $main(function(){
         }
 
         if (this.style !== null) {
-          result = "<OMA style='"+this.style+"'>";
+          result = "<OMA style='"+this.style+"'";
         } else {
-          result = "<OMA>";
+          result = "<OMA";
         }
+        result += this.getOpenMathCommonAttributes()+">";
 
         result += this.symbol.getOpenMath();
         for (var i=0; i<this.operands.length; i++) {

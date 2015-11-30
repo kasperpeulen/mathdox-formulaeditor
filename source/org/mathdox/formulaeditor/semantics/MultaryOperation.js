@@ -177,10 +177,7 @@ $main(function(){
           result = result + " style='" + this.style + "'";
         }
 
-        // add explicit brackets if present
-        if (options.getOption("optionExplicitBrackets") === true && this.hasExplicitBrackets()) {
-          result = result + " brackets='" + this.getExplicitBrackets() + "'";
-        }
+        result = result + this.getOpenMathCommonAttributes();
 
         result = result + ">" + this.getSymbolOpenMath();
         for (var i=0; i<this.operands.length; i++) {

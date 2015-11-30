@@ -38,10 +38,18 @@ $main(function(){
           base = new presentation.Row(new presentation.Symbol("("), base, 
             new presentation.Symbol(")"));
         }
+
+        var exponent = this.operands[1].getPresentation(context);
+
+        if (this.operands[1].hasExplicitBrackets()) {
+          var bracketedExponent = new presentation.Row(new presentation.Symbol("("),
+            exponent, new presentation.Symbol(")"));
+          exponent = bracketedExponent;
+        }
+
         return new presentation.Row(
           base,
-          new presentation.Superscript(
-            this.operands[1].getPresentation(context))
+          new presentation.Superscript(exponent)
         );
       },
 
@@ -73,7 +81,9 @@ $main(function(){
 
 	var brackets = false;
 
-	if (positiveint === true) {
+	if (sem.hasExplicitBrackets()) {
+          brackets = true;
+        } else if (positiveint === true) {
           brackets = false;
 	} else if (pres instanceof presentation.Row && pres.children.length > 1) {
           brackets = true;
@@ -81,7 +91,7 @@ $main(function(){
           brackets = true;
         } else if (pres instanceof presentation.Fraction) {
           brackets = true;
-        }
+        } 
 
         return brackets;
       }

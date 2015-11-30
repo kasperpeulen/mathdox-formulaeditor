@@ -26,14 +26,21 @@ $main(function(){
         var result = new presentation.Row();
         var row;
 
-        row = [
-          // U+222B integral
-          new presentation.Symbol('∫'),
-          this.lambda.expression.getPresentation(context),
-          // U+2146 differential D
-          new presentation.Symbol("ⅆ"),
-          this.lambda.variables[0].getPresentation(context)
-        ];
+        row = [];
+        // U+222B integral
+        row.push(new presentation.Symbol('∫'));
+
+        if (this.lambda.expression.hasExplicitBrackets()) {
+          row.push(new presentation.Symbol('('));
+          row.push(this.lambda.expression.getPresentation(context));
+          row.push(new presentation.Symbol(')'));
+        } else {
+          row.push(this.lambda.expression.getPresentation(context));
+        }
+
+        // U+2146 differential D
+        row.push(new presentation.Symbol("ⅆ"));
+        row.push( this.lambda.variables[0].getPresentation(context) );
 
         result.initialize.apply(result, row);
         

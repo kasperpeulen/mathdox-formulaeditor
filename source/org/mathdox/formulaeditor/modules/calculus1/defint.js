@@ -24,22 +24,34 @@ $main(function(){
       // operand 1 : lambda expression
     
       getPresentation : function(context) {
-      
         var presentation = org.mathdox.formulaeditor.presentation;
-        
-        return new presentation.Row(
+        var result = new presentation.Row();
+        var row = [];
+
+        row.push(
           new presentation.Defint(
             new presentation.Row(
               this.operands[0].operands[0].getPresentation(context)),
             new presentation.Row(
               this.operands[0].operands[1].getPresentation(context))
-          ),
-          this.operands[1].expression.getPresentation(context),
-          // U+2146 Differential d
-          new presentation.Symbol("ⅆ"),
-          this.operands[1].variables[0].getPresentation(context)
+          )
         );
-      
+        
+        if (this.operands[1].expression.hasExplicitBrackets()) {
+          row.push(new presentation.Symbol('('));
+          row.push(this.operands[1].expression.getPresentation(context));
+          row.push(new presentation.Symbol(')'));
+        } else {
+          row.push(this.operands[1].expression.getPresentation(context));
+        }
+
+        // U+2146 differential D
+        row.push(new presentation.Symbol("ⅆ"));
+        row.push(this.operands[1].variables[0].getPresentation(context));
+
+        result.initialize.apply(result, row);
+        
+        return result;
       },
       
       getMathML : function() {

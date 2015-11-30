@@ -45,46 +45,6 @@ $main(function(){
         }
 
 	return precedence;
-      },
-      /**
-       * See org.mathdox.formulaeditor.semantics.Node.getPresentation(context)
-       */
-      getPresentation : function(context) {
-
-        var presentation = org.mathdox.formulaeditor.presentation;
-
-        // construct an array of the presentation of operand nodes interleaved
-        // with operator symbols
-        var array = [];
-        var symbolOnscreen = this.getSymbolOnscreen(context);
-        if (this.style != "invisible" && symbolOnscreen instanceof Array) {
-          if (symbolOnscreen[0]!=="") {
-            array.push(new presentation.Row(symbolOnscreen[0]));
-          }
-        }
-
-        var operand = this.operands[0];
-
-        if (operand.getPrecedence && operand.getPrecedence(context) != 0 &&
-	    operand.getPrecedence(context) < this.getInnerPrecedence(context)) {
-          array.push(new presentation.Symbol("("));
-          array.push(operand.getPresentation(context));
-          array.push(new presentation.Symbol(")"));
-        } else {
-          array.push(operand.getPresentation(context));
-        }
-
-        if (this.style != "invisible" && symbolOnscreen instanceof Array) {
-          if (symbolOnscreen[2]!=="") {
-            array.push(new presentation.Row(symbolOnscreen[2]));
-          }
-        }
-
-        // create and return new presentation row using the constructed array
-        var result = new presentation.Row();
-        result.initialize.apply(result, array);
-        return result;
-
       }
 
     });

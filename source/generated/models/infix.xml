@@ -115,7 +115,7 @@ $main(function(){
     
                 // if the operator is the same rewrite it
                 // except if the style is invisible 
-                if (result[0] instanceof semantics.<model:cd capitalize="true"/><model:name capitalize="true"/> &amp;&amp; result[0].style!="invisible" &amp;&amp; result[0].inside_braces !== true ) {
+                if (result[0] instanceof semantics.<model:cd capitalize="true"/><model:name capitalize="true"/> &amp;&amp; result[0].style!="invisible" &amp;&amp; result[0].hasExplicitBrackets() !== true ) {
                   for (i=0; i&lt;result[0].operands.length;i++) {
                     operands.push(result[0].operands[i]);
                   }

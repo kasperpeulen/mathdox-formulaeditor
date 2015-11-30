@@ -79,10 +79,12 @@ $main(function(){
         if (handler in this) {
           result = this[handler](node, style);
 
+          this.processExplicitBrackets(node, result);
+
           return result;
         } else if (org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== null && org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname] !== undefined) {
           /* return a FunctionApplication at the end */
-          symbol = this.handleOMS(node.firstChild);
+          symbol = this.handle(node.firstChild);
         } else {
           var cd = node.firstChild.getAttribute("cd");
           var name = node.firstChild.getAttribute("name");
@@ -96,9 +98,9 @@ $main(function(){
 
       } else if ("OMV" == node.firstChild.localName) {
         /* return a FunctionApplication at the end */
-        symbol = this.handleOMV(node.firstChild);
+        symbol = this.handle(node.firstChild);
       } else if ("OMA" == node.firstChild.localName) {
-        symbol = this.handleOMA(node.firstChild);
+        symbol = this.handle(node.firstChild);
       } else {
         throw new Error(
           "OpenMathParser doesn't know how to handle an <OMA> that does " +

@@ -57,12 +57,17 @@ $main(function(){
 
       getMathML : function() {
         // U+222B integral
-        return "<mrow><mo>∫</mo>"+
-          this.lambda.expression.getMathML() +
+        var result = "<mrow><mo>∫</mo>";
           // U+2146 differential D
-          "<mo>ⅆ</mo>"+
+        if (this.lambda.expression.hasExplicitBrackets()) {
+          result += "<mfenced>" + 
+            this.lambda.expression.getMathML() + "</mfenced>";
+        }
+        result += "<mo>ⅆ</mo>"+
           this.lambda.variables[0].getMathML()+
           "</mrow>";
+
+        return result;
       },
 
       initialize : function() {

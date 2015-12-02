@@ -1,4 +1,9 @@
 1.1.33 towards explicit brackets
+  - added mathml support for explicit brackets, ready for testing
+  - better support for getPresentation with explicit brackets: arith1.power,
+    arith1.unary_minus, arith1.defint, arith1.int
+  - some fixes for better bracket support
+  - fixed a regression which parsed (1+2)+3 as 1+2+3
   - added support for explicit brackets in MathML output and with config
     option (optionExplicitBrackets = true) to OpenMath with a @brackets='1'
     attribute. Note: multiple brackets are output to OpenMath (@brackets='2')

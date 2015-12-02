@@ -63,14 +63,17 @@ $main(function(){
         var base = this.operands[0].getMathML();
 
         if (this.useBrackets(this.operands[0], basePres) === true) {
-	  // NOTE: nicer would be to add an option bracketed to getMathML of base
-	  // no double mrow then
-          base = "<mrow><mo>(</mo>" + base + "<mo>)</mo></mrow>";
+          base = "<mfenced>" + base + "</mfenced>";
         }
 
-        return "<msup>" + base +
-          this.operands[1].getMathML() +
-          "</msup>";
+        var exponent = this.operands[1].getMathML();
+
+        if (this.operands[1].hasExplicitBrackets()) {
+          var bracketedExponent = "<mfenced>" + exponent + "</mfenced>";
+          exponent = bracketedExponent;
+        }
+
+        return "<msup>" + base + exponent + "</msup>";
       },
 
       useBrackets : function(sem, pres) {

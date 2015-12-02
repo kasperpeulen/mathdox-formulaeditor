@@ -56,16 +56,23 @@ $main(function(){
       
       getMathML : function() {
       	// U+222B integral 
-        return "<mrow><msubsup><mo>∫</mo>" +
+        var result="<mrow><msubsup><mo>∫</mo>" +
           // below: lower boundry
           this.operands[0].operands[0].getMathML() +
           // above: higher boundry
           this.operands[0].operands[1].getMathML() +
-          "</msubsup>"+
-          this.operands[1].expression.getMathML() +
-          "<mo>ⅆ</mo>"+
+          "</msubsup>";
+
+        if (this.operands[1].expression.hasExplicitBrackets()) {
+          result += "<mfenced>" + 
+            this.operands[1].expression.getMathML() + "</mfenced>";
+        }
+
+        result += "<mo>ⅆ</mo>"+
           this.operands[1].variables[0].getMathML() +
 	  "</mrow>";
+
+        return result;
       },
 
       getOpenMath : function() {

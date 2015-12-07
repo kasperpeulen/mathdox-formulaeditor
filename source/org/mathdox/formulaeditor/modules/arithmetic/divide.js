@@ -27,8 +27,8 @@ $main(function(){
         var presentation = org.mathdox.formulaeditor.presentation;
 
         return new presentation.Fraction(
-          new presentation.Row(this.operands[0].getPresentation(context)),
-          new presentation.Row(this.operands[1].getPresentation(context))
+          new presentation.Row(this.operands[0].getPresentationWithExplicitBrackets(context)),
+          new presentation.Row(this.operands[1].getPresentationWithExplicitBrackets(context))
         );
 
       },
@@ -45,10 +45,10 @@ $main(function(){
         return result;
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
         return "<mfrac>" +
-          this.operands[0].getMathML() +
-          this.operands[1].getMathML() +
+          this.operands[0].getMathMLWithExplicitBrackets(context) +
+          this.operands[1].getMathMLWithExplicitBrackets(context) +
           "</mfrac>";
       }
 
@@ -67,10 +67,10 @@ $main(function(){
         openmath : "<OMS cd='arith1' name='divide'/>"
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
 	// parent = Divide, parent.parent is MultaryOperation
 	// use the default MultaryOperation method
-        return arguments.callee.parent.getMathML.parent.getMathML.call(this);
+        return arguments.callee.parent.getMathML.parent.getMathML.call(this, context);
       },
 
       getPresentation : function() {

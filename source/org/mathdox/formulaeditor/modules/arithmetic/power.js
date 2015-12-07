@@ -39,13 +39,7 @@ $main(function(){
             new presentation.Symbol(")"));
         }
 
-        var exponent = this.operands[1].getPresentation(context);
-
-        if (this.operands[1].hasExplicitBrackets()) {
-          var bracketedExponent = new presentation.Row(new presentation.Symbol("("),
-            exponent, new presentation.Symbol(")"));
-          exponent = bracketedExponent;
-        }
+        var exponent = this.operands[1].getPresentationWithExplicitBrackets(context);
 
         return new presentation.Row(
           base,
@@ -53,25 +47,20 @@ $main(function(){
         );
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
 	var Options = new org.mathdox.formulaeditor.Options();
 
         // add braces to base, if necessary
 	// use same method as for presentation (unfortunately this means getting the presentation)
 
         var basePres = this.operands[0].getPresentation(Options.getPresentationContext());
-        var base = this.operands[0].getMathML();
+        var base = this.operands[0].getMathML(context);
 
         if (this.useBrackets(this.operands[0], basePres) === true) {
           base = "<mfenced>" + base + "</mfenced>";
         }
 
-        var exponent = this.operands[1].getMathML();
-
-        if (this.operands[1].hasExplicitBrackets()) {
-          var bracketedExponent = "<mfenced>" + exponent + "</mfenced>";
-          exponent = bracketedExponent;
-        }
+        var exponent = this.operands[1].getMathMLWithExplicitBrackets(context);
 
         return "<msup>" + base + exponent + "</msup>";
       },

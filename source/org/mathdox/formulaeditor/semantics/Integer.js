@@ -66,7 +66,7 @@ $main(function(){
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
-      getMathML : function() {
+      getMathML : function(context) {
         return "<mn>" + this.getValueAsString() + "</mn>";
       },
 

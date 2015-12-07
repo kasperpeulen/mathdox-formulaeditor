@@ -75,14 +75,15 @@ $main(function(){
         // U+03BB greek small letter lamda
         array.push(new presentation.Symbol("λ"));
         if (this.variables.length == 1) {
-          array.push(this.variables[0].getPresentation(context));
+          array.push(this.variables[0].getPresentationWithExplicitBrackets(context));
         } else {
           array.push(new presentation.Symbol("("));
           for (i=0; i<this.variables.length; i++) {
             if (i>0) {
-              array.push(new presentation.Symbol(","));
+              array.push(new presentation.Symbol(context.listSeparator));
             }
-            array.push(this.variables[i].getPresentation(context));
+
+            array.push(this.variables[i].getPresentationWithExplicitBrackets(context));
           }
           array.push(new presentation.Symbol(")"));
         }
@@ -130,30 +131,29 @@ $main(function(){
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML()
        */
-      getMathML : function() {
+      getMathML : function(context) {
         var result = [];
-        result.push("<mrow>");
-        // U+03BB greek small letter lamda
-        result.push("<mo>λ</mo>");
 
+        // U+03BB greek small letter lamda
+        result.push("<mo>"+ "λ" + "</mo>");
         if (this.variables.length == 1) {
-          result.push(this.variables[0].getMathML());
+          result.push(this.variables[0].getMathMLWithExplicitBrackets(context));
         } else {
-          result.push("<mo>(</mo>");
+          var variablesMML = [];
+          var i
           for (i=0; i<this.variables.length; i++) {
-            if (i>0) {
-              result.push("<mo>,</mo>");
-            }
-            result.push(this.variables[i].getMathML());
+            variablesMML.push(this.variables[i].getMathMLWithExplicitBrackets(context));
           }
-          result.push("<mo>)</mo>");
+          // TODO: use context.listSeparator
+          result.push("<mfenced>" + variablesMML.join("") + "</mfenced>");
         }
-        result.push("</mrow>");
+
+        result.push("<mo>.</mo>");
+        result.push('<mfenced separator="' + context.listSeparator + '"' + 
+            this.expression.getMathML(context) + "</mfenced>");
 
         return result.join("");
-
       }
-
     });
 
 });

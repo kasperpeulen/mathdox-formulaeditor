@@ -58,25 +58,15 @@ $main(function(){
 
         var bracketed;
 
-        var style = this.style;
+        var style = this.getStyle(context);
 
-        if ( (context.styleTransc1Log == "postfix") && 
-            (this.symbol instanceof semantics.Keyword) && 
-            (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
-          style = "firstsub";
-        } else if ( (context.styleTransc1Log == "prefix") && 
-            (this.symbol instanceof semantics.Keyword) && 
-            (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
-          style = "firstsuper";
-        }
-
-        if (this.symbol instanceof semantics.MultaryOperation) {
+        if (this.symbol instanceof semantics.MultaryOperation || this.symbol.hasExplicitBrackets()) {
           this.addPresentationBracketOpen(context, pres, "(");
         }
         if (style != "firstsuper") {
           pres.array.push(this.symbol.getPresentation(context));
         }
-        if (this.symbol instanceof semantics.MultaryOperation) {
+        if (this.symbol instanceof semantics.MultaryOperation || this.symbol.hasExplicitBrackets()) {
           this.addPresentationBracketClose(context, pres, ")");
         }
         if (style != "sub" && style != "firstsub" && style != "firstsuper") {
@@ -104,13 +94,11 @@ $main(function(){
             }
           }
           
-          if (!operand) {
-            alert("symbol: "+this.symbol.symbol.onscreen);
-            alert("operands.length: "+this.operands.length);
-            alert("operands[0]: "+this.operands[0]);
-            alert("operands[1]: "+this.operands[1]);
+          if (this.operands.length > 1) {
+            sym = operand.getPresentationWithExplicitBrackets(context);
+          } else {
+            sym = operand.getPresentation(context);
           }
-          sym = operand.getPresentation(context);
           if (style == "sub") {
             // subscript style
             pres.array.push(new presentation.Subscript(sym));
@@ -118,7 +106,8 @@ $main(function(){
             pres.array.push(new presentation.Subscript(sym));
           } else if (style == "firstsuper" && i==0) {
             pres.array.push(new presentation.Superscript(sym));
-              pres.array.push(this.symbol.getPresentation(context));
+            // NOTE: not testing whether the Symbol is a Multary Operation
+            pres.array.push(this.symbol.getPresentationWithExplicitBrackets(context));
           } else {
             // normal style
             pres.array.push(sym);
@@ -178,20 +167,71 @@ $main(function(){
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML()
        */
-      getMathML : function() {
+      getMathML : function(context) {
+        var semantics = org.mathdox.formulaeditor.semantics;
 
-        var result = "<mrow>" + this.symbol.getMathML() + "<mo>(</mo>";
+        // construct an array of the mathml of operand nodes interleaved
+        // with operator symbol mathml
+        var pres = {}
+        pres.array = [];
 
-        for (var i=0; i<this.operands.length; i++) {
-          if (i>0) {
-            result = result + "<mo>,</mo>";
-          }
-          result = result + this.operands[i].getMathML();
+        var style = this.getStyle(context);
+
+        var separator = context.listSeparator;
+        var separatorMML = "<mo>" + separator + "</mo>";
+        var symbolMML = this.symbol.getMathML(context);
+
+        if ((this.symbol instanceof semantics.MultaryOperation) || this.symbol.hasExplicitBrackets()) {
+          symbolMML = "<mfenced>" + symbolMML + "</mfenced>";
         }
-        result = result + "<mo>)</mo>" + "</mrow>";
+
+        var operandsMML = [];
+        
+        for (var i=0; i<this.operands.length; i++) {
+          var operand = this.operands[i];
+          if (this.operands.length > 1) {
+            operandsMML.push(operand.getMathMLWithExplicitBrackets(context));
+          } else {
+            operandsMML.push(operand.getMathML(context));
+          }
+        }
+
+        var result="";
+
+        if (style == "sub") {
+          result = "<msub>" + symbolMML + operandsMML.join(separatorMML) + "</msub>";
+        } else if (style == "firstsub") {
+          result = "<msub>" + symbolMML + operandsMML[0] + "</msub>" + 
+              '<mfenced separator="' + separator + '">' + operandsMML.slice(1).join('') + '</mfenced>' ;
+        } else if (style == "firstsuper") {
+          result = "<mmultiscripts>" + symbolMML + "<mprescripts/>" + operandMML[0] + "<none/>" + "</mmultiscripts>" + 
+              '<mfenced separator="' + separator + '">' + operandsMML.slice(1).join('') + '</mfenced>' ;
+        } else {
+          result = symbolMML + '<mfenced separator="' + separator + '">' + operandsMML.join('') + '</mfenced>' ;
+        }
 
         return result;
+      },
+      /**
+       * get the style, with some overrides in special cases, like log, based
+       * on options
+       *
+       * returned values, firstsub, firstsuper, sub
+       */
+      getStyle : function(context) {
+        var style = this.style;
 
+        if ( (context.styleTransc1Log == "postfix") && 
+            (this.symbol instanceof semantics.Keyword) && 
+            (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
+          style = "firstsub";
+        } else if ( (context.styleTransc1Log == "prefix") && 
+            (this.symbol instanceof semantics.Keyword) && 
+            (this.symbol.cd == "transc1") && (this.symbol.name == "log") ) {
+          style = "firstsuper";
+        }
+
+        return style;
       }
 
     });

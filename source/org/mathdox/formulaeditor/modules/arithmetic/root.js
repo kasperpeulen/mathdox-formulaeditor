@@ -31,21 +31,21 @@ $main(function(){
         var presentation = org.mathdox.formulaeditor.presentation;
 
         return new presentation.Root(
-          this.operands[0].getPresentation(context),
-          this.operands[1].getPresentation(context)
+          this.operands[0].getPresentationWithExplicitBrackets(context),
+          this.operands[1].getPresentationWithExplicitBrackets(context)
         );
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
 	var base = this.operands[0];
 	var index = this.operands[1];
 
 	// TODO: also generate msqrt if index is integer, value 2
 	if (index instanceof semantics.Integer && index && index.value == 2) {
 	  // note: inferred mrow, but we might produce one
-          return "<msqrt>" + base.getMathML() + "</msqrt>";
+          return "<msqrt>" + base.getMathMLWithExplicitBrackets(context) + "</msqrt>";
 	} else {
-          return "<mroot>" + base.getMathML() + index.getMathML() + "</mroot>";
+          return "<mroot>" + base.getMathMLWithExplicitBrackets(context) + index.getMathMLWithExplicitBrackets(context) + "</mroot>";
 	}
       }
 

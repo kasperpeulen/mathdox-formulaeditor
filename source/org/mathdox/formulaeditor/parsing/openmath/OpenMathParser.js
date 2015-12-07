@@ -196,6 +196,9 @@ $main(function(){
       var keyword = org.mathdox.formulaeditor.parsing.openmath.KeywordList[symbolname];
 
       if (keyword !== null && keyword !== undefined) {
+        // get an instance, to allow explicit bracket count
+        keyword = keyword.clone();
+
         if (keyword.type == "constant" || keyword.type == "function") {
           return keyword;
         } else if (keyword.type == "infix" || keyword.type == "unary") {

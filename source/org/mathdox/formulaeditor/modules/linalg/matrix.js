@@ -44,7 +44,7 @@ $main(function(){
         for ( var row =0 ; row<this.operands.length ; row++) {
           var currentRow = [];
           for (var col = 0 ; col<this.operands[row].operands.length; col++) {
-            var entry = this.operands[row].operands[col].getPresentation(
+            var entry = this.operands[row].operands[col].getPresentationWithExplicitBrackets(
               modifiedContext);
             currentRow.push(entry);
           }
@@ -93,7 +93,7 @@ $main(function(){
           modifiedContext.inVector = true;
 
           for (var i=0; i<this.operands.length; i++) {
-            entries.push(this.operands[i].getPresentation(modifiedContext));
+            entries.push(this.operands[i].getPresentationWithExplicitBrackets(modifiedContext));
           }
        
           vector.initialize.apply(vector, entries);
@@ -107,7 +107,7 @@ $main(function(){
             if (i>0) {
               entries.push(new presentation.Symbol(context.listSeparator));
             }
-            entries.push(this.operands[i].getPresentation(context));
+            entries.push(this.operands[i].getPresentationWithExplicitBrackets(context));
           }
           entries.push(new presentation.Symbol("]"));
 

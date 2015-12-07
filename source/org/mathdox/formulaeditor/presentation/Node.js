@@ -173,7 +173,7 @@ $main(function(){
      * Returns the MathML presentation of the node. This is an abstract method,
      * so it is expected that subclasses will override this method.
      */
-    getMathML : function(mrow) {
+    getMathML : function(context, mrow) {
       throw new Error("abstract method called");
     },
 

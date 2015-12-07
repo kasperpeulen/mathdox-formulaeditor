@@ -60,7 +60,7 @@ $main(function(){
         modifiedContext.inVector = true;
 
         for (var i=0; i<this.operands.length; i++) {
-          entries.push(this.operands[i].getPresentation(modifiedContext));
+          entries.push(this.operands[i].getPresentationWithExplicitBrackets(modifiedContext));
         }
        
         vector.initialize.apply(vector, entries);

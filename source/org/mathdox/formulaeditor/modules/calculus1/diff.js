@@ -88,7 +88,7 @@ $main(function(){
 	
 	array.push("<mrow>");
 
-        if (operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context)) {
+        if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))|| operand.hasExplictBrackets()) {
           array.push("<mfenced>");
 	  array.push(operand.getMathML(context));
           array.push("</mfenced>");
@@ -109,7 +109,7 @@ $main(function(){
         var array=[];
         var operand = this.operands[1];
 
-        if (operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context)) {
+        if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))||operand.hasExplicitBrackets) {
           array.push(new presentation.Symbol("("));
           array.push(operand.getPresentation(context));
           array.push(new presentation.Symbol(")"));

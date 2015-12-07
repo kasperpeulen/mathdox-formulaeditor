@@ -82,7 +82,7 @@ $main(function(){
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML
        */
-      getMathML : function() {
+      getMathML : function(context) {
         var string = this.value.toString();
         var result=[];
 

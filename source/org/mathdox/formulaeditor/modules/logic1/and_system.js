@@ -79,14 +79,14 @@ $main(function(){
         openmath: "<OMS cd='logic1' name='and'/>"
       },
 
-      getMathML: function() {
+      getMathML: function(context) {
         var result = "<mfenced open=\"{\" close=\"\" class=\"logic1and\"><mtable>";
         var i;
 
         for (i=0; i<this.operands.length; i++) {
           /* for each operand create row with a single entry */
           /* do not use mrow inside table */
-          result = result + "<mtr><mtd>" + this.operands[i].getMathML(false) + "</mtd></mtr>";
+          result = result + "<mtr><mtd>" + this.operands[i].getMathML(context, false) + "</mtd></mtr>";
         }
 
         result = result + "</mtable></mfenced>";

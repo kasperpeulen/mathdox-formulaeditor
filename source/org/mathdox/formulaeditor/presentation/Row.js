@@ -153,7 +153,7 @@ $main(function(){
       /**
        * Returns the MathML presentation of the node.
        */
-      getMathML: function(mrow) {
+      getMathML: function(context, mrow) {
         var presentation = org.mathdox.formulaeditor.presentation;
         var result = [];
         var mode = "none";

@@ -29,10 +29,10 @@ $main(function(){
         return new presentation.Row(
           new presentation.Limit(
             new presentation.Row(
-              this.operands[2].variables[0].getPresentation(context),
+              this.operands[2].variables[0].getPresentationWithExplicitBrackets(context),
               // U+2192 rightwards arrow
               new presentation.Symbol("→"),
-              this.operands[0].getPresentation(context)
+              this.operands[0].getPresentationWithExplicitBrackets(context)
             )
           ),
           new presentation.Symbol("("),
@@ -53,18 +53,20 @@ $main(function(){
       
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
         return "<mrow>"+
           "<munder>"+
             "<mi>lim</mi>"+
             "<mrow>"+
-              this.operands[2].variables[0].getMathML() +
+              this.operands[2].variables[0].getMathMLWithExplicitBrackets(context) +
               // U+2192 rightwards arrow
               "<mo>→</mo>"+
-              this.operands[0].getMathML() +
+              this.operands[0].getMathMLWithExplicitBrackets(context) +
             "</mrow>" +
           "</munder>" +
-          this.operands[2].expression.getMathML() +
+          "<mfenced>" + 
+          this.operands[2].expression.getMathML(context) +
+          "</mfenced>" + 
         "</mrow>";
       }
     

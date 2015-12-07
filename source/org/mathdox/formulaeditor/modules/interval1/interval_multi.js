@@ -72,7 +72,7 @@ $main(function(){
       rightOpen: null,
       className: null,
 
-      getMathML: function() {
+      getMathML: function(context) {
         var result;
         var context;
         
@@ -105,8 +105,8 @@ $main(function(){
         result = "<mfenced open=\"" + bracketLeft + "\" close=\"" + bracketRight + "\"" +
                 separatorString +">";
 
-        result = result + this.operands[0].getMathML();
-        result = result + this.operands[1].getMathML();
+        result = result + this.operands[0].getMathMLWithExplicitBrackets(context);
+        result = result + this.operands[1].getMathMLWithExplicitBrackets(context);
 
         result+="</mfenced>";
         
@@ -133,14 +133,14 @@ $main(function(){
 
         var left = new presentation.Bracket(bracket);
 
-        child = new presentation.Row(this.operands[0].getPresentation(context));
+        child = new presentation.Row(this.operands[0].getPresentationWithExplicitBrackets(context));
         children.push(child);
         contents.push(child);
 
         /* use the fixed list separator string from the context */
         var listSep = context.listSeparatorFixed;
 
-        child = new presentation.Row(this.operands[1].getPresentation(context));
+        child = new presentation.Row(this.operands[1].getPresentationWithExplicitBrackets(context));
         children.push(child);
 
         if (this.rightOpen) {

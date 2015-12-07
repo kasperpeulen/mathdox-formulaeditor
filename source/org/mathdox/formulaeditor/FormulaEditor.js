@@ -493,9 +493,9 @@ $main(function(){
           } else {
             paletteEnabled = false;
           }
-          this.presentation = new Editor(parsed.getPresentation(this.getPresentationContext()), paletteEnabled);
+          this.presentation = new Editor(parsed.getPresentationWithExplicitBrackets(this.getPresentationContext()), paletteEnabled);
         } else {
-          this.presentation = new Row(parsed.getPresentation(this.getPresentationContext()));
+          this.presentation = new Row(parsed.getPresentationWithExplicitBrackets(this.getPresentationContext()));
           this.presentation.flatten();
         }
       }
@@ -926,7 +926,8 @@ $main(function(){
       var mmlstring;
       try {
         mmlstring = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">"+
-          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getMathML()+
+          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getMathML(
+            this.getPresentationContext() ) + 
           "</math>";
       }
       catch(exception) {

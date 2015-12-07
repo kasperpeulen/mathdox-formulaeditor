@@ -31,19 +31,13 @@ $main(function(){
         row.push(
           new presentation.Defint(
             new presentation.Row(
-              this.operands[0].operands[0].getPresentation(context)),
+              this.operands[0].operands[0].getPresentationWithExplicitBrackets(context)),
             new presentation.Row(
-              this.operands[0].operands[1].getPresentation(context))
+              this.operands[0].operands[1].getPresentationWithExplicitBrackets(context))
           )
         );
         
-        if (this.operands[1].expression.hasExplicitBrackets()) {
-          row.push(new presentation.Symbol('('));
-          row.push(this.operands[1].expression.getPresentation(context));
-          row.push(new presentation.Symbol(')'));
-        } else {
-          row.push(this.operands[1].expression.getPresentation(context));
-        }
+        row.push(this.operands[1].expression.getPresentationWithExplicitBrackets(context));
 
         // U+2146 differential D
         row.push(new presentation.Symbol("ⅆ"));
@@ -54,22 +48,19 @@ $main(function(){
         return result;
       },
       
-      getMathML : function() {
+      getMathML : function(context) {
       	// U+222B integral 
         var result="<mrow><msubsup><mo>∫</mo>" +
           // below: lower boundry
-          this.operands[0].operands[0].getMathML() +
+          this.operands[0].operands[0].getMathMLWithExplicitBrackets(context) +
           // above: higher boundry
-          this.operands[0].operands[1].getMathML() +
+          this.operands[0].operands[1].getMathMLWithExplicitBrackets(context) +
           "</msubsup>";
 
-        if (this.operands[1].expression.hasExplicitBrackets()) {
-          result += "<mfenced>" + 
-            this.operands[1].expression.getMathML() + "</mfenced>";
-        }
+        result += this.operands[1].expression.getMathMLWithExplicitBrackets(context);
 
         result += "<mo>ⅆ</mo>"+
-          this.operands[1].variables[0].getMathML() +
+          this.operands[1].variables[0].getMathML(context) +
 	  "</mrow>";
 
         return result;

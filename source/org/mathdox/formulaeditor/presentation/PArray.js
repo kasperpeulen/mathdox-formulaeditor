@@ -381,14 +381,14 @@ $main(function(){
       return null;
     },
 
-    getMathML: function() {
+    getMathML: function(context) {
       var result="<mtable>";
       var row, col;
       for (row=0; row<this.rows; row++) {
         result = result + "<mtr>";
         for (col=0; col<this.columns; col++) {
           result = result + "<mtd>";
-          result = result + this.entries[row][col].getMathML(true);
+          result = result + this.entries[row][col].getMathMLWithExplicitBrackets(true);
           result = result + "</mtd>";
         }
         result = result + "</mtr>";

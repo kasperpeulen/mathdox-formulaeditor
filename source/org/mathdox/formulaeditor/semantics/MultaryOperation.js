@@ -191,7 +191,7 @@ $main(function(){
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getMathML()
        */
-      getMathML : function() {
+      getMathML : function(context) {
         var result = "";
 
         if (this.addMrow === true) {
@@ -222,11 +222,11 @@ $main(function(){
               operand.hasExplicitBrackets()
 	     ) {
             result = result + "<mfenced>";
-            result = result + this.operands[i].getMathML();
+            result = result + this.operands[i].getMathML(context);
             result = result + "</mfenced>";
           }
           else {
-            result = result + this.operands[i].getMathML();
+            result = result + this.operands[i].getMathML(context);
           }
         }
 

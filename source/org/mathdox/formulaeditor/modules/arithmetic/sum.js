@@ -28,11 +28,11 @@ $main(function(){
         return new presentation.Row(
           new presentation.Sum(
             new presentation.Row(
-              this.operands[0].operands[1].getPresentation(context)),
+              this.operands[0].operands[1].getPresentationWithExplicitBrackets(context)),
             new presentation.Row(
-              this.operands[1].variables[0].getPresentation(context),
+              this.operands[1].variables[0].getPresentationWithExplicitBrackets(context),
               new presentation.Symbol("="),
-              this.operands[0].operands[0].getPresentation(context)
+              this.operands[0].operands[0].getPresentationWithExplicitBrackets(context)
             )
           ),
           new presentation.Symbol("("),
@@ -52,20 +52,20 @@ $main(function(){
       
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
         return "<mrow>"+
 	  "<munderover>" +
           // U+2211 n-ary summation
 	  "<mo>∑</mo>"+
 	  "<mrow>"+
-          this.operands[1].variables[0].getMathML() +
+          this.operands[1].variables[0].getMathMLWithExplicitBrackets(context) +
           "<mo>=</mo>"+
-          this.operands[0].operands[0].getMathML() +
+          this.operands[0].operands[0].getMathMLWithExplicitBrackets(context) +
 	  "</mrow>"+
-          this.operands[0].operands[1].getMathML() +
-          "</munderover>"+
-          this.operands[1].expression.getMathML() +
-	  "</mrow>";
+          this.operands[0].operands[1].getMathMLWithExplicitBrackets(context) +
+          "</munderover>" + "<mfenced>" +
+          this.operands[1].expression.getMathML(context) +
+	  "</mfenced>" + "</mrow>";
       }
     
     });

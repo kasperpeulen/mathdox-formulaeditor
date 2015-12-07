@@ -30,13 +30,7 @@ $main(function(){
         // U+222B integral
         row.push(new presentation.Symbol('∫'));
 
-        if (this.lambda.expression.hasExplicitBrackets()) {
-          row.push(new presentation.Symbol('('));
-          row.push(this.lambda.expression.getPresentation(context));
-          row.push(new presentation.Symbol(')'));
-        } else {
-          row.push(this.lambda.expression.getPresentation(context));
-        }
+        row.push(this.lambda.expression.getPresentationWithExplicitBrackets(context));
 
         // U+2146 differential D
         row.push(new presentation.Symbol("ⅆ"));
@@ -55,16 +49,13 @@ $main(function(){
         "</OMA>";
       },
 
-      getMathML : function() {
+      getMathML : function(context) {
         // U+222B integral
         var result = "<mrow><mo>∫</mo>";
           // U+2146 differential D
-        if (this.lambda.expression.hasExplicitBrackets()) {
-          result += "<mfenced>" + 
-            this.lambda.expression.getMathML() + "</mfenced>";
-        }
+        result += this.lambda.expression.getMathMLWithExplicitBrackets(context);
         result += "<mo>ⅆ</mo>"+
-          this.lambda.variables[0].getMathML()+
+          this.lambda.variables[0].getMathML(context)+
           "</mrow>";
 
         return result;

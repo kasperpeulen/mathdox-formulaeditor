@@ -55,6 +55,20 @@ $main(function(){
         }
       },
 
+      /** 
+       * For parsers, in particular the OpenMath parser, there is a mapping
+       * from keyword names to keywords. Instead of using the keyword in the
+       * list, this function allows to create a clone. 
+       *
+       * This is needed because different instances might have a different
+       * amount of explicit brackets.
+       */
+      clone : function() {
+        var semantics = org.mathdox.formulaeditor.semantics;
+
+        return new semantics.Variable(this.name, this.symbol);
+      },
+
       /**
        * See org.mathdox.formulaeditor.semantics.Node.getPresentation
        */

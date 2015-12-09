@@ -263,7 +263,7 @@ $main(function(){
       var variable = org.mathdox.formulaeditor.parsing.openmath.VariableList[varname];
 
       if (variable !== null && variable !== undefined) {
-	return variable;
+	return variable.clone();
       } else {
       	return new semantics.Variable(varname);
       }

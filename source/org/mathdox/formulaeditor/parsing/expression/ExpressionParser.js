@@ -368,7 +368,7 @@ $main(function() {
                 // in the list of symbols, return the corresponding object
                 // instead
                 // TODO: check if we need to update the presentation tree
-                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
+                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined].clone();
               }
             }
           ),

@@ -78,7 +78,7 @@ $main(function(){
       modifiedContext.inPalette = true;
 
       if (semanticEntry === null || semanticEntry === undefined) {
-        semanticEntry = org.mathdox.formulaeditor.parsing.openmath.KeywordList["editor1__palette_whitespace"];
+        semanticEntry = org.mathdox.formulaeditor.parsing.openmath.KeywordList["editor1__palette_whitespace"].clone();
       }
       
       // presentation for the palette

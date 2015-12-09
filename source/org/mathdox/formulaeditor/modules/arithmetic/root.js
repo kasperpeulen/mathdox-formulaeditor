@@ -117,7 +117,4 @@ $main(function(){
     }
   };
 
-    org.mathdox.formulaeditor.parsing.expression.KeywordList.rt;
-
-
 });

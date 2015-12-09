@@ -194,7 +194,7 @@ $main(function(){
               }
 
               var basename = oldsymbol.cd + "__" + newname;
-              var base = org.mathdox.formulaeditor.parsing.openmath.KeywordList[basename];
+              var base = org.mathdox.formulaeditor.parsing.openmath.KeywordList[basename].clone();
 
               var negativeExponent = oper.symbol.operands[1]; 
               var exponent = negativeExponent.operands[0]; 

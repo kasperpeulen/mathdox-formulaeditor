@@ -27,7 +27,7 @@ $main(function(){
 
         var realpart = this.handle(children.item(1));
 
-        var complexI = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__i"];
+        var complexI = org.mathdox.formulaeditor.parsing.openmath.KeywordList["nums1__i"].clone();
 
         var imagpart = this.handle(children.item(2));
         var complexpart;

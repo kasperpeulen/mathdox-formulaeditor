@@ -99,10 +99,10 @@ $main(function(){
 
       if (parsing.expression.KeywordList[value] !== undefined) {
         result = new presentation.Row(
-            parsing.expression.KeywordList[value].getPresentation(options.getPresentationContext()));
+            parsing.expression.KeywordList[value].clone().getPresentation(options.getPresentationContext()));
       } else if (parsing.expression.VariableList[value] !== undefined) {
         result = new presentation.Row(
-            parsing.expression.VariableList[value].getPresentation(options.getPresentationContext()));
+            parsing.expression.VariableList[value].clone().getPresentation(options.getPresentationContext()));
       } else {
         result = this.handleTextNode(node, context, "math");
       }

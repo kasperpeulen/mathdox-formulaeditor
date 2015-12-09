@@ -1,3 +1,5 @@
+1.1.35 
+  - fixed cloning of semantic objects (to keep track of bracket-count)
 1.1.34 
   - a lot more changes toward explicit brackets, also improved mathml output
 1.1.33 towards explicit brackets

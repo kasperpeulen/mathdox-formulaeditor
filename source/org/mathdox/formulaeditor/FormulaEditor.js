@@ -926,7 +926,7 @@ $main(function(){
       var mmlstring;
       try {
         mmlstring = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">"+
-          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getMathML(
+          this.presentation.getSemantics(this.getExpressionParsingContext()).value.getMathMLWithExplicitBrackets(
             this.getPresentationContext() ) + 
           "</math>";
       }

@@ -1,3 +1,8 @@
+1.1.35a
+  - fixed a bug with missing cloning for input_box
+  - fixed a bug when resizable brackets around expressions, didn't increase
+    the bracket count
+  - fixed a bug in mathml output where the outer brackets disappeared
 1.1.35 
   - fixed cloning of semantic objects (to keep track of bracket-count)
 1.1.34 

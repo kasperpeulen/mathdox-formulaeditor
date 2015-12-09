@@ -61,7 +61,7 @@ $main(function(){
                 var result_joined = result.join("");
 
                 // this should be in the keywordlist
-                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
+                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined].clone();
               }
             ),
             parent.variable).apply(this, arguments);

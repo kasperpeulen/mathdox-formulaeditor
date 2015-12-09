@@ -254,12 +254,14 @@ $main(function(){
         var value = sem.value;
 
         if (!(value instanceof Array)) {
+          value.addExplicitBrackets();
           return {
             rule: "braces",
             value: value
           };
         } else if (value.length === 1) {
           // NOTE: probably should not occur
+          value[0].addExplicitBrackets();
           return {
             rule: "braces",
             value: value[0]

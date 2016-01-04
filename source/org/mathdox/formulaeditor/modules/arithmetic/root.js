@@ -52,7 +52,7 @@ $main(function(){
   });
 
   /**
-  * Extend the OpenMathParser object with parsing code for arith1.divide.
+  * Extend the OpenMathParser object with parsing code for arith1.root.
   */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
@@ -96,6 +96,10 @@ $main(function(){
   });
 
   org.mathdox.formulaeditor.parsing.expression.KeywordList.rt = {
+    /* fake clone function */
+    clone : function() {
+      return this;
+    },
     parseResultFun : function(oper, array) {
       var semantics = org.mathdox.formulaeditor.semantics;
       var root = new semantics.Arith1Root();
@@ -106,6 +110,10 @@ $main(function(){
   };
 
   org.mathdox.formulaeditor.parsing.expression.KeywordList.sqrt = {
+    /* fake clone function */
+    clone : function() {
+      return this;
+    },
     parseResultFun : function(oper, array) {
       var semantics = org.mathdox.formulaeditor.semantics;
       var root = new semantics.Arith1Root();

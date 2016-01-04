@@ -1,3 +1,9 @@
+1.1.35b
+  - bugfixes: 
+    - sqrt(2) results in parse error
+    - error with option styleTransc1Log="postfix"
+    - added missing support for a_(b+1)
+    - fix with multiple parsing rules for divide
 1.1.35a
   - fixed a bug with missing cloning for input_box
   - fixed a bug when resizable brackets around expressions, didn't increase

@@ -560,6 +560,7 @@ $main(function() {
                   pG.concatenation(
                     pG.literal('_'),
                     pG.alternation(
+                      pG.rule("braces"),
                       pG.rule("variable"),
                       pG.rule("omSymbol"),
                       pG.rule("integer"),

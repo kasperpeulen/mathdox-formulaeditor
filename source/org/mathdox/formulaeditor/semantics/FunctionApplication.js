@@ -94,7 +94,7 @@ $main(function(){
             }
           }
           
-          if (this.operands.length > 1) {
+          if (this.operands.length > 1 || style == "sub") {
             sym = operand.getPresentationWithExplicitBrackets(context);
           } else {
             sym = operand.getPresentation(context);
@@ -189,7 +189,7 @@ $main(function(){
         
         for (var i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
-          if (this.operands.length > 1) {
+          if (this.operands.length > 1 || style == "sub" ) {
             operandsMML.push(operand.getMathMLWithExplicitBrackets(context));
           } else {
             operandsMML.push(operand.getMathML(context));
@@ -220,6 +220,7 @@ $main(function(){
        */
       getStyle : function(context) {
         var style = this.style;
+        var semantics = org.mathdox.formulaeditor.semantics;
 
         if ( (context.styleTransc1Log == "postfix") && 
             (this.symbol instanceof semantics.Keyword) && 

@@ -128,15 +128,6 @@ $main(function(){
           parent.expression130).apply(this, arguments);
       },
 
-      // expression160 = divide | divide_silent_addition | super.expression160
-      expression160 : function() {
-        var parent = arguments.callee.parent;
-        pG.alternation(
-          pG.rule("divide"),
-          pG.rule("divide_silent_addition"),
-          parent.expression160).apply(this, arguments);
-      },
-
       // divide = never
       divide : pG.never,
 
@@ -166,6 +157,9 @@ $main(function(){
           }
         ),
 
+      // expression160 contains parseNumber
+      // add divide and divide_silent_addition there
+      
       // parseNumber = divide | divide_silent_addition | parseNumber
       parseNumber : function() {
         var parent = arguments.callee.parent;

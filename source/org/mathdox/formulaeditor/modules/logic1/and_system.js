@@ -183,6 +183,10 @@ $main(function(){
     });
 
   org.mathdox.formulaeditor.parsing.expression.KeywordList.andsystem = {
+    /* fake clone function */
+    clone : function() {
+      return this;
+    },
     parseResultFun : function(oper, array) {
       var semantics = org.mathdox.formulaeditor.semantics;
       var oper = new semantics.Logic1And_System();

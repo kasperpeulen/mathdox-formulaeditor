@@ -13,6 +13,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // - '.' : use period as in US
 // - ',' : use comma as in Europe
 // dragPalette: if set to true: enable draggable Palette
+// floatNeedsLeadingZero: whether float values need a leading 0
+// - true (default): only parse 0.1 (not .1)
+// - false: parse both 0.1 and .1 as 0.1
 // fontSize: set font size 
 // paletteHighlight: highlight Palette
 // - true (default): highlight Palette onmouseover
@@ -95,6 +98,7 @@ $main(function() {
       optionVerboseStyle: 'false',
       optionArith1UnaryMinusBrackets : 'false',
       optionExplicitBrackets: false,
+      optionFloatNeedsLeadingZero: true,
       optionInterval1Brackets : {lo: '(', lc: '[', ro: ')', rc:']'},
       optionResizeBrackets: true,
       styleArith1Divide: 'mfrac',
@@ -198,6 +202,15 @@ $main(function() {
         return this.defaultOptions.decimalMark;
       }
     },
+    getFloatNeedsLeadingZeroOption : function() {
+      var option = this.getOption("optionFloatNeedsLeadingZero");
+
+      if (option == true || option == false) {
+        return option;
+      } 
+
+      return this.defaultOptions.optionFloatNeedsLeadingZero;
+    },
     getInterval1BracketsOption: function() {
      var option = this.getOption("optionInterval1Brackets");
 
@@ -273,6 +286,7 @@ $main(function() {
         decimalMark                    : this.getDecimalMark(),
         listSeparator                  : this.getListSeparator(),
         optionArith1DivideMode         : this.getArith1DivideMode(),
+        optionFloatNeedsLeadingZero    : this.getFloatNeedsLeadingZeroOption(),
         optionArith1PowerInversePrefix : this.getArith1PowerOptionInversePrefix(),
         optionArith1PowerPrefix        : this.getArith1PowerOptionPrefix(),
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),

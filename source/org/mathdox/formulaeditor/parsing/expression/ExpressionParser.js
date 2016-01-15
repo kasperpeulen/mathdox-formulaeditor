@@ -203,6 +203,29 @@ $main(function() {
         rule_func_super = pG.never;
       }
 
+      var floatParseRule;
+      if (context.optionFloatNeedsLeadingZero) {
+        floatParseRule = pG.concatenation( 
+          pG.repetitionplus(
+            pG.range('0','9')
+          ),
+          pG.literal(context.decimalMark),
+          pG.repetitionplus(
+            pG.range('0','9')
+          )
+        );
+      } else {
+        floatParseRule = pG.concatenation( 
+          pG.repetition(
+            pG.range('0','9')
+          ),
+          pG.literal(context.decimalMark),
+          pG.repetitionplus(
+            pG.range('0','9')
+          )
+        );
+      }
+
       return {
         // TODO make this list alphabetical
 
@@ -293,16 +316,8 @@ $main(function() {
 
         // float = [0..9]+ ++ context.decimalMark ++ [0-9]*
         parseFloat :
-          pG.transform(
-            pG.concatenation( 
-              pG.repetitionplus(
-                pG.range('0','9')
-              ),
-              pG.literal(context.decimalMark),
-              pG.repetitionplus(
-                pG.range('0','9')
-              )
-            ),
+          pG.transform( 
+            floatParseRule,
             function(result) {
               // replace decimalMark by a period
               var res=[];

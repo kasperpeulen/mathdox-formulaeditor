@@ -226,13 +226,12 @@
           <code>org.mathdox.formuleaditor.MathCanvas.specialSymbols</code>
           (file <code>org/mathdox/formulaeditor/MathCanvas</code>) and adding:
         </para>
-          <programlisting><![CDATA[
+        <programlisting><![CDATA[
   // U+2209 not an element of
   // U+2208 element of
   // U+2215 division slash
   '&#x2209;': [ '&#x2208;', '&#x2215;' ]
-          ]]></programlisting>
-        </para>
+        ]]></programlisting>
       </section>
       <section>
         <title>Adding to auto.xml</title>

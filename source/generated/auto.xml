@@ -308,6 +308,21 @@
     <model:symbol_mathml>&#x2208;</model:symbol_mathml>
     <!-- U+2208 element of -->
   </model:instance>
+  <!-- set1.notin -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/set1/notin.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>set1</model:cd>
+    <model:name>notin</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&#x2209;</model:symbol_enter>
+    <!-- U+2209 not an element of -->
+    <model:symbol_mathml>&#x2209;</model:symbol_mathml>
+    <!-- U+2208 not an element of -->
+  </model:instance>
+
 
   <!--
     Keywords

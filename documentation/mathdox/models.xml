@@ -1,4 +1,6 @@
-<article>
+<article
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
   <title>Using a template (model) to add symbols to the formulaeditor</title>
   <subtitle>Adding functions like sin using a template (model)</subtitle>
   <section>
@@ -198,6 +200,94 @@
       with <code>model="models/..."</code>. The XSLT-stylesheet used is
       <filename>source/generated/xsl/model.xsl</filename>. 
     </para>
+  </section>
+  <section>
+    <title>Example: not an element of</title>
+    <example>
+      <title>how not an element of was added</title>
+      <section>
+        <title>What is the symbol?</title>
+        <para>
+          First it is necessary to know the OpenMath symbol. This can be found at <link xlink:href='http://openmath.org/cd'/>.
+          In this case it is set1.notin (see <link xlink:href='http://www.openmath.org/cd/set1.xhtml#notin'/>).
+        </para>
+      </section>
+      <section>
+        <title>What is correct unicode value of the symbol?</title>
+        <para>
+          Then it is necessary to get the value of the mathematical unicode symbol representing the symbol. This can be found at the website <link xlink:href='http://www.unicode.org/standard/where/'>Where is my character ?</link>. The character &#x2209; has the code <code>U+2209</code>.
+        </para>
+      </section>
+      <section>
+        <title>Does the symbol exist in the image fonts?</title>
+        <para>
+          This symbol does not exist in the image fonts, but can be combined
+          from two symbols. This can be done by editing
+          <code>org.mathdox.formuleaditor.MathCanvas.specialSymbols</code>
+          (file <code>org/mathdox/formulaeditor/MathCanvas</code>) and adding:
+        </para>
+          <programlisting><![CDATA[
+  // U+2209 not an element of
+  // U+2208 element of
+  // U+2215 division slash
+  '&#x2209;': [ '&#x2208;', '&#x2215;' ]
+          ]]></programlisting>
+        </para>
+      </section>
+      <section>
+        <title>Adding to auto.xml</title>
+        <para>
+          Now it is possible to add it as a symbol to
+          <code>source/generated/auto.xml</code>. The entry for
+          <code>set1.notin</code> is a lot like the entry for
+          <code>set1.in</code>. The precedence is the same.
+        </para>
+        <programlisting><![CDATA[
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/set1/notin.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>set1</model:cd>
+    <model:name>notin</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&#x2209;</model:symbol_enter>
+    <!-- U+2209 not an element of -->
+    <model:symbol_mathml>&#x2209;</model:symbol_mathml>
+    <!-- U+2208 not an element of -->
+  </model:instance>
+        ]]></programlisting>
+      </section>
+      <section>
+        <title>Adding $require</title>
+        <para>
+          Now the source file is generated and the symbol can be displayed, but
+          the file is not yet loaded. This can be done by adding a
+          <code>$require</code> line to
+          <code>org/mathdox/formulaeditor/Formulaeditor.js</code>:
+          <code>$require("org/mathdox/formulaeditor/modules/set1/notin.js");</code>.
+        </para>
+      </section>
+      <section>
+        <title>Testing the symbol</title>
+        <para>
+          Next thing might be to test the symbol. This can be done by entering
+          <code>notin(pi,NN)</code> and then refreshing by pressing
+          <code>F5</code>, which should reload the formulaeditor (this might
+          not work in some browsers and will not work if the focus is not on
+          the editor).
+        </para>
+      </section>
+      <section>
+        <title>Adding the symbol to the palette</title>
+        <para>
+          Next thing might be to add it to the palette. At the moment
+          documentation for this does not yet exist, but in the future this can
+          be found at <link
+          xlink:href='http://evo02.win.tue.nl/mathadore/mathdox/manual/formulaeditor/usage1.xml'/>
+        </para>
+      </section>
+     </example>
   </section>
   <section>
     <title>Conclusion</title>

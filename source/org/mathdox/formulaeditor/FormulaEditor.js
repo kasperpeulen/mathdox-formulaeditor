@@ -94,6 +94,7 @@ $require("org/mathdox/formulaeditor/modules/relation1/neq.js");
 $require("org/mathdox/formulaeditor/modules/relation1/IntervalNotation.js");
 
 $require("org/mathdox/formulaeditor/modules/set1/in.js");
+$require("org/mathdox/formulaeditor/modules/set1/notin.js");
 
 $main(function(){
 

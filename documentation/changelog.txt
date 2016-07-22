@@ -4,6 +4,7 @@
     - error with option styleTransc1Log="postfix"
     - added missing support for a_(b+1)
     - fix with multiple parsing rules for divide
+  - added set1.notin
 1.1.35a
   - fixed a bug with missing cloning for input_box
   - fixed a bug when resizable brackets around expressions, didn't increase

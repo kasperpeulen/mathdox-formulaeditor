@@ -1033,7 +1033,11 @@ $main(function(){
     'ⅆ': [ 'd' ],
     // U+2260 not equal to
     // U+2215 division slash
-    '≠': [ '=', '∕' ]
+    '≠': [ '=', '∕' ],
+    // U+2209 not an element of
+    // U+2208 element of
+    // U+2215 division slash
+    '∉': [ '∈', '∕' ]
   };
 
   org.mathdox.formulaeditor.MathCanvas.fillSymbolPositions = function() {

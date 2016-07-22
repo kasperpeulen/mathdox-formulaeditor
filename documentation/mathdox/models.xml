@@ -208,8 +208,8 @@
       <section>
         <title>What is the symbol?</title>
         <para>
-          First it is necessary to know the OpenMath symbol. This can be found at <link xlink:href='http://openmath.org/cd'/>.
-          In this case it is set1.notin (see <link xlink:href='http://www.openmath.org/cd/set1.xhtml#notin'/>).
+          First it is necessary to know the OpenMath symbol. This can be found at <link xlink:href='http://openmath.org/cd'>http://openmath.org/cd</link>.
+          In this case it is set1.notin (see <link xlink:href='http://www.openmath.org/cd/set1.xhtml#notin'>http://www.openmath.org/cd/set1.xhtml#notin</link>).
         </para>
       </section>
       <section>
@@ -283,7 +283,8 @@
           Next thing might be to add it to the palette. At the moment
           documentation for this does not yet exist, but in the future this can
           be found at <link
-          xlink:href='http://evo02.win.tue.nl/mathadore/mathdox/manual/formulaeditor/usage1.xml'/>
+          xlink:href='http://evo02.win.tue.nl/mathadore/mathdox/manual/formulaeditor/usage1.xml'>Changing
+          the Palette</link>
         </para>
       </section>
      </example>

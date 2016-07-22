@@ -253,7 +253,7 @@
     <model:symbol_enter>&#x2209;</model:symbol_enter>
     <!-- U+2209 not an element of -->
     <model:symbol_mathml>&#x2209;</model:symbol_mathml>
-    <!-- U+2208 not an element of -->
+    <!-- U+2209 not an element of -->
   </model:instance>
         ]]></programlisting>
       </section>

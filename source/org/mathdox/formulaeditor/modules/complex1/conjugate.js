@@ -3,7 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/complex1/conjugate.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
-$require("org/mathdox/formulaeditor/presentation/OverLine.js");
+$require("org/mathdox/formulaeditor/presentation/Overline.js");
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
 
 $main(function(){
@@ -38,11 +38,12 @@ $main(function(){
         result += "</mover>";
 
         return result;
-      }
+      },
 
       initialize : function() {
         this.child = arguments[0];
       }
+  });
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.times.
@@ -76,7 +77,7 @@ $main(function(){
         var over = children.item(1);
 
         // U+00AF MACRON, also MathML OverBar
-        if (over.tagName == "mo" && over.innerHTML.trim() = "¯") { 
+        if ((over.tagName == "mo") && (over.innerHTML.trim() == "¯")) { 
           var child = this.parse(children.item(0));
           return new presentation.Overline(child);
         }

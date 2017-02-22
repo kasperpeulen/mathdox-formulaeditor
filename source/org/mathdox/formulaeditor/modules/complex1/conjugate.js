@@ -4,7 +4,8 @@ $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.j
 $require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/presentation/Overline.js");
-$require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/semantics/Node.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
 
 $main(function(){
  
@@ -18,14 +19,13 @@ $main(function(){
       child: null,
 
       getPresentation: function(context) {
-        var result = new presentation.Overline();
-        result.initialize.apply(child);
+        var result = new presentation.Overline(this.child.getPresentation(context));
 
         return result;
       }, 
 
       getOpenMath : function() {
-        return "<OMA>" + this.getOpenMathCommonAttributes() + ">" +
+        return "<OMA" + this.getOpenMathCommonAttributes() + ">" +
           "<OMS cd='complex1' name='conjugate'/>" +
           this.child.getOpenMath() +
           "</OMA>";
@@ -33,7 +33,7 @@ $main(function(){
 
       getMathML : function(context) {
         result = "<mover>";
-        result += child.getMathML(context);
+        result += this.child.getMathML(context);
         result += "<mo>¯</mo>"; // U+00AF MACRON, also MathML OverBar
         result += "</mover>";
 
@@ -62,7 +62,10 @@ $main(function(){
         var child = this.handle(children.item(1));
 
         // construct a conjugate object
-        return new semantics.Complex1Conjugate(child);
+	// return new semantics.Complex1Conjugate(child);
+	var result = new semantics.Complex1Conjugate(child);
+
+	return result;
       }
 
     });
@@ -95,12 +98,12 @@ $main(function(){
       expression160 : function() {
         var parent = arguments.callee.parent;
         pG.alternation(
-          pG.rule("overline", 
-          parent.expression160).apply(this, arguments)
-        );
+          pG.rule("overline"), 
+          parent.expression160).apply(this, arguments);
       },
 
-      overline: none
-    }; }
-  );
+      overline: pG.never
+    }; 
+  });
+
 });

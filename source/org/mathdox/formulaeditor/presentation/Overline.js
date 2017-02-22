@@ -30,8 +30,8 @@ $main(function(){
         this.middle.initialize.apply(this.middle, arguments);
         this.middle.margin = 10.0;
 
-        arguments.callee.parent.initialize.call(this, leftBracket, 
-          this.middle, rightBracket);
+        arguments.callee.parent.initialize.call(this, null, 
+          this.middle, null);
       },
 
       /**
@@ -48,20 +48,19 @@ $main(function(){
         
         middleheight = this.middle.dimensions.height + this.lineWidth + this.margin*2;
 
-        var yAdjustMiddle = - (this.middle.dimensions.top+this.middle.dimensions.height) - this.margin;
 
         this.dimensions = { 
           height : middleheight,
           width : 
-            this.middle.dimensions.width + this.margin,
+            this.middle.dimensions.width + this.margin * 2,
           left : x,
-          top : y - yAdjustMiddle
+          top : y + this.middle.dimensions.top - this.lineWidth - this.margin * 2
         };
      
         this.drawHighlight(canvas, invisible);
 
         this.middle.draw(canvas, context,
-          x - this.middle.dimensions.left + this.margin , 
+          x - this.middle.dimensions.left + this.margin,
           y, invisible);
 
         if (!invisible) {
@@ -71,8 +70,8 @@ $main(function(){
           canvasContext.save();
           canvasContext.lineWidth = this.lineWidth;
           canvasContext.beginPath();
-          canvasContext.moveTo(x - 1, this.dimensions.top + this.lineWidth);
-          canvasContext.lineTo(x + this.dimensions.width, this.dimensions.top + this.lineWidth);
+          canvasContext.moveTo(x, this.dimensions.top + this.margin + this.lineWidth/2);
+          canvasContext.lineTo(x + this.dimensions.width, this.dimensions.top + this.margin + this.lineWidth/2);
           canvasContext.stroke();
           canvasContext.closePath();
           canvasContext.restore();

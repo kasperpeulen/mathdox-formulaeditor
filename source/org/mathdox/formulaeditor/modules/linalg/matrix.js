@@ -55,6 +55,28 @@ $main(function(){
         result.initialize.apply(result,rows);
        
         return result;
+      },
+
+      getOpenMath : function() {
+        var parent = arguments.callee.parent;
+
+        // check dimension
+        var samelength=true;
+        var i;
+        var length = this.operands[0].operands.length;
+
+        for (i=1; i<this.operands.length; i++) {
+          samelength = samelength && 
+            this.operands[i].operands.length === length;
+        }
+
+        if (!samelength) {
+          var result="<OME><OMS cd='moreerrors' name='encodingError'/>";
+          result += "<OMSTR>Expected rows to be of equal size in <OMS cd='linalg2' name='matrix'/></OMSTR>";
+          result += "</OME>";
+        } 
+
+        return parent.getOpenMath.call(this);
       }
 
     });

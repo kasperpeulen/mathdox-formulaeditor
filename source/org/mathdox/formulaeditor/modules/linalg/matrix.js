@@ -74,9 +74,11 @@ $main(function(){
           var result="<OME><OMS cd='moreerrors' name='encodingError'/>";
           result += "<OMSTR>Expected rows to be of equal size in <OMS cd='linalg2' name='matrix'/></OMSTR>";
           result += "</OME>";
-        } 
 
-        return parent.getOpenMath.call(this);
+	  return result;
+        } else {
+          return parent.getOpenMath.call(this);
+	}
       }
 
     });

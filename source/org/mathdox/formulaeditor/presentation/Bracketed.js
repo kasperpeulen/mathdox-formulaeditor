@@ -133,21 +133,25 @@ $main(function(){
 
         return this.dimensions;
       },
+
       functionsFromRow : [ "getFirstCursorPosition",
         "getLastCursorPosition", "getLowerCursorPosition",
         "getHigherCursorPosition" ],
+
       getCursorPosition: function(x,y) {
         var dimensions;
 
-        dimensions = this.leftBracket.dimensions;
-        if (x < dimensions.left + dimensions.width) {
-          if (this.parent !== null) {
-            return { row: this.parent, index: this.index };
-          } else {
-            return null;
-          }
-          return this.getFollowingCursorPosition();
-        }
+	if (this.leftBracket !== null) {
+          dimensions = this.leftBracket.dimensions;
+          if (x < dimensions.left + dimensions.width) {
+            if (this.parent !== null) {
+              return { row: this.parent, index: this.index };
+            } else {
+              return null;
+            }
+            return this.getFollowingCursorPosition();
+          } 
+	}
         dimensions = this.middle.dimensions;
         if (x < dimensions.left + dimensions.width) {
           return this.middle.getCursorPosition(x,y);
@@ -247,7 +251,14 @@ $main(function(){
        * To be used for copy/paste or undo. See also Presentation/Node.js
        */
       copy : function () {
-        return this.clone(this.leftBracket.copy(), this.children[0].copy(), this.rightBracket.copy());
+	var left = null, right= null;
+	if (this.leftBracket!== null) {
+	  left = this.leftBracket.copy();
+	}
+	if (this.rightBracket!== null) {
+	  right = this.rightBracket.copy();
+	}
+        return this.clone(left, this.children[0].copy(), right);
       },
       getSemantics: function(context) {
         var sem = this.middle.getSemantics(context, null, null, "functionArguments", null);

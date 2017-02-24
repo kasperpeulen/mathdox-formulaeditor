@@ -22,11 +22,13 @@ $main(function(){
 
       // default is row vector
       semanticVectorName : "Linalg2Vector",
+      leftBracket : '(',
+      rightBracket : ')',
 
       initialize : function () {
         var presentation = org.mathdox.formulaeditor.presentation;
-        var leftBracket = new presentation.Bracket('(');
-        var rightBracket = new presentation.Bracket(')');
+        var leftBracket = new presentation.Bracket(this.leftBracket);
+        var rightBracket = new presentation.Bracket(this.rightBracket);
 
         this.middle = new presentation.Column();
         this.middle.initialize.apply(this.middle,arguments);

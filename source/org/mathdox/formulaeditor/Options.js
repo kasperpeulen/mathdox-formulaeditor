@@ -44,6 +44,9 @@ $identify("org/mathdox/formulaeditor/Options.js");
 //   ro: right symbol for right-open interval
 //   rc: right symbol for right-closed interval
 //   default: { lo: "(", lc: "[", ro: ")", rc: "]" }
+// optionLinalg3VectorSquareBrackets 
+// - true use [, ] as brackets
+// - false (default) use (, ) as brackets
 // optionListSeparatorFixed
 // - list separator for non-editable lists
 //   default : same as getListSeparator()
@@ -100,6 +103,7 @@ $main(function() {
       optionExplicitBrackets: false,
       optionFloatNeedsLeadingZero: true,
       optionInterval1Brackets : {lo: '(', lc: '[', ro: ')', rc:']'},
+      optionLinalg3VectorSquareBrackets: false,
       optionResizeBrackets: true,
       styleArith1Divide: 'mfrac',
       styleArith1Times: 'dot',
@@ -228,6 +232,15 @@ $main(function() {
       	return "row";
       } else {
         return "column";
+      }
+    },
+    getLinalg3VectorBrackets : function () {
+      var option = this.getOption("optionLinalg3VectorSquareBrackets");
+
+      if (option) {
+	return { left: "[", right: "]" };
+      } else {
+	return { left: "(", right: ")" };
       }
     },
     getListSeparator : function() {

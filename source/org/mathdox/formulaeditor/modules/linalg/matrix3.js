@@ -1,5 +1,6 @@
 $identify("org/mathdox/formulaeditor/modules/linalg/matrix3.js");
 
+$require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/modules/linalg/matrix.js");
 $require("org/mathdox/formulaeditor/modules/linalg/matrixrow.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
@@ -26,7 +27,18 @@ $main(function(){
 
   org.mathdox.formulaeditor.presentation.Linalg3Vector = 
     $extend(org.mathdox.formulaeditor.presentation.Vector, {
-      semanticVectorName : "Linalg3Vector"
+      semanticVectorName : "Linalg3Vector",
+
+      initialize: function () {
+	var parent = arguments.callee.parent;
+	var options = new org.mathdox.formulaeditor.Options();
+	var brackets = options.getLinalg3VectorBrackets();
+
+	this.leftBracket = brackets.left;
+	this.rightBracket = brackets.right;
+
+	return parent.initialize.apply(this, arguments);
+      }
     });
 
   /**
@@ -50,7 +62,7 @@ $main(function(){
       getPresentation : function(context) {
         var presentation = org.mathdox.formulaeditor.presentation;
         var entries = [];
-        var vector = new presentation.Vector();
+        var vector = new presentation.Linalg3Vector();
 
         // add inVector to a copy of the context
         var modifiedContext = {};
@@ -64,7 +76,6 @@ $main(function(){
         }
        
         vector.initialize.apply(vector, entries);
-        vector.semanticVectorName = "Linalg3Vector";
 
         return vector;
       }

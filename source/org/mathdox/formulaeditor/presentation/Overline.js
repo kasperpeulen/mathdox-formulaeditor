@@ -87,8 +87,10 @@ $main(function(){
       },
 
       getSemantics : function(context) {
+        var semantics = org.mathdox.formulaeditor.semantics;
+
         return {
-          value : this.middle.getSemantics(context).value,
+          value : new semantics.Complex1Conjugate(this.middle.getSemantics(context).value),
           rule  : "overline"
         };
       }

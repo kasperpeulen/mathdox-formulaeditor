@@ -81,7 +81,7 @@ $main(function(){
 
         // U+00AF MACRON, also MathML OverBar
         if ((over.tagName == "mo") && (over.innerHTML.trim() == "¯")) { 
-          var child = this.parse(children.item(0));
+          var child = this.handle(children.item(0));
           return new presentation.Overline(child);
         }
         /* default: call parent */

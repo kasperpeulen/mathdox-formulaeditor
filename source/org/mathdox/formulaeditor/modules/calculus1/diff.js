@@ -1,6 +1,7 @@
 $identify("org/mathdox/formulaeditor/modules/calculus1/diff.js");
 
 $require("org/mathdox/formulaeditor/semantics/MultaryOperation.js");
+$require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
 $require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -88,7 +89,7 @@ $main(function(){
 	
 	array.push("<mrow>");
 
-        if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))|| operand.hasExplictBrackets()) {
+        if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))|| operand.hasExplicitBrackets()) {
           array.push("<mfenced>");
 	  array.push(operand.getMathML(context));
           array.push("</mfenced>");
@@ -98,6 +99,8 @@ $main(function(){
 
         var symbol_mathml = this.getSymbolMathML();
         array.push(symbol_mathml[2]);
+
+	array.push("</mrow>");
         
         // join row to result string
         var result = array.join("");
@@ -109,7 +112,7 @@ $main(function(){
         var array=[];
         var operand = this.operands[1];
 
-        if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))||operand.hasExplicitBrackets) {
+        if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))||operand.hasExplicitBrackets()) {
           array.push(new presentation.Symbol("("));
           array.push(operand.getPresentation(context));
           array.push(new presentation.Symbol(")"));
@@ -131,6 +134,30 @@ $main(function(){
       }
 
     });
+
+  /**
+   * Extend the MathML object with parsing code for msup prime
+   */
+  org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
+    $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {
+      handlemsup: function(node, context) {
+        var children = node.childNodes;
+        var sup = children.item(1);
+
+        // U+2032 prime
+        if ((sup.tagName == "mo" || sup.tagName == 'mi') && (sup.innerHTML.trim() == "′" || sup.innerHTML.trim() == "'")) { 
+          var oper = this.handle(children.item(0));
+	  var primes = this.handleTextNode(sup, context);
+
+          return new presentation.Row(oper, primes);
+        }
+
+        /* default: call parent */
+        var parent = arguments.callee.parent;
+        return parent.handlemover.call(this, node, context);
+      }
+    });
+
 
   /**
    * Extend the OpenMathParser object with parsing code for arith1.unary_minus.

@@ -44,7 +44,7 @@ $main(function(){
         value = "ⅆ";
       }
 
-      var row;
+      var row = new presentation.Row();
 
       var arr = [];
       var i;
@@ -54,16 +54,15 @@ $main(function(){
         
         if (org.mathdox.formulaeditor.presentation.SymbolAliases[ch] !== null) {
           if (style === null || style === undefined) {
-            arr.push(new presentation.Symbol(ch));
+            arr.push(row.newSymbol(ch));
           } else {
-            arr.push(new presentation.Symbol(ch, style));
+            arr.push(row.newSymbol(ch, style));
           }
         } else {
           console.log("null character at position: "+i);
         }
       }
       if (arr.length>0) {
-        row = new presentation.Row();
         row.initialize.apply(row, arr);
       } else {
         row = null;

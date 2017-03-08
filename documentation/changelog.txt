@@ -1,3 +1,4 @@
+  - fixed calculus1.diff mathml prime parse
   - fixed complex1.conjugate mathml parse
 1.1.35d
   - added complex1.conjugate support

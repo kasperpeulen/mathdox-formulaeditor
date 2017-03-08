@@ -205,21 +205,25 @@ $main(function(){
       /**
        * Generates a symbol in the correct style
        */
-      newSymbol: function(character) {
+      newSymbol: function(character, style) {
 	var SuperscriptSymbol = org.mathdox.formulaeditor.presentation.SuperscriptSymbol;
 	var Symbol = org.mathdox.formulaeditor.presentation.Symbol;
+	
+	if (style === undefined) {
+	  style = null;
+	}
 
         if (character == " ") {
           // spaces do not have a value
           return new Symbol([""," "]);
-        } else if (((character >= 'a') && (character <='z'))||
-                   ((character >= 'A') && (character <='Z'))) {
+        } else if ((style === null) && (((character >= 'a') && (character <='z'))||
+                   ((character >= 'A') && (character <='Z')))) {
           return new Symbol(character, "math");
         } else if (character == "'" || character =="′" ) {
           // quote or U+2032 prime
-          return new SuperscriptSymbol(character);
+          return new SuperscriptSymbol(character, style);
         } else {
-          return new Symbol(character);
+          return new Symbol(character, style);
         }
       },
 

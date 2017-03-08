@@ -68,7 +68,7 @@ $main(function(){
           arg0 = this.value;
         }
 
-        if (this.typeface !== null) {
+        if (this.typeface !== null && this.typeface !== undefined) {
           result = this.clone(arg0, this.typeface);
         } else {
           result = this.clone(arg0);

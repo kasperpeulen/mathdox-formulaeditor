@@ -157,9 +157,7 @@ $main(function(){
        * See org.mathdox.formulaeditor.semantics.Node.getOpenMath()
        */
       getOpenMath : function() {
-        var semantics = org.mathdox.formulaeditor.semantics;
         var result;
-        var options = new org.mathdox.formulaeditor.Options();
 
         var argtest = this.checkArguments(this.operands);
 
@@ -184,8 +182,8 @@ $main(function(){
           result = result + this.operands[i].getOpenMath();
         }
         result = result + "</OMA>";
-        return result;
 
+        return result;
       },
 
       /**

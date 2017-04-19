@@ -48,6 +48,8 @@ $require("org/mathdox/formulaeditor/modules/calculus1/defint.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/diff.js");
 $require("org/mathdox/formulaeditor/modules/calculus1/int.js");
 
+$require("org/mathdox/formulaeditor/modules/calculus3/diff.js");
+
 $require("org/mathdox/formulaeditor/modules/complex1/complex_cartesian.js");
 $require("org/mathdox/formulaeditor/modules/complex1/conjugate.js");
 

@@ -263,6 +263,11 @@
   	  <OMS cd='editor1' name='input_box'/>
   	  <OMS cd='editor1' name='input_box'/>
         </OMA>
+        <OMA>
+  	  <OMS cd='calculus3' name='diff'/>
+  	  <OMV name='x'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
       </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>
@@ -271,6 +276,7 @@
   	  <OMS cd='editor1' name='input_box'/>
   	  <OMS cd='editor1' name='input_box'/>
         </OMA>
+        <OMS cd='editor1' name='palette_whitespace'/>
       </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>
@@ -279,6 +285,7 @@
   	  <OMS cd='editor1' name='input_box'/>
   	  <OMS cd='editor1' name='input_box'/>
         </OMA>
+        <OMS cd='editor1' name='palette_whitespace'/>
       </OMA>
       <OMA>
         <OMS cd='editor1' name='palette_row'/>
@@ -287,6 +294,7 @@
   	  <OMS cd='editor1' name='input_box'/>
   	  <OMS cd='editor1' name='input_box'/>
         </OMA>
+        <OMS cd='editor1' name='palette_whitespace'/>
       </OMA>
     </OMA>
   </OMA>

@@ -78,8 +78,19 @@ $main(function(){
         vector.initialize.apply(vector, entries);
 
         return vector;
-      }
+      },
 
+      getSymbolMathML : function(context) {
+	var options = new org.mathdox.formulaeditor.Options();
+	var brackets = options.getLinalg3VectorBrackets();
+
+	var mathml = [];
+	mathml.push(this.symbol.mathml[0].replace("(", brackets.left).replace(")", brackets.right));
+	mathml.push(this.symbol.mathml[1]);
+	mathml.push(this.symbol.mathml[2]);
+
+        return mathml;
+      }
     });
   /**
    * Extend the MathML object with parsing code for mfenced systems of equations

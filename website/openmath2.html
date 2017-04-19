@@ -50,6 +50,17 @@
 	var textarea = document.getElementById("mathml1");
 
 	textarea.value = mathml;
+
+	var mathmlDiv = document.getElementById("mathml2");
+
+	mathmlDiv.innerHTML = mathml;
+      };
+      loadMathML = function() {
+	var textarea = document.getElementById("mathml1");
+        org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
+          "formula1").loadMathML(textarea.value);
+        org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
+          "formula1").redraw();
       };
       docopy = function() {
 	var presCopy = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea(
@@ -122,8 +133,13 @@
       <button type="button" name="MathML" value='MathML' onclick='updateMathML()'>
 	Update MathML
       </button>
-      <button type="button" name="MathML" value='MathML' onclick='docopy()'>
+      <div id='mathml2'>
+      </div>
+      <button type="button" name="MathML2" value='MathML' onclick='docopy()'>
 	Copy presentation 
+      </button>
+      <button type="button" name="MathML3" value='MathML' onclick='loadMathML()'>
+	Load MathML
       </button>
       <textarea id='mathml1' style='margin-right: 2em' rows='10' cols='80'>
       </textarea>

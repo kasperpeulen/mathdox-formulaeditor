@@ -25,6 +25,14 @@ $main(function() {
       var func_subUpdate = function(oper) {
         return oper;
       };
+      
+      var func_logBaseCheck = function(oper) {
+        return false;
+      };
+
+      var func_logBaseUpdate = function(oper) {
+        return oper;
+      };
 
       // expression160 = braces | integer | variable
       var expression160 = pG.alternation(
@@ -139,14 +147,70 @@ $main(function() {
             return oper;
           }
         };
- 	
+         
+      }
+
+      var transc1LogBase = false;
+
+      if (context.optionTransc1LogBase == 2 || context.optionTransc1LogBase == "2") {
+        transc1LogBase = function() { return new semantics.Integer(2); };
+      } else if (context.optionTransc1LogBase == 10 || context.optionTransc1LogBase == "10") {
+        transc1LogBase = function() { return new semantics.Integer(10); };
+      } else if (context.optionTransc1LogBase == "e") {
+        transc1LogBase = function() { return org.mathdox.formulaeditor.parsing.expression.KeywordList['nums1__e'].clone(); };
+      }
+
+      if (context.optionTransc1LogBase !== false) {
+        func_logBaseCheck = function(operInput) {
+          // XXX debug here
+          var oper = operInput;
+
+          // oper should be a function application
+          if (! (oper instanceof semantics.FunctionApplication) ) {
+            return false;
+          }
+
+          // symbol should exist
+          if (oper.symbol === undefined || oper.symbol === null) {
+            return false;
+          } 
+
+          // arguments should be 1 (instead of 2)
+          if (oper.operands.length !== 1) {
+            return false;
+          }
+
+          // symbol should be a keyword
+          if (!( oper.symbol instanceof semantics.Keyword)) {
+            return false;
+          }  
+          
+          if (oper.symbol.cd == "transc1" && oper.symbol.name == "log" ) {
+            return true;
+          }
+          
+          return false;
+        };
+        
+        func_logBaseUpdate = function(oper) {
+          if (transc1LogBase != false && func_logBaseCheck(oper)) {
+            var newoperands = [];
+
+            newoperands.push(transc1LogBase());
+            newoperands.push(oper.operands[0]);
+
+            return new semantics.FunctionApplication(oper.symbol, newoperands); 
+          } else {
+            return oper;
+          }
+        };
       }
 
       var rule_func_super;
       var rule_expression160;
 
       if (context.styleTransc1Log === "prefix") {
-	rule_expression160 = pG.alternation(
+        rule_expression160 = pG.alternation(
           pG.rule("braces"),
           pG.rule("parseNumber"),
           pG.rule("func"),
@@ -157,10 +221,10 @@ $main(function() {
           pG.rule("omString")
         );
 
-	rule_func_super = 
+        rule_func_super = 
           pG.transform(
             pG.concatenation(
-	      pG.rule("superscript"),
+              pG.rule("superscript"),
               pG.alternation(
                 pG.rule("variable"),
                 pG.rule("omSymbol")
@@ -168,17 +232,17 @@ $main(function() {
               pG.alternation(
                 pG.rule("braces"),
                 pG.rule("bracesWithSeparatedArguments")
-	      )
-	    ),
+              )
+            ),
           function(result) {
             var array = [];
             var semantics = org.mathdox.formulaeditor.semantics;
            
-	    array.push(result[0]);
-	    var oper = result[1];
+            array.push(result[0]);
+            var oper = result[1];
             var str;
 
-	    // 2 : arguments 
+            // 2 : arguments 
             if (result[2] instanceof Array) {
               // bracesWithSeparatedArguments
               array = result[2];
@@ -189,9 +253,9 @@ $main(function() {
 
             return new semantics.FunctionApplication(oper, array);
           }
-	);
+        );
       } else {
-	rule_expression160 = pG.alternation(
+        rule_expression160 = pG.alternation(
           pG.rule("braces"),
           pG.rule("parseNumber"),
           pG.rule("func"),
@@ -253,7 +317,7 @@ $main(function() {
 
         // expression120 = expression130
         expression120 : pG.rule("expression130"), // plus, minus 
-        					  // forall
+                                                  // forall
 
         // expression130 = expression140
         expression130 : pG.rule("expression140"), // times
@@ -302,7 +366,7 @@ $main(function() {
                 }
               }
 
-	      if (numstr.length <= 10) {
+              if (numstr.length <= 10) {
                 return new semantics.Integer(Number(result.join("")));
               } else {
                 return new semantics.Integer( {
@@ -310,7 +374,7 @@ $main(function() {
                     rule : "bigint"
                   }
                 );
-	      }
+              }
             }
           ),
 
@@ -321,24 +385,24 @@ $main(function() {
             function(result) {
               // replace decimalMark by a period
               var res=[];
-	      var i;
+              var i;
               for (i=0; i<result.length; i++) {
-		if (result[i] instanceof Object) {
+                if (result[i] instanceof Object) {
                   res.push(result[i].value);
-		} else {
+                } else {
                   res.push(result[i]);
-		}
+                }
               }
 
               var string = res.join("");
               res=[];
 
               for (i=0; i<string.length; i++) {
-		if (string.charAt(i)>='0' && string.charAt(i)<='9' ) {
+                if (string.charAt(i)>='0' && string.charAt(i)<='9' ) {
                   res.push(string.charAt(i));
-		} else {
+                } else {
                   res.push('.');
-		}
+                }
               }
 
               return new semantics.SemanticFloat(res.join(""));
@@ -469,9 +533,9 @@ $main(function() {
             ),
             function(result) {
               // increase the bracket count
-	      result[1].addExplicitBrackets();
+              result[1].addExplicitBrackets();
               
-	      return result[1];
+              return result[1];
             }
           ),
 
@@ -497,16 +561,16 @@ $main(function() {
           ),
         // NOTE: produces an object for the first rule and an array for the second
         // for use with presentation/Bracketed.js parsing
-	functionArguments : 
-	  pG.alternation(
+        functionArguments : 
+          pG.alternation(
             pG.rule("expression"),
             pG.rule("separatedArguments")
           ),
         bracesWithSeparatedArguments :
-	  pG.transform(
-	    pG.concatenation(
+          pG.transform(
+            pG.concatenation(
               pG.literal('('),
-	      pG.rule("separatedArguments"),
+              pG.rule("separatedArguments"),
               pG.literal(')')
             ),
             function (result) {
@@ -516,13 +580,13 @@ $main(function() {
 
         // function = variable '(' expr ( ',' expr ) * ')'
         func : function() {
-	  var obj = this;
+          var obj = this;
 
           pG.transform(
             pG.concatenation(
               pG.rule("func_symbol"),
               pG.repetitionplus(
-		pG.alternation(
+                pG.alternation(
                   pG.rule("braces"),
                   pG.rule("bracesWithSeparatedArguments")
                 )
@@ -555,7 +619,7 @@ $main(function() {
               return oper;
             }
           ).apply(this, arguments);
-	  },
+          },
         func_symbol: pG.alternation(
             pG.rule("variable"),
             pG.rule("omSymbol"),
@@ -645,15 +709,15 @@ $main(function() {
             }
           ),
         func_super: rule_func_super,
-	func_Update: func_subUpdate,
-	// update function for infix expression
-	infix_Update : function(expr) {
-	  return expr;
-	},
+        func_Update: function(oper) { return func_subUpdate(func_logBaseUpdate(oper)); },
+        // update function for infix expression
+        infix_Update : function(expr) {
+          return expr;
+        },
           // subscript : rule only occurs from presentation
         subscript: pG.never,
           // superscript : rule only occurs from presentation
-	superscript: pG.never
+        superscript: pG.never
         };
       }
 

@@ -94,7 +94,7 @@ $main(function(){
             }
           }
           
-          if (this.operands.length > 1 || style == "sub") {
+          if (this.operands.length > 2 || style == "sub" || (this.operands.length == 2 && style != "firstsuper" && style != "firstsub") ) {
             sym = operand.getPresentationWithExplicitBrackets(context);
           } else {
             sym = operand.getPresentation(context);

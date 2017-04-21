@@ -34,6 +34,11 @@ $identify("org/mathdox/formulaeditor/Options.js");
 // optionArith1UnaryMinusBrackets
 // - true: lower priority unary_minus, e.g. 1 + (-2)
 // - false: "normal" priority unary_minus e.g. 1 + -2 (default)
+// optionTransc1LogBase: set base for log function with a single argument
+// - false : no default argument
+// - "2" or 2: use 2 as base 
+// - "e": use nums1.e as base
+// - "10" or 10: use 10 as base 
 // optionExplicitBrackets
 // - false: (default)
 // - true: add @brackets to openmath output when brackets are used (works only for OMA)
@@ -105,6 +110,7 @@ $main(function() {
       optionInterval1Brackets : {lo: '(', lc: '[', ro: ')', rc:']'},
       optionLinalg3VectorSquareBrackets: false,
       optionResizeBrackets: true,
+      optionTransc1LogBase: false,
       styleArith1Divide: 'mfrac',
       styleArith1Times: 'dot',
       styleLinalg2Vector: 'column',
@@ -275,6 +281,15 @@ $main(function() {
       return this.defaultOptions.optionResizeBrackets;
     },
 
+    getTransc1LogOptionBase : function () {
+      var option = this.getOption("optionTransc1LogBase");
+
+      if (option == '2' || option == '10' || option == 'e' || option == 2 || option == 10 || option === false) {
+        return option;
+      } 
+
+      return this.defaultOptions.styleTransc1Log;
+    },
     getTransc1LogStyle : function () {
       var option = this.getOption("styleTransc1Log");
 
@@ -303,6 +318,7 @@ $main(function() {
         optionArith1PowerInversePrefix : this.getArith1PowerOptionInversePrefix(),
         optionArith1PowerPrefix        : this.getArith1PowerOptionPrefix(),
         optionArith1UnaryMinusBrackets : this.getArith1UnaryMinusOptionBrackets(),
+	optionTransc1LogBase           : this.getTransc1LogOptionBase(),
 	styleLinalg2Vector             : this.getLinalg2VectorStyle(),
         styleTransc1Log                : this.getTransc1LogStyle(),
         symbolArith1Times              : this.getArith1TimesSymbol()

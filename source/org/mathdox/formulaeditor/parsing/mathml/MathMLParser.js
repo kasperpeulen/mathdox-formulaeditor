@@ -44,6 +44,19 @@ $main(function(){
         value = "ⅆ";
       }
 
+      // multichar prime symbols 
+      // U+2032 prime
+      // U+2033 double prime
+      // U+2034 triple prime
+      // U+2057 quadruple prime
+      if (node.localName == "mo" && value == "″") {
+	value = "′′";
+      } else if (node.localName == "mo" && value == "‴") {
+	value = "′′′";
+      } else if (node.localName == "mo" && value == "⁗") {
+	value = "′′′′";
+      }
+
       var row = new presentation.Row();
 
       var arr = [];

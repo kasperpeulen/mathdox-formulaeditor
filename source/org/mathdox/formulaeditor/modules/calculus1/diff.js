@@ -59,11 +59,25 @@ $main(function(){
         var symbol = ["",""];
         var primes=[];
         var i=0;
+        var count = this.operands[0].value;
 
-        for (i=0;i<this.operands[0].value;i++) {
-          // U+2032 [superscript] prime
-          primes.push("′");
+        /* special cases */
+        if (count==2) {
+          // U+2033 double prime
+          primes.push("″");
+        } else if (count==3) {
+          // U+2034 triple prime
+          primes.push("‴");
+        } else if (count==4) {
+          // U+2057 quadruple prime
+          primes.push("‴");
+        } else {
+          for (i=0;i<count;i++) {
+            // U+2032 [superscript] prime
+            primes.push("′");
+          }
         }
+
         symbol.push("<mo>"+primes.join("")+"</mo>");
 
         return symbol;
@@ -86,21 +100,21 @@ $main(function(){
       getMathML: function(context) {
         var array = [];
         var operand = this.operands[1];
-	
-	array.push("<mrow>");
+        
+        array.push("<msup>");
 
         if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && operand.getPrecedence(context)< this.getPrecedence(context))|| operand.hasExplicitBrackets()) {
           array.push("<mfenced>");
-	  array.push(operand.getMathML(context));
+          array.push(operand.getMathML(context));
           array.push("</mfenced>");
         } else {
-	  array.push(operand.getMathML(context));
+          array.push(operand.getMathML(context));
         }
 
         var symbol_mathml = this.getSymbolMathML();
         array.push(symbol_mathml[2]);
 
-	array.push("</mrow>");
+        array.push("</msup>");
         
         // join row to result string
         var result = array.join("");
@@ -144,10 +158,14 @@ $main(function(){
         var children = node.childNodes;
         var sup = children.item(1);
 
+        var inner = sup.innerHTML.trim();
         // U+2032 prime
-        if ((sup.tagName == "mo" || sup.tagName == 'mi') && (sup.innerHTML.trim() == "′" || sup.innerHTML.trim() == "'")) { 
+        // U+2033 double prime
+        // U+2034 triple prime
+        // U+2057 quadruple prime
+        if ((sup.tagName == "mo" || sup.tagName == 'mi') && (inner == "′" || inner == "'" || inner == "″" || inner == "‴" || inner == "⁗")) { 
           var oper = this.handle(children.item(0));
-	  var primes = this.handleTextNode(sup, context);
+          var primes = this.handleTextNode(sup, context);
 
           return new presentation.Row(oper, primes);
         }

@@ -126,12 +126,21 @@ $main(function(){
             }
           }
           //if (operand.precedence && ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) {
-          if ((operand.getPrecedence && operand.getPrecedence(context) != 0 && ((operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
-             (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
-               (((i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath)) && operand.style != "invisible") ||
-                (this.operands.length == 1)
-                )) 
-             )) || operand.hasExplicitBrackets() ) {
+          if ( //based on precedence
+            ( operand.getPrecedence && operand.getPrecedence(context) != 0 && 
+              ( // inner precedence is larger than operator precedence
+                (operand.getPrecedence(context) < this.getInnerPrecedence(context)) || 
+                // inner precedence is the same; possibly brackets
+                (operand.getPrecedence(context) == this.getInnerPrecedence(context) && 
+                  // if only single operand; not if style is invisible, do if past first operand and associative and matching symbols
+                  ( ((i>0 || (this.associative==true && this.symbol.openmath == operand.symbol.openmath)) && operand.style != "invisible") ||
+                    (this.operands.length == 1)
+                  )
+                ) 
+              )
+            ) ||  // explicitbrackets then always show
+            operand.hasExplicitBrackets() 
+          ) {
             array.push(new presentation.Symbol("("));
             array.push(operand.getPresentation(context));
             array.push(new presentation.Symbol(")"));
@@ -216,9 +225,9 @@ $main(function(){
             }
           }
           if ((operand.precedence && 
-	      ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) ||
+              ((operand.precedence < this.precedence) || ((this.associative==false) && i>0 && operand.precedence <= this.precedence))) ||
               operand.hasExplicitBrackets()
-	     ) {
+             ) {
             result = result + "<mfenced>";
             result = result + this.operands[i].getMathML(context);
             result = result + "</mfenced>";

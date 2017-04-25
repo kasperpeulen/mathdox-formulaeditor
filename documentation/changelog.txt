@@ -1,5 +1,5 @@
-  - support for multiprime input/output (n<=4)
-  - calculus1.diff prime now superscript (n<=4)
+  - support for multiprime input/output 
+  - calculus1.diff prime now superscript 
   - option with default base for transc1.log #234
   - fixed calculus1.nthdiff mathml generation
   - fixed calculus1.diff mathml prime parse

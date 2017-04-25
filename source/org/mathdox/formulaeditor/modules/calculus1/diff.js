@@ -163,16 +163,25 @@ $main(function(){
         // U+2033 double prime
         // U+2034 triple prime
         // U+2057 quadruple prime
-        if ((sup.tagName == "mo" || sup.tagName == 'mi') && (inner == "′" || inner == "'" || inner == "″" || inner == "‴" || inner == "⁗")) { 
-          var oper = this.handle(children.item(0));
-          var primes = this.handleTextNode(sup, context);
+        if (sup.tagName == "mo" || sup.tagName == 'mi') { 
+          // all quotes
+          var i;
+          var onlySingleQuotes = true;
+          for (i=0; i<inner.length; i++) {
+            onlySingleQuotes = onlySingleQuotes && (inner[i] == "'" || inner[i] == "′");
+          }
 
-          return new presentation.Row(oper, primes);
+          if (onlySingleQuotes || inner == "″" || inner == "‴" || inner == "⁗") { 
+            var oper = this.handle(children.item(0));
+            var primes = this.handleTextNode(sup, context);
+
+            return new presentation.Row(oper, primes);
+          }
         }
 
         /* default: call parent */
         var parent = arguments.callee.parent;
-        return parent.handlemover.call(this, node, context);
+        return parent.handlemsup.call(this, node, context);
       }
     });
 

@@ -23,7 +23,7 @@ $main(function(){
        * Initialize with presentation children.
        * Should each be a row with equations
        */
-      initialize: function(operand) {
+      initialize: function(operand, expr) {
         var parent = arguments.callee.parent;
 
         var children = [];
@@ -43,17 +43,9 @@ $main(function(){
 	var fraction = new presentation.Fraction(enumerator, denominator);
 
         children.push(operand);
+        children.push(expr);
 
-        return parent.initialize.call(this, semantics.Calculus3Diff, children, new presentation.Row(fraction));
-      },
-
-      getSemantics: function(context) {
-	var value = this.children[0].getSemantics(context).value;
-
-	return {
-	  value : value,
-	  rule : this.rule
-	};
+        return parent.initialize.call(this, semantics.Calculus3Diff, children, new presentation.Row(fraction, expr));
       }
   });
 
@@ -158,35 +150,4 @@ $main(function(){
       }
     });
 
-  /**
-   * Extend the expression parser 
-   */
-  var pG = new org.mathdox.parsing.ParserGenerator();
-  var semantics = org.mathdox.formulaeditor.semantics;
-
-  org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction(
-    function(context) { return {
-	// add calculus3diff as expression130
-        expression130 : function() {
-	  var parent = arguments.callee.parent;
-	  pG.alternation(
-	    pG.rule("calculus3diff"),
-	    parent.expression130).apply(this, arguments);
-	},
-
-	// add rule for calculus3diff
-	calculus3diff : 
-          pG.transform(
-	    pG.concatenation(
-	      pG.rule("box_calculus3_diff"),
-	      pG.rule("expression130")
-	    ),
-	    function(result) {
-	      return new semantics.Calculus3Diff(result[0], result[1]);
-	    }
-	  ),
-	// box_calculus3_diff = never
-	box_calculus3_diff: pG.never
-      };
-    });
 });

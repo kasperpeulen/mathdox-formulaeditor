@@ -1,3 +1,4 @@
+  - "calculus3.diff" support (completely in box)
   - support for multiprime input/output 
   - calculus1.diff prime now superscript 
   - option with default base for transc1.log #234

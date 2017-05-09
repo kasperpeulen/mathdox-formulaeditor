@@ -86,10 +86,30 @@ $main(function(){
 	// case 1: expand  d/dx expr becomes apply(calculus1.diff(lambda(x, expr)), x)
 	// todo: add style to load again
 
+        var semantics = org.mathdox.formulaeditor.semantics;
 	var operVar = this.operands[0].getOpenMath();
 	var operExpr = this.operands[1].getOpenMath();
 
-	var result = "<OMA"
+	var result;
+
+	// not a variable, give an error
+        if (!(this.operands[0] instanceof semantics.Variable)) {
+          result = "<OME>";
+          result = result + "<OMS cd='moreerrors' name='encodingError'/>";
+          result = result + "<OMSTR>calculus diff-box: expecting variable, found: ";
+	 
+	  // escape for use as string in XML, quotes don't need to be escaped here
+          result = result + operVar.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g,'&gt;');
+
+          result = result + ".";
+          result = result + "</OMSTR>";
+          result = result + "</OME>";
+
+          return result;
+        }
+
+
+	result = "<OMA";
 
         result = result + this.getOpenMathCommonAttributes();
 
@@ -117,10 +137,7 @@ $main(function(){
 	// row: box(d/dx), expr
         var presentation = org.mathdox.formulaeditor.presentation;
 
-	var left = new presentation.Calculus3Diff(this.operands[0].getPresentation(context));
-	var right = this.operands[1].getPresentation(context);
-
-	return new presentation.Row(left, right);
+	return new presentation.Calculus3Diff(this.operands[0].getPresentation(context),this.operands[1].getPresentation(context));
       }
 
     });

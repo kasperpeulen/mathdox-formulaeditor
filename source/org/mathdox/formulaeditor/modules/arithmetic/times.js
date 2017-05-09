@@ -58,18 +58,17 @@ $main(function(){
 
       getSymbolOpenMath : function() {
         var options = new org.mathdox.formulaeditor.Options();
-	var result;
-	if (options.getVerboseStyleOption() == "true") {
-	  var arr = this.symbol.openmath.split("/");
+        var result;
+        if (options.getVerboseStyleOption() == "true") {
+          var arr = this.symbol.openmath.split("/");
           result = arr.join(" style='" + options.getArith1TimesStyle()  + "'/");
-	} else {
-	  result = this.symbol.openmath;
-	}
+        } else {
+          result = this.symbol.openmath;
+        }
         return result;
       },
 
-      precedence : 130,
-      precedence : 140
+      precedence : 130 
 
     });
 
@@ -94,7 +93,7 @@ $main(function(){
         // construct a Times object
         var result = new org.mathdox.formulaeditor.semantics.Times();
         result.initialize.apply(result, operands);
-	if (style == "invisible") {
+        if (style == "invisible") {
           result.style = style;
         }
         return result;
@@ -145,16 +144,41 @@ $main(function(){
           }
         ),
 
-      // times = expression130 "·" expression140
+      // times = expression130 "·" expression140 ("·" expression140)*
       times :
         pG.transform(
           pG.concatenation(
             pG.rule("expression130"),
             pG.literal(context.symbolArith1Times),
-            pG.rule("expression140")
+            pG.rule("expression140"),
+            pG.repetition(
+              pG.concatenation(
+                pG.literal(context.symbolArith1Times),
+                pG.rule("expression140")
+              )
+            )
           ),
           function(result) {
-            return new semantics.Times(result[0], result[2]);
+            var retval = new semantics.Times();
+            var operands = [];
+            var i;
+
+            // if the operator is the same rewrite it
+            // except if the style is invisible 
+            if (result[0] instanceof semantics.Times && result[0].style!="invisible" && result[0].hasExplicitBrackets() !== true ) {
+              for (i=0; i<result[0].operands.length;i++) {
+                operands.push(result[0].operands[i]);
+              }
+            } else {
+              operands.push(result[0]);
+            }
+
+            for (i=1; 2*i<result.length; i++) {
+              operands.push(result[2*i]);
+            }
+            retval.operands = operands;
+
+            return retval;
           }
         )
       };

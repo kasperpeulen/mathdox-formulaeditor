@@ -72,7 +72,7 @@ $main(function(){
 
         if (!samelength) {
           var result="<OME><OMS cd='moreerrors' name='encodingError'/>";
-          result += "<OMSTR>Expected rows to be of equal size in <OMS cd='linalg2' name='matrix'/></OMSTR>";
+          result += "<OMSTR>Expected rows to be of equal size in &lt;OMS cd='linalg2' name='matrix'/&gt;</OMSTR>";
           result += "</OME>";
 
 	  return result;

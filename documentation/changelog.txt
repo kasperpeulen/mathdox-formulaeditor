@@ -1,3 +1,4 @@
+  - space after function creates brackets #392
   - "calculus3.diff" support (completely in box)
   - support for multiprime input/output 
   - calculus1.diff prime now superscript 

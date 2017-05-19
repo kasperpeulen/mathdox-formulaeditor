@@ -56,7 +56,7 @@ $main(function(){
     $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
       getMathML: function(context) {
 	// d/dx expr (with fraction and differential d)
-	var result="<mrow>";
+	var result="<mrow class='calculus3diff'>";
 
 	// fraction
 	result = result + "<mfrac>";
@@ -113,7 +113,7 @@ $main(function(){
 
         result = result + this.getOpenMathCommonAttributes();
 
-	result = result +">";
+	result = result + "style='ombind'>";
 	// lambda: expression converted to lambda function
 	var lambda = "<OMBIND><OMS cd='fns1' name='lambda'/><OMBVAR>";
 	lambda = lambda + operVar;

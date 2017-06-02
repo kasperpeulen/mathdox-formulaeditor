@@ -3,6 +3,7 @@ $identify("org/mathdox/formulaeditor/modules/calculus3/diff.js");
 $require("org/mathdox/formulaeditor/Options.js");
 $require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
 $require("org/mathdox/formulaeditor/parsing/mathml/MathMLParser.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/OpenMathParser.js");
 $require("org/mathdox/formulaeditor/presentation/Boxed.js");
 $require("org/mathdox/formulaeditor/presentation/Fraction.js");
 $require("org/mathdox/formulaeditor/presentation/Row.js");
@@ -113,7 +114,7 @@ $main(function(){
 
         result = result + this.getOpenMathCommonAttributes();
 
-	result = result + "style='ombind'>";
+	result = result + " style='ombind'>";
 	// lambda: expression converted to lambda function
 	var lambda = "<OMBIND><OMS cd='fns1' name='lambda'/><OMBVAR>";
 	lambda = lambda + operVar;
@@ -194,12 +195,56 @@ $main(function(){
       }
     });
 
-  // TODO also parse split
   /**
    * Extend the OpenMathParser object with parsing code for arith1.unary_minus.
    */
   org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
     $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
+      /**
+       * Check if OMA has style calculus3diff and is in correct format
+       */
+      checkOMACalculus3Diff : function(node) {
+	var style=node.getAttribute("style");
+	if (style != "ombind") {
+	  return false;
+	}
+	var diff = node.childNodes.item(0);
+	if (diff.childNodes.length < 2) {
+	  return false;
+	}
+	var oms=diff.childNodes.item(0);
+	if (oms.localName != "OMS") {
+	  return false;
+	}
+	if (oms.getAttribute("cd")!="calculus1" || oms.getAttribute("name")!= "diff") {
+	  return false;
+	}
+	var ombind = diff.childNodes.item(1);
+	if (ombind.childNodes.length <3) {
+	  return false;
+	}
+	var ombvar = ombind.childNodes.item(1);
+	if (ombind.childNodes.length <1) {
+	  return false;
+	}
+	var operVar = this.handle(ombvar.childNodes.item(0));
+	var operExpr = this.handle(ombind.childNodes.item(2));
+
+	return new org.mathdox.formulaeditor.semantics.Calculus3Diff(operVar, operExpr);
+      },
+
+      handleOMA : function(node) {
+	var check = this.checkOMACalculus3Diff(node);
+
+	if (check === false) {
+	  var parent = arguments.callee.parent;
+	  // call parent
+	  return parent.handleOMA.call(this,node);
+	} else {
+	  // parsed in check function
+	  return check;
+	}
+      },
       /**
        * Returns a unary object based on the OpenMath node.
        */

@@ -145,10 +145,54 @@ $main(function(){
   // TODO MathML parsing
   /**
    * Extend the MathML object with parsing code for mfenced intervals
+  */
   org.mathdox.formulaeditor.parsing.mathml.MathMLParser =
     $extend(org.mathdox.formulaeditor.parsing.mathml.MathMLParser, {
+      checkCalculus3Diff: function(node, context) {
+	var style = node.getAttribute("class");
+
+	if (style != "calculus3diff") {
+	  return false;
+	}
+	// 3 arguments: frac, function application, expression
+	//
+	var children = node.childNodes;
+	if (children.length<3) {
+	  return false;
+	}
+
+	// TODO consider adding more checks, so parsing always works
+
+	return true;
+      },
+      handleCalculus3Diff: function(node, context) {
+	// 3 arguments: frac, function application, expression
+	var children = node.childNodes;
+	var presentation = org.mathdox.formulaeditor.presentation;
+
+	// 0: frac (d), row(d, x) , so get 2 2 for operVar
+	var frac = children.item(0);
+	var operVar = this.handle(frac.childNodes.item(1).childNodes.item(1), context);
+	var operExpr = this.handle(children.item(2), context);
+
+	return new presentation.Calculus3Diff(operVar, operExpr);
+      },
+      handlemrow: function(node, context) {
+	var parent = arguments.callee.parent;
+	var mrow = node;
+	
+	// if single argument which is an mrow, then use that (and check that)
+	if (node.childNodes.length == 1 && node.childNodes.item(0).localName=='mrow') {
+          mrow = node.childNodes.item(0);
+	}
+
+	if (this.checkCalculus3Diff(mrow, context)) {
+	  return this.handleCalculus3Diff(mrow, context);
+	}
+
+	return parent.handlemrow(node, context);
+      }
     });
-   */
 
   // TODO also parse split
   /**

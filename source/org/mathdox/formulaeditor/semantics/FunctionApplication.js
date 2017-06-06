@@ -189,7 +189,7 @@ $main(function(){
         
         for (var i=0; i<this.operands.length; i++) {
           var operand = this.operands[i];
-          if (this.operands.length > 1 || style == "sub" ) {
+          if (style == "sub" || (this.operands.length > 1 && style != "firstsuper" && style != "firstsub")) {
             operandsMML.push(operand.getMathMLWithExplicitBrackets(context));
           } else {
             operandsMML.push(operand.getMathML(context));
@@ -204,7 +204,7 @@ $main(function(){
           result = "<msub>" + symbolMML + operandsMML[0] + "</msub>" + 
               '<mfenced separator="' + separator + '">' + operandsMML.slice(1).join('') + '</mfenced>' ;
         } else if (style == "firstsuper") {
-          result = "<mmultiscripts>" + symbolMML + "<mprescripts/>" + operandMML[0] + "<none/>" + "</mmultiscripts>" + 
+          result = "<mmultiscripts>" + symbolMML + "<mprescripts/>" + operandsMML[0] + "<none/>" + "</mmultiscripts>" + 
               '<mfenced separator="' + separator + '">' + operandsMML.slice(1).join('') + '</mfenced>' ;
         } else {
           result = symbolMML + '<mfenced separator="' + separator + '">' + operandsMML.join('') + '</mfenced>' ;

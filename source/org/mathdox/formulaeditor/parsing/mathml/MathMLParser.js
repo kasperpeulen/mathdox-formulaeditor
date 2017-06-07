@@ -50,11 +50,11 @@ $main(function(){
       // U+2034 triple prime
       // U+2057 quadruple prime
       if (node.localName == "mo" && value == "″") {
-	value = "′′";
+        value = "′′";
       } else if (node.localName == "mo" && value == "‴") {
-	value = "′′′";
+        value = "′′′";
       } else if (node.localName == "mo" && value == "⁗") {
-	value = "′′′′";
+        value = "′′′′";
       }
 
       var row = new presentation.Row();
@@ -345,6 +345,71 @@ $main(function(){
      * mmultiscripts
      */
 
+    /* mmultiscripts: symbol postsub postsuper mprescripts presub presuper */
+    handlemmultiscripts: function(node, context) {
+      var postsub = [];
+      var postsuper = [];
+      var presub = [];
+      var presuper = [];
+      var symbol;
+      var prescripts = false;
+      var childNodes = node.childNodes;
+      var presentation = org.mathdox.formulaeditor.presentation;
+
+      var i;
+      symbol = this.handle(node.childNodes[0], context);
+
+      i=1;
+      // split mmultiscripts into 4 arrays post|pre sub|super
+      while (i+1<childNodes.length) {
+        // check mprescripts
+        if (childNodes[i].localName == "mprescripts") {
+          prescripts = true;
+          // correct (only single handled): -1
+          i = i+1;
+        } else {
+          // todo handle none (null ?)
+          if (!prescripts) {
+            postsub.push(this.handle(childNodes[i], context));
+            postsuper.push(this.handle(childNodes[i+1], context));
+          } else {
+            presub.push(this.handle(childNodes[i], context));
+            presuper.push(this.handle(childNodes[i+1], context));
+          }
+          i = i+2;
+        }
+      }
+
+      var entries = [];
+
+      // convert arrays to display
+      // super_1 sub_1 super_0 sub_0 sym sub_0 super_0 sub_1 super_1
+      for (i=presub.length-1; i>=0; i--) {
+        if (presuper[i]) { // super i
+          entries.push(new presentation.Superscript(presuper[i]));
+        }
+
+        if (presub[i]) { // sub i
+          entries.push(new presentation.Subscript(presub[i]));
+        }
+      }
+      // symbol
+      entries.push(symbol);
+      for (i=0; i<postsub.length; i++) {
+        if (postsub[i]) { // sub i
+          entries.push(new presentation.Subscript(postsub[i]));
+        }
+
+        if (postsub[i]) { // sub i
+          entries.push(new presentation.Superscript(postsuper[i]));
+        }
+      }
+
+      var row = new presentation.Row();
+      row.initialize.apply(row, entries);
+      return row;
+    },
+
     /* script and limit schemata : math:mover like math:msup */
     handlemover: function(node, context) {
       return this.handlemsup(node, context);
@@ -440,6 +505,11 @@ $main(function(){
 
     handlemunderover: function(node, context) {
       return this.handlemsubsup(node, context);
+    },
+
+    // none object inside mmultiscripts
+    handlenone: function(node, context) {
+      return null;
     },
 
     /* convert an mtable with mtr/mtd to an array of presentation items */

@@ -58,26 +58,35 @@ $main(function(){
        * position should be start (with backspace) or end (with delete)
        * extend using arguments.callee.parent.checkRemove.call(this, editor, position);
        */
-      checkRemove: function(editor, position) {
-        if (this.parent && this.parent.slowDelete == true &&
-            this.parent.parent && this.parent.parent instanceof org.mathdox.formulaeditor.presentation.Row) {
+      checkRemove: function (editor, position) {
+        var presentation = org.mathdox.formulaeditor.presentation;
+
+        // if the parent is a system, check first if we can delete the row instead of deleting the whole system
+        if (this.parent instanceof presentation.Logic1And_system && this.parent.children.length > 1) {
+          var system = this.parent;
+          // check if currenet row is last row
+          if (system.children.length - 1 === this.index) {
+            this.parent.deleteLastRow(editor);
+          }
+        } else if (this.parent && this.parent.slowDelete == true &&
+          this.parent.parent && this.parent.parent instanceof org.mathdox.formulaeditor.presentation.Row) {
 
           var parentRow = this.parent.parent;
-	  var del = this.parent.deleteItem();
+          var del = this.parent.deleteItem();
 
-	  if (del) {
-	    var index = this.parent.index;
+          if (del) {
+            var index = this.parent.index;
             parentRow.remove(index);
             // after deleting the last character, add a new input box
             if (parentRow.isEmpty()) {
               parentRow.insert(0);
             }
-	    editor.cursor.position = {
+            editor.cursor.position = {
               index: index,
               row: parentRow
-	    };
+            };
           }
-	} else {
+        } else {
           console.log(this.parent);
           console.log(this);
         }

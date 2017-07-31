@@ -63,6 +63,28 @@ $main(function(){
         var row = new presentation.Row(bracketed);
 
         return parent.initialize.call(this, semantics.Logic1And_system, children, row, focusEntries);
+      },
+
+      addNewRow: function () {
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var children = this.children.slice(0);
+        var container = this.parent;
+        var newRow = new presentation.Row();
+        children.push(newRow);
+        container.replace(this.index, new presentation.Logic1And_system(children));
+        return newRow;
+      },
+
+      deleteLastRow: function (editor) {
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var container = this.parent;
+
+        if (this.children[this.index].deleteItem()) {
+          editor.cursor.moveUp();
+          editor.cursor.moveLast();
+          this.children.pop();
+          container.replace(this.index, new presentation.Logic1And_system(this.children));
+        }
       }
   });
 
@@ -196,5 +218,30 @@ $main(function(){
     }
   };
 
+  /**
+   * Override the moveDown method to handle adding new rows.
+   */
+  org.mathdox.formulaeditor.Cursor =
+    $extend(org.mathdox.formulaeditor.Cursor, {
+      moveDown : function(editor) {
+        var parentMethod = arguments.callee.parent.moveDown;
 
+        var presentation = org.mathdox.formulaeditor.presentation;
+        var row = this.position.row;
+        var system = row.parent;
+
+        if (!(system instanceof presentation.Logic1And_system) || row.index !== system.children.length -1) {
+          return parentMethod.call(this, editor);
+        }
+
+        var newRow = system.addNewRow();
+        editor.cursor.position = {index: 0, row: newRow};
+
+        // update the editor state
+        editor.redraw();
+        editor.save();
+
+        return false;
+      }
+    });
 });

@@ -56,7 +56,7 @@ $main(function(){
             return false;
 
           case 40: // down arrow
-            this.moveDown();
+            this.moveDown(editor);
             editor.redraw();
             return false;
 	  
@@ -128,7 +128,7 @@ $main(function(){
       row.setHighlight(false);
     },
 
-    moveDown : function() {
+    moveDown : function(editor) {
 
       var row   = this.position.row;
       var index = this.position.index;
